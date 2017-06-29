@@ -9,7 +9,7 @@ googleAnalytics = "UA-90929425-1"
 
 [params]
     # Sets the meta tag description, usually reserved for the main page
-    description          = "Rebecca Barter's webpage. "
+    description          = "Rebecca Barter's webpage."
     # This will appear on the top left of the navigation bar
     navbarTitle          = "Rebecca Barter"
     # Social media buttons that appear on the sidebar

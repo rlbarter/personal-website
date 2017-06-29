@@ -1,13 +1,8 @@
 ---
 title: "Projects"
-author: "Rebecca Barter"
 date: "2017-01-15T21:49:57-07:00"
-output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 
 ## Ongoing projects
@@ -85,7 +80,7 @@ superheat(mtcars[selected.rows,],
 
 Here is a video of me presenting superheat at the UseR! Conference 2016 at Stanford University.
 
-<iframe src="https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Superheat-Supervised-heatmaps-for-visualizing-complex-data/player" width="960" height="540" allowFullScreen frameBorder="0"></iframe>
+<iframe src="https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Superheat-Supervised-heatmaps-for-visualizing-complex-data/player" width="768" height="432" allowFullScreen frameBorder="0"></iframe>
 
 
 
