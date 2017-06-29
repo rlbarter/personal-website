@@ -1,0 +1,26 @@
+---
+title: "The only reason one should ever use a pie chart"
+author: "Rebecca Barter"
+date: "2016-12-10T21:49:57-07:00"
+type: "post"
+categories: ["R"]
+tags: ["R Markdown", "pie charts"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# Pie charts are terrible
+
+Pie charts are notoriously terrible for data visualization. Humans are genuinely bad at comparing angles. Thus, the only reason one should ever use a pie chart is to make beautiful pie-chart-art.
+
+```{r pie, fig.cap='Pyramid pie chart art.', tidy=FALSE, fig.align="center"}
+par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
+  col = c('#0292D8', '#F7EA39', '#C4B632'),
+  init.angle = -50, border = NA
+)
+```

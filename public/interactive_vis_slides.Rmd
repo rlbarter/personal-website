@@ -1,0 +1,310 @@
+---
+title: "Interactive Visualization in R"
+author: "Rebecca Barter"
+date: "4/7/2017"
+output: ioslides_presentation
+---
+
+# Why be interactive?
+
+
+
+## Examples on the web
+
+Some super cool examples include:
+
+- [Olympic medals](https://www.washingtonpost.com/graphics/sports/olympics/the-1000-medals-of-the-united-states/)
+
+- [Vaccination simulation](https://www.theguardian.com/society/ng-interactive/2015/feb/05/-sp-watch-how-measles-outbreak-spreads-when-kids-get-vaccinated)
+
+- [Income](https://flowingdata.com/2016/06/28/distributions-of-annual-income/)
+
+- [America's opinions](https://projects.fivethirtyeight.com/obama-polling-trends/)
+
+- [Music](http://www.datasketch.es/december/code/nadieh/)
+
+- [Sam talks too much](http://www.datasketch.es/july/code/nadieh/)
+
+
+
+
+
+## Main tools in R
+
+Make your scatter plots, line plots, bar plots, etc interactive
+
+- Plotly
+
+- Highcharts
+
+- crosstalk
+
+Make D3.js plots in R (no javascript required!)
+
+- rCharts (D3.js)
+
+- d3scatter
+
+- networkD3
+
+# Making ggplot2 interactive
+
+## ggplot2
+
+```{r, message=FALSE, warning = FALSE, fig.align="center", fig.height = 4, fig.width = 7}
+library(ggplot2)
+g <- ggplot(txhousing, aes(x = date, y = sales, group = city)) +
+  geom_line(alpha = 0.4)
+g
+```
+
+
+## ggplot2 + plotly
+```{r, eval = FALSE, message=FALSE, warning = FALSE, fig.align="center", fig.height = 4, fig.width = 7}
+library(plotly)
+g <- ggplot(txhousing, aes(x = date, y = sales, group = city)) +
+  geom_line(alpha = 0.4) 
+ggplotly(g, tooltip = c("city"))
+```
+
+<center>
+```{r, echo = FALSE, message=FALSE, warning = FALSE, fig.align="center", fig.height = 4, fig.width = 7}
+library(plotly)
+g <- ggplot(txhousing, aes(x = date, y = sales, group = city)) +
+  geom_line(alpha = 0.4) 
+ggplotly(g, tooltip = c("city"))
+```
+</center>
+
+
+
+
+## plotly
+
+
+
+```{r eval = FALSE}
+g <- txhousing %>% 
+  # group by city
+  group_by(city) %>%
+  # initiate a plotly object with date on x and median on y
+  plot_ly(x = ~date, y = ~median) %>%
+  # add a line plot for all texan cities
+  add_lines(name = "Texan Cities", hoverinfo = "none", 
+            type = "scatter", mode = "lines", 
+            line = list(color = 'rgba(192,192,192,0.4)')) %>%
+  # plot separate lines for Dallas and Houston
+  add_lines(name = "Houston", 
+            data = filter(txhousing, 
+                          city %in% c("Dallas", "Houston")),
+            hoverinfo = "city",
+            line = list(color = c("red", "blue")),
+            color = ~city)
+g
+```
+
+## plotly
+
+
+<center>
+```{r echo = FALSE, warning=FALSE, fig.height = 5, fig.width = 8}
+g <- txhousing %>% 
+  # group by city
+  group_by(city) %>%
+  
+  # initiate a plotly object with date on x and median on y
+  plot_ly(x = ~date, y = ~median) %>%
+  
+  add_lines(name = "Texan Cities", hoverinfo = "none", 
+          type = "scatter", mode = "lines", 
+          line = list(color = 'rgba(192,192,192,0.3)')) %>%
+  # plots one line per city since p knows city is a grouping variable
+  add_lines(name = "Houston", 
+            data = filter(txhousing, city %in% c("Dallas", "Houston")),
+            color = ~city, hoverinfo = "city",
+            line = list(color = c("red", "blue")))
+g
+```
+</center>
+
+## plotly: adding a slider
+
+```{r eval = FALSE, warning=FALSE}
+g %>% rangeslider
+```
+
+<center>
+```{r echo = FALSE, fig.height = 5, fig.width = 8, warning=FALSE}
+g %>% rangeslider()
+```
+</center>
+
+
+# Linking with Crosstalk
+
+
+## Linking with Crosstalk
+
+
+
+```{r eval = FALSE}
+library(crosstalk)
+# define a shared data object
+d <- SharedData$new(mtcars)
+# make a scatterplot of disp vs mpg
+scatterplot <- plot_ly(d, x = ~mpg, y = ~disp) %>%
+  add_markers(color = I("navy"))
+# define two subplots: boxplot and scatterplot
+subplot(
+  # boxplot of disp
+  plot_ly(d, y = ~disp) %>% 
+    add_boxplot(name = "overall", 
+                color = I("navy")),
+  # scatterplot of disp vs mpg
+  scatterplot, 
+  shareY = TRUE, titleX = T) %>% 
+  layout(dragmode = "select")
+
+
+```
+
+
+
+## Linking with Crosstalk
+
+```{r echo = FALSE}
+library(crosstalk)
+# define a shared data object
+d <- SharedData$new(mtcars)
+# make a scatterplot of disp vs mpg
+scatterplot <- plot_ly(d, x = ~mpg, y = ~disp) %>%
+  add_markers(color = I("navy"))
+# define two subplots: boxplot and scatterplot
+subplot(
+  # boxplot of disp
+  plot_ly(d, y = ~disp) %>% 
+    add_boxplot(name = "overall", 
+                color = I("navy")),
+  # scatterplot of disp vs mpg
+  scatterplot, shareY = TRUE, titleX = T) %>% 
+  layout(dragmode = "select")
+
+```
+
+## Linking with Crosstalk
+
+```{r, message=FALSE, eval = FALSE}
+# make subplots
+p <- subplot(
+  # histogram (counts) of gear
+  plot_ly(d, x = ~factor(gear)) %>% 
+    add_histogram(color = I("grey50")),
+  # scatterplot of disp vs mpg
+  scatterplot, 
+  titleX = T
+) 
+layout(p, barmode = "overlay")
+```
+
+
+
+## Linking with Crosstalk
+
+```{r, message=FALSE, echo = FALSE}
+p <- subplot(
+  plot_ly(d, x = ~factor(gear)) %>% 
+    add_histogram(color = I("grey50")),
+  scatterplot, titleX = T
+) 
+layout(p, barmode = "overlay")
+```
+
+# Easy D3.js in R
+
+## Force networks
+
+```{r}
+library(networkD3)
+data(MisLinks, MisNodes)
+head(MisLinks, 3)
+head(MisNodes, 3)
+```
+
+## Force networks
+
+```{r eval = FALSE}
+forceNetwork(Links = MisLinks, Nodes = MisNodes, Source = "source",
+             Target = "target", Value = "value", NodeID = "name",
+             Group = "group", opacity = 0.9, Nodesize = 3, 
+             linkDistance = 100, fontSize = 20)
+```
+
+## Force networks
+
+```{r, echo = FALSE}
+library(networkD3)
+data(MisLinks, MisNodes)
+forceNetwork(Links = MisLinks, 
+             Nodes = MisNodes, 
+             Source = "source", Target = "target", 
+             Value = "value", NodeID = "name",
+             Group = "group", opacity = 0.9, Nodesize = 3, 
+             linkDistance = 100, fontSize = 20)
+```
+
+## Chord diagrams
+
+```{r echo = FALSE}
+hair.preference <- matrix(c(11975,  5871, 8916, 2868,
+              1951, 10048, 2060, 6171,
+              8010, 16145, 8090, 8045,
+              1013,   990,  940, 6907),
+            byrow = TRUE, nrow = 4, ncol = 4)
+haircolors <- c("black", "blonde", "brown", "red")
+dimnames(hair.preference) <- list(have = haircolors,
+                    prefer = haircolors)
+
+```
+
+```{r eval = FALSE}
+# devtools::install_github("mattflor/chorddiag")
+library(chorddiag)
+# plot the hair preferences data
+```
+```{r echo = FALSE}
+library(chorddiag)
+```
+```{r}
+hair.preference
+```
+```{r eval = FALSE}
+# make a chord diagram
+groupColors <- c("#000000", "#FFDD89", "#957244", "#F26223")
+chorddiag(hair.preference, 
+          groupColors = groupColors, groupnamePadding = 40)
+```
+
+## Chord diagrams
+
+```{r echo = FALSE}
+groupColors <- c("#000000", "#FFDD89", "#957244", "#F26223")
+chorddiag(hair.preference, groupColors = groupColors, 
+          groupnamePadding = 40)
+
+```
+
+## References
+
+plotly references:
+
+https://cpsievert.github.io/plotly_book/
+
+https://plot.ly/r/
+
+crosstalk:
+
+https://rstudio.github.io/crosstalk/using.html
+
+chord diagram example: 
+
+http://stackoverflow.com/questions/14599150/chord-diagram-in-r

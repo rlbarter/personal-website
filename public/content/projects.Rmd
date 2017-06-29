@@ -1,0 +1,31 @@
+---
+title: "Projects (details to come!)"
+author: "Rebecca Barter"
+date: "2017-01-15T21:49:57-07:00"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Ongoing projects
+
+### Dynamically predicting acute rejection for HIV positive kidney transplant patients
+
+
+
+### Superheat
+
+
+### Practical statistics
+
+## Past projects 
+
+### Pneumonia or COPD?
+
+
+
+### Network-based biomarkers for melanoma
+

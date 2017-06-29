@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Communication on Rebecca Barter</title>
+    <link>/categories/communication/</link>
+    <description>Recent content in Communication on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Mar 2017 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/communication/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docathon: A Week of Doumentation</title>
+      <link>/blog/2017-03-7-docathon/</link>
+      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-03-7-docathon/</guid>
+      <description>This week is the Docathon at BIDS (a.k.a. that wonderful place that I spend all my time).
+A docathon is like a hackathon but is focused on developing material and tools for documentation. We have loads of projects signed up to receive some documentation-love and an impressive number of excited participants!
+We kicked off the event with a series of tutorials for writing “good” documentation. I gave an R-specific tutorial where I discussed using devtools to both develop and document your package.</description>
+    </item>
+    
+    <item>
+      <title>How to Present Good</title>
+      <link>/blog/2017-02-02-how-to-present-good/</link>
+      <pubDate>Thu, 02 Feb 2017 09:44:30 -0800</pubDate>
+      
+      <guid>/blog/2017-02-02-how-to-present-good/</guid>
+      <description>This week I was asked to give a presentation on giving presentations.
+So meta.
+Anyway, my lack of desire to spend time writing something that may have already been written by someone else led me to find a number of existing slides written by others with the same goal: to present on presenting. The only problem was that although these slides all contained excellent tips on making and subsequently presenting talks, the slides themselves were perfect examples of what not to do when making slides; they were insurmountable walls of text.</description>
+    </item>
+    
+  </channel>
+</rss>

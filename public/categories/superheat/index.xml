@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Superheat on Rebecca Barter</title>
+    <link>/categories/superheat/</link>
+    <description>Recent content in Superheat on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Feb 2017 09:44:30 -0800</lastBuildDate>
+    
+	<atom:link href="/categories/superheat/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>superheat 0.1.0</title>
+      <link>/blog/2017-02-05-superheat-cran/</link>
+      <pubDate>Sun, 05 Feb 2017 09:44:30 -0800</pubDate>
+      
+      <guid>/blog/2017-02-05-superheat-cran/</guid>
+      <description>superheat 0.1.0 is now available on CRAN. Superheat makes it easy to create extendable, cutomizable, and most importantly, beautiful heatmaps. It has increased flexibility and user-friendliness when compared to alternatives such as heatmap() and pheatmap().
+For usage options see the vignette and for examples see the accompanying paper by Barter and Yu (2017).
+You can install the latest version with:
+install.packages(&amp;quot;superheat&amp;quot;) Stay tuned for new versions with added features and minor usability tweaks.</description>
+    </item>
+    
+    <item>
+      <title>Superheat: a simple example</title>
+      <link>/blog/2017-02-02-superheat-example/</link>
+      <pubDate>Thu, 02 Feb 2017 09:44:30 -0800</pubDate>
+      
+      <guid>/blog/2017-02-02-superheat-example/</guid>
+      <description>Making beautiful and customizable heatmaps just got way easier… Introducing the superheat R package!
+Using superheat, it is now extremely easy to produce plots like the example below describing 10 randomly selected cars from the famous mtcars dataset.
+library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcars), 10) X.col &amp;lt;- matrix(&amp;quot;black&amp;quot;, ncol = ncol(mtcars), nrow = 10) X.col[scale(mtcars[selected.rows, ]) &amp;lt; 0] &amp;lt;- &amp;quot;white&amp;quot; superheat(mtcars[selected.rows,], # add text X.text = round(as.matrix(mtcars[selected.rows, ])), X.text.col = X.col, # scale columns scale = T, # label aesthetics left.</description>
+    </item>
+    
+  </channel>
+</rss>

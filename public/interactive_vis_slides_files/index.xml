@@ -1,0 +1,1315 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Interactive_vis_slides_files on Rebecca Barter</title>
+    <link>/interactive_vis_slides_files/index.xml</link>
+    <description>Recent content in Interactive_vis_slides_files on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="/interactive_vis_slides_files/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/README/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/README/</guid>
+      <description>
+
+&lt;h1 id=&#34;d3-tip-tooltips-for-d3-js-visualizations&#34;&gt;d3.tip: Tooltips for d3.js visualizations&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://bl.ocks.org/Caged/6476579&#34;&gt;&lt;img src=&#34;https://github-images.s3.amazonaws.com/skitch/Screen_Shot_2013-04-08_at_11.40.10_AM-20130408-114054.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://bl.ocks.org/Caged/6476579&#34;&gt;See a live demo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../examples&#34;&gt;Example code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;api-docs&#34;&gt;API Docs&lt;/h3&gt;
+
+&lt;p&gt;See the &lt;a href=&#34;docs/index.md&#34;&gt;API Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;download-latest-version&#34;&gt;Download Latest Version&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://raw.github.com/Caged/d3-tip/master/index.js&#34;&gt;Development Version&lt;/a&gt; : &lt;strong&gt;6kb&lt;/strong&gt; / &lt;strong&gt;~2kb gzipped&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;install-with-bower&#34;&gt;Install with Bower&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;bower install d3-tip
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;quick-usage&#34;&gt;Quick Usage&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;/* Initialize tooltip */
+tip = d3.tip().attr(&#39;class&#39;, &#39;d3-tip&#39;).html(function(d) { return d; });
+
+/* Invoke the tip in the context of your visualization */
+vis.call(tip)
+
+vis.selectAll(&#39;rect&#39;)
+  .data(data)
+.enter().append(&#39;rect&#39;)
+  .attr(&#39;width&#39;, function() { return x.rangeBand() })
+  .attr(&#39;height&#39;, function(d) { return h - y(d) })
+  .attr(&#39;y&#39;, function(d) { return y(d) })
+  .attr(&#39;x&#39;, function(d, i) { return x(i) })
+  .on(&#39;mouseover&#39;, tip.show)
+  .on(&#39;mouseout&#39;, tip.hide)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you want basic styling, you can include &lt;code&gt;example-styles.css&lt;/code&gt; using a service like
+rawgithub.com.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/</guid>
+      <description>
+
+&lt;h1 id=&#34;d3-tip-api-documetation&#34;&gt;d3.tip API documetation&lt;/h1&gt;
+
+&lt;h4 id=&#34;initializing-tooltips-initializing-tooltips-md&#34;&gt;&lt;a href=&#34;initializing-tooltips.md&#34;&gt;Initializing tooltips&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;initializing-tooltips.md#d3tip&#34;&gt;d3.tip&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;showing-and-hiding-tooltips-showing-and-hiding-tooltips-md&#34;&gt;&lt;a href=&#34;showing-and-hiding-tooltips.md&#34;&gt;Showing and hiding tooltips&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;showing-and-hiding-tooltips.md#tipshow&#34;&gt;tip.show&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;showing-and-hiding-tooltips.md#tiphide&#34;&gt;tip.hide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;styling-and-modifying-tooltips-styling-and-modifying-tooltips-md&#34;&gt;&lt;a href=&#34;styling-and-modifying-tooltips.md&#34;&gt;Styling and modifying tooltips&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;styling-and-modifying-tooltips.md#tipattr&#34;&gt;tip.attr&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;styling-and-modifying-tooltips.md#tipstyle&#34;&gt;tip.style&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;positioning-tooltips-positioning-tooltips-md&#34;&gt;&lt;a href=&#34;positioning-tooltips.md&#34;&gt;Positioning tooltips&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;positioning-tooltips.md#tipdirection&#34;&gt;tip.direction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;positioning-tooltips.md#tipoffset&#34;&gt;tip.offset&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;updating-tooltip-content-updating-tooltip-content-md&#34;&gt;&lt;a href=&#34;updating-tooltip-content.md&#34;&gt;Updating tooltip content&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;updating-tooltip-content.md#tiphtml&#34;&gt;tip.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/initializing-tooltips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/initializing-tooltips/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;index.md&#34;&gt;API Documentation&lt;/a&gt; ➤ Initializing tooltips&lt;/p&gt;
+
+&lt;h1 id=&#34;initializing-tooltips&#34;&gt;Initializing tooltips&lt;/h1&gt;
+
+&lt;h3 id=&#34;d3-tip&#34;&gt;d3.tip&lt;/h3&gt;
+
+&lt;p&gt;Create and return a &lt;a href=&#34;http://bost.ocks.org/mike/chart&#34;&gt;configurable function&lt;/a&gt; for
+a tooltip.&lt;/p&gt;
+
+&lt;p&gt;You &lt;strong&gt;&lt;em&gt;must&lt;/em&gt;&lt;/strong&gt; call the tip on the context of the target visualization.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var tip = d3.tip()
+  .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+  .html(function(d) { return d; })
+
+var vis = d3.select(document.body)
+  .append(&#39;svg&#39;)
+  // REQUIRED:  Call the tooltip on the context of the visualization
+  .call(tip)
+
+ vis.append(&#39;rect&#39;)
+  .attr(&#39;width&#39;, 100)
+  .attr(&#39;height&#39;, 100)
+  // Show and hide the tooltip
+  .on(&#39;mouseover&#39;, tip.show)
+  .on(&#39;mouseout&#39;, tip.hide)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/positioning-tooltips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/positioning-tooltips/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;index.md&#34;&gt;API Documentation&lt;/a&gt; ➤ Positioning tooltips&lt;/p&gt;
+
+&lt;h1 id=&#34;positioning-tooltips&#34;&gt;Positioning tooltips&lt;/h1&gt;
+
+&lt;h3 id=&#34;tip-direction-direction&#34;&gt;tip.direction(direction)&lt;/h3&gt;
+
+&lt;p&gt;Sets the position of a tooltip relative to a target element (except for &lt;code&gt;mt&lt;/code&gt; which denotes placement of the tooltip at the &lt;em&gt;mousetip&lt;/em&gt;).
+&lt;code&gt;direction&lt;/code&gt; can be &lt;code&gt;n&lt;/code&gt;, &lt;code&gt;s&lt;/code&gt;, &lt;code&gt;e&lt;/code&gt;, &lt;code&gt;w&lt;/code&gt;, &lt;code&gt;nw&lt;/code&gt;, &lt;code&gt;ne&lt;/code&gt;, &lt;code&gt;sw&lt;/code&gt;, &lt;code&gt;se&lt;/code&gt;, or &lt;code&gt;mt&lt;/code&gt;.  The direction will also automatically be included as a classname
+on the tooltip element which allows for different style hooks based on the direction.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;tip.direction(&#39;n&#39;) // Position the tooltip to the top of a target element
+tip.direction(&#39;s&#39;) // Position the tooltip to the bottom of a target element
+tip.direction(&#39;e&#39;) // Position the tooltip to the right of a target element
+tip.direction(&#39;w&#39;) // Position the tooltip to the left of a target element
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;changing-the-direction-programatically&#34;&gt;Changing the direction programatically&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;tip.direction(function(d) {
+  if(d == &#39;california&#39;) return &#39;w&#39;
+  if(d == &#39;new york&#39;) return &#39;e&#39;
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;tip-offset-values&#34;&gt;tip.offset([values])&lt;/h3&gt;
+
+&lt;p&gt;Offset a tooltip relative to its calculated position.  Offset is computed from
+&lt;code&gt;[top, left]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you want to draw extenders on tooltips, use this method to offset the tooltip
+enough in the desired direction so the extender doesn&amp;rsquo;t overlap the target element.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;tip.offset([10, -10])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Callbacks are also supported for dynamic positioning.  The following example
+will center tip placement within the bounding box of the target element.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;tip.offset(function() {
+  return [this.getBBox().height / 2, 0]
+})
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/showing-and-hiding-tooltips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/showing-and-hiding-tooltips/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;index.md&#34;&gt;API Documentation&lt;/a&gt; ➤ Showing and hiding tooltips&lt;/p&gt;
+
+&lt;h1 id=&#34;showing-and-hiding-tooltips&#34;&gt;Showing and hiding tooltips&lt;/h1&gt;
+
+&lt;h3 id=&#34;tip-show&#34;&gt;tip.show&lt;/h3&gt;
+
+&lt;p&gt;Show a tooltip on the screen.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;rect.on(&#39;mouseover&#39;, tip.show)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;rect.on(&#39;mouseover&#39;, function(d) {
+  tip.show(d)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;explicit-targets&#34;&gt;Explicit targets&lt;/h4&gt;
+
+&lt;p&gt;Sometimes you need to manually specify a target to act on.  For instance, maybe
+you want the tooltip to appear over a different element than the one that triggered
+a &lt;code&gt;mouseover&lt;/code&gt; event.  You can specify an explicit target by passing an &lt;code&gt;SVGElement&lt;/code&gt;
+as the last argument.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;tip.show(data, target)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;tip-hide&#34;&gt;tip.hide&lt;/h3&gt;
+
+&lt;p&gt;Hide a tooltip&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;rect.on(&#39;mouseout&#39;, tip.hide)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;rect.on(&#39;mouseout&#39;, function(d) {
+  tip.hide(d)
+})
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/styling-and-modifying-tooltips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/styling-and-modifying-tooltips/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;index.md&#34;&gt;API Documentation&lt;/a&gt; Styling and modifying tooltips&lt;/p&gt;
+
+&lt;h1 id=&#34;styling-and-modifying-tooltips&#34;&gt;Styling and modifying tooltips&lt;/h1&gt;
+
+&lt;p&gt;d3-tip makes no assumption about how tooltips will be styled, but we do
+provide some &lt;a href=&#34;../examples/example-styles.css&#34;&gt;useful example styles&lt;/a&gt;. Incorporate it into your webpage like any
+other CSS file. For example, see
+&lt;a href=&#34;http://jsfiddle.net/deanmalmgren/eMPdu/&#34;&gt;this jsfiddle&lt;/a&gt; or any of the
+examples in the &lt;a href=&#34;../examples/&#34;&gt;examples directory&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;tip-style&#34;&gt;tip.style&lt;/h3&gt;
+
+&lt;p&gt;A proxy to d3&amp;rsquo;s &lt;a href=&#34;https://github.com/mbostock/d3/wiki/Selections#wiki-style&#34;&gt;selection.style&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;tip-attr&#34;&gt;tip.attr&lt;/h3&gt;
+
+&lt;p&gt;A proxy to d3&amp;rsquo;s &lt;a href=&#34;https://github.com/mbostock/d3/wiki/Selections#wiki-attr&#34;&gt;selection.attr&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/updating-tooltip-content/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/docs/updating-tooltip-content/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;index.md&#34;&gt;API Documentation&lt;/a&gt; ➤ Updating tooltip content&lt;/p&gt;
+
+&lt;h1 id=&#34;updating-tooltip-content&#34;&gt;Updating tooltip content&lt;/h1&gt;
+
+&lt;h3 id=&#34;tip-html-content&#34;&gt;tip.html([content])&lt;/h3&gt;
+
+&lt;p&gt;Set or get a tip&amp;rsquo;s HTML content.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var tip = d3.tip().html(function(d) { return &amp;quot;&amp;lt;span&amp;gt;&amp;quot; + d + &amp;quot;&amp;lt;/span&amp;gt;&amp;quot; })
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/arrow-styles/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/arrow-styles/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;Example styles&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;example-styles.css&#34;&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+    width: 600px;
+  }
+
+  svg.n, svg.s {
+    margin-left: 200px;
+    margin-right: 200px;
+  }
+  svg.e {
+    margin-left: 200px;
+  }
+
+  circle {
+    fill: #ccc;
+    fill-opacity: 0.6;
+    stroke: #bbb;
+    stroke-width: 1px;
+  }
+
+  circle:hover {
+    fill: #bbb;
+    stroke: #999;
+  }
+
+  text {
+    text-anchor: middle;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var data = [],
+      random = d3.random.normal(5),
+      random2 = d3.random.irwinHall(1)
+    for(var i = 0; i &lt; 25; i++) data.push(random(i))
+
+    var w = 200,
+        h = 200,
+        b = 20,
+        r = 10,
+        x = d3.scale.linear().domain([0, data.length - 1]).range([r, w - r]),
+        y = d3.scale.linear().domain([0, d3.max(data)]).range([h,  0])
+
+    var directions = [&#39;n&#39;, &#39;w&#39;, &#39;e&#39;, &#39;s&#39;];
+    directions.forEach(function (direction) {
+      var tip = d3.tip()
+        .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+        .html(function(d) { return d.toFixed(2) })
+        .direction(direction)
+        .offset(function () {
+          if(direction==&#39;n&#39;) { return [-10,0] }
+          else if(direction==&#39;s&#39;) { return [10,0] }
+          else if(direction==&#39;e&#39;) { return [0,10] }
+          else if(direction==&#39;w&#39;) { return [0,-10] }
+        })
+
+      var vis = d3.select(document.body)
+        .append(&#39;svg&#39;)
+        .attr(&#39;class&#39;, direction)
+        .attr(&#39;width&#39;, w)
+        .attr(&#39;height&#39;, h)
+      .append(&#39;g&#39;)
+        .attr(&#39;transform&#39;, &#39;translate(&#39;+b+&#39;,&#39;+b+&#39;)&#39;)
+      .call(tip)
+
+      vis.append(&#39;text&#39;)
+        .attr(&#39;class&#39;, &#39;direction&#39;)
+        .attr(&#39;x&#39;, w/2)
+        .attr(&#39;y&#39;, -b)
+        .attr(&#39;dy&#39;, &#39;1em&#39;)
+        .text(&#39;direction: &#39; + direction)
+
+      vis.selectAll(&#39;circle&#39;)
+        .data(data)
+      .enter().append(&#39;circle&#39;)
+        .attr(&#39;r&#39;, function(d, i) { return random2(i) * 10 })
+        .attr(&#39;cx&#39;, function(d, i) { return x(i) })
+        .attr(&#39;cy&#39;, y)
+        .on(&#39;mouseover&#39;, tip.show)
+        .on(&#39;mouseout&#39;, tip.hide)
+    })
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/bars/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/bars/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;Bar Chart&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]
+  &lt;/script&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;example-styles.css&#34;&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 1000px;
+  }
+
+  .d3-tip span {
+    color: #ff00c7;
+  }
+
+  .domain {
+    display: none;
+  }
+
+  .axis line {
+    stroke-width: 1px;
+    stroke: #eee;
+    shape-rendering: crispedges;
+  }
+
+  .axis text {
+    fill: #888;
+  }
+
+  rect {
+    fill: #339cff;
+    fill-opacity: 0.7;
+  }
+
+  rect:hover {
+    fill-opacity: 1;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&#34;graph&#34;&gt;
+
+  &lt;/div&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var tip = d3.tip()
+      .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+      .html(function(d) { return &#39;&lt;span&gt;&#39; + d.total + &#39;&lt;/span&gt;&#39; + &#39; entries&#39; })
+      .offset([-12, 0])
+
+    var w = 800,
+        h = 300,
+        padt = 20, padr = 20, padb = 60, padl = 30,
+        x  = d3.scale.ordinal().rangeRoundBands([0, w - padl - padr], 0.1),
+        y  = d3.scale.linear().range([h, 0]),
+        yAxis = d3.svg.axis().scale(y).orient(&#39;left&#39;).tickSize(-w + padl + padr),
+        xAxis = d3.svg.axis().scale(x).orient(&#39;bottom&#39;)
+
+    vis = d3.select(&#39;#graph&#39;)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h + padt + padb)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(&#39; + padl + &#39;,&#39; + padt + &#39;)&#39;)
+
+    var max = d3.max(data, function(d) { return d.total })
+    x.domain(d3.range(data.length))
+    y.domain([0, max])
+
+    vis.call(tip)
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;x axis&#34;)
+      .attr(&#39;transform&#39;, &#39;translate(0,&#39; + h + &#39;)&#39;)
+      .call(xAxis)
+      .selectAll(&#39;.x.axis g&#39;)
+        .style(&#39;display&#39;, function (d, i) { return i % 3 != 0  ? &#39;none&#39; : &#39;block&#39; })
+
+    var bars = vis.selectAll(&#39;g.bar&#39;)
+      .data(data)
+    .enter().append(&#39;g&#39;)
+      .attr(&#39;class&#39;, &#39;bar&#39;)
+      .attr(&#39;transform&#39;, function (d, i) { return &#34;translate(&#34; + x(i) + &#34;, 0)&#34; })
+
+    bars.append(&#39;rect&#39;)
+      .attr(&#39;width&#39;, function() { return x.rangeBand() })
+      .attr(&#39;height&#39;, function(d) { return h - y(d.total) })
+      .attr(&#39;y&#39;, function(d) { return y(d.total) })
+      .on(&#39;mouseover&#39;, tip.show)
+      .on(&#39;mouseout&#39;, tip.hide)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/bulk-attr-style/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/bulk-attr-style/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;Bar Chart&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]
+  &lt;/script&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;example-styles.css&#34;&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 1000px;
+  }
+
+  .d3-tip span {
+    color: #ff00c7;
+  }
+
+  .domain {
+    display: none;
+  }
+
+  .axis line {
+    stroke-width: 1px;
+    stroke: #eee;
+    shape-rendering: crispedges;
+  }
+
+  .axis text {
+    fill: #888;
+  }
+
+  rect {
+    fill: #339cff;
+    fill-opacity: 0.7;
+  }
+
+  rect:hover {
+    fill-opacity: 1;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&#34;graph&#34;&gt;
+
+  &lt;/div&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var tip = d3.tip()
+      .attr({&#39;class&#39;: &#39;d3-tip&#39;, title: &#39;Some tooltip&#39;})
+      .style({border: &#39;1px solid #fff&#39;, &#39;box-shadow&#39;: &#39;1px 1px 4px rgba(0,0,0,0.5)&#39;, &#39;border-radius&#39;: &#39;none&#39;})
+      .html(function(d) { return &#39;&lt;span&gt;&#39; + d.total + &#39;&lt;/span&gt;&#39; + &#39; entries&#39; })
+      .offset([-12, 0])
+
+    console.log(tip.attr(&#39;class&#39;))
+    var w = 800,
+        h = 300,
+        padt = 20, padr = 20, padb = 60, padl = 30,
+        x  = d3.scale.ordinal().rangeRoundBands([0, w - padl - padr], 0.1),
+        y  = d3.scale.linear().range([h, 0]),
+        yAxis = d3.svg.axis().scale(y).orient(&#39;left&#39;).tickSize(-w + padl + padr),
+        xAxis = d3.svg.axis().scale(x).orient(&#39;bottom&#39;)
+
+    vis = d3.select(&#39;#graph&#39;)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h + padt + padb)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(&#39; + padl + &#39;,&#39; + padt + &#39;)&#39;)
+
+    var max = d3.max(data, function(d) { return d.total })
+    x.domain(d3.range(data.length))
+    y.domain([0, max])
+
+    vis.call(tip)
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;x axis&#34;)
+      .attr(&#39;transform&#39;, &#39;translate(0,&#39; + h + &#39;)&#39;)
+      .call(xAxis)
+      .selectAll(&#39;.x.axis g&#39;)
+        .style(&#39;display&#39;, function (d, i) { return i % 3 != 0  ? &#39;none&#39; : &#39;block&#39; })
+
+    var bars = vis.selectAll(&#39;g.bar&#39;)
+      .data(data)
+    .enter().append(&#39;g&#39;)
+      .attr(&#39;class&#39;, &#39;bar&#39;)
+      .attr(&#39;transform&#39;, function (d, i) { return &#34;translate(&#34; + x(i) + &#34;, 0)&#34; })
+
+    bars.append(&#39;rect&#39;)
+      .attr(&#39;width&#39;, function() { return x.rangeBand() })
+      .attr(&#39;height&#39;, function(d) { return h - y(d.total) })
+      .attr(&#39;y&#39;, function(d) { return y(d.total) })
+      .on(&#39;mouseover&#39;, function(d) {
+        tip.show(d)
+        console.log(tip.style(&#39;box-shadow&#39;))
+      })
+      .on(&#39;mouseout&#39;, tip.hide)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/circles/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/circles/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;Circles&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;example-styles.css&#34;&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+  }
+
+  .d3-tip text {
+    fill: #fff;
+    font-size: 12px;
+    stroke: none;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif;
+  }
+
+  circle {
+    fill: #ccc;
+    fill-opacity: 0.6;
+    stroke: #bbb;
+    stroke-width: 1px;
+  }
+
+  circle:hover {
+    fill: #bbb;
+    stroke: #999;
+  }
+
+  circle.clickable:hover {
+    cursor: pointer;
+  }
+
+  .rule {
+    stroke-width: 1px;
+    stroke: #c00;
+    shape-rendering: crispedges;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var data = [],
+      random = d3.random.normal(5),
+      random2 = d3.random.irwinHall(1)
+    for(var i = 0; i &lt; 100; i++) data.push(random(i))
+
+    var tip = d3.tip()
+      .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+      .html(function(d) { return d.toFixed(2) })
+      .direction(&#39;nw&#39;)
+      .offset([0, 3])
+
+    var tip2 = d3.tip()
+      .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+      .html(function(d) { return d.toFixed(2) })
+      .direction(&#39;n&#39;)
+      .offset([-3, 0])
+
+    var w = 1000,
+        h = 500,
+        r = 10,
+        linex, liney,
+        x = d3.scale.linear().domain([0, data.length - 1]).range([r, w - r]),
+        y = d3.scale.linear().domain([0, d3.max(data)]).range([h,  0])
+
+    var vis = d3.select(document.body)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(20, 20)&#39;)
+    .call(tip)
+
+    vis.selectAll(&#39;circle&#39;)
+      .data(data)
+    .enter().append(&#39;circle&#39;)
+      .attr(&#39;r&#39;, function(d, i) { return random2(i) * 10 })
+      .attr(&#39;cx&#39;, function(d, i) { return x(i) })
+      .attr(&#39;cy&#39;, y)
+      .on(&#39;mouseover&#39;, tip.show)
+      .on(&#39;mouseout&#39;, tip.hide)
+
+    var vis2 = d3.select(document.body)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(20, 20)&#39;)
+      .call(tip2)
+
+    vis2.selectAll(&#39;circle&#39;)
+      .data(data)
+    .enter().append(&#39;circle&#39;)
+      .attr(&#39;class&#39;, &#39;clickable&#39;)
+      .attr(&#39;r&#39;, function(d, i) { return random2(i) * 10 })
+      .attr(&#39;cx&#39;, function(d, i) { return x(i) })
+      .attr(&#39;cy&#39;, y)
+      .on(&#39;click&#39;, function(d) {
+        tip2.hide(d).show(d)
+      })
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/css-transitions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/css-transitions/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;CSS Transitions&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]
+  &lt;/script&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;example-styles.css&#34;&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  @-webkit-keyframes bounceIn {
+    0% {
+      opacity: 0;
+      -webkit-transform: scale(.3);
+    }
+
+    50% {
+      opacity: 1;
+      -webkit-transform: scale(1.05);
+    }
+
+    70% {
+      -webkit-transform: scale(.9);
+    }
+
+    100% {
+      -webkit-transform: scale(1);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(.3);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    70% {
+      transform: scale(.9);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 1000px;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .d3-tip.animate {
+    animation: bounceIn 0.2s ease-out;
+    -webkit-animation: bounceIn 0.2s ease-out;
+  }
+
+  .d3-tip span {
+    color: #ff00c7;
+  }
+
+  .domain {
+    display: none;
+  }
+
+  .axis line {
+    stroke-width: 1px;
+    stroke: #eee;
+    shape-rendering: crispedges;
+  }
+
+  .axis text {
+    fill: #888;
+  }
+
+  rect {
+    fill: #339cff;
+    fill-opacity: 0.7;
+  }
+
+  rect:hover {
+    fill-opacity: 1;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&#34;graph&#34;&gt;
+
+  &lt;/div&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var tip = d3.tip()
+      .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+      .html(function(d) { return &#39;&lt;span&gt;&#39; + d.total + &#39;&lt;/span&gt;&#39; + &#39; entries&#39; })
+      .offset([-12, 0])
+
+    var w = 800,
+        h = 300,
+        padt = 20, padr = 20, padb = 60, padl = 30,
+        x  = d3.scale.ordinal().rangeRoundBands([0, w - padl - padr], 0.1),
+        y  = d3.scale.linear().range([h, 0]),
+        yAxis = d3.svg.axis().scale(y).orient(&#39;left&#39;).tickSize(-w + padl + padr),
+        xAxis = d3.svg.axis().scale(x).orient(&#39;bottom&#39;)
+
+    vis = d3.select(&#39;#graph&#39;)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h + padt + padb)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(&#39; + padl + &#39;,&#39; + padt + &#39;)&#39;)
+
+    var max = d3.max(data, function(d) { return d.total })
+    x.domain(d3.range(data.length))
+    y.domain([0, max])
+
+    vis.call(tip)
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;x axis&#34;)
+      .attr(&#39;transform&#39;, &#39;translate(0,&#39; + h + &#39;)&#39;)
+      .call(xAxis)
+      .selectAll(&#39;.x.axis g&#39;)
+        .style(&#39;display&#39;, function (d, i) { return i % 3 != 0  ? &#39;none&#39; : &#39;block&#39; })
+
+    var bars = vis.selectAll(&#39;g.bar&#39;)
+      .data(data)
+    .enter().append(&#39;g&#39;)
+      .attr(&#39;class&#39;, &#39;bar&#39;)
+      .attr(&#39;transform&#39;, function (d, i) { return &#34;translate(&#34; + x(i) + &#34;, 0)&#34; })
+
+    bars.append(&#39;rect&#39;)
+      .attr(&#39;width&#39;, function() { return x.rangeBand() })
+      .attr(&#39;height&#39;, function(d) { return h - y(d.total) })
+      .attr(&#39;y&#39;, function(d) { return y(d.total) })
+      .on(&#39;mouseover&#39;, function(d) {
+        tip.attr(&#39;class&#39;, &#39;d3-tip animate&#39;).show(d)
+      })
+      .on(&#39;mouseout&#39;, function(d) {
+        tip.attr(&#39;class&#39;, &#39;d3-tip&#39;).show(d)
+        tip.hide()
+      })
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/explicit-target/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/explicit-target/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;Explicit Target&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]
+  &lt;/script&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 1000px;
+  }
+
+  .d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  .d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: &#34;\25BC&#34;;
+    position: absolute;
+    text-align: center;
+  }
+
+  .d3-tip.n:after {
+    margin: -5px 0 0 0;
+    top: 100%;
+    left: 0;
+  }
+
+  .d3-tip span {
+    color: #ff00c7;
+  }
+
+  .domain {
+    display: none;
+  }
+
+  .axis line {
+    stroke-width: 1px;
+    stroke: #eee;
+    shape-rendering: crispedges;
+  }
+
+  .axis text {
+    fill: #888;
+  }
+
+  rect {
+    fill: #339cff;
+    fill-opacity: 0.7;
+  }
+
+  rect:hover {
+    fill-opacity: 1;
+  }
+
+  .legend {
+    fill: none;
+    stroke: #ccc;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&#34;graph&#34;&gt;
+
+  &lt;/div&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var tip = d3.tip()
+      .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+      .html(function(d) { return &#39;&lt;span&gt;&#39; + d.total + &#39;&lt;/span&gt;&#39; + &#39; entries&#39; })
+      .offset([-12, 0])
+
+    var w = 800,
+        h = 300,
+        padt = 40, padr = 20, padb = 60, padl = 30,
+        x  = d3.scale.ordinal().rangeRoundBands([0, w - padl - padr], 0.1),
+        y  = d3.scale.linear().range([h, 0]),
+        yAxis = d3.svg.axis().scale(y).orient(&#39;left&#39;).tickSize(-w + padl + padr),
+        xAxis = d3.svg.axis().scale(x).orient(&#39;bottom&#39;)
+
+    vis = d3.select(&#39;#graph&#39;)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h + padt + padb)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(&#39; + padl + &#39;,&#39; + padt + &#39;)&#39;)
+
+    var max = d3.max(data, function(d) { return d.total })
+    x.domain(d3.range(data.length))
+    y.domain([0, max])
+
+    vis.call(tip)
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;y axis&#34;)
+      .call(yAxis)
+
+    legend = vis.append(&#39;rect&#39;)
+      .attr(&#39;width&#39;, 50)
+      .attr(&#39;height&#39;, 25)
+      .attr(&#39;x&#39;, 0)
+      .attr(&#39;y&#39;, 0)
+      .attr(&#39;class&#39;, &#39;legend&#39;)
+
+    vis.append(&#34;g&#34;)
+      .attr(&#34;class&#34;, &#34;x axis&#34;)
+      .attr(&#39;transform&#39;, &#39;translate(0,&#39; + h + &#39;)&#39;)
+      .call(xAxis)
+      .selectAll(&#39;.x.axis g&#39;)
+        .style(&#39;display&#39;, function (d, i) { return i % 3 != 0  ? &#39;none&#39; : &#39;block&#39; })
+
+    var bars = vis.selectAll(&#39;g.bar&#39;)
+      .data(data)
+    .enter().append(&#39;g&#39;)
+      .attr(&#39;class&#39;, &#39;bar&#39;)
+      .attr(&#39;transform&#39;, function (d, i) { return &#34;translate(&#34; + x(i) + &#34;, 0)&#34; })
+
+    bars.append(&#39;rect&#39;)
+      .attr(&#39;width&#39;, function() { return x.rangeBand() })
+      .attr(&#39;height&#39;, function(d) { return h - y(d.total) })
+      .attr(&#39;y&#39;, function(d) { return y(d.total) })
+      .on(&#39;mouseout&#39;, tip.hide)
+      .on(&#39;mouseover&#39;, function(d) {
+        tip.show(d, legend.node())
+      })
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/performance/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/performance/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;Bar Chart&lt;/title&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../bower_components/d3/d3.js&#34;&gt;&lt;/script&gt;
+  &lt;script type=&#34;text/javascript&#34; src=&#34;../index.js&#34;&gt;&lt;/script&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+  }
+
+  .d3-tip text {
+    fill: #fff;
+    font-size: 12px;
+    stroke: none;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif;
+  }
+
+  circle {
+    fill: #ccc;
+    fill-opacity: 0.6;
+    stroke: #bbb;
+    stroke-width: 1px;
+  }
+
+  circle:hover {
+    fill: #bbb;
+    stroke: #999;
+  }
+
+  circle.clickable:hover {
+    cursor: pointer;
+  }
+
+  .rule {
+    stroke-width: 1px;
+    stroke: #c00;
+    shape-rendering: crispedges;
+  }
+  &lt;/style&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;../index.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    var NODES = 5000
+    var RUNS  = 3
+
+    var data = [],
+      random = d3.random.normal(5),
+      random2 = d3.random.irwinHall(1)
+    for(var i = 0; i &lt; NODES; i++) data.push(random(i))
+
+    var tip = d3.tip()
+      .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+      .html(function(d) { return d.toFixed(2) })
+      .direction(&#39;nw&#39;)
+      .offset([0, 3])
+
+    var w = 1000,
+        h = 500,
+        r = 10,
+        linex, liney,
+        x = d3.scale.linear().domain([0, data.length - 1]).range([r, w - r]),
+        y = d3.scale.linear().domain([0, d3.max(data)]).range([h,  0])
+
+    var vis = d3.select(document.body)
+      .append(&#39;svg&#39;)
+      .attr(&#39;width&#39;, w)
+      .attr(&#39;height&#39;, h)
+    .append(&#39;g&#39;)
+      .attr(&#39;transform&#39;, &#39;translate(20, 20)&#39;)
+    .call(tip)
+
+    // Create some artificial nesting
+    gs = vis.append(&#39;g&#39;).append(&#39;g&#39;)
+
+    circles = gs.selectAll(&#39;circle&#39;)
+      .data(data)
+    .enter().append(&#39;circle&#39;)
+
+    circles.attr(&#39;r&#39;, function(d, i) { return random2(i) * 10 })
+      .attr(&#39;cx&#39;, function(d, i) { return x(i) })
+      .attr(&#39;cy&#39;, y)
+      .on(&#39;mouseover&#39;, tip.show)
+      .on(&#39;mouseout&#39;, tip.hide)
+
+    var elements = circles[0],
+      length = elements.length
+    e = new MouseEvent(&#39;mouseover&#39;)
+    for(var i = 0; i &lt;= RUNS; i++) {
+      var j = 0
+      console.time(i)
+      for(j; j &lt; length; j++)
+        elements[i].dispatchEvent(e)
+      console.timeEnd(i)
+    }
+
+
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/requirejs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/interactive_vis_slides_files/chorddiag/lib/d3-tip/examples/requirejs/</guid>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;d3.tip.js - Tooltips for D3&lt;/title&gt;
+  &lt;meta charset=&#34;utf-8&#34; /&gt;
+  &lt;title&gt;require.js&lt;/title&gt;
+  &lt;link rel=&#34;stylesheet&#34; type=&#34;css&#34; href=&#34;example-styles.css&#34;&gt;
+  &lt;style type=&#34;text/css&#34;&gt;
+  body {
+    padding: 40px;
+    font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 1000px;
+  }
+
+  .d3-tip span {
+    color: #ff00c7;
+  }
+
+  .domain {
+    display: none;
+  }
+
+  .axis line {
+    stroke-width: 1px;
+    stroke: #eee;
+    shape-rendering: crispedges;
+  }
+
+  .axis text {
+    fill: #888;
+  }
+
+  rect {
+    fill: #339cff;
+    fill-opacity: 0.7;
+  }
+
+  rect:hover {
+    fill-opacity: 1;
+  }
+  &lt;/style&gt;
+  &lt;script type=&#34;text/javascript&#34;&gt;
+    data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]
+  &lt;/script&gt;
+  &lt;script src=&#34;//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+  &lt;script charset=&#34;utf-8&#34;&gt;
+    // Mostly used for development.  Point to proper location of d3 and d3tip.
+    require.config({
+      baseUrl: &#39;/&#39;,
+      paths: {
+          d3: &#39;bower_components/d3/d3&#39;,
+          d3tip: &#39;index&#39;
+      }
+    });
+
+    // Require d3 and d3tip
+    require([&#39;d3&#39;, &#39;d3tip&#39;], function(d3, d3tip) {
+      var tip = d3tip()
+        .attr(&#39;class&#39;, &#39;d3-tip&#39;)
+        .html(function(d) { return &#39;&lt;span&gt;&#39; + d.total + &#39;&lt;/span&gt;&#39; + &#39; entries&#39; })
+        .offset([-12, 0])
+
+      var w = 800,
+          h = 300,
+          padt = 20, padr = 20, padb = 60, padl = 30,
+          x  = d3.scale.ordinal().rangeRoundBands([0, w - padl - padr], 0.1),
+          y  = d3.scale.linear().range([h, 0]),
+          yAxis = d3.svg.axis().scale(y).orient(&#39;left&#39;).tickSize(-w + padl + padr),
+          xAxis = d3.svg.axis().scale(x).orient(&#39;bottom&#39;)
+
+      vis = d3.select(&#39;#graph&#39;)
+        .append(&#39;svg&#39;)
+        .attr(&#39;width&#39;, w)
+        .attr(&#39;height&#39;, h + padt + padb)
+      .append(&#39;g&#39;)
+        .attr(&#39;transform&#39;, &#39;translate(&#39; + padl + &#39;,&#39; + padt + &#39;)&#39;)
+
+      var max = d3.max(data, function(d) { return d.total })
+      x.domain(d3.range(data.length))
+      y.domain([0, max])
+
+      vis.call(tip)
+      vis.append(&#34;g&#34;)
+        .attr(&#34;class&#34;, &#34;y axis&#34;)
+        .call(yAxis)
+
+      vis.append(&#34;g&#34;)
+        .attr(&#34;class&#34;, &#34;x axis&#34;)
+        .attr(&#39;transform&#39;, &#39;translate(0,&#39; + h + &#39;)&#39;)
+        .call(xAxis)
+        .selectAll(&#39;.x.axis g&#39;)
+          .style(&#39;display&#39;, function (d, i) { return i % 3 != 0  ? &#39;none&#39; : &#39;block&#39; })
+
+      var bars = vis.selectAll(&#39;g.bar&#39;)
+        .data(data)
+      .enter().append(&#39;g&#39;)
+        .attr(&#39;class&#39;, &#39;bar&#39;)
+        .attr(&#39;transform&#39;, function (d, i) { return &#34;translate(&#34; + x(i) + &#34;, 0)&#34; })
+
+      bars.append(&#39;rect&#39;)
+        .attr(&#39;width&#39;, function() { return x.rangeBand() })
+        .attr(&#39;height&#39;, function(d) { return h - y(d.total) })
+        .attr(&#39;y&#39;, function(d) { return y(d.total) })
+        .on(&#39;mouseover&#39;, tip.show)
+        .on(&#39;mouseout&#39;, tip.hide)
+    });
+  &lt;/script&gt;
+  &lt;div id=&#34;graph&#34;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

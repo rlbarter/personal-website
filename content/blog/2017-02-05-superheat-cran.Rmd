@@ -1,0 +1,61 @@
+--- 
+author: "Rebecca Barter" 
+categories: [R, superheat] 
+date: 2017-02-05T09:44:30-08:00 
+type: "post" 
+description: "First version of superheat now available on CRAN." 
+featured: "" 
+featuredalt: "" 
+featuredpath: "" 
+linktitle: "" 
+title: "superheat 0.1.0" 
+---
+
+
+superheat 0.1.0 is now available on CRAN. Superheat makes it easy to create extendable, cutomizable, and most importantly, beautiful heatmaps. It has increased flexibility and user-friendliness when compared to alternatives such as `heatmap()` and `pheatmap()`.
+
+For usage options see the [**vignette**](https://rlbarter.github.io/superheat/) and for examples see the accompanying [**paper by Barter and Yu (2017)**](https://arxiv.org/abs/1512.01524). 
+
+
+You can install the latest version with:
+
+```{r eval = FALSE}
+install.packages("superheat")
+```
+
+Stay tuned for new versions with added features and minor usability tweaks.
+
+## Example usage
+
+Usage is straightforward and intuitive:
+
+```{r, fig.align='center', fig.height = 7, fig.width = 9}
+library(superheat)
+set.seed(1347983)
+selected.rows <- sample(1:nrow(mtcars), 10)
+# add a space after the column names for aesthetic purposes
+colnames(mtcars) <- paste0(colnames(mtcars), " ")
+
+# plot the superheatmap
+superheat(mtcars[selected.rows,], 
+          # scale columns
+          scale = T, 
+          # label aesthetics
+          left.label.size = 0.5,
+          bottom.label.size = 0.15,
+          bottom.label.text.angle = 90,
+          bottom.label.text.alignment = "right",
+          bottom.label.col = "white",
+          # dendrogram
+          row.dendrogram = T,
+          # top plot
+          yt = sapply(mtcars, function(x) cor(x, mtcars$hp)),
+          yt.plot.type = "bar",
+          yt.axis.name = "correlation\nwith\nhorsepower",
+          # column order
+          order.cols = order(sapply(mtcars, function(x) cor(x, mtcars$hp))),
+          # grid lines
+          grid.vline.col = "white",
+          grid.hline.col = "white")
+
+```

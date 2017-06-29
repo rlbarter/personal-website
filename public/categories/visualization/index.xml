@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Visualization on Rebecca Barter</title>
+    <link>/categories/visualization/</link>
+    <description>Recent content in Visualization on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 27 Jun 2017 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/visualization/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Coolors: choosing color schemes</title>
+      <link>/blog/2017-06-27-colors/</link>
+      <pubDate>Tue, 27 Jun 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-06-27-colors/</guid>
+      <description>Choosing a color palette for a visualization can be one of the most time consuming parts for perfectionists like me. It can be surprisingly difficult to decide on a palette that is both visually appealing and practical, but fortunately there do exist websites to help!
+For example, Coolors shoots random, appealing, color palettes at you and you can swipe from one to the next with a hit of a space-bar.</description>
+    </item>
+    
+    <item>
+      <title>Interactive visualization in R</title>
+      <link>/blog/2017-04-20-interactive/</link>
+      <pubDate>Thu, 20 Apr 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-04-20-interactive/</guid>
+      <description>Last week I gave an SGSA seminar on interactive visualizations in R.
+Here is a long-form version of the talk.
+Why be interactive? Interactivity allows the viewer to engage with your data in ways impossible by static graphs. With an interactive plot, the viewer can zoom into the areas the care about, highlight the data points that are relevant to them and hide the information that isn’t.
+Above all of that, making simple interactive plots are a sure-fire way to impress your coworkers!</description>
+    </item>
+    
+  </channel>
+</rss>

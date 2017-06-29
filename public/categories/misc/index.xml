@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Misc on Rebecca Barter</title>
+    <link>/categories/misc/</link>
+    <description>Recent content in Misc on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 Dec 2016 21:49:57 -0700</lastBuildDate>
+    
+	<atom:link href="/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gender Issues Roundtable Discussion: A Case Study in Uncomfortable Conversations</title>
+      <link>/blog/2016-12-15-gender-bias/</link>
+      <pubDate>Thu, 15 Dec 2016 21:49:57 -0700</pubDate>
+      
+      <guid>/blog/2016-12-15-gender-bias/</guid>
+      <description>by Kellie Ottoboni, Rebecca Barter, Ryan Giordano, Sara Stoudt
+In 2015, UC Berkeley experienced a series of high-profile sexual harassment incidents, prompting the graduate students in the Statistics Department to hold a roundtable event. While this response was initiated by overt sexual harassment, our discussion extended to other subtler gender biases. This article outlines the events that lead to the roundtable’s inception, the details of organizing and hosting the event, and our thoughts on what did and didn’t work.</description>
+    </item>
+    
+  </channel>
+</rss>

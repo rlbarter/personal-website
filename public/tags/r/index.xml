@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>r on Rebecca Barter</title>
+    <link>/tags/r/index.xml</link>
+    <description>Recent content in r on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Docathon: A Week of Doumentation</title>
+      <link>/blog/2017-03-7-docathon/</link>
+      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-03-7-docathon/</guid>
+      <description>&lt;!-- BLOGDOWN-BODY-BEFORE
+
+/BLOGDOWN-BODY-BEFORE --&gt;
+
+&lt;p&gt;This week is the &lt;a href=&#34;https://bids.github.io/docathon/&#34;&gt;Docathon&lt;/a&gt; at &lt;a href=&#34;https://bids.berkeley.edu/&#34;&gt;BIDS&lt;/a&gt; (a.k.a. that wonderful place that I spend all my time).&lt;/p&gt;
+&lt;p&gt;A docathon is like a hackathon but is focused on developing material and tools for documentation. We have &lt;a href=&#34;https://bids.github.io/docathon/pages/projects/projects.html&#34;&gt;loads of projects&lt;/a&gt; signed up to receive some documentation-love and an impressive number of excited participants!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../img/docathon/docathon.jpg-large&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We kicked off the event with a series of tutorials for writing “good” documentation. I gave an R-specific tutorial where I discussed using devtools to both develop and document your package. I ended with a sneak peak into bookdown book-based documentation for complex packages. Skip ahead to 1:54:02 to hear my presentation!&lt;/p&gt;
+&lt;center&gt;
+&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/ikT_xnTFHC0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;
+&lt;/iframe&gt;
+&lt;/center&gt;
+&lt;p&gt;The materials for my tutorial can be found in this &lt;a href=&#34;https://github.com/rlbarter/R-documentation&#34;&gt;github repo&lt;/a&gt;. Stay tuned for a more detailed blog post about writing documentation in R.&lt;/p&gt;
+
+
+&lt;!-- BLOGDOWN-HEAD
+
+
+
+
+/BLOGDOWN-HEAD --&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,72 @@
+---
+title: "Rebecca's CV"
+date: "2016-05-05T21:48:51-07:00"
+---
+
+## Experience
+August 2014 - present **Graduate Student Researcher (GSR)**,
+*Department of Statistics, University of
+California, Berkeley*
+
+November 2016 - present **Visiting Student**,
+*Department of Surgery, University of
+California, San Francisco*
+
+May 2016 - August 2016 **Quantitative Analyst Intern**,
+*Google, Seattle*
+
+Spring 2015, Fall 2016 **Statistical Consultant**,
+*Department of Statistics, University of
+California, Berkeley*
+
+February 2014 - July 2014 **Research Assistant**,
+*Melanoma Institute Australia and School of Mathematics and
+Statistics, The University of Sydney Australia*
+
+------
+
+## Education
+(current) **PhD, Statistics** , *University of
+California, Berkeley*, Expected Graduation 2019
+
+**Bachelor of Science (Advanced)
+(First Class Honours and University Medal in Statistics)**,
+*The University of
+Sydney, Australia*, Graduated November 2013
+
+------
+
+## Papers
+
+**Barter RL**, Yu B (2015). Superheat: Supervised heatmaps for visualizing
+complex data, *(preprint) arXiv*  [http://arxiv.org/abs/1512.01524 ](http://arxiv.org/abs/1512.01524)
+
+
+**Barter RL**, Schramm SJ, Mann GJ, and Yang YH (2014). Network-based biomarkers enhance classical approaches to prognostic gene expression signatures, *BMC Systems Biology* [www.biomedcentral.com/1752-0509/8/S4/S5](http://www.biomedcentral.com/1752-0509/8/S4/S5)
+                    
+------
+
+## Software
+
+[**superheat**](https://github.com/rlbarter/superheat), An R package with tools for visualizing and exploring data using supervised heatmaps.
+                    
+------
+					
+## Teaching Experience
+Spring 2015 **Graduate Student Instructor (GSI)**,
+*Department of Statistics, University of
+California, Berkeley*
+
+- [STAT 135](/teaching) Concepts in Statistics
+
+March 2013 - July 2014 **Tutor**, *School of Mathematics and
+Statistics, The University of Sydney Australia*
+
+- PHAR 2183 Theraputic Principles (Mathematics and Statistics
+Tutorial)
+- MATH 1902 Linear Algebra (Advanced)
+- MATH 1005 Statistics
+
+
+
+

@@ -1,0 +1,25 @@
+---
+author: "Rebecca Barter"
+categories: [Communication]
+date: 2017-02-02T09:44:30-08:00
+type: "post"
+description: "This week I was asked to give a presentation on presenting. Here lies a summary of my efforts."
+featured: ""
+featuredalt: ""
+featuredpath: ""
+linktitle: ""
+title: "How to Present Good"
+---
+
+
+This week I was asked to give a presentaiton on giving presentations.
+
+So meta.
+
+Anyway, my lack of desire to spend time writing something that had already been written by somoene else led me to a number of existing slides written by others with the same goal: to present on presenting. The only problem was that, although these slides gave excellent tips on making slides and subsequently presenting them, the slides themselves were perfect examples of what *not* to do when making slides. The slides were insurmountable walls of text.
+
+Sadly, I decided that I would have to make my own slides afterall. The slides themselves can be found [here](presenting.pdf)
+
+
+
+

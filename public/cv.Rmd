@@ -1,0 +1,138 @@
+---
+title: "Rebecca's CV"
+date: "2016-05-05T21:48:51-07:00"
+---
+
+## Experience
+
+August 2016 - Present **Data Science Fellow**,
+*Berkeley Institute of Data Science, University of
+California, Berkeley*
+
+August 2014 - May 2016 **Graduate Student Researcher (GSR)**,
+*Department of Statistics, University of
+California, Berkeley*
+
+November 2016 - present **Visiting Student**,
+*Department of Surgery, University of
+California, San Francisco*
+
+May 2016 - August 2016 **Quantitative Analyst Intern**,
+*Google, Seattle*
+
+Spring 2015, Fall 2016 **Statistical Consultant**,
+*Department of Statistics, University of
+California, Berkeley*
+
+February 2014 - July 2014 **Research Assistant**,
+*Melanoma Institute Australia and School of Mathematics and
+Statistics, The University of Sydney Australia*
+
+------
+
+## Education
+(current) **PhD, Statistics** , *University of
+California, Berkeley*, Expected Graduation 2019
+
+**Bachelor of Science (Advanced)
+(First Class Honours and University Medal in Statistics)**,
+*The University of
+Sydney, Australia*, Graduated November 2013
+
+------
+
+## Publications
+
+**Barter RL**, Yu B (2017). Superheat: Supervised heatmaps for visualizing
+complex data, *(preprint) arXiv*  [http://arxiv.org/abs/1512.01524 ](http://arxiv.org/abs/1512.01524)
+
+
+**Barter RL**, Schramm SJ, Mann GJ, and Yang YH (2014). Network-based biomarkers enhance classical approaches to prognostic gene expression signatures, *BMC Systems Biology* [www.biomedcentral.com/1752-0509/8/S4/S5](http://www.biomedcentral.com/1752-0509/8/S4/S5)
+
+
+### On the web
+
+**Barter RL**, Shrotriya S (2016). Integrated Data Analysis for Early Warning of Lung Failure. The Geisinger Collider Competition Winning Project. *ODBMS* [http://www.odbms.org/2016/06/integrated-data-analysis-for-early-warning-of-lung-failure/](http://www.odbms.org/2016/06/integrated-data-analysis-for-early-warning-of-lung-failure/)
+                    
+                  
+------
+
+## Software
+
+[**superheat**](https://github.com/rlbarter/superheat), An R package with tools for visualizing and exploring data using supervised heatmaps.
+                    
+------
+					
+## Teaching Experience
+
+March 2017 - **Docathon Instructor**, Berkeley Institute of Data Science
+
+- [Documentation in R](https://github.com/rlbarter/R-documentation) ([video](https://www.youtube.com/watch?v=ikT_xnTFHC0))
+
+Spring 2015 **Graduate Student Instructor (GSI)**,
+*Department of Statistics, University of
+California, Berkeley*
+
+- [STAT 135](/teaching) Concepts in Statistics
+
+March 2013 - July 2014 **Tutor**, *School of Mathematics and
+Statistics, The University of Sydney Australia*
+
+- PHAR 2183 Therapeutic Principles (Mathematics and Statistics
+Tutorial)
+- MATH 1902 Linear Algebra (Advanced)
+- MATH 1005 Statistics
+
+
+
+------
+
+## Community
+
+
+
+Spring 2017 **Founder and organizer**, [Practical Statistics](https://rlbarter.github.io/Practical-Statistics/)
+
+- I founded and organized Practical Statistics: a group of graduate students, post-docs and research staff from the Statistics department, BIDS and D-Lab who meet to teach each other about statistical topics that are widely used in science, but rarely taught to statisticians.
+
+
+
+
+2016/17 **Co-president**, [Statistics Graduate Student Association (SGSA)](http://sgsa.berkeley.edu/)
+
+- Together with Kellie Ottoboni, I acted as the head of the graduate student body for the statistics department. 
+
+
+
+
+
+
+------
+
+## Talks
+
+### Conference Talks
+
+March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
+
+June 2016 - **Superheat: An R package for visualizing complex data**, UseR! 2016.
+
+March 2016 - **Superheat: An R package for complex data visualization**, Berkeley Statistics Annual Research Symposium (BSTARS 2016).
+
+July 2014 - **Network-based biomarkers enhance classical approaches to prognostic gene expression signatures**, InCoB2014 (International Conference on Bioinformatics 2014).
+
+
+
+### Other Talks
+
+May 2017 - **The Role of Machine Learning in Computerized Decision Making for Clinical Decision Support Systems in Healthcare**, UC Davis. [[video](https://ucdhs.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4bfc4adf-d592-4204-b463-3e58edaebf83), <a href="talks/Davis_Healthcare.pdf" title="Davis slides">slides</a>]
+
+May 2017 - **Superheat: An R Package for Generating Beautiful, Extendable, Customizable Heatmaps**, Berkeley Institute for Data Science (BIDS) Faire 2017. [[video](https://youtu.be/iZqqe-R5c0I), <a href="talks/BIDS_Faire_Superheat.pdf" title="BIDS Faire slides">slides</a>]
+
+April 2017 - **Interactive Visualization in R**, SGSA Seminar Series. [[slides](/img/talks/interactive_vis_slides.html)]
+
+April 2016 - **Correlation vs Causation: Why the Media Gets it Wrong!**, UC Berkeley Cal Day 2016. [<a href="talks/Cal_Day_Presentation.pdf" title="Cal Day">slides</a>]
+
+October 2015 - **Supervised heatmaps: An R tool for complex data visualization**, Center for the Science of Information (CSoI) Virtual Brown Bag Seminar.
+
+March 2013 - **Estimation in ACD and log-ACD models**, Big Day In, AMSI (Australian Mathematical Sciences Institute).

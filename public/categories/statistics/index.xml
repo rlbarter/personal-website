@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Statistics on Rebecca Barter</title>
+    <link>/categories/statistics/</link>
+    <description>Recent content in Statistics on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Feb 2017 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/statistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ANOVA</title>
+      <link>/blog/2017-02-17-anova/</link>
+      <pubDate>Mon, 20 Feb 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-02-17-anova/</guid>
+      <description>Last week, practical statistics met to discuss all things ANOVA. Below you will find the slides from my talk, but read on if you would like to learn all about ANOVA.
+   When ANOVA is used and who uses it? ANOVA is used far and wide by the scientific community and beyond. Unfortunately, scientists also frequently misuse ANOVA. A study by Wu et al. (2011) showed that from a survey of 10 leading Chinese medical journals in 2008, 446 articles used ANOVA, and of those articles, 59% of them used ANOVA incorrectly.</description>
+    </item>
+    
+  </channel>
+</rss>

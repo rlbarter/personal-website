@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown on Rebecca Barter</title>
+    <link>/tags/r-markdown/</link>
+    <description>Recent content in R Markdown on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Dec 2016 21:49:57 -0700</lastBuildDate>
+    
+	<atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The only reason one should ever use a pie chart</title>
+      <link>/blog/2015-07-23-pie/</link>
+      <pubDate>Sat, 10 Dec 2016 21:49:57 -0700</pubDate>
+      
+      <guid>/blog/2015-07-23-pie/</guid>
+      <description>Pie charts are terrible Pie charts are notoriously terrible for data visualization. Humans are genuinely bad at comparing angles. Thus, the only reason one should ever use a pie chart is to make beautiful pie-chart-art.
+par(mar = c(0, 1, 0, 1)) pie( c(280, 60, 20), c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;), col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;), init.angle = -50, border = NA )  Figure 1: Pyramid pie chart art.</description>
+    </item>
+    
+  </channel>
+</rss>
