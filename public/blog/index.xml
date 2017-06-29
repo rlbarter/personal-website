@@ -6,10 +6,21 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 27 Jun 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 29 Jun 2017 21:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Migrating from GitHub Pages to Netlify: how and why?</title>
+      <link>/blog/2017-06-29-website/</link>
+      <pubDate>Thu, 29 Jun 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-06-29-website/</guid>
+      <description>Goodbye GitHub Pages, I hope you’re not too upset! After finding myself increasingly frustrated with GitHub Pages inability to cooperate with my website engine of choice, Hugo, I’ve decided to make a move. Here are the reasons why:
+Having all of my project pages being subpages of my personal page felt weird.
+ Dealing with git subtrees, merge conflicts on the master branch, and having to do all kinds of work-arounds to get Hugo to play nice with GitHub Pages was driving me crazy.</description>
+    </item>
     
     <item>
       <title>Coolors: choosing color schemes</title>

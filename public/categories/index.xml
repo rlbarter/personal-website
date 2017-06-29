@@ -2,13 +2,95 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Rebecca Barter</title>
-    <link>https://rlbarter.github.io/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 20 Feb 2017 21:13:14 -0500</lastBuildDate>
     
-	<atom:link href="https://rlbarter.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Anova</title>
+      <link>/categories/anova/</link>
+      <pubDate>Mon, 20 Feb 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/anova/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Communication</title>
+      <link>/categories/communication/</link>
+      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/communication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Documentation</title>
+      <link>/categories/documentation/</link>
+      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/documentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interactivity</title>
+      <link>/categories/interactivity/</link>
+      <pubDate>Thu, 20 Apr 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/interactivity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Misc</title>
+      <link>/categories/misc/</link>
+      <pubDate>Thu, 29 Jun 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Tue, 27 Jun 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistics</title>
+      <link>/categories/statistics/</link>
+      <pubDate>Mon, 20 Feb 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Superheat</title>
+      <link>/categories/superheat/</link>
+      <pubDate>Sun, 05 Feb 2017 09:44:30 -0800</pubDate>
+      
+      <guid>/categories/superheat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Visualization</title>
+      <link>/categories/visualization/</link>
+      <pubDate>Tue, 27 Jun 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/visualization/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

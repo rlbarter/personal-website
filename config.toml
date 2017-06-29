@@ -4,7 +4,7 @@ title = "Rebecca Barter"
 theme = "hugo-future-imperfect"
 preserveTaxonomyNames = true
 paginate = 3
-disqusShortname = "rlbarter-github-io-1"
+disqusShortname = "www-rebeccabarter-com"
 googleAnalytics = "UA-90929425-1"
 
 [params]

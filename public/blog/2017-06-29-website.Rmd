@@ -1,0 +1,54 @@
+---
+title:  "Migrating from GitHub Pages to Netlify: how and why?"
+author: "Rebecca Barter"
+categories: [Misc]
+date: 2017-06-29T21:13:14-05:00
+type: "post" 
+description: "Sorry GitHub Pages, but we need to break up. I've found a new web hosting service." 
+---
+
+## Goodbye GitHub Pages, I hope you're not too upset!
+
+After finding myself increasingly frustrated with GitHub Pages inability to cooperate with my website engine of choice, Hugo, I've decided to make a move. Here are the reasons why:
+
+1. Having all of my project pages being subpages of my personal page felt weird.
+
+1. Dealing with git subtrees, merge conflicts on the master branch, and having to do all kinds of work-arounds to get Hugo to play nice with GitHub Pages was driving me crazy. 
+
+1. I found a much easier way!
+
+
+## Hello Netlify!
+
+I've moved to Netlify. It's amazing, almost too easy. There *must* be a catch; nothing in life is ever *this* easy... 
+
+The new workflow to get the website set up is pretty basic: simply make a GitHub repository containing your website, tell Netlify what the repository is called and push. Bam! Your website is now ready!
+
+If you're looking for some more explicit details, here they are:
+
+1. Start a new github repository for your website and call it anything you like. By that I mean that it doesn't have to be `username.github.io`. I called mine `personal-webpage`. So creative, I know.
+
+1. Use the R package [blogdown](https://bookdown.org/yihui/blogdown/) to design your page with [Hugo](https://gohugo.io/). There are lots of cool [themes](https://themes.gohugo.io/) available. Choose a good one. 
+
+1. Push your website, content and all, to your new repo. 
+
+1. Head on over to [netlify](https://app.netlify.com/), create and account/log in and hit "New site from Git".
+
+- Step 1: Set the Continuous Deployment Git provider to GitHub (or whichever provider you use). 
+
+- Step 2: Choose the repository containing your website. 
+
+- Step 3: Set the Build command to hugo_0.19 (or whichever version you want), and the Publish directory to "public" (this is the folder in which Hugo by default puts the actual webpage files when it's built). 
+
+5. Hit "Deploy site".
+
+6. If you like you can choose to "Change site name".
+
+7. Your site can now be found at `sitename.netlify.com`!
+
+8. Everytime you push new content to the GitHub repo, Netlify will automatically rebuild and deploy your site. You can just sit back and relax :).
+
+It's probably a good idea to buy a domain name from somewhere like Google Domains for like $10/year and point that domain name towards your netlify site, but otherwise you're good to go!
+
+
+
