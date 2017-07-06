@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2017-07-05-ip-weighting/</loc>
+    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/2017-07-05-confounding/</loc>
+    <lastmod>2017-07-05T21:12:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2017-06-29-website/</loc>
     <lastmod>2017-06-29T21:13:14-05:00</lastmod>
   </url>
@@ -209,13 +219,19 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2017-06-29T21:13:14-05:00</lastmod>
+    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
     <lastmod>2017-02-20T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/causal-inference/</loc>
+    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -275,13 +291,13 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-06-29T21:13:14-05:00</lastmod>
+    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/statistics/</loc>
-    <lastmod>2017-02-20T21:13:14-05:00</lastmod>
+    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

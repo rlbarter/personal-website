@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Causal Inference on Rebecca Barter</title>
+    <link>/categories/causal-inference/</link>
+    <description>Recent content in Causal Inference on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Jul 2017 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/causal-inference/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The intuition behind inverse probability weighting in causal inference</title>
+      <link>/blog/2017-07-05-ip-weighting/</link>
+      <pubDate>Wed, 05 Jul 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-07-05-ip-weighting/</guid>
+      <description>In my previous post, I introduced causal inference as a field interested in estimating the unobservable causal effects of a treatment: i.e. the difference between some measured outcome when the individual is assigned a treatment and the same outcome when the individual is not assigned the treatment.
+If you’d like to quickly brush up on your causal inference, the fundamental issue associated with making causal inferences, and in particular, the troubles that arise in the presence of confounding, I suggest you read my previous post on this topic.</description>
+    </item>
+    
+    <item>
+      <title>Confounding in causal inference: what is it, and what to do about it?</title>
+      <link>/blog/2017-07-05-confounding/</link>
+      <pubDate>Wed, 05 Jul 2017 21:12:14 -0500</pubDate>
+      
+      <guid>/blog/2017-07-05-confounding/</guid>
+      <description>Often in science we want to be able to quantify the effect of an action on some outcome. For example, perhaps we are interested in estimating the effect of a drug on blood pressure. While it is easy to show whether or not taking the drug is associated with an increase in blood pressure, it is surprisingly difficult to show that taking the drug actually caused an increase (or decrease) in blood pressure.</description>
+    </item>
+    
+  </channel>
+</rss>
