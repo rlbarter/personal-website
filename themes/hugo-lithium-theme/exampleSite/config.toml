@@ -26,11 +26,10 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.9.0"
     highlightjsLang = ["r", "yaml"]
-    highlightjsTheme = "github"
+    highlightjsTheme = "Foundation"
 
     [params.logo]
     url = "logo.png"
     width = 50
     height = 50
     alt = "Logo"
-
