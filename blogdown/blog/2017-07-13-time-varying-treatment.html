@@ -1,0 +1,61 @@
+---
+title:  "Dealing with time varying treatment in observational causal inference experiments"
+author: "Rebecca Barter"
+categories: [Causal Inference, Statistics]
+date: 2017-07-13T21:13:14-05:00
+type: "post" 
+description: "In previous posts I discussed issues with confounding in causal inference as well as the intuition behind a particular method, inverse probability weighting, for estimating causal effects in the presence of measured confounding. Now I get to ask the question of how these methods generalize when treatment status can vary over time." 
+---
+
+
+<!-- BLOGDOWN-BODY-BEFORE
+
+/BLOGDOWN-BODY-BEFORE -->
+
+<div id="the-causal-inference-problem" class="section level1">
+<h1>The causal inference problem</h1>
+<p>A typical problem in causal inference involves individuals being split into two groups (either by an investigator or via self-selection) based on some intervention. For example, at the onset of the study, the first group could be given a drug and the second group given a placebo. These two groups are typically called the treatment and control groups, regardless of what the “treatment” is. The treatment status of each individual is kept constant throughout the study (ignoring the possibility of cross-over). We then follow these individuals over time and at the end of the followup period we measure a pre-determined outcome of interest such as survival, CD4 count, weight, etc. To estimate the causal effect of the treatment we compare the average outcome in the treatment group with the average outcome in the control group.</p>
+<p>In observational studies, the investigator does not control who is in the treatment group and who is in the control group. This treatment assignment is often determined based on underlying characteristics (such as age, who the patient’s doctor is, financial situation, etc).</p>
+<p>The key issue that makes estimating causal effects in observational studies difficult is the presence of confounders: i.e. characteristics that affect both the treatment assignment and the outcome of interest. In the presence of confounders, the standard unadjusted difference of means estimator for the average causal effect, <span class="math inline">\(\hat{E}[Y | T = 1] - \hat{E}[Y | T = 0]\)</span> no longer has a causal interpretation (i.e. it is no longer equal to the true average causal effect <span class="math inline">\(E[Y(1)] - E[Y(0)]\)</span>).</p>
+<p>In the presence of confounders, we can no longer be sure that the observed difference in the outcomes between the treatment and control groups were caused by solely the treatment itself; the confounding variables may have also influenced such a difference.</p>
+<p>Fortunately, if all confounding variables are <em>measured</em> (that is, we both (1) know what the confounders are and (2) we record their values), then there are adaptations to the standard estimator for causal effects that allow us to obtain an unbiased estimator for the true average causal effect, <span class="math inline">\(E[Y(1)] - E[Y(0)]\)</span>. The most common adaptations are inverse probability weighting (IP-weighting) and standardization.</p>
+<p>My previous posts on <a href="../2017-07-05-confounding/index.html">confounding</a> and <a href="../2017-07-05-ip-weighting/index.html">IP-weighting</a> provide a nice introduction to these topics.</p>
+</div>
+<div id="types-of-treatment-assignment" class="section level1">
+<h1>Types of treatment assignment</h1>
+<p>In this post, I will discuss what happens when the treatment assignment is allowed to change over time. For example, perhaps the study involves a weekly checkup over 12 weeks, and at each weekly checkup there is a fixed probability of being receiving treatment (this probability can depend on measured covariates or even unmeasured covariates as long as they are unrelated to the outcome). Such a sequential treatment assignment mechanism is referred to as <strong>non-dynamic treatment assignment</strong>.</p>
+<p>More realistically, perhaps the treatment is only administered when a particular bloodstream viral concentration begins to increase, or when a measure of liver function drops below a cutoff. That is, it is possible that the probability of treatment assignment depends on measured covariates which also changes over time. Such a sequential treatment assignment mechanism is referred to as <strong>dynamic treatment assignment</strong>. Note that if this time-varying covariate also influences the outcome then it is called a time-varying confounder.</p>
+<p><img src="/img/causal-inference/time-varying-treatment.png" /><!-- --></p>
+<p><a href="http://isites.harvard.edu/fs/docs/icb.topic156289.files/General/chapter_12jun07-1.pdf">Robins and Hernan (2007)</a> provide a summary of dealing with these various types of treatment assignment, and I will draw on their discussion below.</p>
+</div>
+<div id="inverse-probability-weighting-and-standardization-g-formula" class="section level1">
+<h1>Inverse probability weighting and standardization (g-formula)</h1>
+<p>Let’s pretend for a moment that we live in a world of static treatment assignment; that is, treatment is assigned once and each individual retains this initial treatment assignment forever.</p>
+<p>This is the most familliar situation, and we already know methods for dealing with confounding in such situations: namely <strong>inverse-probability weighting (IP-weighting)</strong> and <strong>standardization (the g-formula)</strong>. There are other methods for dealing with confounding too such as stratification and matching, but we will ignore these for now.</p>
+<p>Before moving on to time-varying treatment sitations, we need to make sure it is clear what we mean by IP-weighting and standardization. The methods that we will discuss below (due primarily to work by Hernan and Robins) for dealing with confounding in the presence of time-varying treatment will build on these classic approaches substantially.</p>
+<p>Recall the standard estimator:</p>
+<p><span class="math display">\[\hat{E}[Y | X = 1] - \hat{E}[Y | X = 0] = \frac{1}{n_1} \sum_{i: T_i = 1}y_i -\frac{1}{n_0} \sum_{i: T_i = 0}y_0\]</span></p>
+<p>for the unobservable average treatment effect, <span class="math inline">\(E[Y(1)] - E[Y(0)]\)</span>. In a perfectly randomized experiment, this estimator is unbiased for the average treatment effect in the population. However, in the presence of confounding (as is likely to be the case in all observational data), this estimator no longer has a “causal interpretation”; it is no longer unbiased.</p>
+<p>IP-weighting and standardization are ways of adjusting this estimator so that, if we knew and observed all of the confoudners, we could unbiasedly estimate the average causal effect.</p>
+<p>First, IP-weighting, often known as <em>propensity score weighting</em> simply re-weights</p>
+</div>
+<div id="dealing-with-confounding-under-non-dynamic-time-varying-treatment-assignment" class="section level1">
+<h1>Dealing with confounding under non-dynamic time varying treatment assignment</h1>
+<p><font color="Red">Why don’t these methods work when there is time-varying treatment assignment?</font></p>
+<p><font color="Red">How can we generalize them so that they do work?</font></p>
+</div>
+<div id="dealing-with-confounding-under-dynamic-time-varying-treatment-assignment" class="section level1">
+<h1>Dealing with confounding under dynamic time varying treatment assignment</h1>
+<p><font color="Red">How do we generalize further when there is dynamic time varying treatment assignment?</font></p>
+</div>
+<div id="dealing-with-confounding-under-dynamic-time-varying-treatment-assignment-when-treatment-assignment-is-not-independent-across-individuals" class="section level1">
+<h1>Dealing with confounding under dynamic time varying treatment assignment when treatment assignment is not independent across individuals</h1>
+</div>
+
+
+<!-- BLOGDOWN-HEAD
+
+
+
+
+/BLOGDOWN-HEAD -->

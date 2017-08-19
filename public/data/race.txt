@@ -1,0 +1,35 @@
+0100		White only
+0110		Black only
+0120		American Indian, Alaskan Native
+0130		Asian or Pacific Islander
+0131		Asian only
+0132		Hawaiian Pacific Islander only
+0200		White-Black
+0201		White-American Indian
+0202		White-Asian
+0203		White-Hawaiian
+0210		Black-American Indian
+0211		Black-Asian
+0212		Black-Hawaiian
+0220		American Indian-Asian
+0221		American Indian-Hawaiian
+0230		Asian-Hawaiian
+0300		White-Black-American Indian
+0301		White-Black-Asian
+0302		White-Black-Hawaiian
+0310		White-American Indian-Asian
+0311		White-American Indian-Hawaiian
+0320		White-Asian-Hawaiian
+0330		Black-American Indian-Asian
+0331		Black-American Indian-Hawaiian
+0340		Black-Asian-Hawaiian
+0350		American Indian-Asian-Hawaiian
+0398		Other 3 race combinations
+0399		2 or 3 races, unspecified
+0400		White-Black-American Indian-Asian
+0401		White-Black-American Indian-Hawaiian
+0402		White-Black-Asian-Hawaiian
+0403		Black-American Indian-Asian-Hawaiian
+0404		White-American Indian-Asian-Hawaiian
+0500		White-Black-American Indian-Asian-Hawaiian
+0599		4 or 5 races, unspecified

@@ -8,6 +8,8 @@ disqusShortname = "www-rebeccabarter-com"
 googleAnalytics = "UA-90929425-1"
 
 [params]
+
+
     # Sets the meta tag description, usually reserved for the main page
     description          = "Rebecca Barter's webpage."
     # This will appear on the top left of the navigation bar
@@ -20,7 +22,7 @@ googleAnalytics = "UA-90929425-1"
 
 # Optional Params
     categoriesByCount    = true
-    includeReadingTime   = true
+    includeReadingTime   = false
     # The set of favicons used are based on the write-up from this link:
     # https://github.com/audreyr/favicon-cheat-sheet
     # Please see the favicon partial template for more information
@@ -86,17 +88,17 @@ googleAnalytics = "UA-90929425-1"
     name = "CV"
     url = "/cv"
     weight = 3
-    
+
 [[menu.main]]
     name = "Teaching"
     url = "/teaching"
     weight = 3
-    
+
 [[menu.main]]
     name = "Projects"
     url = "/projects"
     weight = 3
-    
+
 [[menu.main]]
     name = "GitHub"
     url = "https://github.com/rlbarter"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Science on </title>
+    <link>/categories/data-science/</link>
+    <description>Recent content in Data Science on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 16 Aug 2017 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/data-science/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>A Data Science Workflow</title>
+      <link>/blog/2017-08-16-data-science-workflow/</link>
+      <pubDate>Wed, 16 Aug 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-08-16-data-science-workflow/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,10 +6,19 @@
     <description>Recent content on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Jul 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 18 Aug 2017 21:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A Basic Data Science Workflow</title>
+      <link>/blog/2017-08-16-data-science-workflow/</link>
+      <pubDate>Fri, 18 Aug 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-08-16-data-science-workflow/</guid>
+      <description>Developing a seamless, clean workflow for data analysis is harder than it sounds, especially because this is something that is almost never explicitly taught. Apparently we are all just supposed to “figure it out for ourselves”. For most of us, when we start our first few analysis projects, we basically have no idea how we are going to structure all of our files, or even what files we will need to make.</description>
+    </item>
     
     <item>
       <title>The intuition behind inverse probability weighting in causal inference</title>

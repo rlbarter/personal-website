@@ -1,0 +1,850 @@
+---
+title:  "A Basic Data Science Workflow"
+author: "Rebecca Barter"
+categories: [R, Workflow]
+date: 2017-08-18T21:13:14-05:00
+type: "post" 
+description: "Developing a clean and easy analysis workflow takes a really, really long time. In this post, I outline the workflow that I have developed over the last few years." 
+---
+
+
+<!-- BLOGDOWN-BODY-BEFORE
+
+/BLOGDOWN-BODY-BEFORE -->
+
+<p>Developing a seamless, clean workflow for data analysis is harder than it sounds, especially because this is something that is almost never explicitly taught. Apparently we are all just supposed to “figure it out for ourselves”. For most of us, when we start our first few analysis projects, we basically have no idea how we are going to structure all of our files, or even what files we will need to make. As we try more and more things in our analysis (perhaps generating a large number of unnecessary files called <code>analysis2.R</code>, <code>next-analysis.R</code>, <code>analysis-writeup.Rmd</code>, <code>data_clean.csv</code>, <code>regression_results.csv</code> and <code>data_all.csv</code> along the way), we find that our project folder gets jumbled and confusing. The frustration when we come back to the project 6 months later and can’t remember which file contained the code that lead to the final conclusions is all too real.</p>
+<p>This is why I have decided to describe in (possibly too much) detail the data cleaning workflow that I have somehow ended up with. I find this workflow to be particularly useful when dealing with messy (and possibly large) datasets that need several cleaning steps. Note that I did not develop this workflow in conjunction with any resources, I simply figured out what worked best for me via trial-and-error (a process which took 5 years and is definitely still ongoing). There will be several other resources out there on the internet describing “optimal workflows”, and these are definitely worth a read too (although a quick google found surprisingly few with the level of detail needed for a beginner). The key is figuring out a workflow that works best for <em>you</em>. That may be similar to mine, or it may not be.</p>
+<p>If you decide to keep reading (perhaps because you too suffer from messy-project-syndrome and want some relief), by the end of this post you will know far too much about me and how I spend my time. As you will discover, I am particularly thorough when I clean data, and can spend hours simply making sure that I know what is in the data and moulding it so that it exactly adheres precisely to the format that I consider “clean”.</p>
+<p>In this post I will describe my thought process as I download, clean and prepare for analysis the data from the 2016 <strong>American Time Use Survey (ATUS)</strong>. I have written my process in sufficient detail such that you can follow along if you’d like to.</p>
+<p>The <a href="https://www.bls.gov/tus/">American Time Use Survey</a> is a yearly survey administered by the U.S. Census Bureau and sponsored by the Bureau of Labor Statistics. As with all surveys, it is probably good practice to first get an idea of what kind of population its respondents are supposed to represent. According to their website, the survey is sent to a randomly selected individual from each household in a set of eligible households chosen so as to represent a range of demographic characteristics. The set of eligible households consist of those who have completed their final month of the <a href="https://www.bls.gov/cps/home.htm">Current Population Survey</a> (a monthly survey of households conducted by the Bureau of Census for the Bureau of Labor Statistics).</p>
+<p>This survey data has been featured heavily on Nathan Yau’s blog, <a href="https://flowingdata.com/tag/time-use/">Flowing Data</a>, which is where I became aware of it (thanks Nathan!).</p>
+<div id="obtaining-the-data-from-the-website" class="section level1">
+<h1>Obtaining the data from the website</h1>
+<p>The ATUS data can be downloaded from the <a href="https://www.atusdata.org/atus/">American Time Use Survey Extract Builder</a> which is maintained by the Minnesota Population Center at the University of Minnesota.</p>
+<p>To actually obtain the data, you need to click on “Build an Extract” in the left-hand “Data” menu item (or click on “Get Data” inside the “Create an Extract” box). While I was initially confused about what to do once I got to the page with the drop-down menus asking me to “Select Variables”, I decided to just go crazy and start clicking. I soon discovered that an “extract” refers to the subset of the data corresponding to whichever variables I like. Once inside each of these drop-down menu entries I needed to click on the yellow plus symbols under “cart” to add the variables to my extract.</p>
+<p>After selecting the variables I wanted, I clicked on “Select Samples” and selected only the year 2016. I then went to my cart and clicked on “Create Data Extract” and I was taken to a page where I had to choose my data format. I <strong>changed the data format to .csv</strong> and submitted my extract by clicking on “Submit Extract”. Note that you need to create an account to download your selected data, but this only takes a second. Once your data has been created (they will email you when it is ready; this should only take about a minute), you can refresh the page and download the CSV data file!</p>
+<p>It is also a good idea to download the basic codebook by right clicking on the link and selecting “Save Link As” (which will tell us what each of the variables mean). I saved the file as a .txt file rather than whatever .cbk (the default) is.</p>
+<p>In case you’re interested, the variables I selected are listed at the <a href="#variables">end of this post</a>.</p>
+</div>
+<div id="setting-up-the-project-directory" class="section level1">
+<h1>Setting up the project directory</h1>
+<p>Now that I have successfully downloaded the data (a file called <code>atus_00002.csv.gz</code>), I am ready to set up my project directory. This involved a few quick steps.</p>
+<ol style="list-style-type: decimal">
+<li><p>I made a directory called <code>ATUS/</code>. This is where my project is going to live.</p></li>
+<li><p>Within <code>ATUS/</code>, I made two empty sub-directories <code>R/</code> and <code>data/</code></p></li>
+<li><p>In the <code>R/</code> sub-directory I make two empty .R files called <code>load.R</code> and <code>clean.R</code>.</p></li>
+<li><p>I then move the downloaded data and codebook files into <code>data/</code></p></li>
+</ol>
+<p>If you’re following along, my working directory now looks like this:</p>
+<pre class="r"><code>data/
+  atus_00002.csv.gz
+  atus_00002.txt
+R/
+  clean.R
+  load.R</code></pre>
+<p>It should be pretty obvious what <code>load.R</code> and <code>clean.R</code> are going to be for: they will be for loading the data and then cleaning the data (shocking, I know!).</p>
+<p>While I will later start conducting my analysis in an <code>eda.Rmd</code> file, I usually don’t want to do the initial data cleaning in this file as it can be long and annoying to have to scroll past. Instead, I prefer to have separate scripts containing functions for loading and cleaning the data which I will later call in my <code>eda.Rmd</code> file.</p>
+</div>
+<div id="loading-the-data-load.r" class="section level1">
+<h1>Loading the data: <code>load.R</code></h1>
+<p>Time to start work in the <code>load.R</code> file! The first thing I want to do is attempt to load in the data. Sometimes this is painless and easy, and sometimes this is a nightmare (prompting a session of frantic googling on how to load obscure data types into R).</p>
+<p>The first lines of code I write in <code>load.R</code> is as follows:</p>
+<pre class="r"><code># open zipped file for reading
+unz &lt;- gzfile(&quot;../data/atus_00002.csv.gz&quot;)
+# load in the data
+time_use_orig &lt;- read.csv(unz)</code></pre>
+<p>when I run it in the console, I am pleasantly surprised to find that it works without any issue.</p>
+<p>I then take my first look at the data in the console using the <code>dim()</code> command to identify the dimension of the data and the <code>head()</code> command to view the first 6 rows.</p>
+<pre class="r"><code>dim(time_use_orig)</code></pre>
+<pre><code>## [1] 10493    64</code></pre>
+<pre class="r"><code>head(time_use_orig)</code></pre>
+<pre><code>##        CASEID YEAR NUMCONTACTS_CPS8  HRHHID_CPS8 HRHHID2_CPS8 STATEFIP
+## 1 2.01601e+13 2016                1 3.509403e+14         3011       13
+## 2 2.01601e+13 2016                1 2.025055e+14         3011       51
+## 3 2.01601e+13 2016                2 1.243705e+14         3111       11
+## 4 2.01601e+13 2016                1 2.041305e+14         3011       26
+## 5 2.01601e+13 2016                1 2.203965e+13         3011       29
+## 6 2.01601e+13 2016                0 1.021017e+13         3011       12
+##   HH_SIZE FAMINCOME HH_NUMKIDS HH_NUMADULTS PERNUM LINENO     WT06 AGE SEX
+## 1       3         3          0            3      1      1 24588650  62   2
+## 2       2         6          0            2      1      1  5445941  69   1
+## 3       4         4          2            2      1      1  8782622  24   2
+## 4       4         8          3            1      1      1  3035910  31   2
+## 5       2        13          0            2      1      1  6978586  59   2
+## 6       5         5          4            1      1      1  5191610  16   2
+##   RACE HISPAN ASIAN MARST AGE_CPS8 SEX_CPS8 EDUC EDUCYRS SCHLCOLL
+## 1  100    100   999     1       62        2   21     112       99
+## 2  110    100   999     1       69        1   16     111       99
+## 3  110    100   999     6       24        2   20     102        1
+## 4  100    100   999     4       31        2   30     214        1
+## 5  100    100   999     1       59        2   21     112       99
+## 6  120    244   999     6       16        2   15     110        3
+##   SCHLCOLL_CPS8 EMPSTAT OCC2   OCC IND2   IND FULLPART UHRSWORKT UHRSWORK1
+## 1            98       5 9999 99999 9999 99999       99      9999       999
+## 2            98       5 9999 99999 9999 99999       99      9999       999
+## 3             1       5 9999 99999 9999 99999       99      9999       999
+## 4             4       1  130  3600  251  8180        2        32        32
+## 5            98       1  125  2540  240  7860        2        12         6
+## 6             1       5 9999 99999 9999 99999       99      9999       999
+##   UHRSWORK2 EARNWEEK PAIDHOUR EARNRPT HOURWAGE HRSATRATE OTUSUAL    OTPAY
+## 1       999 99999.99       99      99   999.99       999      99 99999.99
+## 2       999 99999.99       99      99   999.99       999      99 99999.99
+## 3       999 99999.99       99      99   999.99       999      99 99999.99
+## 4       999   469.44        1       1    14.67        32       0 99999.99
+## 5         6   302.50        1       3    17.00       999       0 99999.99
+## 6       999 99999.99       99      99   999.99       999      99 99999.99
+##   UHRSWORKT_CPS8 UHRSWORK1_CPS8 UHRSWORK2_CPS8 HRSWORKT_CPS8 ACT_CAREHH
+## 1           9999            999            999          9999          0
+## 2           9999            999            999          9999          0
+## 3           9999            999            999          9999          0
+## 4             40             40            999            40         60
+## 5             55             30             25            55          0
+## 6           9999            999            999          9999          0
+##   ACT_CARENHH ACT_EDUC ACT_FOOD ACT_GOVSERV ACT_HHACT ACT_HHSERV ACT_PCARE
+## 1           0        0       40           0       190          0       715
+## 2           0        0       30           0       230          0       620
+## 3           0        0       75           0       105          0      1060
+## 4           0        0      165           0       395          0       655
+## 5           0        0       30           0       250          0       580
+## 6           0        0      120           0       100          0       620
+##   ACT_PHONE ACT_PROFSERV ACT_PURCH ACT_RELIG ACT_SOCIAL ACT_SPORTS
+## 1         0            0         0         0        465          0
+## 2         0            0         0         0        560          0
+## 3         0            0        60         0         20          0
+## 4        45            0         0         0        120          0
+## 5       120            0        18        60        177          0
+## 6         0            0         0         0        355         50
+##   ACT_TRAVEL ACT_VOL ACT_WORK ERS_ASSOC ERS_PRIM
+## 1         30       0        0         0       40
+## 2          0       0        0         0       30
+## 3         60       0        0         0       75
+## 4          0       0        0         0      165
+## 5         75     130        0        15       30
+## 6         35       0        0         0      120</code></pre>
+<p>It is pretty clear that everything is coded numerically and the variable names are fairly meaningless to a human. Fortunately, the codebook explains all. I spend some time browsing it.</p>
+<div id="the-loaddata-function" class="section level2">
+<h2>The <code>loadData()</code> function</h2>
+<p>To make things simple in the long-run, I turn the above commands into a reusable function called <code>loadData()</code>. This function will have only one argument that specifies the path of the data in the local directory (relative to the <code>load.R</code> file). I usually set the default path to be the actual path for my setup.</p>
+<pre class="r"><code># a function to load in the data
+loadData &lt;- function(path_to_data = &quot;../data/atus_00002.csv.gz&quot;) {
+  # open zipped file for reading
+  unz &lt;- gzfile(path_to_data)
+  # load in the data
+  read.csv(unz)
+}</code></pre>
+<p>To test my function, I simply run in my console by typing</p>
+<pre class="r"><code>time_use_orig &lt;- loadData()</code></pre>
+<p>and look at the output of <code>head(time_use_orig)</code>.</p>
+<p>Obviously such a function is a bit redundant in this setting: it is just as easy to write <code>read.csv(gzfile(&quot;../data/atus_00002.csv.gz&quot;))</code> in my eventual <code>eda.Rmd</code> file as it is to write <code>loadData(&quot;../data/atus_00002.csv.gz&quot;)</code>. The reason I keep the <code>load.R</code> file in this case is because this is just my default workflow. I always load in my data using a function called <code>loadData</code>. In some situations, there are many, many things that need to be done in order to load the data, meaning that my <code>loadData</code> function can be fairly complicated. For example, sometimes column names need to be read in separately and then attached to the data, and sometimes I need to play with the format of the data to get R to play nice.</p>
+</div>
+</div>
+<div id="cleaning-the-data-clean.r" class="section level1">
+<h1>Cleaning the data: <code>clean.R</code></h1>
+<p>Next, I need to make some decisions about whether to keep the data in its raw, ugly form, or to spend some time making my life easier in the long-run by converting the column names to human-readable versions and converting the numeric codes for each variable to text descriptive characters or factors.</p>
+<p>I also need to ensure that missing values are coded as <code>NA</code>s and that the class of each variable is what I would expect. For example, when I looked at the <code>head()</code> of the data above, I noticed that the <code>CASEID</code> variable is printed as a numeric in scientific notation, which is not ideal. IDs should probably be factors or characters (I go back and forth a lot on which I prefer)!</p>
+<p>In <code>clean.R</code> I start work on a function called <code>cleanData()</code>. Like <code>loadData()</code>, the function <code>cleanData()</code> is always a part of my workflow.</p>
+<p>When I eventually start the <code>eda.Rmd</code> file, I will load and clean the data like this:</p>
+<pre class="r"><code># define the loadData() function
+source(&quot;load.R&quot;)
+# define the cleanData() function
+source(&quot;clean.R&quot;)
+
+# load the raw data
+time_use_orig &lt;- loadData(&quot;../data/atus_00002.csv.gz&quot;)
+# clean the data
+time_use &lt;- cleanData(time_use_orig)</code></pre>
+<div id="the-cleandata-function" class="section level2">
+<h2>The <code>cleanData()</code> function</h2>
+<p>The <code>cleanData()</code> function will actually call three separate functions, each performing a single task. These functions are</p>
+<ul>
+<li><p><code>renameColumns()</code>: an optional part of my workflow that changes the column names of each of my columns so that I can actually understand what they mean.</p></li>
+<li><p><code>convertMissing()</code>: a function which converts missing values to <code>NA</code></p></li>
+<li><p><code>convertClass</code>: a function which sets factor variables to factors, sets character variables to characters, etc</p></li>
+</ul>
+<div id="making-columns-human-readable-renamecolumns" class="section level3">
+<h3>Making columns human-readable: <code>renameColumns()</code></h3>
+<p>I hate reading column names that are all-caps, use ridiculous abbreviations and generally don’t adhere to my definition of “aesthetically pleasing”. Thus, whenever possible, I tend to convert my column names to human-readable versions. This is fairly tedious whenever the data has more than around 10 variables or so, but the process itself of renaming the variables is a very effective way of ensuring that you have a good idea of which variables are even in the data.</p>
+<p>A word of caution: it is extremely important to check that you have correctly renamed the variables, since it is very easy to assign the wrong name to a variable, resulting in misleading conclusions.</p>
+<p>Obviously this step is not practical if you have more than 100 or so variables (although I once did it with a dataset that had around 300 variables!). In addition, if I will at some point need to present the data to people who are very familiar with the original variable names, I won’t do any renaming either.</p>
+<p>In this case, however, I have no particular allegiance to the original variable names and I want to make it as clear as possible (to myself, at least) what they mean.</p>
+<p>To change the variable names, the <code>renameColumns()</code> function will leverage the <code>dplyr</code> function, <code>select()</code>. Note that I also drop a few variables at this stage that I decided weren’t interesting.</p>
+<pre class="r"><code>library(dplyr)
+renameColumns &lt;- function(data) {
+  data &lt;- data %&gt;% select(id = CASEID,
+                          year = YEAR,
+                          # number of attempted contacts
+                          num_contacts = NUMCONTACTS_CPS8,
+                          state = STATEFIP,
+                          household_size = HH_SIZE,
+                          family_income = FAMINCOME,
+                          num_children = HH_NUMKIDS,
+                          num_adults = HH_NUMADULTS,
+                          age = AGE,
+                          sex = SEX,
+                          race = RACE,
+                          marital_status = MARST,
+                          education_level = EDUC,
+                          education_years = EDUCYRS,
+                          employment_status = EMPSTAT,
+                          occupation_category = OCC2,
+                          occupation_industry = IND2,
+                          employed_full_time = FULLPART,
+                          hours_usually_worked = UHRSWORKT,
+                          weekly_earning = EARNWEEK,
+                          paid_hourly = PAIDHOUR,
+                          hourly_wage = HOURWAGE,
+                          hours_worked_hourly_rate = HRSATRATE,
+                          time_spent_caring_household = ACT_CAREHH,
+                          time_spent_caring_non_household = ACT_CARENHH,
+                          time_spent_education = ACT_EDUC,
+                          time_spent_eating = ACT_FOOD,
+                          time_spent_gov = ACT_GOVSERV,
+                          time_spent_household_activities = ACT_HHACT,
+                          time_spent_household_services = ACT_HHSERV,
+                          time_spent_personal_care = ACT_PCARE,
+                          time_spent_phone = ACT_PHONE,
+                          time_spent_personal_care_services = ACT_PROFSERV,
+                          time_spent_shopping = ACT_PURCH,
+                          time_spent_religion = ACT_RELIG,
+                          time_spent_leisure = ACT_SOCIAL,
+                          time_spent_sports = ACT_SPORTS,
+                          time_spent_travelling = ACT_TRAVEL,
+                          time_spent_volunteer = ACT_VOL,
+                          time_spent_working = ACT_WORK)
+  return(data)
+}</code></pre>
+<p>I then test the function out by writing</p>
+<pre class="r"><code>time_use &lt;- renameColumns(time_use_orig)</code></pre>
+<p>in the console, and looking at the output of <code>head(time_use)</code>.</p>
+<p>Now, I am fully aware that this function I have just written is not generalizable to alternate subsets of the data variables. This will be one of only two places where I will need to change things if I want to re-run the analysis on a different subset of variables (the second place will be when I explicitly convert numeric variables to their character counterparts). I’m facing a trade-off between generalizability of my pipeline and having human-readable data. If I were intending to repeat this analysis on different variables, I would either remove the part of the workflow where I rename the variables (as well as the part where I convert numeric variables to meaningful factors later on), or I would set the variable names as an argument in the <code>renameColumns()</code> function (but sadly, <code>select()</code> doesn’t play very nicely with variables read in as character strings, so I try to avoid this).</p>
+</div>
+<div id="recoding-missing-values-as-na-convertmissing" class="section level3">
+<h3>Recoding missing values as <code>NA</code>: <code>convertMissing()</code></h3>
+<p>If you took a look at the codebook, you will have noticed that there are many different ways to say that data is missing. This can be very problematic.</p>
+<p>The most common way to code missingness in this data is to code it as <code>99</code> <code>999</code>, <code>9999</code>, etc (depending on whether the entries for the variable are two, three, four or more digit numbers, respectively). These entries are referred to in the codebook as <code>NIU (Not in universe)</code>. Other types of missing values are recorded such as <code>996</code> corresponding to <code>Refused</code>, <code>997</code> corresponding to <code>Don't know</code> and <code>998</code> corresponding to <code>Blank</code>.</p>
+<p>I now need to decide what to convert to <code>NA</code>, keeping in mind that I need to be particularly careful for the variables with many different types of missingness (such as people who refused to answer, didn’t know or simply left the entry blank). I decide to take a look to see how widespread these types of missingness are by running the following code in the console:</p>
+<pre class="r"><code># identify how many times informative missingness occurs for each variable
+informative_missing &lt;- sapply(time_use, 
+                              function(x) sum(x %in% c(996, 997, 998)))
+# print out only the non-zero values
+informative_missing[informative_missing != 0]</code></pre>
+<pre><code>##           weekly_earning hours_worked_hourly_rate time_spent_personal_care 
+##                        1                       12                        1 
+##       time_spent_leisure       time_spent_working 
+##                        1                        1</code></pre>
+<p>Since these types of missingness are extremely rare, I decide to simply lump them in with all of the other <code>NA</code> values.</p>
+<p>Next, I want to identify which variables have missing values coded as a varying number of 9s. Since the missing values are always supposed to correspond to the maximum, I printed out the maximum of each variable.</p>
+<pre class="r"><code># print out the maximum of each column
+sapply(time_use, max)</code></pre>
+<pre><code>##                                id                              year 
+##                      2.016121e+13                      2.016000e+03 
+##                      num_contacts                             state 
+##                      8.000000e+00                      5.600000e+01 
+##                    household_size                     family_income 
+##                      1.300000e+01                      1.600000e+01 
+##                      num_children                        num_adults 
+##                      9.000000e+00                      8.000000e+00 
+##                               age                               sex 
+##                      8.500000e+01                      2.000000e+00 
+##                              race                    marital_status 
+##                      4.000000e+02                      6.000000e+00 
+##                   education_level                   education_years 
+##                      4.300000e+01                      3.210000e+02 
+##                 employment_status               occupation_category 
+##                      5.000000e+00                      9.999000e+03 
+##               occupation_industry                employed_full_time 
+##                      9.999000e+03                      9.900000e+01 
+##              hours_usually_worked                    weekly_earning 
+##                      9.999000e+03                      9.999999e+04 
+##                       paid_hourly                       hourly_wage 
+##                      9.900000e+01                      9.999900e+02 
+##          hours_worked_hourly_rate       time_spent_caring_household 
+##                      9.990000e+02                      8.800000e+02 
+##   time_spent_caring_non_household              time_spent_education 
+##                      9.100000e+02                      1.000000e+03 
+##                 time_spent_eating                    time_spent_gov 
+##                      6.350000e+02                      4.700000e+02 
+##   time_spent_household_activities     time_spent_household_services 
+##                      1.184000e+03                      4.500000e+02 
+##          time_spent_personal_care                  time_spent_phone 
+##                      1.434000e+03                      4.200000e+02 
+## time_spent_personal_care_services               time_spent_shopping 
+##                      5.250000e+02                      6.000000e+02 
+##               time_spent_religion                time_spent_leisure 
+##                      7.130000e+02                      1.392000e+03 
+##                 time_spent_sports             time_spent_travelling 
+##                      1.260000e+03                      1.265000e+03 
+##              time_spent_volunteer                time_spent_working 
+##                      9.200000e+02                      1.350000e+03</code></pre>
+<p>I notice here that there are several variables with missing values as their maxima such as <code>occupation_industry</code> with a maximum of <code>9999</code>, and <code>hourly_wage</code> with a maximum of <code>999.99</code>. Since I don’t really want to manually convert these missing values to <code>NA</code>, I decide to automate it using the <code>mutate_if()</code> function from the <code>dplyr</code> package. First I write a few helper functions in the <code>clean.R</code> file for calculating the maximum of a vector and for identifying specific values in a vector.</p>
+<pre class="r"><code># Helper function for identifying missing values equal to 99, 999, etc
+equalFun &lt;- function(x, value) {
+  x == value
+}
+
+# Helper function for identifying if the max of a variable is equal to 99, ...
+maxFun &lt;- function(x, value) {
+  max(x, na.rm = T) == value
+}</code></pre>
+<p>The first argument of <code>mutate_if()</code> is a function which returns a Boolean value specifying which columns to select. The second argument is wrapped in <code>funs()</code> and itself is a function which specifies what to do to each column. <code>if_else(equalFun(., 99), NA_integer_, .)</code> can be read aloud as “If the value is equal to 99, convert it to a <code>NA</code> of integer type, otherwise do nothing” (the <code>.</code> serves as a placeholder for the data, like <code>x</code> in <code>function(x)</code>).</p>
+<pre class="r"><code>convertMissing &lt;- function(data) {
+  # convert missing values to NA
+  data &lt;- data %&gt;%
+    # mutate all missing values coded as 99 to NA
+    mutate_if(function(x) maxFun(x, 99), 
+              funs(if_else(equalFun(., 99), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 999 to NA
+    mutate_if(function(x) maxFun(x, 999), 
+              funs(if_else(equalFun(., 999), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 9999 to NA
+    mutate_if(function(x) maxFun(x, 9999), 
+              funs(if_else(equalFun(., 9999), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 999.99 to NA
+    mutate_if(function(x) maxFun(x, 999.99), 
+              funs(if_else(equalFun(., 999.99), NA_real_, .))) %&gt;%
+    # mutate all missing values coded as 99999.99 to NA
+    mutate_if(function(x) maxFun(x, 99999.99), 
+              funs(if_else(equalFun(., 99999.99), NA_real_, .))) %&gt;%
+    # mutate all missing values coded as 998 to NA
+    mutate_if(function(x) maxFun(x, 998), 
+              funs(if_else(equalFun(., 998), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 997 to NA
+    mutate_if(function(x) maxFun(x, 997), 
+              funs(if_else(equalFun(., 997), NA_integer_, .)))
+  return(data)    
+}</code></pre>
+<p>It took some playing around with running the body of the function in the console (with <code>data</code> defined as <code>time_use</code>) to get it to run without errors (I was getting errors to do with <code>NA</code> values and realized that I needed to add <code>na.rm = T</code> in the <code>maxFun()</code> function).</p>
+<p>Once the body runs in the console, I then check to make sure that the complete function worked as expected by running it in the console and checking out the summary of the output.</p>
+<pre class="r"><code># convert the missing values to NAs
+time_use &lt;- convertMissing(time_use)
+# check out the summary
+summary(time_use)</code></pre>
+<pre><code>##        id                 year       num_contacts        state      
+##  Min.   :2.016e+13   Min.   :2016   Min.   :0.0000   Min.   : 1.00  
+##  1st Qu.:2.016e+13   1st Qu.:2016   1st Qu.:0.0000   1st Qu.:13.00  
+##  Median :2.016e+13   Median :2016   Median :0.0000   Median :27.00  
+##  Mean   :2.016e+13   Mean   :2016   Mean   :0.2574   Mean   :27.96  
+##  3rd Qu.:2.016e+13   3rd Qu.:2016   3rd Qu.:0.0000   3rd Qu.:42.00  
+##  Max.   :2.016e+13   Max.   :2016   Max.   :8.0000   Max.   :56.00  
+##                                                                     
+##  household_size   family_income    num_children      num_adults   
+##  Min.   : 1.000   Min.   : 1.00   Min.   :0.0000   Min.   :1.000  
+##  1st Qu.: 1.000   1st Qu.: 8.00   1st Qu.:0.0000   1st Qu.:1.000  
+##  Median : 2.000   Median :12.00   Median :0.0000   Median :2.000  
+##  Mean   : 2.657   Mean   :10.85   Mean   :0.7706   Mean   :1.868  
+##  3rd Qu.: 4.000   3rd Qu.:14.00   3rd Qu.:1.0000   3rd Qu.:2.000  
+##  Max.   :13.000   Max.   :16.00   Max.   :9.0000   Max.   :8.000  
+##                                                                   
+##       age             sex             race       marital_status 
+##  Min.   :15.00   Min.   :1.000   Min.   :100.0   Min.   :1.000  
+##  1st Qu.:35.00   1st Qu.:1.000   1st Qu.:100.0   1st Qu.:1.000  
+##  Median :49.00   Median :2.000   Median :100.0   Median :3.000  
+##  Mean   :49.42   Mean   :1.555   Mean   :104.5   Mean   :3.022  
+##  3rd Qu.:64.00   3rd Qu.:2.000   3rd Qu.:100.0   3rd Qu.:6.000  
+##  Max.   :85.00   Max.   :2.000   Max.   :400.0   Max.   :6.000  
+##                                                                 
+##  education_level education_years employment_status occupation_category
+##  Min.   :10.00   Min.   :101.0   Min.   :1.000     Min.   :110.0      
+##  1st Qu.:21.00   1st Qu.:112.0   1st Qu.:1.000     1st Qu.:122.0      
+##  Median :30.00   Median :214.0   Median :1.000     Median :131.0      
+##  Mean   :29.74   Mean   :187.8   Mean   :2.559     Mean   :138.1      
+##  3rd Qu.:40.00   3rd Qu.:217.0   3rd Qu.:5.000     3rd Qu.:150.0      
+##  Max.   :43.00   Max.   :321.0   Max.   :5.000     Max.   :200.0      
+##                                                    NA&#39;s   :4119       
+##  occupation_industry employed_full_time hours_usually_worked
+##  Min.   :100.0       Min.   :1.000      Min.   :   0.0      
+##  1st Qu.:160.0       1st Qu.:1.000      1st Qu.:  38.0      
+##  Median :220.0       Median :1.000      Median :  40.0      
+##  Mean   :210.4       Mean   :1.219      Mean   : 672.6      
+##  3rd Qu.:251.0       3rd Qu.:1.000      3rd Qu.:  50.0      
+##  Max.   :300.0       Max.   :2.000      Max.   :9995.0      
+##  NA&#39;s   :4119        NA&#39;s   :4119       NA&#39;s   :4119        
+##  weekly_earning    paid_hourly     hourly_wage    hours_worked_hourly_rate
+##  Min.   :   0.0   Min.   :1.000   Min.   : 0.00   Min.   : 1.00           
+##  1st Qu.: 458.8   1st Qu.:1.000   1st Qu.:10.50   1st Qu.:28.00           
+##  Median : 800.0   Median :1.000   Median :15.00   Median :40.00           
+##  Mean   : 994.0   Mean   :1.444   Mean   :18.34   Mean   :33.86           
+##  3rd Qu.:1346.2   3rd Qu.:2.000   3rd Qu.:22.00   3rd Qu.:40.00           
+##  Max.   :2884.6   Max.   :2.000   Max.   :99.99   Max.   :90.00           
+##  NA&#39;s   :4833     NA&#39;s   :4833    NA&#39;s   :7348    NA&#39;s   :8438            
+##  time_spent_caring_household time_spent_caring_non_household
+##  Min.   :  0.00              Min.   :  0.000                
+##  1st Qu.:  0.00              1st Qu.:  0.000                
+##  Median :  0.00              Median :  0.000                
+##  Mean   : 31.85              Mean   :  8.603                
+##  3rd Qu.: 11.00              3rd Qu.:  0.000                
+##  Max.   :880.00              Max.   :910.000                
+##                                                             
+##  time_spent_education time_spent_eating time_spent_gov    
+##  Min.   :   0.00      Min.   :  0.00    Min.   :  0.0000  
+##  1st Qu.:   0.00      1st Qu.: 30.00    1st Qu.:  0.0000  
+##  Median :   0.00      Median : 60.00    Median :  0.0000  
+##  Mean   :  15.39      Mean   : 64.99    Mean   :  0.3647  
+##  3rd Qu.:   0.00      3rd Qu.: 90.00    3rd Qu.:  0.0000  
+##  Max.   :1000.00      Max.   :635.00    Max.   :470.0000  
+##                                                           
+##  time_spent_household_activities time_spent_household_services
+##  Min.   :   0.0                  Min.   :  0.0000             
+##  1st Qu.:  15.0                  1st Qu.:  0.0000             
+##  Median :  75.0                  Median :  0.0000             
+##  Mean   : 121.1                  Mean   :  0.9868             
+##  3rd Qu.: 180.0                  3rd Qu.:  0.0000             
+##  Max.   :1184.0                  Max.   :450.0000             
+##                                                               
+##  time_spent_personal_care time_spent_phone 
+##  Min.   :   0.0           Min.   :  0.000  
+##  1st Qu.: 495.0           1st Qu.:  0.000  
+##  Median : 570.0           Median :  0.000  
+##  Mean   : 580.3           Mean   :  6.774  
+##  3rd Qu.: 660.0           3rd Qu.:  0.000  
+##  Max.   :1434.0           Max.   :420.000  
+##                                            
+##  time_spent_personal_care_services time_spent_shopping time_spent_religion
+##  Min.   :  0.000                   Min.   :  0.00      Min.   :  0.0      
+##  1st Qu.:  0.000                   1st Qu.:  0.00      1st Qu.:  0.0      
+##  Median :  0.000                   Median :  0.00      Median :  0.0      
+##  Mean   :  4.747                   Mean   : 24.15      Mean   : 13.4      
+##  3rd Qu.:  0.000                   3rd Qu.: 30.00      3rd Qu.:  0.0      
+##  Max.   :525.000                   Max.   :600.00      Max.   :713.0      
+##                                                                           
+##  time_spent_leisure time_spent_sports time_spent_travelling
+##  Min.   :   0.0     Min.   :   0.00   Min.   :   0.0       
+##  1st Qu.: 130.0     1st Qu.:   0.00   1st Qu.:  20.0       
+##  Median : 260.0     Median :   0.00   Median :  55.0       
+##  Mean   : 298.4     Mean   :  20.22   Mean   :  71.5       
+##  3rd Qu.: 432.0     3rd Qu.:   0.00   3rd Qu.:  95.0       
+##  Max.   :1392.0     Max.   :1260.00   Max.   :1265.0       
+##                                                            
+##  time_spent_volunteer time_spent_working
+##  Min.   :  0.000      Min.   :   0.0    
+##  1st Qu.:  0.000      1st Qu.:   0.0    
+##  Median :  0.000      Median :   0.0    
+##  Mean   :  8.469      Mean   : 157.7    
+##  3rd Qu.:  0.000      3rd Qu.: 375.0    
+##  Max.   :920.000      Max.   :1350.0    
+## </code></pre>
+<p>Scrolling through the summary, I notice a few peculiarities. In particular, there are several variables that have stupidly large values. For example the maximum value for <code>hours_usually_worked</code> is <code>9995</code> (this didn’t appear in the codebook!). I decided to look at a histogram of this variable to see how typical this value is. I ran the following code in the console:</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(time_use) + geom_histogram(aes(x = hours_usually_worked))</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 4119 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="#####../content/blog/2017-08-16-data-science-workflow_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>From the histogram, it is fairly clear that there is an additional type of missing value (405 samples have a value of <code>9995</code>) that was not mentioned in the documentation. I then go back and update my <code>convertMissing()</code> function to include this extra missing value.</p>
+<pre class="r"><code>convertMissing &lt;- function(data) {
+  # convert missing values to NA
+  data &lt;- data %&gt;%
+    # mutate all missing values coded as 99 to NA
+    mutate_if(function(x) maxFun(x, 99), 
+              funs(if_else(equalFun(., 99), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 999 to NA
+    mutate_if(function(x) maxFun(x, 999), 
+              funs(if_else(equalFun(., 999), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 9999 to NA
+    mutate_if(function(x) maxFun(x, 9999), 
+              funs(if_else(equalFun(., 9999), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 999.99 to NA
+    mutate_if(function(x) maxFun(x, 999.99), 
+              funs(if_else(equalFun(., 999.99), NA_real_, .))) %&gt;%
+    # mutate all missing values coded as 99999.99 to NA
+    mutate_if(function(x) maxFun(x, 99999.99), 
+              funs(if_else(equalFun(., 99999.99), NA_real_, .))) %&gt;%
+    # mutate all missing values coded as 998 to NA
+    mutate_if(function(x) maxFun(x, 998), 
+              funs(if_else(equalFun(., 998), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 997 to NA
+    mutate_if(function(x) maxFun(x, 997), 
+              funs(if_else(equalFun(., 997), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 9995 to NA
+    mutate_if(function(x) maxFun(x, 9995), 
+              funs(if_else(equalFun(., 9995), NA_integer_, .))) 
+  return(data)    
+}</code></pre>
+<p>Next, I ran the <code>convertMissing()</code> function again the data and re-made the histogram to make sure that everything was going smoothly.</p>
+<pre class="r"><code># re-run the renameColumns() function
+time_use &lt;- renameColumns(time_use_orig)
+# convert missing values to NA
+time_use &lt;- convertMissing(time_use)
+# re-make the histogram
+ggplot(time_use) + geom_histogram(aes(x = hours_usually_worked))</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 4524 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="#####../content/blog/2017-08-16-data-science-workflow_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Now that that was sorted out, it occurred to me that I wasn’t sure what kind of scale the <code>time_spent</code> variables were on (is it hours spent in the last week? In the last month? The last year? Perhaps it is minutes spent over the last day? It probably should have occurred to me to ask this earlier, but it didn’t. Whatever… I’m asking it now! After spending some time perusing the internet for a while, I found <a href="https://www.bls.gov/news.release/atus.t01.htm">this table</a> which summarised the average hours spend <em>per day</em> on a range of activities. For example, it said that on average, people spend 9.58 hours per day on “personal care activities”. The histogram below shows the distribution of values for the <code>time_spent_personal_care</code>.</p>
+<pre class="r"><code>ggplot(time_use) + geom_histogram(aes(x = time_spent_personal_care))</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="#####../content/blog/2017-08-16-data-science-workflow_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>The mean value in the data is 580, which when divided by 60 gives 9.6. From this “evidence” I conclude that what the data contains is the <strong>number of minutes spent per day</strong>. Whether this is averaged over a week, or is based on one particular day, I honestly don’t know. But for my purposes, I’ll just take each value as the number of minutes spent on the activity on a “typical” day.</p>
+</div>
+<div id="ensuring-each-variable-has-the-correct-class-convertclass" class="section level3">
+<h3>Ensuring each variable has the correct class: <code>convertClass()</code></h3>
+<p>The final cleaning task involves converting categorical values to have a categorical variable class (such as a factor), and other things along these lines involving variable classes.</p>
+<p>Recall that the person ID variable, <code>CASEID</code>, is currently coded as a numeric (which is printed in scientific notation). In general, it is good practice to code IDs as factors (or characters).</p>
+<p>There are also many other variables that should be coded as factors: state, sex, race, marital_status, education_level, family_income, employment_status, occupation_category, and occupation_industry.</p>
+<p>Now begins the part of my cleaning process that often takes the longest: I am going to convert each of these numeric variables not only to factors, but to <em>meaningful</em> factors. I don’t want to make plots for genders 1 and 2, or for states 42 and 28; I want to make plots for males and females and for states Pennsylvania and Mississippi.</p>
+<p>First, for each variable I need to define a data frame that stores the conversion from number to meaningful category. Fortunately, this information was found in the codebook, and I can copy and paste these code conversions into separate .txt files and save them in the <code>data/</code> folder: <code>states.txt</code>, <code>occupation_industry.txt</code>, <code>occupation_category.txt</code>, etc. I can then read them into R as tab-delimited text files.</p>
+<p>In case you’re interested, after copying the subsets of the codebook, my project directory now looks like this:</p>
+<pre class="r"><code>data/
+  atus_00002.csv.gz
+  atus_00002.txt
+  education_level.txt
+  employment_status.txt
+  family_income.txt
+  marital_status.txt
+  occupation_category.txt
+  occupation_industry.txt
+  race.txt
+  sex.txt
+  state.txt
+R/
+  clean.R
+  load.R</code></pre>
+<p>I now start work on a <code>convertClass()</code> function which will be the third component of my <code>cleanData()</code> function. The first thing I do in <code>convertClass()</code> is convert the <code>id</code> variable to a factor. I then loop through each of the other factor variables to read in the code conversions from the .txt files, join the meaningful factors onto the original data frame using <code>left_join()</code> and remove the numeric version of the variable. The function that I wrote is presented below. I spent a while playing around in the console with various versions of the function below (always running code from the .R file rather than typing directly in the console itself).</p>
+<pre class="r"><code>convertClass &lt;- function(data, path_to_codes = &quot;../data/&quot;) {
+  # convert id to a factor
+  data &lt;- data %&gt;% mutate(id = as.factor(id))
+  # loop through each of the factor variables and convert to meaningful
+  # factor then add to data frame
+  for (variable in c(&quot;state&quot;, &quot;occupation_industry&quot;, &quot;occupation_category&quot;,
+                       &quot;education_level&quot;, &quot;race&quot;, &quot;marital_status&quot;, &quot;sex&quot;,
+                       &quot;employment_status&quot;, &quot;family_income&quot;)) {
+    # identify the path to the code file
+    path &lt;- paste0(path_to_codes, variable, &quot;.txt&quot;)
+    # read in the code file
+    codes &lt;- read.table(path, sep = &quot;\t&quot;)
+    # remove the second column (the entries are separated by two \t&#39;s)
+    codes &lt;- codes[, -2]
+    # convert the column names
+    colnames(codes) &lt;- c(variable, paste0(variable, &quot;_name&quot;))
+    # add the code to the original data frame
+    data &lt;- left_join(data, codes, by = variable)
+    # remove old variable and replace with new variable
+    data[, variable] &lt;- data[, paste0(variable, &quot;_name&quot;)]
+    data &lt;- data[, !(colnames(data) %in% paste0(variable, &quot;_name&quot;))]
+  }
+  return(data)
+}</code></pre>
+<p>After I was done, I tested out that the <code>convertClass()</code> did what I hoped by running the following code in the console:</p>
+<pre class="r"><code># run the convertClass() function
+time_use &lt;- convertClass(time_use)
+# compare the original variables with the meaningful versions
+head(time_use)</code></pre>
+<pre><code>##               id year num_contacts                state household_size
+## 1 20160101160045 2016            1              Georgia              3
+## 2 20160101160066 2016            1             Virginia              2
+## 3 20160101160069 2016            2 District of Columbia              4
+## 4 20160101160083 2016            1             Michigan              4
+## 5 20160101160084 2016            1             Missouri              2
+## 6 20160101160094 2016            0              Florida              5
+##        family_income num_children num_adults age    sex
+## 1   $7,500 to $9,999            0          3  62 Female
+## 2 $15,000 to $19,999            0          2  69   Male
+## 3 $10,000 to $12,499            2          2  24 Female
+## 4 $25,000 to $29,999            3          1  31 Female
+## 5 $60,000 to $74,999            0          2  59 Female
+## 6 $12,500 to $14,999            4          1  16 Female
+##                              race           marital_status
+## 1                      White only Married - spouse present
+## 2                      Black only Married - spouse present
+## 3                      Black only            Never married
+## 4                      White only                 Divorced
+## 5                      White only Married - spouse present
+## 6 American Indian, Alaskan Native            Never married
+##                  education_level education_years employment_status
+## 1 High school graduate (diploma)             112              &lt;NA&gt;
+## 2                     11th grade             111              &lt;NA&gt;
+## 3     High school graduate (GED)             102              &lt;NA&gt;
+## 4     Some college but no degree             214         Full time
+## 5 High school graduate (diploma)             112         Full time
+## 6                     10th grade             110              &lt;NA&gt;
+##                            occupation_category
+## 1                                         &lt;NA&gt;
+## 2                                         &lt;NA&gt;
+## 3                                         &lt;NA&gt;
+## 4               Healthcare support occupations
+## 5 Education, training, and library occupations
+## 6                                         &lt;NA&gt;
+##                      occupation_industry employed_full_time
+## 1                                   &lt;NA&gt;                 NA
+## 2                                   &lt;NA&gt;                 NA
+## 3                                   &lt;NA&gt;                 NA
+## 4 Health care services, except hospitals                  2
+## 5                   Educational services                  2
+## 6                                   &lt;NA&gt;                 NA
+##   hours_usually_worked weekly_earning paid_hourly hourly_wage
+## 1                   NA             NA          NA          NA
+## 2                   NA             NA          NA          NA
+## 3                   NA             NA          NA          NA
+## 4                   32         469.44           1       14.67
+## 5                   12         302.50           1       17.00
+## 6                   NA             NA          NA          NA
+##   hours_worked_hourly_rate time_spent_caring_household
+## 1                       NA                           0
+## 2                       NA                           0
+## 3                       NA                           0
+## 4                       32                          60
+## 5                       NA                           0
+## 6                       NA                           0
+##   time_spent_caring_non_household time_spent_education time_spent_eating
+## 1                               0                    0                40
+## 2                               0                    0                30
+## 3                               0                    0                75
+## 4                               0                    0               165
+## 5                               0                    0                30
+## 6                               0                    0               120
+##   time_spent_gov time_spent_household_activities
+## 1              0                             190
+## 2              0                             230
+## 3              0                             105
+## 4              0                             395
+## 5              0                             250
+## 6              0                             100
+##   time_spent_household_services time_spent_personal_care time_spent_phone
+## 1                             0                      715                0
+## 2                             0                      620                0
+## 3                             0                     1060                0
+## 4                             0                      655               45
+## 5                             0                      580              120
+## 6                             0                      620                0
+##   time_spent_personal_care_services time_spent_shopping
+## 1                                 0                   0
+## 2                                 0                   0
+## 3                                 0                  60
+## 4                                 0                   0
+## 5                                 0                  18
+## 6                                 0                   0
+##   time_spent_religion time_spent_leisure time_spent_sports
+## 1                   0                465                 0
+## 2                   0                560                 0
+## 3                   0                 20                 0
+## 4                   0                120                 0
+## 5                  60                177                 0
+## 6                   0                355                50
+##   time_spent_travelling time_spent_volunteer time_spent_working
+## 1                    30                    0                  0
+## 2                     0                    0                  0
+## 3                    60                    0                  0
+## 4                     0                    0                  0
+## 5                    75                  130                  0
+## 6                    35                    0                  0</code></pre>
+<p>Everything looks good! I add <code>renameColumns()</code>, <code>convertMissing()</code> and <code>convertClass()</code> to the <code>cleanData()</code> function. I’m finally done with the cleaning component of my workflow. I may have to come back and add additional steps as I make unpleasant discoveries in my analysis, but for now, I can move on.</p>
+<p>Below I print my final <code>clean.R</code> file</p>
+<pre class="r"><code># filename: clean.R
+
+# Main function for data cleaning stage
+cleanData &lt;- function(data) {
+  # rename each of the columns to be human-readable
+  # ignore some of the useless columns (such as alternative ID columns)
+  data &lt;- renameColumns(data)
+  # convert missing data to NA
+  data &lt;- convertMissing(data)
+  # convert integers to meaningful factors
+  data &lt;- convertClass(data)
+  return(data)
+}
+
+# rename each of the columns to be human-readable
+renameColumns &lt;- function(data) {
+  data &lt;- data %&gt;% select(id = CASEID,
+                          year = YEAR,
+                          # number of attempted contacts
+                          num_contacts = NUMCONTACTS_CPS8,
+                          state = STATEFIP,
+                          household_size = HH_SIZE,
+                          family_income = FAMINCOME,
+                          num_children = HH_NUMKIDS,
+                          num_adults = HH_NUMADULTS,
+                          age = AGE,
+                          sex = SEX,
+                          race = RACE,
+                          marital_status = MARST,
+                          education_level = EDUC,
+                          employment_status = EMPSTAT,
+                          occupation_category = OCC2,
+                          occupation_industry = IND2,
+                          employed_full_time = FULLPART,
+                          hours_usually_worked = UHRSWORKT,
+                          weekly_earning = EARNWEEK,
+                          paid_hourly = PAIDHOUR,
+                          hourly_wage = HOURWAGE,
+                          hours_worked_hourly_rate = HRSATRATE,
+                          time_spent_caring_household = ACT_CAREHH,
+                          time_spent_caring_non_household = ACT_CARENHH,
+                          time_spent_education = ACT_EDUC,
+                          time_spent_eating = ACT_FOOD,
+                          time_spent_gov = ACT_GOVSERV,
+                          time_spent_household_activities = ACT_HHACT,
+                          time_spent_household_services = ACT_HHSERV,
+                          time_spent_personal_care = ACT_PCARE,
+                          time_spent_phone = ACT_PHONE,
+                          time_spent_personal_care_services = ACT_PROFSERV,
+                          time_spent_shopping = ACT_PURCH,
+                          time_spent_religion = ACT_RELIG,
+                          time_spent_leisure = ACT_SOCIAL,
+                          time_spent_sports = ACT_SPORTS,
+                          time_spent_travelling = ACT_TRAVEL,
+                          time_spent_volunteer = ACT_VOL,
+                          time_spent_working = ACT_WORK)
+  return(data)    
+}
+
+# identify missing values equal to 99, 999, etc
+equalFun &lt;- function(x, value) {
+  x == value
+}
+
+# identify if the max of a variable is equal to 99, 999, etc
+maxFun &lt;- function(x, value) {
+  max(x, na.rm = T) == value
+}
+
+# convert weird missing values to NA
+convertMissing &lt;- function(data) {
+  # convert missing values to NA
+  data &lt;- data %&gt;%
+    # mutate all missing values coded as 99 to NA
+    mutate_if(function(x) maxFun(x, 99), 
+              funs(if_else(equalFun(., 99), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 999 to NA
+    mutate_if(function(x) maxFun(x, 999), 
+              funs(if_else(equalFun(., 999), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 9999 to NA
+    mutate_if(function(x) maxFun(x, 9999), 
+              funs(if_else(equalFun(., 9999), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 999.99 to NA
+    mutate_if(function(x) maxFun(x, 999.99), 
+              funs(if_else(equalFun(., 999.99), NA_real_, .))) %&gt;%
+    # mutate all missing values coded as 99999.99 to NA
+    mutate_if(function(x) maxFun(x, 99999.99), 
+              funs(if_else(equalFun(., 99999.99), NA_real_, .))) %&gt;%
+    # mutate all missing values coded as 998 to NA
+    mutate_if(function(x) maxFun(x, 998), 
+              funs(if_else(equalFun(., 998), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 997 to NA
+    mutate_if(function(x) maxFun(x, 997), 
+              funs(if_else(equalFun(., 997), NA_integer_, .))) %&gt;%
+    # mutate all missing values coded as 9995 to NA
+    mutate_if(function(x) maxFun(x, 9995), 
+              funs(if_else(equalFun(., 9995), NA_integer_, .))) 
+  return(data)
+}
+
+# change numerics to meaningful factors
+convertClass &lt;- function(data, path_to_codes = &quot;../data/&quot;) {
+  # convert id to a factor
+  data &lt;- data %&gt;% mutate(id = as.factor(id))
+  # loop through each of the factor variables
+  for (variable in c(&quot;state&quot;, &quot;occupation_industry&quot;, &quot;occupation_category&quot;,
+                       &quot;education_level&quot;, &quot;race&quot;, &quot;marital_status&quot;, &quot;sex&quot;,
+                       &quot;employment_status&quot;, &quot;family_income&quot;)) {
+    # identify the path to the code file
+    path &lt;- paste0(path_to_codes, variable, &quot;.txt&quot;)
+    # read in the code file
+    codes &lt;- read.table(path, sep = &quot;\t&quot;)
+    # remove the second column (the entries are separated by two \t&#39;s)
+    codes &lt;- codes[, -2]
+    # convert the column names
+    colnames(codes) &lt;- c(variable, paste0(variable, &quot;_name&quot;))
+    # add the code to the original data frame
+    data &lt;- left_join(data, codes, by = variable)
+    # remove old variable and replace with new variable
+    data[, variable] &lt;- data[, paste0(variable, &quot;_name&quot;)]
+    data &lt;- data[, !(colnames(data) %in% paste0(variable, &quot;_name&quot;))]
+  }
+  return(data)
+}</code></pre>
+</div>
+</div>
+</div>
+<div id="analysis-eda.rmd" class="section level1">
+<h1>Analysis: <code>eda.Rmd</code></h1>
+<p>Where I go from here depends strongly on what questions I want to ask. If I already know the category of questions I’m planning to ask, and, for example, I know that they fall into two groups, then I will probably make two .Rmd files, one for each question.</p>
+<p>If, however, I just want to play around with the data for a while, as is the case here, I will make a .Rmd file called <code>eda.Rmd</code> (or something along those lines).</p>
+<p>Sometimes I end up separating my initial exploration file into several separate files when I start to go down several diverging paths.</p>
+<p>Regardless of the analysis I decide to conduct, each of my <code>.Rmd</code> files will start with the following code:</p>
+<pre class="r"><code>library(tidyverse)
+source(&quot;R/load.R&quot;)
+source(&quot;R/clean.R&quot;)
+
+# laod the data
+time_use_orig &lt;- loadData()
+# clean the data
+time_use &lt;- cleanData(time_use_orig)</code></pre>
+<p>The opportunities are wide open!</p>
+</div>
+<div id="variables" class="section level1">
+<h1>List of variables downloaded from ATUX-X</h1>
+<ul>
+<li>CASEID (ATUS Case ID)</li>
+<li>YEAR (Survey year)</li>
+<li>NUMCONTACTS_CPS8 (Number of actual and attempted personal contacts)</li>
+<li>HRHHID_CPS8 (Household ID (CPS))</li>
+<li>HRHHID2_CPS8 (Household ID part 2 (CPS))</li>
+<li>STATEFIP (FIPS State Code)</li>
+<li>HH_SIZE (Number of people in household)</li>
+<li>FAMINCOME (Family income)</li>
+<li>HH_NUMKIDS (Number of children under 18 in household)</li>
+<li>HH_NUMADULTS (Number of adults in household)</li>
+<li>PERNUM (Person number (general))</li>
+<li>LINENO (Person line number)</li>
+<li>WT06 (Person weight, 2006 methodology)</li>
+<li>AGE (Age)</li>
+<li>SEX (Sex)</li>
+<li>RACE (Race)</li>
+<li>HISPAN (Hispanic origin)</li>
+<li>ASIAN (Asian origin)</li>
+<li>MARST (Marital status)</li>
+<li>AGE_CPS8 (Age (CPS))</li>
+<li>SEX_CPS8 (Sex (CPS))</li>
+<li>EDUC (Highest level of school completed)</li>
+<li>EDUCYRS (Years of education)</li>
+<li>SCHLCOLL (Enrollment in school or college)</li>
+<li>SCHLCOLL_CPS8 (Enrollment in school or college (CPS))</li>
+<li>EMPSTAT (Labor force status)</li>
+<li>OCC2 (General occupation category, main job)</li>
+<li>OCC (Detailed occupation category, main job)</li>
+<li>IND2 (General industry classification, main job)</li>
+<li>IND (Detailed industry classification, main job)</li>
+<li>FULLPART (Full time/part time employment status)</li>
+<li>UHRSWORKT (Hours usually worked per week)</li>
+<li>UHRSWORK1 (Hours usually worked per week at main job)</li>
+<li>UHRSWORK2 (Hours usually worked per week at other jobs)</li>
+<li>EARNWEEK (Weekly earnings)</li>
+<li>PAIDHOUR (Hourly or non-hourly pay)</li>
+<li>EARNRPT (Easiest way to report earnings)</li>
+<li>HOURWAGE (Hourly earnings)</li>
+<li>HRSATRATE (Hours worked at hourly rate)</li>
+<li>OTUSUAL (Usually receives overtime, tips, commission at main job)</li>
+<li>OTPAY (Weekly overtime earnings)</li>
+<li>UHRSWORKT_CPS8 (Hours usually worked per week (CPS))</li>
+<li>UHRSWORK1_CPS8 (Hours usually worked per week at main job (CPS))</li>
+<li>UHRSWORK2_CPS8 (Hours usually worked per week at other jobs (CPS))</li>
+<li>HRSWORKT_CPS8 (Hours worked last week (CPS))</li>
+<li>ACT_CAREHH (ACT: Caring for and helping household members)</li>
+<li>ACT_CARENHH (ACT: Caring for and helping non-household members)</li>
+<li>ACT_EDUC (ACT: Educational activities)</li>
+<li>ACT_FOOD (ACT: Eat and drinking)</li>
+<li>ACT_GOVSERV (ACT: Government services and civic obligations)</li>
+<li>ACT_HHACT (ACT: Household activities)</li>
+<li>ACT_HHSERV (ACT: Household services)</li>
+<li>ACT_PCARE (ACT: Personal care)</li>
+<li>ACT_PHONE (ACT: Telephone calls)</li>
+<li>ACT_PROFSERV (ACT: Professional and personal care services)</li>
+<li>ACT_PURCH (ACT: Consumer purchases)</li>
+<li>ACT_RELIG (ACT: Religious and spiritual activities)</li>
+<li>ACT_SOCIAL (ACT: Socializing, relaxing, and leisure)</li>
+<li>ACT_SPORTS (ACT: Sports, exercise, and recreation)</li>
+<li>ACT_TRAVEL (ACT: Traveling)</li>
+<li>ACT_VOL (ACT: Volunteer activities)</li>
+<li>ACT_WORK (ACT: Working and Work-related Activities)</li>
+<li>ERS_ASSOC (ERS: Activities associated with primary eating and drinking (travel and waiting))</li>
+<li>ERS_PRIM (ERS: Primary eating and drinking)</li>
+</ul>
+</div>
+
+
+<!-- BLOGDOWN-HEAD
+
+
+
+
+/BLOGDOWN-HEAD -->

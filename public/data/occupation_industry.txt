@@ -1,0 +1,51 @@
+0100		Agriculture
+0101		Forestry, logging, fishing, hunting, and trapping
+0110		Mining
+0120		Construction
+0130		Nonmetallic mineral product manufacturing
+0131		Primary metals and fabricated metal products
+0132		Machinery manufacturing
+0133		Computer and electronic product mfg
+0134		Electrical equipment, appliance mfg
+0135		Transportation equipment manufacturing
+0136		Wood product manufacturing
+0137		Furniture and fixtures manufacturing
+0138		Miscellaneous and not specified mfg
+0140		Food manufacturing
+0141		Beverage and tobacco product mfg
+0142		Textile, apparel, and leather manufacturing
+0143		Paper manufacturing and printing
+0144		Petroleum and coal products manufacturing
+0145		Chemical manufacturing
+0146		Plastics and rubber products manufacturing
+0150		Wholesale trade
+0160		Retail trade
+0170		Transportation and warehousing
+0180		Utilities
+0190		Publishing industries (except internet)
+0191		Motion picture and sound recording industries
+0192		Broadcasting (except internet)
+0193		Internet publishing and broadcasting
+0194		Telecommunications
+0195		Internet svc providers and data processing svcs
+0196		Other information services
+0200		Finance
+0201		Insurance
+0210		Real estate
+0211		Rental and leasing services
+0220		Professional, scientific, and technical services
+0230		Management of companies and enterprises
+0231		Administrative and support services
+0232		Waste management and remediation services
+0240		Educational services
+0250		Hospitals
+0251		Health care services, except hospitals
+0252		Social assistance
+0260		Arts, entertainment, and recreation
+0270		Traveler accommodation
+0271		Food services and drinking places
+0280		Private households
+0290		Repair and maintenance
+0291		Personal and laundry services
+0292		Membership associations and organizations
+0300		Public administration

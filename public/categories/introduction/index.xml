@@ -172,7 +172,7 @@ Figure 1: Three hospitals: A, B and C.
 &lt;/table&gt;
 &lt;p&gt;As pictures tend to be more informative than tables, we present a plot of these waiting times below. To aid the visualization, the x-position of each point is jittered to gently increase the space between the points.&lt;/p&gt;
 &lt;p&gt;Most people seem to wait over an hour, with some unlucky individuals waiting for almost 3 hours. The mean waiting time for each hospital is highlighted by a red bar.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;#####../content/blog/2017-02-17-anova_files/figure-html/wait2-1.png&#34; width=&#34;288&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/blog/2017-02-17-anova/figures/wait2-1.png&#34; width=&#34;288&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The question of interest is whether or not the average waiting time for each of the three hospitals is the same. This question might be naively interpreted as: “are the red bars at the same height?”, i.e. is there a difference between the waiting times for the &lt;em&gt;sample&lt;/em&gt; of 20 patients from each hospital. The intended question is actually asking about equality between the average waiting times from the population of all patients who have ever, and will ever, wait in these waiting rooms, regardless of whether they fall in our sample.&lt;/p&gt;
 &lt;p&gt;Although the sample means clearly aren’t identical (the red bars are all at different heights), &lt;strong&gt;do we have enough evidence to show that the &lt;em&gt;underlying population&lt;/em&gt; waiting time means are different&lt;/strong&gt;, or are the differences that we observe are simply reflection of the inherent noise in the data?&lt;/p&gt;
 &lt;p&gt;This is the question that lies at the heart of hypothesis testing.&lt;/p&gt;
@@ -187,7 +187,7 @@ Figure 1: Three hospitals: A, B and C.
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;between-group variability&lt;/strong&gt;: the variance between the averages of the groups.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In the figure below, the red bars in the left panel highlight the &lt;em&gt;within-group variance&lt;/em&gt;, while the red bars in the right panel highlight the &lt;em&gt;between-group variance&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;#####../content/blog/2017-02-17-anova_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;768&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/blog/2017-02-17-anova/figures/unnamed-chunk-4-1.png&#34; width=&#34;768&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The basic idea is that &lt;strong&gt;if the variability between the groups is greater than the variability within the groups&lt;/strong&gt;, then we have evidence that the differences between the groups is not simply reflecting random noise.&lt;/p&gt;
 &lt;p&gt;Quantifying the within and between group variability is typically done by calculating a mean sum of squares: add up the squared vertical distances and divide by the &lt;em&gt;degrees of freedom&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;This means that we are comparing the&lt;/p&gt;
@@ -229,7 +229,7 @@ Figure 1: Three hospitals: A, B and C.
 &lt;p&gt;Let’s examine these assumptions for our Hospital waiting times example.&lt;/p&gt;
 &lt;p&gt;Unfortunately, independence is hard to judge statistically, but if, for example, each person was randomly selected from a splattering of visitors to the waiting room at different times (rather than, e.g. selecting 5 members of the same family all of whom came to the hospital together in some freak accident), then the assumption of independence is probably ok.&lt;/p&gt;
 &lt;p&gt;The figure below plots the density estimation for the waiting times from each hospital. We know that if our data is normally distributed, it should look vaguely like a bell-curve.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;#####../content/blog/2017-02-17-anova_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;960&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/blog/2017-02-17-anova/figures/unnamed-chunk-6-1.png&#34; width=&#34;960&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;One might argue that these are some pretty funky-looking bell-curves…&lt;/p&gt;
 &lt;p&gt;However, as I was the one who simulated this data in the first place, I can assure you that they are in fact normally distributed, and you can use this as a lesson on the difficult of drawing conclusions on normality from small samples (in this case, we have 20 observations in each group).&lt;/p&gt;
 &lt;p&gt;A &lt;a href=&#34;http://stat.ethz.ch/R-manual/R-devel/library/stats/html/shapiro.test.html&#34;&gt;Shapiro-Wilk test for normality&lt;/a&gt; provides p-values of 0.39, 0.087, 0.52 for hospitals A, B and C, respectively. Although none of these values are “significant” (even unadjusted for multiple testing), we have stumbled upon another lesson: small p-values (&lt;span class=&#34;math inline&#34;&gt;\(p = 0.087\)&lt;/span&gt; for hospital B) can certainly occur when the null hypothesis is true (in this case, the null hypothesis is that the data are normally distributed)! Remember that when the null hypothesis is true, p-values are uniformly distributed.&lt;/p&gt;

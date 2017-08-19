@@ -1,0 +1,17 @@
+010		Less than 1st grade
+011		1st, 2nd, 3rd, or 4th grade
+012		5th or 6th grade
+013		7th or 8th grade
+014		9th grade
+015		10th grade
+016		11th grade
+017		12th grade (no diploma)
+020		High school graduate (GED)
+021		High school graduate (diploma)
+030		Some college but no degree
+031		Associate degree (occupational vocational)
+032		Associate degree (academic program)
+040		Bachelors degree
+041		Masters degree
+042		Professional school degree
+043		Doctoral degree

@@ -1515,16 +1515,19 @@
 		color: #3c3b3b;
 		font-family: "Raleway", Helvetica, sans-serif;
 		font-weight: 800;
-		letter-spacing: 0.25em;
+		letter-spacing: 0.05em;
 		line-height: 1.65;
 		margin: 0 0 1em 0;
-		text-transform: uppercase;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 			color: inherit;
 			border-bottom: 0;
 		}
+
+	h1 {
+			font-size: 1.5em;
+	}
 
 	h2 {
 		font-size: 1.1em;
@@ -1565,6 +1568,7 @@
 		padding: 0.5em 0 0.5em 2em;
 	}
 
+
 	code {
 		background: rgba(160, 160, 160, 0.075);
 		border: solid 1px rgba(160, 160, 160, 0.3);
@@ -1585,7 +1589,10 @@
 			display: block;
 			line-height: 1.75em;
 			padding: 1em 1.5em;
+
 			overflow-x: auto;
+			overflow-y: scroll !important;
+			max-height: 45vh;
 		}
 
 	hr {
@@ -1633,8 +1640,7 @@
 		font-family: "Raleway", Helvetica, sans-serif;
 		font-size: 0.6em;
 		font-weight: 400;
-		letter-spacing: 0.25em;
-		text-transform: uppercase;
+		letter-spacing: 0.15em;
 		white-space: nowrap;
 	}
 
@@ -1718,12 +1724,11 @@
 		font-size: 0.6em;
 		font-weight: 800;
 		height: 4.8125em;
-		letter-spacing: 0.25em;
+		letter-spacing: 0.15em;
 		line-height: 4.8125em;
 		padding: 0 2.5em;
 		text-align: center;
 		text-decoration: none;
-		text-transform: uppercase;
 		white-space: nowrap;
 	}
 
@@ -2155,21 +2160,21 @@
 	ol {
 		list-style: decimal;
 		margin: 0 0 2em 0;
-		padding-left: 1.25em;
+		padding-left: 2em;
 	}
 
 		ol li {
-			padding-left: 0.25em;
+			padding-left: 0.04em;
 		}
 
 	ul {
 		list-style: disc;
 		margin: 0 0 2em 0;
-		padding-left: 1em;
+		padding-left: 2em;
 	}
 
 		ul li {
-			padding-left: 0.5em;
+			padding-left: 0.04em;
 		}
 
 		ul.alt {
@@ -2189,7 +2194,7 @@
 
 		ul.icons {
 			cursor: default;
-			list-style: none;
+			list-style: circle;
 			padding-left: 0;
 		}
 
@@ -2436,9 +2441,8 @@
 						font-family: "Raleway", Helvetica, sans-serif;
 						font-size: 0.6em;
 						font-weight: 400;
-						letter-spacing: 0.25em;
+						letter-spacing: 0.15em;
 						margin: -0.625em 0 1.7em 0;
-						text-transform: uppercase;
 					}
 
 					ul.posts article header > :last-child {
@@ -2470,7 +2474,7 @@
 		-webkit-flex-direction: column-reverse;
 		-ms-flex-direction: column-reverse;
 		flex-direction: column-reverse;
-		background: #ffffff;
+		background: "#ffffff";
 		border: solid 1px rgba(160, 160, 160, 0.3);
 		margin: 0 0 2em 0;
 	}
@@ -2514,9 +2518,8 @@
 				font-family: "Raleway", Helvetica, sans-serif;
 				font-size: 0.6em;
 				font-weight: 400;
-				letter-spacing: 0.25em;
+				letter-spacing: 0.15em;
 				margin: -0.625em 0 1.7em 0;
-				text-transform: uppercase;
 			}
 
 			.mini-post header .author {
@@ -2630,9 +2633,8 @@
 					font-family: "Raleway", Helvetica, sans-serif;
 					font-size: 0.7em;
 					font-weight: 800;
-					letter-spacing: 0.25em;
+					letter-spacing: 0.15em;
 					margin-top: 0.5em;
-					text-transform: uppercase;
 					white-space: nowrap;
 				}
 
@@ -2684,11 +2686,10 @@
 					font-family: "Raleway", Helvetica, sans-serif;
 					font-size: 0.6em;
 					font-weight: 400;
-					letter-spacing: 0.25em;
+					letter-spacing: 0.15em;
 					line-height: 1;
 					margin: 0 0 0 2em;
 					padding: 0 0 0 2em;
-					text-transform: uppercase;
 				}
 
 					.post > footer .stats li:first-child {
@@ -2870,10 +2871,9 @@
 		font-family: "Raleway", Helvetica, sans-serif;
 		font-size: 0.7em;
 		font-weight: 400;
-		letter-spacing: 0.25em;
+		letter-spacing: 0.15em;
 		line-height: 2.5;
 		margin-top: -1em;
-		text-transform: uppercase;
 	}
 
 /* Table */
@@ -3028,8 +3028,7 @@
 					font-family: "Raleway", Helvetica, sans-serif;
 					font-size: 0.7em;
 					font-weight: 400;
-					letter-spacing: 0.25em;
-					text-transform: uppercase;
+					letter-spacing: 0.15em;
 				}
 
 		#header .main {
@@ -3331,8 +3330,7 @@
 		font-family: "Raleway", Helvetica, sans-serif;
 		font-size: 0.5em;
 		font-weight: 400;
-		letter-spacing: 0.25em;
-		text-transform: uppercase;
+		letter-spacing: 0.15em;
 	}
 
 /* Menu */
@@ -3403,10 +3401,9 @@
 						font-family: "Raleway", Helvetica, sans-serif;
 						font-size: 0.6em;
 						font-weight: 400;
-						letter-spacing: 0.25em;
+						letter-spacing: 0.15em;
 						margin-bottom: 0;
 						text-decoration: none;
-						text-transform: uppercase;
 					}
 
 					#menu .links > li a:hover h3 {

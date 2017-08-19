@@ -1,0 +1,6 @@
+01		Married - spouse present
+02		Married - spouse absent
+03		Widowed
+04		Divorced
+05		Separated
+06		Never married

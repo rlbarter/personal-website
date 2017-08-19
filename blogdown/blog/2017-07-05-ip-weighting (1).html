@@ -1,0 +1,58 @@
+---
+title:  "The intuition behind inverse probability weighting in causal inference"
+author: "Rebecca Barter"
+categories: [Causal Inference, Statistics]
+date: 2017-07-05T21:13:14-05:00
+type: "post" 
+description: "An introduction to the field of causal inference and a summary of the intuition behind IP-weighting." 
+---
+
+
+<!-- BLOGDOWN-BODY-BEFORE
+
+/BLOGDOWN-BODY-BEFORE -->
+
+<p>Often in science we want to be able to quantify the <em>effect</em> of an action on some outcome. For example, perhaps we are interested in estimating the effect of a drug on blood pressure. While it is easy to show whether or not taking the drug is <em>associated</em> with an increase in blood pressure, it is surprisingly difficult to show that taking the drug actually <em>caused</em> an increase (or decrease) in blood pressure.</p>
+<p>Causal inference is the field of statsitics (or economics, depending on who you ask) that is concerned with estimating the <em>causal effect</em> of a treatment.</p>
+<div id="the-fundamental-problem-of-causal-inference" class="section level1">
+<h1>The fundamental problem of causal inference</h1>
+<p>Why is estimating a causal effect difficult? To put it simply, the fundamental problem is that we can never actually <em>observe</em> a causal effect. The causal effect is defined to be the difference between the outcome when the treatment was applied and the outcome when it was not. In other words, this is the effect of the treatment on the outcome compared to the baseline.</p>
+<p>This difference is a fundamentally unobservable quantity. For any individual, we can only ever observe their blood pressure either in the situation (1) when they take the drug or (2) when they don’t. <strong>We can never observe both</strong> since an individual cannot simultaneously both take the drug and not take the drug.</p>
+<p>Introducing some notation, the outcome we would observe for an individual had they received the treatment (in which case we set the treatment indicator, <span class="math inline">\(T = 1\)</span>) is denoted <span class="math inline">\(Y(1)\)</span> and the outcome for an individual had they not received treatment (treatment indicatory, <span class="math inline">\(T = 0\)</span>) is denoted <span class="math inline">\(Y(0)\)</span>.</p>
+<p>The outcome that we actually observe (<span class="math inline">\(Y\)</span>) can be written as a linear combination of these quantities:</p>
+<p><span class="math display">\[Y  = T Y(1) + (1 - T)Y(0).\]</span></p>
+<p>Since we can only ever observe one of the two <em>potential outcomes</em> described above, how can we estimate the <em>causal effect</em> (i.e. the difference between the two potential outcomes)?</p>
+<p><span class="math display">\[\tau = Y(1) - Y(0)\]</span></p>
+<p>This is a very unique type of missing data problem, and the key to estimating casual effects lies in understanding the principles of randomized experiments.</p>
+<div id="the-magic-of-the-randomized-experiment" class="section level2">
+<h2>The magic of the randomized experiment</h2>
+<p>Suppose that we have conducted a randomized experiment in which we measure some outcome (say mortality) within two groups, treated and untreated, into which individuals were randomly assigned. In this case, the random assignment of treatment means that there should, on average, be no underlying differences between the treated and untreated groups. Thus, any difference in mortality that we observe between the treated group and the untreated group must be due to the treatment itself (as this is the only thing that differs between the treated and nontreated groups).</p>
+<p>One of the primary problems that arise when attempting to estimate average causal effects in an <strong>observational study</strong> (i.e. a study in which the individuals assign themselves into a treatment group, e.g. because they themselves choose to smoke or not, rather than a scientist choosing for them) is that there may exist differences between the treated group and the untreated group, other than the treatment itself, such as gender (i.e. males are more likely to smoke).</p>
+<p>Why is this a problem? Basically, if there is something other than the treatment that differs between the treated and untreated groups, then we cannot inconclusively say that any difference observed in mortality (or any other outcome of interest) is due solely to the treatment. Such a difference could also plausibly be due to these other variables that differ between these groups. These variables are called <strong>confounders</strong>.</p>
+<p>For example, perhaps males are more likely to smoke, but males are also more likely to die young. In this case, if we notice a difference in mortality between smokers and non-smokers, we cannot be sure that this difference is due to the smoking rather than the fact that more males smoke and therefore the treatment group has a higher proportion of males and subsequently a higher mortality rate than the untreated group. In this case, the higher mortality rate amongst smokers has nothing to do with (or at least is not entirely due to) the smoking itself, but rather is to do gender discrepencies.</p>
+</div>
+</div>
+<div id="the-goal" class="section level1">
+<h1>The goal</h1>
+<p>The goal is to estimate the expected potential outcomes in (1) the situation that <em>all</em> individuals in the study were assigned the treatment, and (2) the situation that <em>none</em> of the individuals in the study were assigned the treatment, and take the difference between these two quantities:</p>
+<p><span class="math display">\[E[Y(1)] - E[Y(0)]\]</span></p>
+<p>This quantitiy is referred to as the population causal effect.</p>
+<p>Assuming the following <strong>identifiability conditions</strong>:</p>
+<ol style="list-style-type: decimal">
+<li><p>The treated and untreated individuals are <strong>exchangeable</strong> wherein the assignment of treatment depends only on the measured covariates, <span class="math inline">\(X\)</span> (i.e. that there are no unmeasured confounders and no informative censoring). This is commonly known as <strong>ignorability</strong>, and is typically presented as <span class="math display">\[Y(1), Y(0) \indep T | X\]</span> (this is technically <strong>strong ignorability</strong>; ignporability actually refers to the weaker restriction where treatment assignment mechanism can be written in terms of <span class="math inline">\(X\)</span>, <span class="math inline">\(T\)</span> and the observed <span class="math inline">\(Y\)</span> without dependence on the missing outcomes).</p></li>
+<li><p>The probability of recieving every level of treatment is positive for every individual, known as <strong>positivity</strong>.</p></li>
+<li><p>The treatment is defined unabiguously, i.e. that the potential outcome that corresponds to the treatment that the individual actually received is “factual”. This is called <strong>consistency</strong>. In particular, this is often taken to mean that there are not multiple versions of treatment, i.e. that if an individual, <span class="math inline">\(j\)</span>, received treatment <span class="math inline">\(t\)</span> by means (route, condition, etc) <span class="math inline">\(k\)</span>, then consistency means that <span class="math display">\[Y_j = Y_j(t, k)~~ \textrm{   if   }~~ t = T_j ~\textrm{ no matter the value of } k\]</span> Cole and Frangakis from UNC provide a nice <a href="http://www.unc.edu/~colesr/consistency.12jun08.pdf">discussion on consistency</a> if you’re interested in understadnding this condition more deeply.</p></li>
+</ol>
+<p>then the following estimator is unbiased for the population causal effect</p>
+</div>
+<div id="inverse-probability-weighting-to-the-rescue" class="section level1">
+<h1>Inverse probability weighting to the rescue?</h1>
+</div>
+
+
+<!-- BLOGDOWN-HEAD
+
+
+
+
+/BLOGDOWN-HEAD -->

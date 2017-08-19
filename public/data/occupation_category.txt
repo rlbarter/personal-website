@@ -1,0 +1,22 @@
+0110		Management occupations
+0111		Business and financial operations occupations
+0120		Computer and mathematical science occupations
+0121		Architecture and engineering occupations
+0122		Life, physical, and social science occupations
+0123		Community and social service occupations
+0124		Legal occupations
+0125		Education, training, and library occupations
+0126		Arts, design, entertainment, sports, and media occupations
+0127		Healthcare practitioner and technical occupations
+0130		Healthcare support occupations
+0131		Protective service occupations
+0132		Food preparation and serving related occupations
+0133		Building and grounds cleaning and maintenance occupations
+0134		Personal care and service occupations
+0140		Sales and related occupations
+0150		Office and administrative support occupations
+0160		Farming, fishing, and forestry occupations
+0170		Construction and extraction occupations
+0180		Installation, maintenance, and repair occupations
+0190		Production occupations
+0200		Transportation and material moving occupations

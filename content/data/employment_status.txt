@@ -1,0 +1,2 @@
+01		Full time
+02		Part time
