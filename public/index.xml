@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Rebecca Barter</title>
-    <link>/blog/</link>
-    <description>Recent content in Blogs on Rebecca Barter</description>
+    <title>Rebecca Barter</title>
+    <link>/</link>
+    <description>Recent content on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 18 Aug 2017 21:13:14 -0500</lastBuildDate>
     
-	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -128,6 +128,15 @@ library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcar
     </item>
     
     <item>
+      <title>Projects</title>
+      <link>/projects/</link>
+      <pubDate>Sun, 15 Jan 2017 21:49:57 -0700</pubDate>
+      
+      <guid>/projects/</guid>
+      <description>Ongoing projects Examining the organ waitlist allocation system Our aim is to develop mathematical models of survival to evaluate the effects of various potential policy changes to the allocation system for livers and kidneys. The current allocation algorithm for livers is based primarily on age, geographical proximity, and the MELD score. The MELD score has been shown to be an accurate predictor of waiting list mortality, and thus one can see the liver allocation algorithm as one that successfully optimizes the objective function assigning organs to the sickest patients first, thus reducing waiting list mortality.</description>
+    </item>
+    
+    <item>
       <title>Gender Issues Roundtable Discussion: A Case Study in Uncomfortable Conversations</title>
       <link>/blog/2016-12-15-gender-bias/</link>
       <pubDate>Thu, 15 Dec 2016 21:49:57 -0700</pubDate>
@@ -145,6 +154,47 @@ In 2015, UC Berkeley experienced a series of high-profile sexual harassment inci
       <guid>/blog/2015-07-23-pie/</guid>
       <description>Pie charts are terrible Pie charts are notoriously terrible for data visualization. Humans are genuinely bad at comparing angles. Thus, the only reason one should ever use a pie chart is to make beautiful pie-chart-art.
 par(mar = c(0, 1, 0, 1)) pie( c(280, 60, 20), c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;), col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;), init.angle = -50, border = NA )  Figure 1: Pyramid pie chart art.</description>
+    </item>
+    
+    <item>
+      <title>About Rebecca</title>
+      <link>/about/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Hi there! I’m Rebecca Barter. I’m so glad you’ve made it to my page.
+I’m currently a third-year PhD student in the Department of Statistics at UC Berkeley, as well as a Data Science Fellow at the Berkeley Institute for Data Science (BIDS). I am jointly advised by Professors Bin Yu (UC Berkeley),Jasjeet Sekhon (UC Berkeley) and Minnie Sarwal (UCSF). Together with Kellie Ottoboni, I am the co-president of the Statistics Graduate Student Association.</description>
+    </item>
+    
+    <item>
+      <title>Contact Me</title>
+      <link>/contact/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/contact/</guid>
+      <description>If you’d like to get in touch, feel free to email me at rebeccabarter@berkeley.edu.</description>
+    </item>
+    
+    <item>
+      <title>Rebecca&#39;s CV</title>
+      <link>/cv/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/cv/</guid>
+      <description>Experience August 2016 - Present Data Science Fellow, Berkeley Institute of Data Science, University of California, Berkeley
+August 2014 - May 2016 Graduate Student Researcher (GSR), Department of Statistics, University of California, Berkeley
+November 2016 - present Visiting Student, Department of Surgery, University of California, San Francisco
+May 2016 - August 2016 Quantitative Analyst Intern, Google, Seattle
+Spring 2015, Fall 2016 Statistical Consultant, Department of Statistics, University of California, Berkeley</description>
+    </item>
+    
+    <item>
+      <title>Teaching Materials</title>
+      <link>/teaching/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/teaching/</guid>
+      <description>Spring 2015: STAT 135 Concepts in Statistics  Lab 2: Confidence intervals, MLE and the delta method (pdf)  Lab 3: Asymptotic MLE and the method of moments (pdf)  Lab 4: Recap, efficiency, sufficiency, bias-variance trade-off (Rao-Blackwell), Bayesian inference (pdf)  Lab 5: Bootstrapping and hypothesis testing (pdf)  Lab 6: Duality of hypothesis testing and confidence intervals, GLRT, Pearson Chi-squared tests and Q-Q plots (pdf)  Lab 7: Distributions derived from the normal distribution, and comparing independent samples (pdf)  Lab 8: Hypothesis testing review, Mann-Whitney test by normal approximation, and Wilcoxon signed rank test (pdf)  Lab 9: Multiple testing, one-way ANOVA and Kruskal-Wallis (pdf)  Lab 10: Two-way ANOVA, randomized block design and Friedman’s test (pdf)  Lab 11: Tests for categorical data (Fisher’s exact test, Chi-squared tests for homogeneity and independence) and linear regression (pdf)  Lab 12: Multiple linear regression (matrix form), residual analysis and inference for OLS (pdf)  Lab 13: Linear regression, multivariate random variables, prediction, logistic regression and the delta-method (pdf)  Review: Hypothesis testing flow chart (pdf)  </description>
     </item>
     
     <item>
