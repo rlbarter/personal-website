@@ -184,9 +184,9 @@ In my research, I use data to solve problems related to healthcare and medicine.
       <guid>/cv/</guid>
       <description>Experience August 2016 - Present Data Science Fellow, Berkeley Institute of Data Science, University of California, Berkeley
 August 2014 - May 2016 Graduate Student Researcher (GSR), Department of Statistics, University of California, Berkeley
-November 2016 - present Visiting Student, Department of Surgery, University of California, San Francisco
 May 2016 - August 2016 Quantitative Analyst Intern, Google, Seattle
-Spring 2015, Fall 2016 Statistical Consultant, Department of Statistics, University of California, Berkeley</description>
+Spring 2015, Fall 2016 Statistical Consultant, Department of Statistics, University of California, Berkeley
+February 2014 - July 2014 Research Assistant, Melanoma Institute Australia and School of Mathematics and Statistics, The University of Sydney Australia</description>
     </item>
     
     <item>
@@ -195,7 +195,8 @@ Spring 2015, Fall 2016 Statistical Consultant, Department of Statistics, Univers
       <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
       
       <guid>/teaching/</guid>
-      <description>Spring 2015: STAT 135 Concepts in Statistics  Lab 2: Confidence intervals, MLE and the delta method (pdf)  Lab 3: Asymptotic MLE and the method of moments (pdf)  Lab 4: Recap, efficiency, sufficiency, bias-variance trade-off (Rao-Blackwell), Bayesian inference (pdf)  Lab 5: Bootstrapping and hypothesis testing (pdf)  Lab 6: Duality of hypothesis testing and confidence intervals, GLRT, Pearson Chi-squared tests and Q-Q plots (pdf)  Lab 7: Distributions derived from the normal distribution, and comparing independent samples (pdf)  Lab 8: Hypothesis testing review, Mann-Whitney test by normal approximation, and Wilcoxon signed rank test (pdf)  Lab 9: Multiple testing, one-way ANOVA and Kruskal-Wallis (pdf)  Lab 10: Two-way ANOVA, randomized block design and Friedman’s test (pdf)  Lab 11: Tests for categorical data (Fisher’s exact test, Chi-squared tests for homogeneity and independence) and linear regression (pdf)  Lab 12: Multiple linear regression (matrix form), residual analysis and inference for OLS (pdf)  Lab 13: Linear regression, multivariate random variables, prediction, logistic regression and the delta-method (pdf)  Review: Hypothesis testing flow chart (pdf)  </description>
+      <description>Fall 2017: STAT 215A Statistical Models, Theory and Applications A graudate course in applied statistics taught by Bin Yu. The course covers a wide range of topics that focus on critical thinking for using statistics in the wild. I taught a section each week where I either re-inforced content the students were learning in class, or ran tutorials in a variety of topics in R.
+The materials that I prepared can be found in the following github repository: https://github.</description>
     </item>
     
     <item>

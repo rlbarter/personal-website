@@ -13,9 +13,11 @@ August 2014 - May 2016 **Graduate Student Researcher (GSR)**,
 *Department of Statistics, University of
 California, Berkeley*
 
+<!--
 November 2016 - present **Visiting Student**,
 *Department of Surgery, University of
 California, San Francisco*
+-->
 
 May 2016 - August 2016 **Quantitative Analyst Intern**,
 *Google, Seattle*
@@ -65,15 +67,18 @@ complex data, *(preprint) arXiv*  [http://arxiv.org/abs/1512.01524 ](http://arxi
 					
 ## Teaching Experience
 
-March 2017 - **Docathon Instructor**, Berkeley Institute of Data Science
+Fall 2017 **Graduate Student Instructor (GSI)**,
+*Department of Statistics, University of
+California, Berkeley*
 
-- [Documentation in R](https://github.com/rlbarter/R-documentation) ([video](https://www.youtube.com/watch?v=ikT_xnTFHC0))
+- [STAT215A](/teaching#stat215a)
+
 
 Spring 2015 **Graduate Student Instructor (GSI)**,
 *Department of Statistics, University of
 California, Berkeley*
 
-- [STAT 135](/teaching) Concepts in Statistics
+- [STAT 135](/teaching#stat135) Concepts in Statistics
 
 March 2013 - July 2014 **Tutor**, *School of Mathematics and
 Statistics, The University of Sydney Australia*
@@ -91,14 +96,31 @@ Tutorial)
 
 
 
-Spring 2017 **Founder and organizer**, [Practical Statistics](https://rlbarter.github.io/Practical-Statistics/)
+
+2018 - present *Certified Instructor*, [**Software Carpentry**](https://software-carpentry.org/)
+
+- I recently became certified to run and teach software carpentry training workshops.
+
+2017 - present *Instructor*, [**The Hacker Within**](http://www.thehackerwithin.org/berkeley/), Berkeley Institute of Data Science
+
+- I lead a session on ggplot2 for The Hacker Within series which is a weekly peer learning group for sharing skills and best practices for scientific computation and data science.
+
+2017 - present *Regular presenter*, [**R Ladies SF**](https://twitter.com/rladiessf?lang=en)
+
+- I regularly present on R-related topics (such as visualization) at the R Ladies SF meetup group.
+
+2017 *Docathon Instructor*, [**Docathon 2017**](https://bids.berkeley.edu/events/docathon), Berkeley Institute of Data Science
+
+- I presented on making documentation in R: [Documentation in R](https://github.com/rlbarter/R-documentation) ([video](https://www.youtube.com/watch?v=ikT_xnTFHC0))
+
+2017 - present *Founder and organizer*, [**Practical Statistics**](https://rlbarter.github.io/Practical-Statistics/)
 
 - I founded and organized Practical Statistics: a group of graduate students, post-docs and research staff from the Statistics department, BIDS and D-Lab who meet to teach each other about statistical topics that are widely used in science, but rarely taught to statisticians.
 
 
 
 
-2016/17 **Co-president**, [Statistics Graduate Student Association (SGSA)](http://sgsa.berkeley.edu/)
+2016/17 *Co-president*, [**Statistics Graduate Student Association (SGSA)**](http://sgsa.berkeley.edu/)
 
 - Together with Kellie Ottoboni, I acted as the head of the graduate student body for the statistics department. 
 
