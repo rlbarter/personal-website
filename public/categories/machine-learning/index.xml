@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Machine learning on Rebecca Barter</title>
+    <link>/categories/machine-learning/</link>
+    <description>Recent content in Machine learning on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Nov 2017 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>A basic tutorial of caret: the machine learning package in R</title>
+      <link>/blog/2017-11-17-caret_tutorial/</link>
+      <pubDate>Fri, 17 Nov 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-11-17-caret_tutorial/</guid>
+      <description>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
+An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11. Feel free to download it and use for your own learning or teaching adventures!
+R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.
+This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</description>
+    </item>
+    
+  </channel>
+</rss>

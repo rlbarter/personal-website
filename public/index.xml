@@ -6,10 +6,32 @@
     <description>Recent content on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Aug 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 17 Nov 2017 22:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ggplot2: Mastering the basics</title>
+      <link>/blog/2017-11-17-ggplot2_tutorial/</link>
+      <pubDate>Fri, 17 Nov 2017 22:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-11-17-ggplot2_tutorial/</guid>
+      <description>An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/ggplot2-thw. Feel free to download it and use for your own learning or teaching adventures!
+Useful resources for learning ggplot2  ggplot2 book (https://www.amazon.com/dp/0387981403/ref=cm_sw_su_dp?tag=ggplot2-20) by Hadley Wickham The layered grammar of graphics (http://vita.had.co.nz/papers/layered-grammar.pdf) by Hadley Wickham   Materials outline I will begin by providing an overview of the layered grammar of graphics upon which ggplot2 is built. I will then teach ggplot2 by layering examples on top of one another.</description>
+    </item>
+    
+    <item>
+      <title>A basic tutorial of caret: the machine learning package in R</title>
+      <link>/blog/2017-11-17-caret_tutorial/</link>
+      <pubDate>Fri, 17 Nov 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-11-17-caret_tutorial/</guid>
+      <description>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
+An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11. Feel free to download it and use for your own learning or teaching adventures!
+R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.
+This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</description>
+    </item>
     
     <item>
       <title>A Basic Data Science Workflow</title>
@@ -128,12 +150,15 @@ library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcar
     </item>
     
     <item>
-      <title>Projects</title>
-      <link>/projects/</link>
+      <title>Tutorials</title>
+      <link>/tutorials/</link>
       <pubDate>Sun, 15 Jan 2017 21:49:57 -0700</pubDate>
       
-      <guid>/projects/</guid>
-      <description>Ongoing projects Examining the organ waitlist allocation system Our aim is to develop mathematical models of survival to evaluate the effects of various potential policy changes to the allocation system for livers and kidneys. The current allocation algorithm for livers is based primarily on age, geographical proximity, and the MELD score. The MELD score has been shown to be an accurate predictor of waiting list mortality, and thus one can see the liver allocation algorithm as one that successfully optimizes the objective function assigning organs to the sickest patients first, thus reducing waiting list mortality.</description>
+      <guid>/tutorials/</guid>
+      <description>I appear to have made a number of tutorials on a variety of (mostly R-related) topics. Below you will find descriptions of and links to these tutorials. Keep an eye on this page – I’m always adding more!
+R packages  caret: an introduction to caret prepared for STAT215A. (Jupyter notebook)
+ ggplot2: ggplot2 basics prepared for The Hacker Within. (Jupyter notebook)
+ interactive visualization: a tutorial on interactive viz prepared for the SGSA student seminar series.</description>
     </item>
     
     <item>
@@ -507,6 +532,15 @@ var tip = d3.tip().html(function(d) { return &amp;quot;&amp;lt;span&amp;gt;&amp;
       
       <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/requirejs/</guid>
       <description>d3.tip.js - Tooltips for D3 require.js body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }  data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]   // Mostly used for development.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/</guid>
+      <description></description>
     </item>
     
   </channel>

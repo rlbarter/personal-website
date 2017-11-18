@@ -1,0 +1,28 @@
+---
+title: "Tutorials"
+date: "2017-01-15T21:49:57-07:00"
+---
+
+I appear to have made a number of tutorials on a variety of (mostly R-related) topics. Below you will find descriptions of and links to these tutorials. Keep an eye on this page -- I'm always adding more!
+
+
+## R packages
+
+- [caret](http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/): an introduction to caret prepared for STAT215A. [(Jupyter notebook)](https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11)
+
+- [ggplot2](http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/): ggplot2 basics prepared for The Hacker Within. [(Jupyter notebook)](https://github.com/rlbarter/ggplot2-thw)
+
+- [interactive visualization](http://www.rebeccabarter.com/blog/2017-04-20-interactive/): a tutorial on interactive viz prepared for the SGSA student seminar series.
+
+- [superheat](https://rlbarter.github.io/superheat/) I made a super cool R package ([blog post](../blog/2017-02-02-superheat-example/index.html), [github](https://github.com/rlbarter/superheat), [vignette](https://rlbarter.github.io/superheat/), [paper](https://arxiv.org/abs/1512.01524), [video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Superheat-Supervised-heatmaps-for-visualizing-complex-data/player)) for creating customizable, extendable, and beautiful heatmaps.
+
+
+## Statistics & data science
+
+- [ANOVA](http://www.rebeccabarter.com/blog/2017-02-17-anova/): an intuitive explanation of ANOVA prepared for the Practical Statistics group.
+
+- [A data science workflow](http://www.rebeccabarter.com/blog/2017-08-16-data-science-workflow/): a description of my data science project setup workflow made for funsies.
+
+
+
+

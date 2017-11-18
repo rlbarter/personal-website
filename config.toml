@@ -95,8 +95,8 @@ googleAnalytics = "UA-90929425-1"
     weight = 3
 
 [[menu.main]]
-    name = "Projects"
-    url = "/projects"
+    name = "Tutorials"
+    url = "/tutorials"
     weight = 3
 
 [[menu.main]]

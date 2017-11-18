@@ -6,10 +6,32 @@
     <description>Recent content in R on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Aug 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 17 Nov 2017 22:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ggplot2: Mastering the basics</title>
+      <link>/blog/2017-11-17-ggplot2_tutorial/</link>
+      <pubDate>Fri, 17 Nov 2017 22:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-11-17-ggplot2_tutorial/</guid>
+      <description>An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/ggplot2-thw. Feel free to download it and use for your own learning or teaching adventures!
+Useful resources for learning ggplot2  ggplot2 book (https://www.amazon.com/dp/0387981403/ref=cm_sw_su_dp?tag=ggplot2-20) by Hadley Wickham The layered grammar of graphics (http://vita.had.co.nz/papers/layered-grammar.pdf) by Hadley Wickham   Materials outline I will begin by providing an overview of the layered grammar of graphics upon which ggplot2 is built. I will then teach ggplot2 by layering examples on top of one another.</description>
+    </item>
+    
+    <item>
+      <title>A basic tutorial of caret: the machine learning package in R</title>
+      <link>/blog/2017-11-17-caret_tutorial/</link>
+      <pubDate>Fri, 17 Nov 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2017-11-17-caret_tutorial/</guid>
+      <description>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
+An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11. Feel free to download it and use for your own learning or teaching adventures!
+R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.
+This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</description>
+    </item>
     
     <item>
       <title>A Basic Data Science Workflow</title>

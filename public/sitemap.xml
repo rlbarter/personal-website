@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2017-11-17-ggplot2_tutorial/</loc>
+    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/2017-11-17-caret_tutorial/</loc>
+    <lastmod>2017-11-17T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2017-08-16-data-science-workflow/</loc>
     <lastmod>2017-08-18T21:13:14-05:00</lastmod>
   </url>
@@ -58,7 +68,7 @@
   </url>
   
   <url>
-    <loc>/projects/</loc>
+    <loc>/tutorials/</loc>
     <lastmod>2017-01-15T21:49:57-07:00</lastmod>
   </url>
   
@@ -217,6 +227,10 @@
   </url>
   
   <url>
+    <loc>/projects/</loc>
+  </url>
+  
+  <url>
     <loc>/categories/anova/</loc>
     <lastmod>2017-02-20T21:13:14-05:00</lastmod>
     <priority>0</priority>
@@ -224,7 +238,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2017-08-18T21:13:14-05:00</lastmod>
+    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -271,6 +285,12 @@
   </url>
   
   <url>
+    <loc>/categories/machine-learning/</loc>
+    <lastmod>2017-11-17T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/misc/</loc>
     <lastmod>2017-06-29T21:13:14-05:00</lastmod>
     <priority>0</priority>
@@ -284,7 +304,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2017-08-18T21:13:14-05:00</lastmod>
+    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -296,7 +316,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-08-18T21:13:14-05:00</lastmod>
+    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -315,6 +335,12 @@
   <url>
     <loc>/tags/</loc>
     <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/visualization/</loc>
+    <lastmod>2017-06-27T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
