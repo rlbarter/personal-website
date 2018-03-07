@@ -1,0 +1,442 @@
+---
+title:  "A basic tutorial of caret: the machine learning package in R"
+author: "Rebecca Barter"
+categories: [R, machine learning]
+date: 2017-11-17T21:13:14-05:00
+type: "post" 
+description: "R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs. Caret unifies these packages into a single package with constant syntax, saving everyone a lot of frustration and time!" 
+---
+
+
+
+<p>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.</p>
+<p>An interactive Jupyter Notebook version of this tutorial can be found at <a href="https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11" class="uri">https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11</a>. Feel free to download it and use for your own learning or teaching adventures!</p>
+<p>R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.</p>
+<p>This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</p>
+<p>Recognizing this, Max Kuhn (at the time working in drug discovery at Pfizer, now at RStudio) put together a single package for performing any machine learning method you like. This package is called <code>caret</code>. Caret stands for <strong>C</strong>lassification <strong>A</strong>nd <strong>Re</strong>gression <strong>T</strong>raining. Apparently caret has little to do with our orange friend, the carrot.</p>
+<p><img src="/img/caret/caret.png" /><!-- --></p>
+<p>Not only does caret allow you to run a plethora of ML methods, it also provides tools for auxiliary techniques such as:</p>
+<ul>
+<li><p>Data preparation (imputation, centering/scaling data, removing correlated predictors, reducing skewness)</p></li>
+<li><p>Data splitting</p></li>
+<li><p>Variable selection</p></li>
+<li><p>Model evaluation</p></li>
+</ul>
+<p>An extensive vignette for caret can be found here: <a href="https://topepo.github.io/caret/index.html" class="uri">https://topepo.github.io/caret/index.html</a></p>
+<div id="a-simple-view-of-caret-the-default-train-function" class="section level2">
+<h2>A simple view of caret: the default <code>train</code> function</h2>
+<p>To implement your machine learning model of choice using caret you will use the <code>train</code> function. The types of modeling options available are many and are listed here: <a href="https://topepo.github.io/caret/available-models.html" class="uri">https://topepo.github.io/caret/available-models.html</a>. In the example below, we will use the ranger implementation of random forest to predict whether abalone are “old” or not based on a bunch of physical properties of the abalone (sex, height, weight, diameter, etc). The abalone data came from the <a href="https://archive.ics.uci.edu/ml/datasets/abalone">UCI Machine Learning repository</a> (we split the data into a training and test set).</p>
+<p>First we load the data into R:</p>
+<pre class="r"><code># load in packages
+library(caret)
+library(ranger)
+library(dplyr)
+library(e1071)
+# load in abalone dataset
+abalone_train &lt;- read.csv(&quot;../data/abalone-training.csv&quot;)
+abalone_test &lt;- read.csv(&quot;../data/abalone-test.csv&quot;)
+head(abalone_train)</code></pre>
+<pre><code>##   sex length diameter height whole.weight shucked.weight viscera.weight
+## 1   M  0.350    0.265  0.090       0.2255         0.0995         0.0485
+## 2   F  0.530    0.420  0.135       0.6770         0.2565         0.1415
+## 3   M  0.440    0.365  0.125       0.5160         0.2155         0.1140
+## 4   I  0.330    0.255  0.080       0.2050         0.0895         0.0395
+## 5   I  0.425    0.300  0.095       0.3515         0.1410         0.0775
+## 6   F  0.530    0.415  0.150       0.7775         0.2370         0.1415
+##   shell.weight   old
+## 1        0.070  TRUE
+## 2        0.210  TRUE
+## 3        0.155 FALSE
+## 4        0.055  TRUE
+## 5        0.120  TRUE
+## 6        0.330 FALSE</code></pre>
+<p>It looks like we have 3,759 abalone:</p>
+<pre class="r"><code>dim(abalone_train)</code></pre>
+<pre><code>## [1] 3759    9</code></pre>
+<p>Time to fit a random forest model using caret. Anytime we want to fit a model using <code>train</code> we tell it which model to fit by providing a formula for the first argument (<code>as.factor(old) ~ .</code> means that we want to model <code>old</code> as a function of all of the other variables). Then we need to provide a method (we specify <code>&quot;ranger&quot;</code> to implement randomForest).</p>
+<pre class="r"><code># fit a random forest model (using ranger)
+rf_fit &lt;- train(as.factor(old) ~ ., 
+                data = abalone_train, 
+                method = &quot;ranger&quot;)</code></pre>
+<p>By default, the <code>train</code> function without any arguments re-runs the model over 25 bootstrap samples and across 3 options of the tuning parameter (the tuning parameter for <code>ranger</code> is <code>mtry</code>; the number of randomly selected predictors at each cut in the tree).</p>
+<pre class="r"><code>rf_fit</code></pre>
+<pre><code>## Random Forest 
+## 
+## 3759 samples
+##    8 predictor
+##    2 classes: &#39;FALSE&#39;, &#39;TRUE&#39; 
+## 
+## No pre-processing
+## Resampling: Bootstrapped (25 reps) 
+## Summary of sample sizes: 3759, 3759, 3759, 3759, 3759, 3759, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  splitrule   Accuracy   Kappa    
+##   2     gini        0.7888300  0.5774737
+##   2     extratrees  0.7837155  0.5670365
+##   5     gini        0.7822016  0.5642150
+##   5     extratrees  0.7826548  0.5650665
+##   9     gini        0.7764632  0.5527355
+##   9     extratrees  0.7838949  0.5675586
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 2 and splitrule = gini.</code></pre>
+<p>To test the data on an independent test set is equally as simple using the inbuilt <code>predict</code> function.</p>
+<pre class="r"><code># predict the outcome on a test set
+abalone_rf_pred &lt;- predict(rf_fit, abalone_test)
+# compare predicted outcome and true outcome
+confusionMatrix(abalone_rf_pred, abalone_test$old)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction FALSE TRUE
+##      FALSE   171   61
+##      TRUE     23  162
+##                                          
+##                Accuracy : 0.7986         
+##                  95% CI : (0.7568, 0.836)
+##     No Information Rate : 0.5348         
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
+##                                          
+##                   Kappa : 0.6003         
+##  Mcnemar&#39;s Test P-Value : 5.413e-05      
+##                                          
+##             Sensitivity : 0.8814         
+##             Specificity : 0.7265         
+##          Pos Pred Value : 0.7371         
+##          Neg Pred Value : 0.8757         
+##              Prevalence : 0.4652         
+##          Detection Rate : 0.4101         
+##    Detection Prevalence : 0.5564         
+##       Balanced Accuracy : 0.8040         
+##                                          
+##        &#39;Positive&#39; Class : FALSE          
+## </code></pre>
+</div>
+<div id="getting-a-little-fancier-with-caret" class="section level1">
+<h1>Getting a little fancier with caret</h1>
+<p>We have now seen how to fit a model along with the default resampling implementation (bootstrapping) and parameter selection. While this is great, there are many more things we could do with caret.</p>
+<div id="pre-processing-preprocess" class="section level2">
+<h2>Pre-processing (<code>preProcess</code>)</h2>
+<p>There are a number of pre-processing steps that are easily implemented by caret. Several stand-alone functions from caret target specific issues that might arise when setting up the model. These include</p>
+<ul>
+<li><p><code>dummyVars</code>: creating dummy variables from categorical variables with multiple categories</p></li>
+<li><p><code>nearZeroVar</code>: identifying zero- and near zero-variance predictors (these may cause issues when subsampling)</p></li>
+<li><p><code>findCorrelation</code>: identifying correlated predictors</p></li>
+<li><p><code>findLinearCombos</code>: identify linear dependencies between predictors</p></li>
+</ul>
+<p>In addition to these individual functions, there also exists the <strong><code>preProcess</code></strong> function which can be used to perform more common tasks such as centering and scaling, imputation and transformation. <code>preProcess</code> takes in a data frame to be processed and a method which can be any of “BoxCox”, “YeoJohnson”, “expoTrans”, “center”, “scale”, “range”, “knnImpute”, “bagImpute”, “medianImpute”, “pca”, “ica”, “spatialSign”, “corr”, “zv”, “nzv”, and “conditionalX”.</p>
+<pre class="r"><code># center, scale and perform a YeoJohnson transformation
+# identify and remove variables with near zero variance
+# perform pca
+abalone_no_nzv_pca &lt;- preProcess(select(abalone_train, - old), 
+                        method = c(&quot;center&quot;, &quot;scale&quot;, &quot;YeoJohnson&quot;, &quot;nzv&quot;, &quot;pca&quot;))
+abalone_no_nzv_pca</code></pre>
+<pre><code>## Created from 3759 samples and 8 variables
+## 
+## Pre-processing:
+##   - centered (7)
+##   - ignored (1)
+##   - principal component signal extraction (7)
+##   - scaled (7)
+##   - Yeo-Johnson transformation (5)
+## 
+## Lambda estimates for Yeo-Johnson transformation:
+## -1.85, 0.05, -0.83, -1.83, -1.16
+## PCA needed 2 components to capture 95 percent of the variance</code></pre>
+<pre class="r"><code># identify which variables were ignored, centered, scaled, etc
+abalone_no_nzv_pca$method</code></pre>
+<pre><code>## $center
+## [1] &quot;length&quot;         &quot;diameter&quot;       &quot;height&quot;         &quot;whole.weight&quot;  
+## [5] &quot;shucked.weight&quot; &quot;viscera.weight&quot; &quot;shell.weight&quot;  
+## 
+## $scale
+## [1] &quot;length&quot;         &quot;diameter&quot;       &quot;height&quot;         &quot;whole.weight&quot;  
+## [5] &quot;shucked.weight&quot; &quot;viscera.weight&quot; &quot;shell.weight&quot;  
+## 
+## $YeoJohnson
+## [1] &quot;height&quot;         &quot;whole.weight&quot;   &quot;shucked.weight&quot; &quot;viscera.weight&quot;
+## [5] &quot;shell.weight&quot;  
+## 
+## $pca
+## [1] &quot;length&quot;         &quot;diameter&quot;       &quot;height&quot;         &quot;whole.weight&quot;  
+## [5] &quot;shucked.weight&quot; &quot;viscera.weight&quot; &quot;shell.weight&quot;  
+## 
+## $ignore
+## [1] &quot;sex&quot;</code></pre>
+<pre class="r"><code># identify the principal components
+abalone_no_nzv_pca$rotation</code></pre>
+<pre><code>##                      PC1         PC2
+## length         0.3816318 -0.08579078
+## diameter       0.3820087 -0.03917963
+## height         0.3605513  0.88369339
+## whole.weight   0.3861041 -0.18447746
+## shucked.weight 0.3776840 -0.35538690
+## viscera.weight 0.3789907 -0.21852369
+## shell.weight   0.3782510  0.04589682</code></pre>
+</div>
+<div id="data-splitting-createdatapartition-and-groupkfold" class="section level2">
+<h2>Data splitting (<code>createDataPartition</code> and <code>groupKFold</code>)</h2>
+<p>Generating subsets of the data is easy with the <strong><code>createDataPartition</code></strong> function. While this function can be used to simply generate training and testing sets, it can also be used to subset the data while respecting important groupings that exist within the data.</p>
+<p>First, we show an example of performing general sample splitting to generate 10 different 80% subsamples.</p>
+<pre class="r"><code># identify the indices of 10 80% subsamples of the iris data
+train_index &lt;- createDataPartition(iris$Species,
+                                   p = 0.8,
+                                   list = FALSE,
+                                   times = 10)</code></pre>
+<pre class="r"><code># look at the first 6 indices of each subsample
+head(train_index)</code></pre>
+<pre><code>##      Resample01 Resample02 Resample03 Resample04 Resample05 Resample06
+## [1,]          3          1          1          2          1          1
+## [2,]          8          2          2          5          4          2
+## [3,]          9          4          3          7          5          3
+## [4,]         10          5          5          8          6          4
+## [5,]         11          6          6         10          7          6
+## [6,]         13          7          7         11          8          7
+##      Resample07 Resample08 Resample09 Resample10
+## [1,]          2          1          1          1
+## [2,]          4          2          2          3
+## [3,]          5          3          3          4
+## [4,]          6          4          4          6
+## [5,]          9          5          5          7
+## [6,]         10          6          6          8</code></pre>
+<p>While the above is incredibly useful, it is also very easy to do using a for loop. Not so exciting.</p>
+<p>Something that IS more exciting is the ability to do K-fold cross validation which respects groupings in the data. The <strong><code>groupKFold</code></strong> function does just that!</p>
+<p>As an example, let’s consider the following made-up abalone groups so that each sequential set of 5 abalone that appear in the dataset together are in the same group. For simplicity we will only consider the first 50 abalone.</p>
+<pre class="r"><code># add a madeup grouping variable that groupes each subsequent 5 abalone together
+# filter to the first 50 abalone for simplicity
+abalone_grouped &lt;- cbind(abalone_train[1:50, ], group = rep(1:10, each = 5))
+head(abalone_grouped, 10)</code></pre>
+<pre><code>##    sex length diameter height whole.weight shucked.weight viscera.weight
+## 1    M  0.350    0.265  0.090       0.2255         0.0995         0.0485
+## 2    F  0.530    0.420  0.135       0.6770         0.2565         0.1415
+## 3    M  0.440    0.365  0.125       0.5160         0.2155         0.1140
+## 4    I  0.330    0.255  0.080       0.2050         0.0895         0.0395
+## 5    I  0.425    0.300  0.095       0.3515         0.1410         0.0775
+## 6    F  0.530    0.415  0.150       0.7775         0.2370         0.1415
+## 7    F  0.545    0.425  0.125       0.7680         0.2940         0.1495
+## 8    M  0.475    0.370  0.125       0.5095         0.2165         0.1125
+## 9    F  0.550    0.440  0.150       0.8945         0.3145         0.1510
+## 10   F  0.525    0.380  0.140       0.6065         0.1940         0.1475
+##    shell.weight   old group
+## 1         0.070  TRUE     1
+## 2         0.210  TRUE     1
+## 3         0.155 FALSE     1
+## 4         0.055  TRUE     1
+## 5         0.120  TRUE     1
+## 6         0.330 FALSE     2
+## 7         0.260 FALSE     2
+## 8         0.165  TRUE     2
+## 9         0.320 FALSE     2
+## 10        0.210 FALSE     2</code></pre>
+<p>The following code performs 10-fold cross-validation while respecting the groups in the abalone data. That is, each group of abalone must always appear in the same group together.</p>
+<pre class="r"><code># perform grouped K means
+group_folds &lt;- groupKFold(abalone_grouped$group, k = 10)
+group_folds</code></pre>
+<pre><code>## $Fold01
+##  [1]  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+## [24] 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold02
+##  [1]  1  2  3  4  5 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+## [24] 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold03
+##  [1]  1  2  3  4  5  6  7  8  9 10 16 17 18 19 20 21 22 23 24 25 26 27 28
+## [24] 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold04
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 21 22 23 24 25 26 27 28
+## [24] 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold05
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 26 27 28
+## [24] 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold06
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold07
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26 27 28 29 30 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold08
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26 27 28 29 30 31 32 33 34 35 41 42 43 44 45 46 47 48 49 50
+## 
+## $Fold09
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 46 47 48 49 50
+## 
+## $Fold10
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45</code></pre>
+</div>
+<div id="resampling-options-traincontrol" class="section level2">
+<h2>Resampling options (<code>trainControl</code>)</h2>
+<p>One of the most important part of training ML models is tuning parameters. You can use the <strong><code>trainControl</code></strong> function to specify a number of parameters (including sampling parameters) in your model. The object that is outputted from <code>trainControl</code> will be provided as an argument for <code>train</code>.</p>
+<pre class="r"><code>set.seed(998)
+# create a testing and training set
+in_training &lt;- createDataPartition(abalone_train$old, p = .75, list = FALSE)
+training &lt;- abalone_train[ in_training,]
+testing  &lt;- abalone_train[-in_training,]</code></pre>
+<pre class="r"><code># specify that the resampling method is 
+fit_control &lt;- trainControl(## 10-fold CV
+                           method = &quot;cv&quot;,
+                           number = 10)</code></pre>
+<pre class="r"><code># run a random forest model
+set.seed(825)
+rf_fit &lt;- train(as.factor(old) ~ ., 
+                data = abalone_train, 
+                method = &quot;ranger&quot;,
+                trControl = fit_control)
+rf_fit</code></pre>
+<pre><code>## Random Forest 
+## 
+## 3759 samples
+##    8 predictor
+##    2 classes: &#39;FALSE&#39;, &#39;TRUE&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 3383, 3384, 3384, 3382, 3382, 3383, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  splitrule   Accuracy   Kappa    
+##   2     gini        0.7983538  0.5966225
+##   2     extratrees  0.7866417  0.5731206
+##   5     gini        0.7927771  0.5854628
+##   5     extratrees  0.7924991  0.5848968
+##   9     gini        0.7871984  0.5743095
+##   9     extratrees  0.7882530  0.5764066
+## 
+## Tuning parameter &#39;min.node.size&#39; was held constant at a value of 1
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 2, splitrule = gini
+##  and min.node.size = 1.</code></pre>
+<p>We could instead use our <strong>grouped folds</strong> (rather than random CV folds) by assigning the <code>index</code> argument of <code>trainControl</code> to be <code>grouped_folds</code>.</p>
+<pre class="r"><code># specify that the resampling method is 
+group_fit_control &lt;- trainControl(## use grouped CV folds
+                                  index = group_folds,
+                                  method = &quot;cv&quot;)
+set.seed(825)
+rf_fit &lt;- train(as.factor(old) ~ ., 
+                data = select(abalone_grouped, - group), 
+                method = &quot;ranger&quot;,
+                trControl = group_fit_control)</code></pre>
+<pre class="r"><code>rf_fit</code></pre>
+<pre><code>## Random Forest 
+## 
+## 50 samples
+##  8 predictor
+##  2 classes: &#39;FALSE&#39;, &#39;TRUE&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 45, 45, 45, 45, 45, 45, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  splitrule   Accuracy  Kappa     
+##   2     gini        0.64      0.02094780
+##   2     extratrees  0.68      0.11145105
+##   5     gini        0.64      0.02094780
+##   5     extratrees  0.68      0.12849650
+##   9     gini        0.66      0.08644134
+##   9     extratrees  0.68      0.09724650
+## 
+## Tuning parameter &#39;min.node.size&#39; was held constant at a value of 1
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 2, splitrule =
+##  extratrees and min.node.size = 1.</code></pre>
+<p>You can also pass functions to <code>trainControl</code> that would have otherwise been passed to <code>preProcess</code>.</p>
+</div>
+<div id="model-parameter-tuning-options-tunegrid" class="section level2">
+<h2>Model parameter tuning options (<code>tuneGrid =</code>)</h2>
+<p>You could specify your own tuning grid for model parameters using the <code>tuneGrid</code> argument of the <code>train</code> function. For example, you can define a grid of parameter combinations.</p>
+<pre class="r"><code># define a grid of parameter options to try
+rf_grid &lt;- expand.grid(mtry = c(2, 3, 4, 5),
+                      splitrule = c(&quot;gini&quot;, &quot;extratrees&quot;),
+                      min.node.size = c(1, 3, 5))
+rf_grid</code></pre>
+<pre><code>##    mtry  splitrule min.node.size
+## 1     2       gini             1
+## 2     3       gini             1
+## 3     4       gini             1
+## 4     5       gini             1
+## 5     2 extratrees             1
+## 6     3 extratrees             1
+## 7     4 extratrees             1
+## 8     5 extratrees             1
+## 9     2       gini             3
+## 10    3       gini             3
+## 11    4       gini             3
+## 12    5       gini             3
+## 13    2 extratrees             3
+## 14    3 extratrees             3
+## 15    4 extratrees             3
+## 16    5 extratrees             3
+## 17    2       gini             5
+## 18    3       gini             5
+## 19    4       gini             5
+## 20    5       gini             5
+## 21    2 extratrees             5
+## 22    3 extratrees             5
+## 23    4 extratrees             5
+## 24    5 extratrees             5</code></pre>
+<pre class="r"><code># re-fit the model with the parameter grid
+rf_fit &lt;- train(as.factor(old) ~ ., 
+                data = select(abalone_grouped, - group), 
+                method = &quot;ranger&quot;,
+                trControl = group_fit_control,
+                # provide a grid of parameters
+                tuneGrid = rf_grid)</code></pre>
+<pre><code>## Warning in nominalTrainWorkflow(x = x, y = y, wts = weights, info =
+## trainInfo, : There were missing values in resampled performance measures.</code></pre>
+<pre class="r"><code>rf_fit</code></pre>
+<pre><code>## Random Forest 
+## 
+## 50 samples
+##  8 predictor
+##  2 classes: &#39;FALSE&#39;, &#39;TRUE&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 45, 45, 45, 45, 45, 45, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  splitrule   min.node.size  Accuracy  Kappa     
+##   2     gini        1              0.62      0.02094780
+##   2     gini        3              0.64      0.02906469
+##   2     gini        5              0.66      0.02906469
+##   2     extratrees  1              0.66      0.09724650
+##   2     extratrees  3              0.66      0.05463287
+##   2     extratrees  5              0.70      0.14716533
+##   3     gini        1              0.64      0.02094780
+##   3     gini        3              0.66      0.08912962
+##   3     gini        5              0.66      0.02906469
+##   3     extratrees  1              0.64      0.08304196
+##   3     extratrees  3              0.66      0.09724650
+##   3     extratrees  5              0.68      0.11145105
+##   4     gini        1              0.68      0.09724650
+##   4     gini        3              0.66      0.08912962
+##   4     gini        5              0.68      0.09724650
+##   4     extratrees  1              0.66      0.09724650
+##   4     extratrees  3              0.68      0.11145105
+##   4     extratrees  5              0.68      0.11145105
+##   5     gini        1              0.64      0.02094780
+##   5     gini        3              0.66      0.02906469
+##   5     gini        5              0.70      0.15406469
+##   5     extratrees  1              0.62      0.07492507
+##   5     extratrees  3              0.72      0.14270105
+##   5     extratrees  5              0.70      0.14270105
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 5, splitrule =
+##  extratrees and min.node.size = 3.</code></pre>
+</div>
+</div>
+<div id="advanced-topics" class="section level1">
+<h1>Advanced topics</h1>
+<p>This tutorial has only scratched the surface of all of the options in the caret package. To find out more, see the extensive vignette <a href="https://topepo.github.io/caret/index.html" class="uri">https://topepo.github.io/caret/index.html</a>.</p>
+</div>

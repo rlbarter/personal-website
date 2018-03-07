@@ -29,8 +29,7 @@ For example, Coolors shoots random, appealing, color palettes at you and you can
       <guid>/blog/2017-04-20-interactive/</guid>
       <description>Last week I gave an SGSA seminar on interactive visualizations in R.
 Here is a long-form version of the talk.
-Why be interactive? Interactivity allows the viewer to engage with your data in ways impossible by static graphs. With an interactive plot, the viewer can zoom into the areas the care about, highlight the data points that are relevant to them and hide the information that isn’t.
-Above all of that, making simple interactive plots are a sure-fire way to impress your coworkers!</description>
+Why be interactive? Interactivity allows the viewer to engage with your data in ways impossible by static graphs. With an interactive plot, the viewer can zoom into the areas the care about, highlight the data points that are relevant to them and hide the information that isn’t.</description>
     </item>
     
   </channel>

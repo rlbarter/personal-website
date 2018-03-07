@@ -92,41 +92,71 @@ Tutorial)
 
 ------
 
+## Workshops
+
+March 7 2018, *ggplot2 workshop*, [**Joint Genome Institute**](https://jgi.doe.gov/)
+
+- A 1.5 hour workshop on visualization (focusing on ggplot2) at Joint Genome Institute for 40 staff members.
+
+- [Github repo](https://github.com/rlbarter/ggplot-jgi).
+
+Novmber 1 2017, *ggplot2 workshop*, [**The Hacker Within**](http://www.thehackerwithin.org/berkeley/), Berkeley Institute of Data Science
+
+- A 1 hour workshop on ggplot2 for The Hacker Within series which is a weekly peer learning group for sharing skills and best practices for scientific computation and data science (approx 20 attendees).
+
+- [Github repo](https://github.com/rlbarter/ggplot-jgi).
+
+September 24 2017, *Visualization workshop*, [**R Ladies SF**](https://www.meetup.com/rladies-san-francisco/events/243118950/)
+
+- A 30-minute workshop on visualization focusing on my superheat R package for 20 women at R Ladies (SF). 
+
+- [Github repo](https://github.com/rlbarter/R-Ladies-Superheat)
+
+
+May 3 2017, *The Role of Machine Learning in Computerized Decision Making for Clinical Decision Support Systems in Healthcare*, **UC Davis**
+
+- A 2-hour workshop on the role of machine learning in CDS in healthcare at UC Davis. 
+
+- [video](https://ucdhs.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4bfc4adf-d592-4204-b463-3e58edaebf83), <a href="talks/Davis_Healthcare.pdf" title="Davis slides">slides</a>
+
+
+April 14 2017, *Interactive Visualization in R*, **SGSA Seminar Series** 
+
+- I ran a 1-hour workshop on interactive visualization in R for 15 graduate students in the statistics department. 
+
+- [slides](/img/talks/interactive_vis_slides.html)
+
+
+March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https://bids.berkeley.edu/events/docathon), Berkeley Institute of Data Science
+
+- I ran a workshop for approximately 50 attendees on generating documentation for R packages as a part of the Docathon, an event highlighting the importance of software documentation. 
+
+- [Github repo](https://github.com/rlbarter/R-documentation) 
+
+- [video](https://www.youtube.com/watch?v=ikT_xnTFHC0)
+
+
+
+
+
+
+------
+
 ## Community
-
-
-
 
 2018 - present *Certified Instructor*, [**Software Carpentry**](https://software-carpentry.org/)
 
-- I recently became certified to run and teach software carpentry training workshops.
+- I am certified to run and teach software carpentry training workshops.
 
-2017 - present *Instructor*, [**The Hacker Within**](http://www.thehackerwithin.org/berkeley/), Berkeley Institute of Data Science
-
-- I lead a session on ggplot2 for The Hacker Within series which is a weekly peer learning group for sharing skills and best practices for scientific computation and data science.
-
-2017 - present *Regular presenter*, [**R Ladies SF**](https://twitter.com/rladiessf?lang=en)
-
-- I regularly present on R-related topics (such as visualization) at the R Ladies SF meetup group.
-
-2017 *Docathon Instructor*, [**Docathon 2017**](https://bids.berkeley.edu/events/docathon), Berkeley Institute of Data Science
-
-- I presented on making documentation in R: [Documentation in R](https://github.com/rlbarter/R-documentation) ([video](https://www.youtube.com/watch?v=ikT_xnTFHC0))
 
 2017 - present *Founder and organizer*, [**Practical Statistics**](https://rlbarter.github.io/Practical-Statistics/)
 
 - I founded and organized Practical Statistics: a group of graduate students, post-docs and research staff from the Statistics department, BIDS and D-Lab who meet to teach each other about statistical topics that are widely used in science, but rarely taught to statisticians.
 
 
-
-
 2016/17 *Co-president*, [**Statistics Graduate Student Association (SGSA)**](http://sgsa.berkeley.edu/)
 
 - Together with Kellie Ottoboni, I acted as the head of the graduate student body for the statistics department. 
-
-
-
-
 
 
 ------
@@ -147,11 +177,8 @@ July 2014 - **Network-based biomarkers enhance classical approaches to prognosti
 
 ### Other Talks
 
-May 2017 - **The Role of Machine Learning in Computerized Decision Making for Clinical Decision Support Systems in Healthcare**, UC Davis. [[video](https://ucdhs.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4bfc4adf-d592-4204-b463-3e58edaebf83), <a href="talks/Davis_Healthcare.pdf" title="Davis slides">slides</a>]
 
 May 2017 - **Superheat: An R Package for Generating Beautiful, Extendable, Customizable Heatmaps**, Berkeley Institute for Data Science (BIDS) Faire 2017. [[video](https://youtu.be/iZqqe-R5c0I), <a href="talks/BIDS_Faire_Superheat.pdf" title="BIDS Faire slides">slides</a>]
-
-April 2017 - **Interactive Visualization in R**, SGSA Seminar Series. [[slides](/img/talks/interactive_vis_slides.html)]
 
 April 2016 - **Correlation vs Causation: Why the Media Gets it Wrong!**, UC Berkeley Cal Day 2016. [<a href="talks/Cal_Day_Presentation.pdf" title="Cal Day">slides</a>]
 

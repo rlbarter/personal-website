@@ -29,6 +29,7 @@ I will begin by providing an overview of the layered grammar of graphics upon wh
 1. Themes: deviating from the defaults to produce beautiful graphics
 
 By the end of this tutorial, you will be able to produce beautiful graphics such as this:
+
 ```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align="center"}
 library(ggplot2)
 # to download the data directly:

@@ -58,7 +58,7 @@
 
 
 <meta itemprop="dateModified" content="2017-11-17T21:13:14-05:00" />
-<meta itemprop="wordCount" content="2881">
+<meta itemprop="wordCount" content="3115">
 
 
 
@@ -75,11 +75,11 @@
 
         
         
-            <link rel="stylesheet" href="../../css/google-font.css" />
-            <link rel="stylesheet" href="../../css/font-awesome.min.css" />
-            <link rel="stylesheet" href="../../css/main.css" />
-            <link rel="stylesheet" href="../../css/add-on.css" />
-            <link rel="stylesheet" href="../../css/tomorrow.css">
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
         
 
         
@@ -105,10 +105,6 @@ ga('send', 'pageview');
         <script>
           hljs.initHighlightingOnLoad();
         </script>
-
-
-
-
 </head>
 
  <script type="text/javascript"
@@ -123,45 +119,45 @@ ga('send', 'pageview');
     
 <header id="header">
     
-        <h2><a href="../../">Rebecca Barter</i></a></h2>
+        <h2><a href="/">Rebecca Barter</i></a></h2>
     
 
     <nav class="links">
         <ul>
             
                 <li>
-                    <a href="../../blog">
+                    <a href="/blog">
                         
                             <i class="fa fa-newspaper-o">&nbsp;</i>Blog
                     </a>
                 </li>
             
                 <li>
-                    <a href="../../categories">
+                    <a href="/categories">
                         Categories
                     </a>
                 </li>
             
                 <li>
-                    <a href="../../about">
+                    <a href="/about">
                         About
                     </a>
                 </li>
             
                 <li>
-                    <a href="../../cv">
+                    <a href="/cv">
                         CV
                     </a>
                 </li>
             
                 <li>
-                    <a href="../../teaching">
+                    <a href="/teaching">
                         Teaching
                     </a>
                 </li>
             
                 <li>
-                    <a href="../../tutorials">
+                    <a href="/tutorials">
                         Tutorials
                     </a>
                 </li>
@@ -173,7 +169,7 @@ ga('send', 'pageview');
                 </li>
             
                 <li>
-                    <a href="../../contact">
+                    <a href="/contact">
                         Contact
                     </a>
                 </li>
@@ -217,7 +213,7 @@ ga('send', 'pageview');
             <ul class="links">
                 
                     <li>
-                        <a href="../../blog">
+                        <a href="/blog">
                             <h3>
                                 
                                     <i class="fa fa-newspaper-o">&nbsp;</i>
@@ -228,7 +224,7 @@ ga('send', 'pageview');
                     </li>
                 
                     <li>
-                        <a href="../../categories">
+                        <a href="/categories">
                             <h3>
                                 
                                 Categories
@@ -237,7 +233,7 @@ ga('send', 'pageview');
                     </li>
                 
                     <li>
-                        <a href="../../about">
+                        <a href="/about">
                             <h3>
                                 
                                 About
@@ -246,7 +242,7 @@ ga('send', 'pageview');
                     </li>
                 
                     <li>
-                        <a href="../../cv">
+                        <a href="/cv">
                             <h3>
                                 
                                 CV
@@ -255,7 +251,7 @@ ga('send', 'pageview');
                     </li>
                 
                     <li>
-                        <a href="../../teaching">
+                        <a href="/teaching">
                             <h3>
                                 
                                 Teaching
@@ -264,7 +260,7 @@ ga('send', 'pageview');
                     </li>
                 
                     <li>
-                        <a href="../../tutorials">
+                        <a href="/tutorials">
                             <h3>
                                 
                                 Tutorials
@@ -282,7 +278,7 @@ ga('send', 'pageview');
                     </li>
                 
                     <li>
-                        <a href="../../contact">
+                        <a href="/contact">
                             <h3>
                                 
                                 Contact
@@ -305,11 +301,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="../../blog/2017-11-17-ggplot2_tutorial/"><p>ggplot2: Mastering the basics</p></a>
+                        <a href="/blog/2017-11-17-ggplot2_tutorial/"><p>ggplot2: Mastering the basics</p></a>
                     </li>
                 
                     <li>
-                        <a href="../../blog/2017-11-17-caret_tutorial/"><p>A basic tutorial of caret: the machine learning package in R</p></a>
+                        <a href="/blog/2017-11-17-caret_tutorial/"><p>A basic tutorial of caret: the machine learning package in R</p></a>
                     </li>
                 
             </ul>
@@ -381,7 +377,7 @@ ga('send', 'pageview');
     <header>
     <div class="title">
         
-            <h1><a href="../../blog/2017-11-17-caret_tutorial/">A basic tutorial of caret: the machine learning package in R</a></h1>
+            <h1><a href="/blog/2017-11-17-caret_tutorial/">A basic tutorial of caret: the machine learning package in R</a></h1>
             
         
         
@@ -454,14 +450,12 @@ ga('send', 'pageview');
     
 
     <div id="content">
-
-
-<p>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.</p>
+        <p>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.</p>
 <p>An interactive Jupyter Notebook version of this tutorial can be found at <a href="https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11" class="uri">https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11</a>. Feel free to download it and use for your own learning or teaching adventures!</p>
 <p>R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.</p>
 <p>This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</p>
 <p>Recognizing this, Max Kuhn (at the time working in drug discovery at Pfizer, now at RStudio) put together a single package for performing any machine learning method you like. This package is called <code>caret</code>. Caret stands for <strong>C</strong>lassification <strong>A</strong>nd <strong>Re</strong>gression <strong>T</strong>raining. Apparently caret has little to do with our orange friend, the carrot.</p>
-<p><img src="../../img/caret/caret.png" /><!-- --></p>
+<p><img src="/img/caret/caret.png" /><!-- --></p>
 <p>Not only does caret allow you to run a plethora of ML methods, it also provides tools for auxiliary techniques such as:</p>
 <ul>
 <li><p>Data preparation (imputation, centering/scaling data, removing correlated predictors, reducing skewness)</p></li>
@@ -526,7 +520,7 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 ##   9     gini        0.7764632  0.5527355
 ##   9     extratrees  0.7838949  0.5675586
 ## 
-## Accuracy was used to select the optimal model using  the largest value.
+## Accuracy was used to select the optimal model using the largest value.
 ## The final values used for the model were mtry = 2 and splitrule = gini.</code></pre>
 <p>To test the data on an independent test set is equally as simple using the inbuilt <code>predict</code> function.</p>
 <pre class="r"><code># predict the outcome on a test set
@@ -758,8 +752,10 @@ rf_fit</code></pre>
 ##   9     gini        0.7871984  0.5743095
 ##   9     extratrees  0.7882530  0.5764066
 ## 
-## Accuracy was used to select the optimal model using  the largest value.
-## The final values used for the model were mtry = 2 and splitrule = gini.</code></pre>
+## Tuning parameter &#39;min.node.size&#39; was held constant at a value of 1
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 2, splitrule = gini
+##  and min.node.size = 1.</code></pre>
 <p>We could instead use our <strong>grouped folds</strong> (rather than random CV folds) by assigning the <code>index</code> argument of <code>trainControl</code> to be <code>grouped_folds</code>.</p>
 <pre class="r"><code># specify that the resampling method is 
 group_fit_control &lt;- trainControl(## use grouped CV folds
@@ -790,9 +786,10 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 ##   9     gini        0.66      0.08644134
 ##   9     extratrees  0.68      0.09724650
 ## 
-## Accuracy was used to select the optimal model using  the largest value.
-## The final values used for the model were mtry = 2 and splitrule
-##  = extratrees.</code></pre>
+## Tuning parameter &#39;min.node.size&#39; was held constant at a value of 1
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 2, splitrule =
+##  extratrees and min.node.size = 1.</code></pre>
 <p>You can also pass functions to <code>trainControl</code> that would have otherwise been passed to <code>preProcess</code>.</p>
 </div>
 <div id="model-parameter-tuning-options-tunegrid" class="section level2">
@@ -800,17 +797,34 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 <p>You could specify your own tuning grid for model parameters using the <code>tuneGrid</code> argument of the <code>train</code> function. For example, you can define a grid of parameter combinations.</p>
 <pre class="r"><code># define a grid of parameter options to try
 rf_grid &lt;- expand.grid(mtry = c(2, 3, 4, 5),
-                      splitrule = c(&quot;gini&quot;, &quot;extratrees&quot;))
+                      splitrule = c(&quot;gini&quot;, &quot;extratrees&quot;),
+                      min.node.size = c(1, 3, 5))
 rf_grid</code></pre>
-<pre><code>##   mtry  splitrule
-## 1    2       gini
-## 2    3       gini
-## 3    4       gini
-## 4    5       gini
-## 5    2 extratrees
-## 6    3 extratrees
-## 7    4 extratrees
-## 8    5 extratrees</code></pre>
+<pre><code>##    mtry  splitrule min.node.size
+## 1     2       gini             1
+## 2     3       gini             1
+## 3     4       gini             1
+## 4     5       gini             1
+## 5     2 extratrees             1
+## 6     3 extratrees             1
+## 7     4 extratrees             1
+## 8     5 extratrees             1
+## 9     2       gini             3
+## 10    3       gini             3
+## 11    4       gini             3
+## 12    5       gini             3
+## 13    2 extratrees             3
+## 14    3 extratrees             3
+## 15    4 extratrees             3
+## 16    5 extratrees             3
+## 17    2       gini             5
+## 18    3       gini             5
+## 19    4       gini             5
+## 20    5       gini             5
+## 21    2 extratrees             5
+## 22    3 extratrees             5
+## 23    4 extratrees             5
+## 24    5 extratrees             5</code></pre>
 <pre class="r"><code># re-fit the model with the parameter grid
 rf_fit &lt;- train(as.factor(old) ~ ., 
                 data = select(abalone_grouped, - group), 
@@ -832,26 +846,41 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 ## Summary of sample sizes: 45, 45, 45, 45, 45, 45, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  splitrule   Accuracy  Kappa     
-##   2     gini        0.68      0.09724650
-##   2     extratrees  0.64      0.04042832
-##   3     gini        0.66      0.08912962
-##   3     extratrees  0.64      0.04042832
-##   4     gini        0.66      0.08912962
-##   4     extratrees  0.62      0.02622378
-##   5     gini        0.68      0.09724650
-##   5     extratrees  0.66      0.04042832
+##   mtry  splitrule   min.node.size  Accuracy  Kappa     
+##   2     gini        1              0.62      0.02094780
+##   2     gini        3              0.64      0.02906469
+##   2     gini        5              0.66      0.02906469
+##   2     extratrees  1              0.66      0.09724650
+##   2     extratrees  3              0.66      0.05463287
+##   2     extratrees  5              0.70      0.14716533
+##   3     gini        1              0.64      0.02094780
+##   3     gini        3              0.66      0.08912962
+##   3     gini        5              0.66      0.02906469
+##   3     extratrees  1              0.64      0.08304196
+##   3     extratrees  3              0.66      0.09724650
+##   3     extratrees  5              0.68      0.11145105
+##   4     gini        1              0.68      0.09724650
+##   4     gini        3              0.66      0.08912962
+##   4     gini        5              0.68      0.09724650
+##   4     extratrees  1              0.66      0.09724650
+##   4     extratrees  3              0.68      0.11145105
+##   4     extratrees  5              0.68      0.11145105
+##   5     gini        1              0.64      0.02094780
+##   5     gini        3              0.66      0.02906469
+##   5     gini        5              0.70      0.15406469
+##   5     extratrees  1              0.62      0.07492507
+##   5     extratrees  3              0.72      0.14270105
+##   5     extratrees  5              0.70      0.14270105
 ## 
-## Accuracy was used to select the optimal model using  the largest value.
-## The final values used for the model were mtry = 2 and splitrule = gini.</code></pre>
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were mtry = 5, splitrule =
+##  extratrees and min.node.size = 3.</code></pre>
 </div>
 </div>
 <div id="advanced-topics" class="section level1">
 <h1>Advanced topics</h1>
 <p>This tutorial has only scratched the surface of all of the options in the caret package. To find out more, see the extensive vignette <a href="https://topepo.github.io/caret/index.html" class="uri">https://topepo.github.io/caret/index.html</a>.</p>
 </div>
-
-
 
     </div>
 
@@ -881,9 +910,9 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 
     
     
-        <li><a href='../../categoriesr'>R</a></li>
+        <li><a href='/categoriesr'>R</a></li>
     
-        <li><a href='../../categoriesmachine-learning'>machine learning</a></li>
+        <li><a href='/categoriesmachine-learning'>machine learning</a></li>
     
 </ul>
 
@@ -891,12 +920,12 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 </article>
 <ul class="actions pagination">
     
-        <li><a href="../../blog/2017-08-16-data-science-workflow/"
+        <li><a href="/blog/2017-08-16-data-science-workflow/"
                 class="button big previous">A Basic Data Science Workflow</a></li>
     
 
     
-        <li><a href="../../blog/2017-11-17-ggplot2_tutorial/"
+        <li><a href="/blog/2017-11-17-ggplot2_tutorial/"
                 class="button big next">ggplot2: Mastering the basics</a></li>
     
 </ul>
@@ -928,7 +957,7 @@ s.setAttribute('data-timestamp', +new Date());
             
             
                 
-                    <a href="../../" class="logo"><img src="../../img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
                 
             
             
@@ -1018,7 +1047,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="../../blog/2017-11-17-ggplot2_tutorial/">ggplot2: Mastering the basics</a></h3>
+                                <h3><a href="/blog/2017-11-17-ggplot2_tutorial/">ggplot2: Mastering the basics</a></h3>
                                 
                                     
                                 
@@ -1032,7 +1061,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="../../blog/2017-11-17-caret_tutorial/">A basic tutorial of caret: the machine learning package in R</a></h3>
+                                <h3><a href="/blog/2017-11-17-caret_tutorial/">A basic tutorial of caret: the machine learning package in R</a></h3>
                                 
                                     
                                 
@@ -1065,7 +1094,7 @@ s.setAttribute('data-timestamp', +new Date());
         <section id="categories">
             <ul class="posts">
                 <header>
-                    <h3><a href="../../categories/">Categories</a></h3>
+                    <h3><a href="/categories/">Categories</a></h3>
                 </header>
 
                 
@@ -1076,7 +1105,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/r/">R</a>
+                                <a href="/categories/r/">R</a>
                                 <span style="float:right;">9</span>
                             </header>
                         </article>
@@ -1085,7 +1114,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/statistics/">Statistics</a>
+                                <a href="/categories/statistics/">Statistics</a>
                                 <span style="float:right;">3</span>
                             </header>
                         </article>
@@ -1094,7 +1123,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/causal-inference/">Causal Inference</a>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1103,7 +1132,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/communication/">Communication</a>
+                                <a href="/categories/communication/">Communication</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1112,7 +1141,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/misc/">Misc</a>
+                                <a href="/categories/misc/">Misc</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1121,7 +1150,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/visualization/">Visualization</a>
+                                <a href="/categories/visualization/">Visualization</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1130,7 +1159,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/superheat/">superheat</a>
+                                <a href="/categories/superheat/">superheat</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1139,7 +1168,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/anova/">Anova</a>
+                                <a href="/categories/anova/">Anova</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1148,7 +1177,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/documentation/">Documentation</a>
+                                <a href="/categories/documentation/">Documentation</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1157,7 +1186,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/interactivity/">Interactivity</a>
+                                <a href="/categories/interactivity/">Interactivity</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1166,7 +1195,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/workflow/">Workflow</a>
+                                <a href="/categories/workflow/">Workflow</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1175,7 +1204,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/machine-learning/">machine learning</a>
+                                <a href="/categories/machine-learning/">machine learning</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1184,7 +1213,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="../../categories/visualization/">visualization</a>
+                                <a href="/categories/visualization/">visualization</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1201,7 +1230,7 @@ s.setAttribute('data-timestamp', +new Date());
             <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
 
             <ul class="actions">
-                <li><a href="../../about/" class="button">Learn More</a></li>
+                <li><a href="/about/" class="button">Learn More</a></li>
             </ul>
         </section>
         
@@ -1286,12 +1315,12 @@ s.setAttribute('data-timestamp', +new Date());
 
         
         
-            <script src="../../js/jquery.min.js"></script>
-            <script src="../../js/skel.min.js"></script>
-            <script src="../../js/util.js"></script>
-            <script src="../../js/main.js"></script>
-            <script src="../../js/backToTop.js"></script>
-            <script src="../../js/highlight.pack.js"></script>
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
         
 
         

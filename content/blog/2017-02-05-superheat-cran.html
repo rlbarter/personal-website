@@ -1,0 +1,52 @@
+--- 
+author: "Rebecca Barter" 
+categories: [R, superheat] 
+date: 2017-02-05T09:44:30-08:00 
+type: "post" 
+description: "First version of superheat now available on CRAN." 
+featured: "" 
+featuredalt: "" 
+featuredpath: "" 
+linktitle: "" 
+title: "superheat 0.1.0" 
+---
+
+
+
+<p>superheat 0.1.0 is now available on CRAN. Superheat makes it easy to create extendable, cutomizable, and most importantly, beautiful heatmaps. It has increased flexibility and user-friendliness when compared to alternatives such as <code>heatmap()</code> and <code>pheatmap()</code>.</p>
+<p>For usage options see the <a href="https://rlbarter.github.io/superheat/"><strong>vignette</strong></a> and for examples see the accompanying <a href="https://arxiv.org/abs/1512.01524"><strong>paper by Barter and Yu (2017)</strong></a>.</p>
+<p>You can install the latest version with:</p>
+<pre class="r"><code>install.packages(&quot;superheat&quot;)</code></pre>
+<p>Stay tuned for new versions with added features and minor usability tweaks.</p>
+<div id="example-usage" class="section level2">
+<h2>Example usage</h2>
+<p>Usage is straightforward and intuitive:</p>
+<pre class="r"><code>library(superheat)
+set.seed(1347983)
+selected.rows &lt;- sample(1:nrow(mtcars), 10)
+# add a space after the column names for aesthetic purposes
+colnames(mtcars) &lt;- paste0(colnames(mtcars), &quot; &quot;)
+
+# plot the superheatmap
+superheat(mtcars[selected.rows,], 
+          # scale columns
+          scale = T, 
+          # label aesthetics
+          left.label.size = 0.5,
+          bottom.label.size = 0.15,
+          bottom.label.text.angle = 90,
+          bottom.label.text.alignment = &quot;right&quot;,
+          bottom.label.col = &quot;white&quot;,
+          # dendrogram
+          row.dendrogram = T,
+          # top plot
+          yt = sapply(mtcars, function(x) cor(x, mtcars$hp)),
+          yt.plot.type = &quot;bar&quot;,
+          yt.axis.name = &quot;correlation\nwith\nhorsepower&quot;,
+          # column order
+          order.cols = order(sapply(mtcars, function(x) cor(x, mtcars$hp))),
+          # grid lines
+          grid.vline.col = &quot;white&quot;,
+          grid.hline.col = &quot;white&quot;)</code></pre>
+<p><img src="/blog/2017-02-05-superheat-cran_files/figure-html/unnamed-chunk-2-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>

@@ -10,7 +10,7 @@ I appear to have made a number of tutorials on a variety of (mostly R-related) t
 
 - [caret](http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/): an introduction to caret prepared for STAT215A. [(Jupyter notebook)](https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11)
 
-- [ggplot2](http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/): ggplot2 basics prepared for The Hacker Within. [(Jupyter notebook)](https://github.com/rlbarter/ggplot2-thw)
+- [ggplot2](http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/): ggplot2 basics prepared for a workshop at Joint Genome Institute. [(Jupyter notebook)](https://github.com/rlbarter/ggplot2-jgi)
 
 - [interactive visualization](http://www.rebeccabarter.com/blog/2017-04-20-interactive/): a tutorial on interactive viz prepared for the SGSA student seminar series.
 
