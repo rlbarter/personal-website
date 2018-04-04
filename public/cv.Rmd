@@ -94,6 +94,12 @@ Tutorial)
 
 ## Workshops
 
+April 4 2018, *Creating effective visualizations*, [**Environment and Society: Data Science for the 21st Century, UC Berkeley**]()
+
+- a 1.5 hour workshop on general principles for creating effective figures to 15 students in the National Science Foundation Research Traineeship (NRT) interdisciplinary graduate training program at UC Berkeley at the interface of data, social and natural sciences.
+
+- [slides](http://slides.com/rebeccabarter/creating-effective-visualizations/fullscreen)
+
 March 7 2018, *ggplot2 workshop*, [**Joint Genome Institute**](https://jgi.doe.gov/)
 
 - A 1.5 hour workshop on visualization (focusing on ggplot2) at Joint Genome Institute for 40 staff members.
