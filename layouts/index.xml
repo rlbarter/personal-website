@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Nov 2017 22:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 23 May 2018 21:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Understanding Instrumental Variables</title>
+      <link>/blog/2018-05-23-instrumental_variables/</link>
+      <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-05-23-instrumental_variables/</guid>
+      <description>Suppose, as many do, that we want to estimate the effect of an action (or treatment) on an outcome. As an example, we might be interested in estimating the effect of receiving a drug vs not receiving a drug on the incidence of heart disease. In an ideal futuristic world, we would take each individual in our population and split them into two identical humans: one who receives the treatment and the other who doesn’t.</description>
+    </item>
     
     <item>
       <title>ggplot2: Mastering the basics</title>
@@ -90,8 +99,7 @@ For example, Coolors shoots random, appealing, color palettes at you and you can
       <guid>/blog/2017-04-20-interactive/</guid>
       <description>Last week I gave an SGSA seminar on interactive visualizations in R.
 Here is a long-form version of the talk.
-Why be interactive? Interactivity allows the viewer to engage with your data in ways impossible by static graphs. With an interactive plot, the viewer can zoom into the areas the care about, highlight the data points that are relevant to them and hide the information that isn’t.
-Above all of that, making simple interactive plots are a sure-fire way to impress your coworkers!</description>
+Why be interactive? Interactivity allows the viewer to engage with your data in ways impossible by static graphs. With an interactive plot, the viewer can zoom into the areas the care about, highlight the data points that are relevant to them and hide the information that isn’t.</description>
     </item>
     
     <item>
@@ -167,316 +175,6 @@ In 2015, UC Berkeley experienced a series of high-profile sexual harassment inci
       <guid>/blog/2015-07-23-pie/</guid>
       <description>Pie charts are terrible Pie charts are notoriously terrible for data visualization. Humans are genuinely bad at comparing angles. Thus, the only reason one should ever use a pie chart is to make beautiful pie-chart-art.
 par(mar = c(0, 1, 0, 1)) pie( c(280, 60, 20), c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;), col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;), init.angle = -50, border = NA )  Figure 1: Pyramid pie chart art.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/readme/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/readme/</guid>
-      <description>d3.tip: Tooltips for d3.js visualizations 
- See a live demo Example code  API Docs See the API Documentation
-Download Latest Version  Development Version : 6kb / ~2kb gzipped  Install with Bower bower install d3-tip  Quick Usage /* Initialize tooltip */ tip = d3.tip().attr(&#39;class&#39;, &#39;d3-tip&#39;).html(function(d) { return d; }); /* Invoke the tip in the context of your visualization */ vis.call(tip) vis.selectAll(&#39;rect&#39;) .data(data) .enter().append(&#39;rect&#39;) .attr(&#39;width&#39;, function() { return x.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/</guid>
-      <description> d3.tip API documetation Initializing tooltips  d3.tip  Showing and hiding tooltips  tip.show tip.hide  Styling and modifying tooltips  tip.attr tip.style  Positioning tooltips  tip.direction tip.offset  Updating tooltip content  tip.html  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/initializing-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/initializing-tooltips/</guid>
-      <description>API Documentation ➤ Initializing tooltips
-Initializing tooltips d3.tip Create and return a configurable function for a tooltip.
-You must call the tip on the context of the target visualization.
-var tip = d3.tip() .attr(&#39;class&#39;, &#39;d3-tip&#39;) .html(function(d) { return d; }) var vis = d3.select(document.body) .append(&#39;svg&#39;) // REQUIRED: Call the tooltip on the context of the visualization .call(tip) vis.append(&#39;rect&#39;) .attr(&#39;width&#39;, 100) .attr(&#39;height&#39;, 100) // Show and hide the tooltip .on(&#39;mouseover&#39;, tip.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/positioning-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/positioning-tooltips/</guid>
-      <description>API Documentation ➤ Positioning tooltips
-Positioning tooltips tip.direction(direction) Sets the position of a tooltip relative to a target element (except for mt which denotes placement of the tooltip at the mousetip). direction can be n, s, e, w, nw, ne, sw, se, or mt. The direction will also automatically be included as a classname on the tooltip element which allows for different style hooks based on the direction.
-tip.direction(&#39;n&#39;) // Position the tooltip to the top of a target element tip.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/showing-and-hiding-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/showing-and-hiding-tooltips/</guid>
-      <description>API Documentation ➤ Showing and hiding tooltips
-Showing and hiding tooltips tip.show Show a tooltip on the screen.
-rect.on(&#39;mouseover&#39;, tip.show)  rect.on(&#39;mouseover&#39;, function(d) { tip.show(d) })  Explicit targets Sometimes you need to manually specify a target to act on. For instance, maybe you want the tooltip to appear over a different element than the one that triggered a mouseover event. You can specify an explicit target by passing an SVGElement as the last argument.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/styling-and-modifying-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/styling-and-modifying-tooltips/</guid>
-      <description>API Documentation Styling and modifying tooltips
-Styling and modifying tooltips d3-tip makes no assumption about how tooltips will be styled, but we do provide some useful example styles. Incorporate it into your webpage like any other CSS file. For example, see this jsfiddle or any of the examples in the examples directory
-tip.style A proxy to d3&amp;rsquo;s selection.style.
-tip.attr A proxy to d3&amp;rsquo;s selection.attr.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/updating-tooltip-content/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/docs/updating-tooltip-content/</guid>
-      <description> API Documentation ➤ Updating tooltip content
-Updating tooltip content tip.html([content]) Set or get a tip&amp;rsquo;s HTML content.
-var tip = d3.tip().html(function(d) { return &amp;quot;&amp;lt;span&amp;gt;&amp;quot; + d + &amp;quot;&amp;lt;/span&amp;gt;&amp;quot; })  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/arrow-styles/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/arrow-styles/</guid>
-      <description>d3.tip.js - Tooltips for D3 Example styles   body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; width: 600px; } svg.n, svg.s { margin-left: 200px; margin-right: 200px; } svg.e { margin-left: 200px; } circle { fill: #ccc; fill-opacity: 0.6; stroke: #bbb; stroke-width: 1px; } circle:hover { fill: #bbb; stroke: #999; } text { text-anchor: middle; }    var data = [], random = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/bars/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/bars/</guid>
-      <description>d3.tip.js - Tooltips for D3 Bar Chart   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }     var tip = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/bulk-attr-style/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/bulk-attr-style/</guid>
-      <description>d3.tip.js - Tooltips for D3 Bar Chart   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }     var tip = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/circles/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/circles/</guid>
-      <description>d3.tip.js - Tooltips for D3 Circles   body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; } .d3-tip text { fill: #fff; font-size: 12px; stroke: none; font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif; } circle { fill: #ccc; fill-opacity: 0.6; stroke: #bbb; stroke-width: 1px; } circle:hover { fill: #bbb; stroke: #999; } circle.clickable:hover { cursor: pointer; } .rule { stroke-width: 1px; stroke: #c00; shape-rendering: crispedges; }    var data = [], random = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/css-transitions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/css-transitions/</guid>
-      <description>d3.tip.js - Tooltips for D3 CSS Transitions   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  @-webkit-keyframes bounceIn { 0% { opacity: 0; -webkit-transform: scale(.3); } 50% { opacity: 1; -webkit-transform: scale(1.05); } 70% { -webkit-transform: scale(.9); } 100% { -webkit-transform: scale(1); } } @keyframes bounceIn { 0% { opacity: 0; transform: scale(.3); } 50% { opacity: 1; transform: scale(1.05); } 70% { transform: scale(.9); } 100% { transform: scale(1); } } body { padding: 40px; font-family: &#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/explicit-target/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/explicit-target/</guid>
-      <description>d3.tip.js - Tooltips for D3 Explicit Target   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip { line-height: 1; font-weight: bold; padding: 12px; background: rgba(0, 0, 0, 0.8); color: #fff; border-radius: 2px; } .d3-tip:after { box-sizing: border-box; display: inline; font-size: 10px; width: 100%; line-height: 1; color: rgba(0, 0, 0, 0.8); content: &#34;\25BC&#34;; position: absolute; text-align: center; } .</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/performance/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/performance/</guid>
-      <description>d3.tip.js - Tooltips for D3 Bar Chart   body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; } .d3-tip text { fill: #fff; font-size: 12px; stroke: none; font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif; } circle { fill: #ccc; fill-opacity: 0.6; stroke: #bbb; stroke-width: 1px; } circle:hover { fill: #bbb; stroke: #999; } circle.clickable:hover { cursor: pointer; } .rule { stroke-width: 1px; stroke: #c00; shape-rendering: crispedges; }    var NODES = 5000 var RUNS = 3 var data = [], random = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/requirejs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3-tip/examples/requirejs/</guid>
-      <description>d3.tip.js - Tooltips for D3 require.js body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }  data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]   // Mostly used for development.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/chorddiag/lib/d3/readme/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/chorddiag/lib/d3/readme/</guid>
-      <description>Data-Driven Documents 
-D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS. D3 emphasizes web standards and combines powerful visualization components with a data-driven approach to DOM manipulation, giving you the full capabilities of modern browsers without tying yourself to a proprietary framework.
-Want to learn more? See the wiki.
-For examples, see the gallery and mbostock’s bl.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/readme/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/readme/</guid>
-      <description>d3.tip: Tooltips for d3.js visualizations 
- See a live demo Example code  API Docs See the API Documentation
-Download Latest Version  Development Version : 6kb / ~2kb gzipped  Install with Bower bower install d3-tip  Quick Usage /* Initialize tooltip */ tip = d3.tip().attr(&#39;class&#39;, &#39;d3-tip&#39;).html(function(d) { return d; }); /* Invoke the tip in the context of your visualization */ vis.call(tip) vis.selectAll(&#39;rect&#39;) .data(data) .enter().append(&#39;rect&#39;) .attr(&#39;width&#39;, function() { return x.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/docs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/docs/</guid>
-      <description> d3.tip API documetation Initializing tooltips  d3.tip  Showing and hiding tooltips  tip.show tip.hide  Styling and modifying tooltips  tip.attr tip.style  Positioning tooltips  tip.direction tip.offset  Updating tooltip content  tip.html  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/docs/initializing-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/docs/initializing-tooltips/</guid>
-      <description>API Documentation ➤ Initializing tooltips
-Initializing tooltips d3.tip Create and return a configurable function for a tooltip.
-You must call the tip on the context of the target visualization.
-var tip = d3.tip() .attr(&#39;class&#39;, &#39;d3-tip&#39;) .html(function(d) { return d; }) var vis = d3.select(document.body) .append(&#39;svg&#39;) // REQUIRED: Call the tooltip on the context of the visualization .call(tip) vis.append(&#39;rect&#39;) .attr(&#39;width&#39;, 100) .attr(&#39;height&#39;, 100) // Show and hide the tooltip .on(&#39;mouseover&#39;, tip.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/docs/positioning-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/docs/positioning-tooltips/</guid>
-      <description>API Documentation ➤ Positioning tooltips
-Positioning tooltips tip.direction(direction) Sets the position of a tooltip relative to a target element (except for mt which denotes placement of the tooltip at the mousetip). direction can be n, s, e, w, nw, ne, sw, se, or mt. The direction will also automatically be included as a classname on the tooltip element which allows for different style hooks based on the direction.
-tip.direction(&#39;n&#39;) // Position the tooltip to the top of a target element tip.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/docs/showing-and-hiding-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/docs/showing-and-hiding-tooltips/</guid>
-      <description>API Documentation ➤ Showing and hiding tooltips
-Showing and hiding tooltips tip.show Show a tooltip on the screen.
-rect.on(&#39;mouseover&#39;, tip.show)  rect.on(&#39;mouseover&#39;, function(d) { tip.show(d) })  Explicit targets Sometimes you need to manually specify a target to act on. For instance, maybe you want the tooltip to appear over a different element than the one that triggered a mouseover event. You can specify an explicit target by passing an SVGElement as the last argument.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/docs/styling-and-modifying-tooltips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/docs/styling-and-modifying-tooltips/</guid>
-      <description>API Documentation Styling and modifying tooltips
-Styling and modifying tooltips d3-tip makes no assumption about how tooltips will be styled, but we do provide some useful example styles. Incorporate it into your webpage like any other CSS file. For example, see this jsfiddle or any of the examples in the examples directory
-tip.style A proxy to d3&amp;rsquo;s selection.style.
-tip.attr A proxy to d3&amp;rsquo;s selection.attr.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/docs/updating-tooltip-content/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/docs/updating-tooltip-content/</guid>
-      <description> API Documentation ➤ Updating tooltip content
-Updating tooltip content tip.html([content]) Set or get a tip&amp;rsquo;s HTML content.
-var tip = d3.tip().html(function(d) { return &amp;quot;&amp;lt;span&amp;gt;&amp;quot; + d + &amp;quot;&amp;lt;/span&amp;gt;&amp;quot; })  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/arrow-styles/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/arrow-styles/</guid>
-      <description>d3.tip.js - Tooltips for D3 Example styles   body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; width: 600px; } svg.n, svg.s { margin-left: 200px; margin-right: 200px; } svg.e { margin-left: 200px; } circle { fill: #ccc; fill-opacity: 0.6; stroke: #bbb; stroke-width: 1px; } circle:hover { fill: #bbb; stroke: #999; } text { text-anchor: middle; }    var data = [], random = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/bars/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/bars/</guid>
-      <description>d3.tip.js - Tooltips for D3 Bar Chart   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }     var tip = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/bulk-attr-style/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/bulk-attr-style/</guid>
-      <description>d3.tip.js - Tooltips for D3 Bar Chart   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }     var tip = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/circles/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/circles/</guid>
-      <description>d3.tip.js - Tooltips for D3 Circles   body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; } .d3-tip text { fill: #fff; font-size: 12px; stroke: none; font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif; } circle { fill: #ccc; fill-opacity: 0.6; stroke: #bbb; stroke-width: 1px; } circle:hover { fill: #bbb; stroke: #999; } circle.clickable:hover { cursor: pointer; } .rule { stroke-width: 1px; stroke: #c00; shape-rendering: crispedges; }    var data = [], random = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/css-transitions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/css-transitions/</guid>
-      <description>d3.tip.js - Tooltips for D3 CSS Transitions   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  @-webkit-keyframes bounceIn { 0% { opacity: 0; -webkit-transform: scale(.3); } 50% { opacity: 1; -webkit-transform: scale(1.05); } 70% { -webkit-transform: scale(.9); } 100% { -webkit-transform: scale(1); } } @keyframes bounceIn { 0% { opacity: 0; transform: scale(.3); } 50% { opacity: 1; transform: scale(1.05); } 70% { transform: scale(.9); } 100% { transform: scale(1); } } body { padding: 40px; font-family: &#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/explicit-target/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/explicit-target/</guid>
-      <description>d3.tip.js - Tooltips for D3 Explicit Target   data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]  body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip { line-height: 1; font-weight: bold; padding: 12px; background: rgba(0, 0, 0, 0.8); color: #fff; border-radius: 2px; } .d3-tip:after { box-sizing: border-box; display: inline; font-size: 10px; width: 100%; line-height: 1; color: rgba(0, 0, 0, 0.8); content: &#34;\25BC&#34;; position: absolute; text-align: center; } .</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/performance/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/performance/</guid>
-      <description>d3.tip.js - Tooltips for D3 Bar Chart   body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; } .d3-tip text { fill: #fff; font-size: 12px; stroke: none; font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif; } circle { fill: #ccc; fill-opacity: 0.6; stroke: #bbb; stroke-width: 1px; } circle:hover { fill: #bbb; stroke: #999; } circle.clickable:hover { cursor: pointer; } .rule { stroke-width: 1px; stroke: #c00; shape-rendering: crispedges; }    var NODES = 5000 var RUNS = 3 var data = [], random = d3.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/2017-04-20-interactive_files/d3-tip/examples/requirejs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/2017-04-20-interactive_files/d3-tip/examples/requirejs/</guid>
-      <description>d3.tip.js - Tooltips for D3 require.js body { padding: 40px; font-family: &#34;Helvetica Neue&#34;, Helvetica, sans-serif; font-size: 12px; height: 1000px; } .d3-tip span { color: #ff00c7; } .domain { display: none; } .axis line { stroke-width: 1px; stroke: #eee; shape-rendering: crispedges; } .axis text { fill: #888; } rect { fill: #339cff; fill-opacity: 0.7; } rect:hover { fill-opacity: 1; }  data = [{&#34;total&#34;:225,&#34;days&#34;:[12,51,60,26,38,31,7]},{&#34;total&#34;:279,&#34;days&#34;:[42,33,34,72,61,12,25]},{&#34;total&#34;:212,&#34;days&#34;:[12,59,24,70,36,5,6]},{&#34;total&#34;:335,&#34;days&#34;:[17,43,38,58,67,72,40]},{&#34;total&#34;:329,&#34;days&#34;:[40,53,62,48,38,36,52]},{&#34;total&#34;:234,&#34;days&#34;:[15,25,41,66,35,37,15]},{&#34;total&#34;:175,&#34;days&#34;:[2,40,23,40,23,34,13]},{&#34;total&#34;:308,&#34;days&#34;:[20,22,63,55,51,66,31]},{&#34;total&#34;:401,&#34;days&#34;:[20,64,42,62,88,79,46]},{&#34;total&#34;:214,&#34;days&#34;:[24,27,25,48,38,28,24]},{&#34;total&#34;:332,&#34;days&#34;:[26,43,20,109,74,29,31]},{&#34;total&#34;:333,&#34;days&#34;:[65,66,62,60,14,43,23]},{&#34;total&#34;:437,&#34;days&#34;:[33,74,82,70,85,64,29]},{&#34;total&#34;:687,&#34;days&#34;:[29,82,87,167,156,126,40]},{&#34;total&#34;:243,&#34;days&#34;:[11,52,44,50,46,30,10]},{&#34;total&#34;:360,&#34;days&#34;:[16,41,86,62,83,60,12]},{&#34;total&#34;:349,&#34;days&#34;:[22,55,48,36,88,57,43]},{&#34;total&#34;:368,&#34;days&#34;:[29,100,68,54,55,46,16]},{&#34;total&#34;:377,&#34;days&#34;:[3,71,66,57,93,82,5]},{&#34;total&#34;:265,&#34;days&#34;:[12,61,61,19,44,46,22]},{&#34;total&#34;:396,&#34;days&#34;:[20,58,70,52,84,93,19]},{&#34;total&#34;:467,&#34;days&#34;:[25,47,128,93,70,35,69]},{&#34;total&#34;:524,&#34;days&#34;:[55,79,94,95,122,70,9]},{&#34;total&#34;:535,&#34;days&#34;:[21,96,95,115,78,89,41]},{&#34;total&#34;:333,&#34;days&#34;:[20,50,49,52,58,51,53]},{&#34;total&#34;:258,&#34;days&#34;:[7,23,50,59,46,50,23]},{&#34;total&#34;:242,&#34;days&#34;:[12,4,54,53,46,33,40]},{&#34;total&#34;:335,&#34;days&#34;:[1,34,40,75,97,51,37]},{&#34;total&#34;:325,&#34;days&#34;:[32,57,65,46,60,58,7]},{&#34;total&#34;:224,&#34;days&#34;:[23,42,43,28,31,27,30]},{&#34;total&#34;:317,&#34;days&#34;:[20,46,43,46,83,36,43]},{&#34;total&#34;:119,&#34;days&#34;:[1,10,9,45,30,17,7]},{&#34;total&#34;:368,&#34;days&#34;:[13,74,77,85,72,40,7]},{&#34;total&#34;:271,&#34;days&#34;:[10,50,46,61,68,31,5]},{&#34;total&#34;:290,&#34;days&#34;:[26,48,39,37,68,43,29]},{&#34;total&#34;:393,&#34;days&#34;:[27,50,133,47,73,37,26]},{&#34;total&#34;:316,&#34;days&#34;:[2,63,66,47,63,33,42]},{&#34;total&#34;:146,&#34;days&#34;:[0,32,38,23,45,7,1]},{&#34;total&#34;:255,&#34;days&#34;:[23,34,72,46,48,24,8]},{&#34;total&#34;:196,&#34;days&#34;:[9,32,82,18,16,29,10]},{&#34;total&#34;:410,&#34;days&#34;:[41,52,67,42,49,103,56]},{&#34;total&#34;:280,&#34;days&#34;:[13,35,40,60,68,53,11]},{&#34;total&#34;:432,&#34;days&#34;:[45,65,59,55,71,68,69]},{&#34;total&#34;:371,&#34;days&#34;:[19,104,95,51,66,20,16]},{&#34;total&#34;:285,&#34;days&#34;:[2,38,50,72,74,47,2]},{&#34;total&#34;:350,&#34;days&#34;:[47,16,96,93,32,52,14]},{&#34;total&#34;:234,&#34;days&#34;:[34,68,66,32,5,10,19]},{&#34;total&#34;:279,&#34;days&#34;:[27,43,64,48,60,25,12]},{&#34;total&#34;:391,&#34;days&#34;:[40,54,59,68,80,51,39]},{&#34;total&#34;:168,&#34;days&#34;:[0,44,42,36,30,16,0]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]},{&#34;total&#34;:14,&#34;days&#34;:[6,0,0,0,0,2,6]},{&#34;total&#34;:0,&#34;days&#34;:[0,0,0,0,0,0,0]}]   // Mostly used for development.</description>
     </item>
     
   </channel>
