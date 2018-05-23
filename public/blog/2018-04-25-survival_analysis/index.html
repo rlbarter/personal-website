@@ -1,0 +1,1120 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>A Mathematical Introduction to Survival Analysis</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="A summary of the key concepts in survival analysis.">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A Mathematical Introduction to Survival Analysis"/>
+<meta name="twitter:description" content="A summary of the key concepts in survival analysis."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="A Mathematical Introduction to Survival Analysis" />
+<meta property="og:description" content="A summary of the key concepts in survival analysis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2018-04-25-survival_analysis/" />
+
+
+
+<meta property="article:published_time" content="2018-04-20T21:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2018-04-20T21:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="A Mathematical Introduction to Survival Analysis">
+<meta itemprop="description" content="A summary of the key concepts in survival analysis.">
+
+
+<meta itemprop="datePublished" content="2018-04-20T21:13:14-05:00" />
+<meta itemprop="dateModified" content="2018-04-20T21:13:14-05:00" />
+<meta itemprop="wordCount" content="2857">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="//css/tomorrow.css">
+        <script src="//js/highlight.pack.js"></script>
+        <script>
+          hljs.initHighlightingOnLoad();
+        </script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2018-05-25_purr/"><p>An introduction to the purr package</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2018-04-20-instrumental_variables/"><p>Understanding Instrumental Variables</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-04-25-survival_analysis%2f&text=A%20Mathematical%20Introduction%20to%20Survival%20Analysis&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-04-25-survival_analysis%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-04-25-survival_analysis%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-04-25-survival_analysis%2f&title=A%20Mathematical%20Introduction%20to%20Survival%20Analysis" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-04-25-survival_analysis%2f&title=A%20Mathematical%20Introduction%20to%20Survival%20Analysis" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-04-25-survival_analysis%2f&title=A%20Mathematical%20Introduction%20to%20Survival%20Analysis" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-04-25-survival_analysis%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2018-04-25-survival_analysis/">A Mathematical Introduction to Survival Analysis</a></h1>
+            
+        
+        
+            <p>A summary of the key concepts in survival analysis.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2018-04-20'>
+            April 20, 2018</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-04-25-survival_analysis%2f&text=A%20Mathematical%20Introduction%20to%20Survival%20Analysis&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-04-25-survival_analysis%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-04-25-survival_analysis%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-04-25-survival_analysis%2f&title=A%20Mathematical%20Introduction%20to%20Survival%20Analysis" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-04-25-survival_analysis%2f&title=A%20Mathematical%20Introduction%20to%20Survival%20Analysis" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-04-25-survival_analysis%2f&title=A%20Mathematical%20Introduction%20to%20Survival%20Analysis" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-04-25-survival_analysis%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <p>THIS IS ALL FAR TOO TECHNICAL FOR MY BLOG. NARROW IT DOWN TO THE BIG IDEAS.</p>
+<div id="key-functions-you-need-to-know" class="section level1">
+<h1>Key functions you need to know</h1>
+<p>The main quantities of interest in survival analysis are the <em>survival function</em> and the <em>hazard function</em>.</p>
+<p>The actual (observed) survival time, <span class="math inline">\(t\)</span>, of an individual can be viewed as a realization of a random variable <span class="math inline">\(T\)</span>. The distribution function of this time-to-death variable can be written as</p>
+<p><span class="math display">\[F(t) = P(T &lt; t) = \int_0^t f(u) du.\]</span></p>
+<p>Instead of being the probability of death occurring <em>before</em> time <span class="math inline">\(t\)</span> (as above), the survival function is the probability that death occurs <em>after</em> (or at) time <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[S(t) = P(T \geq t) = 1 - F(t).\]</span></p>
+<p>The hazard function, on the other hand, represents the instantaneous risk of death at time <span class="math inline">\(t\)</span>. This can be formulated as the probability that an individual dies at time <span class="math inline">\(t\)</span> given that they survived up to time <span class="math inline">\(t\)</span>. Since <span class="math inline">\(T\)</span> is a continuous random variable, <span class="math inline">\(T\)</span> is <em>exactly equal</em> to <span class="math inline">\(t\)</span> (a real number) with probability 0. Thus, instead of talking about <span class="math inline">\(T\)</span> being <em>equal</em> to <span class="math inline">\(t\)</span>, we instead say that it is <em>very close</em> to <span class="math inline">\(t\)</span>, i.e. that it lies between <span class="math inline">\(t\)</span> and <span class="math inline">\(t + \delta\)</span>, where <span class="math inline">\(\delta\)</span> is a very small number. Mathematically, the hazard function can be written as</p>
+<p><span class="math display">\[h(t) = \lim_{\delta \rightarrow 0} \left\{ \frac{P(t \leq T &lt; t + \delta | T \geq t)}{\delta}\right\}\]</span>
+If you’ve seen formal definitions of calculus, then you might recognize that this looks like a derivative!</p>
+<p>This can be re-written as</p>
+<p><span class="math display">\[h(t) \delta = P(t \leq T &lt; t + \delta | T \geq t)\]</span></p>
+<p>for very small <span class="math inline">\(\delta\)</span>, implying that <span class="math inline">\(h(t) \delta\)</span> is the probability of a death occuring within the interval <span class="math inline">\([t, t + \delta)\)</span>. Sending <span class="math inline">\(\delta \rightarrow 0\)</span> gives us the risk of death at <span class="math inline">\(t\)</span>, which is the hazard ratio.</p>
+<p>Note that the rules of probability dictate that <span class="math inline">\(P(A | B) = P(AB) / P(B)\)</span>, so that we can rewrite the internal portion hazard function as</p>
+<p><span class="math display">\[P(t \leq T &lt; t + \delta | T \geq t) = \frac{P(t \leq T &lt; t + \delta)}{P(T \geq t)} = \frac{F(t + \delta) - F(t)}{S(t)}\]</span></p>
+<p>This means that the hazard function can be re-written as</p>
+<p><span class="math display">\[
+\begin{align*}
+h(t) &amp;= \lim_{\delta \rightarrow 0} \left\{\frac{F(t + \delta) - F(t)}{\delta S(t)} \right\}\\
+ &amp; = \lim_{\delta \rightarrow 0} \left\{\frac{F(t + \delta) - F(t)}{\delta} \right\} \frac{1}{S(t)}\\
+ &amp; = \frac{f(t)}{S(t)}\\
+\end{align*}
+\]</span></p>
+<p>where <span class="math inline">\(f(t)\)</span> is the density function of <span class="math inline">\(T\)</span> which is equal to the derivative of the CDF function, <span class="math inline">\(F(t)\)</span>.</p>
+<p>Recalling that <span class="math inline">\(S(t) = 1 - F(t)\)</span> and by properties of the logarithm, we then have that</p>
+<p><span class="math display">\[h(t) = -\frac{d}{dt}\log S(t)\]</span></p>
+<p>and rearranging and integrating gives</p>
+<p><span class="math display">\[S(t) = e^{-H(t)}\]</span></p>
+<p>so that</p>
+<p><span class="math display">\[H(t) = -\log S(t)\]</span></p>
+<p>i.e. <strong>the cumulative hazard function can be obtained from the survival function</strong>, implying that the hazard function can be estimated from the observed survival times!</p>
+</div>
+<div id="summarising-survival-data-with-non-parametric-estimation" class="section level1">
+<h1>Summarising survival data with non-parametric estimation</h1>
+<p>Typically the first step of survival analysis is to estimate the survival and hazard functions based on the survival times observed. The initial estimates are typically <em>non-parametric</em> in that they make no assumptions about the distribution of the data and can be seen as akin to measuring the mean of variables in a dataset prior to modeling using linear regression.</p>
+<p>Estimating the survival function can be done by essentially calculating the number of patients that survive past time <span class="math inline">\(t\)</span> and dividing either by (1) the total number of patients in the study:</p>
+<p><span class="math display">\[\hat{S}(t) = \frac{\textrm{Number of individuals that survived past time $t$}}{\textrm{Number of individuals in the dataset}}\]</span></p>
+<p>or (2) the number of patients still alive at time <span class="math inline">\(t\)</span> (the Kaplan-Meier estimator):</p>
+<p><span class="math display">\[\hat{S}(t) = \frac{\textrm{Number of individuals that survived past time $t$}}{\textrm{Number of }}\]</span></p>
+<p>The Kaplan-Meier estimator is more commonly considered. TALK ABOUT KM CURVES</p>
+</div>
+<div id="modeling-survival-data-using-covariates" class="section level1">
+<h1>Modeling survival data using covariates</h1>
+<p>In survival analysis, the quantity of interest isn’t the final survival time itself (primarily because this is typically unobserved for most individuals), but is rather the hazard of death at any time in the study.</p>
+<p>Thus the outcome of regression models in survival analysis is the <em>hazard function</em>, rather than the survival outcome. This is quite a different setup to the usual linear regression models that we know and love.</p>
+<p>Two reasons for modelling:</p>
+<ul>
+<li><p>estimate effect of varibales on the hazard</p></li>
+<li><p>estimate hazard for an individual (previous section is to estimate average hazard for population</p></li>
+</ul>
+<p>Talk about hazard ratios, <span class="math inline">\(h_1(t) = \psi h_0(t)\)</span>. Since the hazard cannot be negative, it is common to write <span class="math inline">\(\psi = \exp(\eta)\)</span> where <span class="math inline">\(\eta\)</span> might be a combination of covariates. There are other possible choices for <span class="math inline">\(\psi\)</span>, but th echoice of <span class="math inline">\(\psi(x_i) = \exp(\beta^T x_i)\)</span> leads to the most commonly used model for survival data.</p>
+<p>The proportional hazard is thus</p>
+<p><span class="math display">\[h_i(t) = \exp(\beta_1 x_{1i} + ... + \beta_p x_{pi}) h_0(t)\]</span></p>
+<p>and since this can be re-expressed as</p>
+<p><span class="math display">\[\log \left( \frac{h_i(t)}{h_0(t)} \right) = \beta_1 x_{1i} + ... + \beta_p x_{pi}\]</span></p>
+<p>implying that the proportional hazards model can be regarded as a linear model for the logarithm of the hazards ratio.</p>
+<p>Notice that there is no constant term included in the linear component of the proportional hazards model. If a constant term, <span class="math inline">\(\beta_0\)</span> were included, then the baseline hazard function could simply be rescaled by dividing <span class="math inline">\(h_0(t)\)</span> by <span class="math inline">\(\exp(b_0)\)</span> and the constant term would cancel out. Importantly, we make no assumptions about the actual form of the baseline hazard function <span class="math inline">\(h_0(t)\)</span> and the <span class="math inline">\(\beta\)</span>’s in the model above can be estimated without making any such assumptions (although it is certainly possible, and not uncommon, to estimate <span class="math inline">\(h_0(t)\)</span> itself).</p>
+<div id="fitting-the-proportional-hazards-model" class="section level2">
+<h2>Fitting the proportional hazards model</h2>
+<p>How can we fit the proportional hazards model (i.e. estimate the <span class="math inline">\(\beta\)</span>’s) without knowing anything about <span class="math inline">\(h_0(t)\)</span>? The answer comes from using maximum likelihood estimation. The likelihood function can be considered the joint probability of observing the data observed under the assumed model.</p>
+<p>To calculate the likelihood, recall that the hazard is equal to the probability that an individual dies at some time <span class="math inline">\(t\)</span> given that they survived up to at least time <span class="math inline">\(t\)</span>. The likelihood is equal to the product of these probabilities for each individual <span class="math inline">\(i\)</span>, i.e. the product, for each <span class="math inline">\(i\)</span>, that the <span class="math inline">\(i\)</span>th individual dies at some time <span class="math inline">\(t_{(j)}\)</span> conditional on <span class="math inline">\(t_(j)\)</span> being one of the observed set of <span class="math inline">\(r\)</span> death times $t_{(1)}, …, <span class="math inline">\(t_{(r)}\)</span>. If the vector of explanatory variables for the individual who dies at <span class="math inline">\(t_(j)\)</span> is denoted <span class="math inline">\(x_{(j)}\)</span> then this probability is</p>
+<p><span class="math display">\[
+\begin{align}
+P(\textrm{individual with variables } x_{(j)} \textrm{ dies at } t_{(j)} | \textrm{one death at }t_{(j)}) &amp; = \frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies at } t_{(j)})}{P(\textrm{one death at }t_{(j)})}\\
+&amp; = \frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies at } t_{(j)})}{ \sum_{l \in R(t_{(j)})} P(\textrm{individual } l \textrm{ dies at }t_{(j)})}\\
+&amp; = \frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta))}{ \sum_{l \in R(t_{(j)})} P(\textrm{individual } l \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta))}\\
+&amp; = \lim_{\delta \rightarrow 0}\frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta)) / \delta}{ \sum_{l \in R(t_{(j)})} P(\textrm{individual } l \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta)) / \delta}\\
+&amp; = \frac{h_i(t_{(j)})}{\sum_{l \in R(t_{(j)})} h_l (t_{(j)})}\\
+&amp; = \frac{h_0(t_{(j)}) \exp(\beta_1 x_{1i} + ... + \beta_p x_{pi})}{\sum_{l \in R(t_{(j)})} h_0 (t_{(j)}) \exp(\beta_1 x_{1l} + ... + \beta_p x_{pl})}\\
+&amp; = \frac{\exp(\beta_1 x_{1i} + ... + \beta_p x_{pi})}{\sum_{l \in R(t_{(j)})} \exp(\beta_1 x_{1l} + ... + \beta_p x_{pl})}
+\end{align}\\
+\]</span></p>
+<p>which does not depend on the baseline hazard <span class="math inline">\(h_0\)</span>. Thus the likelihood function is</p>
+<p><span class="math display">\[L(\beta) = \prod_{j = 1} ^r \frac{\exp(\beta^T x_{(j)})}{\sum_{l \in R(t_{(j)})} \exp(\beta^T x_l)}\]</span></p>
+<p>Note that the summation of the denominator of this likelihood function is the sum of the values of <span class="math inline">\(\exp(\beta^T x)\)</span> over all individual who are at risk at time <span class="math inline">\(t_{(j)}\)</span>. The overall product, however, is taken over the individuals for whom death times have been recorded. Individuals whose death times are censored do not contribute to the numerator of the log-likelihood function, but they do enter into the summation of the risk sets at death times that occur before a censored time. Moreover, the likelihood function depends only on the ranking of the death times, since this determines the risk set at each death time. Consequently, inferences about the effect of explanatory variables on the hazard function depend only on the rank order of the survival times. Since the likelihood function does not make direct use of all censored and uncensored survival times, it is not a true likelihood. Instead, it is called a <em>partial likelihood</em>.</p>
+<p>Now supose that the data consists of <span class="math inline">\(n\)</span> observed survival times (some of which are censored), and <span class="math inline">\(\delta_i\)</span> is an event indicator, where <span class="math inline">\(\delta_i = 0\)</span> if the <span class="math inline">\(ith\)</span> survival time is right-censored and <span class="math inline">\(\delta_i = 1\)</span> otherwise. Then, since <span class="math inline">\(a^1 = a\)</span> and <span class="math inline">\(a^0 = 1\)</span>, the likelihood function can be expressed as a product over all observed survival times (rather than only over the uncensored death times) as</p>
+<p><span class="math display">\[L(\beta) = \prod_{j = 1} ^n \left(\frac{\exp(\beta^T x_{i})}{\sum_{l \in R(t_{i})} \exp(\beta^T x_l)} \right)^{\delta_i}\]</span></p>
+<p>The corresponding <em>log-likelihood</em> function is then given by</p>
+<p><span class="math display">\[l(\beta) = \log L(\beta) = \sum_{i=1}^n \delta_i \left( \beta^t x_i - \log \sum_{l \in R(t_i)} \exp(\beta^T x_l) \right)\]</span>
+Then numerical methods can be used to find the values of <span class="math inline">\(\beta\)</span> that maximise the log-likelihood.</p>
+</div>
+<div id="interpreting-the-parameters" class="section level2">
+<h2>Interpreting the parameters</h2>
+<p>Supose we have a proportional hazards model with a single continuous variable, <span class="math inline">\(X\)</span>, <span class="math inline">\(h_i(t) = e^{\beta x_i} h_0(t)\)</span>. Then <span class="math inline">\(\beta\)</span> can be interpreted as the logarithm of a hazard ratio for an individual with covariate value <span class="math inline">\(x + 1\)</span> versus an individual with covariate value <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[ \frac{h_1(t)}{h_2(t)} =  \frac{\exp(\beta(x + 1))}{\exp(\beta x)} = \exp^\beta\]</span></p>
+</div>
+<div id="estimating-the-hazard-and-survival-functions" class="section level2">
+<h2>Estimating the hazard and survival functions</h2>
+<p>So far we have only discussed estimating the <span class="math inline">\(\beta\)</span> parameters in the hazard ratio model, but not estimating the hazard and survival functions themselves. Once the model has been fit, however, we can use it to estimate the hazard and corresponding survival function.</p>
+<p>Using the fitted model, the hazard function for an individual can be estimated once <span class="math inline">\(h_0(t)\)</span> has been found:</p>
+<p><span class="math display">\[\hat{h}_i(t) = \exp(\hat{\beta}^T x_i) \hat{h}_0(t)\]</span></p>
+<p>An estimate of the baseline hazard function can also be estimated using maximum likelihood estimation. MAYBE OUTLINE SOME OF THESE</p>
+</div>
+<div id="model-checking" class="section level2">
+<h2>Model checking</h2>
+<p>DISCUSS</p>
+</div>
+</div>
+<div id="parametric-proportional-hazards-models" class="section level1">
+<h1>Parametric proportional hazards models</h1>
+<p>While assuming a distribution for the hazard functions is not necessary, if one has reason to believe that the survival times follow a particular distribution, say a Wiebull or exponential distribution, then more precise inferences can be made. Once a distribution is specified for the survival times in terms of a probability dentity function, <span class="math inline">\(f(t)\)</span>, then the survival and hazard functions can be calculated accordingly:</p>
+<p><span class="math display">\[S(t) = 1 - \int^t_0 f(u) du\]</span></p>
+<p>and</p>
+<p><span class="math display">\[h(t) = \frac{f(t)}{S(t)} = -\frac{d}{dt}\log S(t)\]</span></p>
+<p>An alternative approach is to specify the functional form of the hazard function, <span class="math inline">\(h(t)\)</span>, from which the survival function and probability density functions can be derived:</p>
+<p><span class="math display">\[S(t) = e^{-H(t)}\]</span>
+and</p>
+<p><span class="math display">\[f(t) = h(t) S(t) = - \frac{dS(t)}{dt}\]</span></p>
+<p>where</p>
+<p><span class="math display">\[H(t) = \int^t_0 h(u) du\]</span></p>
+<div id="the-exponential-distribution" class="section level2">
+<h2>The exponential distribution</h2>
+<p>The simplest model is to assume that the hazard function is constant over time (an unrealistic assumption for real life, where your hazard as a baby is high and then it decreases through childood through adulthood and starts to increase again past middle aged). Under this model, the hazard function can be written as</p>
+<p><span class="math display">\[h(t) = \lambda\]</span></p>
+<p>where <span class="math inline">\(\lambda\)</span> is a positive constant which can be estimated from the data. In this case, the survival function is</p>
+<p><span class="math display">\[S(t) = \exp\left( - \int_0^t \lambda du \right) = e^{-\lambda t}\]</span></p>
+<p>so the density function for the survival times is</p>
+<p><span class="math display">\[f(t) = \lambda e^{-\lambda t}\]</span></p>
+<p>which is the exponential distribution with mean <span class="math inline">\(\frac{1}{\lambda}\)</span>.</p>
+</div>
+<div id="the-weibull-distribution" class="section level2">
+<h2>The Weibull distribution</h2>
+<p>A more general form of the hazard function is</p>
+<p><span class="math display">\[h(t) = \lambda \gamma t^{\gamma - 1}\]</span></p>
+<p>which has two paramters. When <span class="math inline">\(\gamma = 1\)</span>, then we have the constant hazard function as in the example above. When <span class="math inline">\(\gamma \neq 1\)</span>, the hazard function increases or decreases monotonically (i.e. it does not change direction). The shape of the hazard function depends on <span class="math inline">\(\gamma\)</span> which is thus known as the <em>shape parameter</em>. The parameter <span class="math inline">\(\lambda\)</span> is a scale paramter.</p>
+<p>The survival function is</p>
+<p><span class="math display">\[S(t) = e^{-\lambda t^\gamma}\]</span></p>
+<p>and the corresponding density is</p>
+<p><span class="math display">\[f(t) = \lambda \gamma t^{\gamma - 1} e^{-\lambda t^\gamma}\]</span></p>
+<p>which corresponds to the Wiebull distribution, <span class="math inline">\(W(\lambda, \gamma)\)</span>.</p>
+<p>To determine whether these distributions are appropriate would be to non-parametrically estimate the hazard function over time to observe whether it is constant (indicating an exponential distribution) or increasing/decreasing monotonically (indicating a Wiebull distribution). More rigorously, one could compare the distribution of the survival times of the data to the distribution implied by the model.</p>
+<p>Since for the Weibull distribution we have <span class="math inline">\(S(t) = e^{-\lambda t ^\gamma}\)</span>, we have</p>
+<p><span class="math display">\[\log ( -\log S(t)) = \log \lambda + \gamma \log t\]</span></p>
+<p>so substituting a KM estimate for <span class="math inline">\(\hat{S}(t)\)</span> we ca observe that a plot of <span class="math inline">\(\log(-\log \hat{S}(t))\)</span> against <span class="math inline">\(t\)</span> would give an approximately straight line. Such a plot could also be used to provide rough estimates of the Weibull distribution parameters.</p>
+<div id="the-weibull-proportional-hazards-model" class="section level3">
+<h3>The Weibull proportional hazards model</h3>
+<p>When we assume a form of the hazard function, we can write the hazard function explicitly:</p>
+<p><span class="math display">\[h_i(t) = \exp(\beta^t x_i) \lambda \gamma t^{\gamma - 1}\]</span></p>
+<p>which itself is a Weibull density with scale paramter $(^t x_i) $ instead of just <span class="math inline">\(\lambda\)</span>.</p>
+</div>
+</div>
+<div id="the-likelihood-for-the-parametric-model" class="section level2">
+<h2>The likelihood for the parametric model</h2>
+<p>The likelihood under no censoring can be written</p>
+<p><span class="math display">\[\prod_{i=1}^n f(t_i)\]</span></p>
+<p>Suppose instead that <span class="math inline">\(r\)</span> of the <span class="math inline">\(n\)</span> individuals die at times <span class="math inline">\(t_1, ..., t_r\)</span> and that the survival times for the remaining <span class="math inline">\(n - r\)</span> individuals, <span class="math inline">\(t_1^*, ..., t_{n - r}^*\)</span> are right-censored. Then if a survival time is censored at <span class="math inline">\(t^*\)</span>, we know that the lifetime of the individual is at least <span class="math inline">\(t^*\)</span> and the probability of this event is <span class="math inline">\(S(t^*)\)</span>. Thus the likelihood is the product of terms for the censored and uncensored individuals</p>
+<p><span class="math display">\[L = \prod_{j = 1}^r f(t_j) \prod_{l = 1}^{n - r} S(t^*_l)\]</span></p>
+<p>This can be written more compactly as</p>
+<p><span class="math display">\[L = \prod_{i=1}^n \{ f(t_i)\}^{\delta_i} \{ S(t_i) \}^{1 - \delta_i} = \prod_{i=1}^n \left( \frac{f(t_i)}{S(t_i)}\right)^{\delta_i} S(t_i) = \prod_{i=1}^n h(t_i)^{\delta_i} S(t_i) \]</span></p>
+<div id="the-log-linear-version" class="section level3">
+<h3>The log-linear version</h3>
+<p>Instead of fitting the Weibull proportional hazards model described above, it is common to fit an equivalent log-linear model. An alternative parameterization of the Weibull distribution yields</p>
+<p><span class="math display">\[S_i(t) = \exp \left( - \exp \left( \frac{\log t - \mu - \alpha^T x_i}{\sigma} \right)\right)\]</span></p>
+</div>
+</div>
+</div>
+<div id="additive-hazard-model" class="section level1">
+<h1>Additive hazard model</h1>
+<p>The additive hazard model, as its name suggests, is an additive model:</p>
+<p><span class="math display">\[h_1(t) = h_0(t) + \beta(t)^Tx\]</span></p>
+<p>The Lin-Ying model assumes that the coefficients are constant through time i.e. <span class="math inline">\(\beta(t) = \beta\)</span>.</p>
+</div>
+<div id="collapsability-of-survival-models" class="section level1">
+<h1>Collapsability of survival models</h1>
+<p>Consider a generalized linear model of <span class="math inline">\(Y\)</span> on independent covariates, <span class="math inline">\(X\)</span>, and <span class="math inline">\(L\)</span>:</p>
+<p><span class="math display">\[g(E[Y | X, L]) = \beta_0 + \beta_x X + \beta_l L\]</span></p>
+<p>and a marginal model (omitting <span class="math inline">\(L\)</span>) with the same link function</p>
+<p><span class="math display">\[g(E[Y | X]) = \tilde{\beta}_0 + \tilde{\beta}_x X\]</span></p>
+<p>The full model (with <span class="math inline">\(X\)</span> and <span class="math inline">\(L\)</span>) is said to be collapsable for <span class="math inline">\(\beta_x\)</span> over <span class="math inline">\(L\)</span> if <span class="math inline">\(\beta_x = \tilde{\beta}_x\)</span> and is non-collapsable if <span class="math inline">\(\beta_x \neq \tilde{\beta}_x\)</span>.</p>
+<div id="linear-regression-is-collapsable" class="section level2">
+<h2>Linear regression is collapsable</h2>
+<p><span class="math display">\[
+\begin{align}
+E[Y | X] &amp;= E[E[Y | L, X] | X] \\
+&amp;= \beta_0 + \beta_xX + E[\beta_l L | X] \\
+&amp;= \tilde{\beta}_0 + \beta_x X
+\end{align}
+\]</span></p>
+</div>
+<div id="the-log-linear-model-is-collapsable" class="section level2">
+<h2>The log-linear model is collapsable</h2>
+<p>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(L\)</span> ve two independent random variables and assume that <span class="math inline">\(Y\)</span> is Poisson with mean <span class="math inline">\(\mu\)</span> and that <span class="math inline">\(g(\mu) = \log(\mu)\)</span> so that</p>
+<p><span class="math display">\[g(E[Y | X, L]) = \log(E[Y | X, L]) = \beta_0 + \beta_x X + \beta_l L\]</span>
+Again, we have</p>
+<p><span class="math display">\[
+\begin{align}
+E[Y | X] &amp;= E[E[Y | L, X] | X] \\
+&amp;= E[e^{\beta_0 + \beta_xX + \beta_l L} | X] \\
+&amp;= e^{\beta_0 + \beta_xX}E[e^{\beta_l L} | X]
+\end{align}
+\]</span>
+Hence</p>
+<p><span class="math display">\[g(E[Y | X]) = \log(E[Y | X]) = \tilde{\beta}_0 + \beta_x X\]</span></p>
+<p>where <span class="math inline">\(\tilde{\beta}_0 = \beta_0 + \log(E[e^{\beta_lL}|X])\)</span></p>
+</div>
+<div id="aalens-additive-hazard-model-is-collapsable" class="section level2">
+<h2>Aalen’s additive hazard model is collapsable</h2>
+<p>Let</p>
+<p><span class="math display">\[h(t | X, L) = h_0(t) + \beta_x(t)X + \beta_l(t) L\]</span></p>
+<p>The measure of association between <span class="math inline">\(X\)</span> and the response <span class="math inline">\(h(t | X, L)\)</span> is typically the hazard difference <span class="math inline">\(\beta_x(t)\)</span> which can be found in the full model by</p>
+<p><span class="math display">\[\beta_x(t) = h(t|X = x + 1 , L ) - h(t  | X = x, L)\]</span></p>
+<p>We now need to find an expression for the marginal model. Recall by the law of total probability that</p>
+<p><span class="math display">\[S(t|X) = P(T &gt; t | X) = E_L[P(T &gt; t | X, L)] = E_L[S(t | X, L)]\]</span></p>
+<p>and it can be shown that blah blah blah</p>
+</div>
+<div id="non-collapsability-of-the-cox-model" class="section level2">
+<h2>Non-collapsability of the Cox model</h2>
+</div>
+</div>
+<div id="additive-models" class="section level1">
+<h1>Additive models</h1>
+<p>Aalen’s additive model turns out to be the first order Taylor expansion of the hazard function, <span class="math inline">\(\lambda(t | Z)\)</span> about <span class="math inline">\(Z = 0\)</span>:</p>
+<p><span class="math display">\[ \lambda(t | z) = a_0 (t) + \sum_{i=1}^p z_i a_i(t)\]</span></p>
+<p>Of course, the RHS must be positive for all possible covariate vectors, <span class="math inline">\(Z\)</span> so it is common to expand the logarithm of the hazard rather than the hazard itself:</p>
+<p><span class="math display">\[\lambda(t | z) = \lambda_0(t) \exp\left(\sum_{i=1}^p z_i a_i(t) \right)\]</span>
+which is regarded as a Cox model with time-dependent coefficients.</p>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>One of the books I found to be most helpful in understanding survival analysis was <em>Modelling Survival Data in Medical Research</em> by David Collett.</p>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriescausal-inference'>Causal Inference</a></li>
+    
+        <li><a href='/categoriesstatistics'>Statistics</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2017-11-17-ggplot2_tutorial/"
+                class="button big previous">ggplot2: Mastering the basics</a></li>
+    
+
+    
+        <li><a href="/blog/2018-04-20-instrumental_variables/"
+                class="button big next">Understanding Instrumental Variables</a></li>
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-05-25_purr/">An introduction to the purr package</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-05-25'>
+                                    May 25, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-04-20-instrumental_variables/">Understanding Instrumental Variables</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-05-23'>
+                                    May 23, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">9</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

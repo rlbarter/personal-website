@@ -10,7 +10,7 @@
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="generator" content="Hugo 0.24.1" />
+        <meta name="generator" content="Hugo 0.40.3" />
         
 
 
@@ -21,13 +21,7 @@
             <meta name="description" content="This week I was asked to give a presentation on presenting. Here lies a summary of my efforts.">
         
 
-        
-
-  <meta name="twitter:card" content="summary"/>
-
-
-
-<meta name="twitter:text:title" content="How to Present Good"/>
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How to Present Good"/>
 <meta name="twitter:description" content="This week I was asked to give a presentation on presenting. Here lies a summary of my efforts."/>
 <meta name="twitter:site" content="@rlbarter"/>
@@ -40,6 +34,7 @@
 
 
 <meta property="article:published_time" content="2017-02-02T09:44:30-08:00"/>
+
 <meta property="article:modified_time" content="2017-02-02T09:44:30-08:00"/>
 
 
@@ -57,12 +52,13 @@
 <meta itemprop="description" content="This week I was asked to give a presentation on presenting. Here lies a summary of my efforts.">
 
 
+<meta itemprop="datePublished" content="2017-02-02T09:44:30-08:00" />
 <meta itemprop="dateModified" content="2017-02-02T09:44:30-08:00" />
 <meta itemprop="wordCount" content="2204">
 
 
 
-<meta itemprop="keywords" content="Anova,Causal Inference,Communication,Documentation,Interactivity,Misc,R,Statistics,Visualization,Workflow,machine learning,superheat,visualization,R Markdown,discussion,gender bias,pie charts," />
+<meta itemprop="keywords" content="" />
 
         
 
@@ -301,11 +297,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2017-11-17-ggplot2_tutorial/"><p>ggplot2: Mastering the basics</p></a>
+                        <a href="/blog/2018-05-23-instrumental_variables/"><p>Understanding Instrumental Variables</p></a>
                     </li>
                 
                     <li>
-                        <a href="/blog/2017-11-17-caret_tutorial/"><p>A basic tutorial of caret: the machine learning package in R</p></a>
+                        <a href="/blog/2017-11-17-ggplot2_tutorial/"><p>ggplot2: Mastering the basics</p></a>
                     </li>
                 
             </ul>
@@ -452,8 +448,14 @@ ga('send', 'pageview');
     <div id="content">
         <p>This week I was asked to give a presentation on giving presentations.</p>
 <p>So meta.</p>
-<p>Anyway, my lack of desire to spend time writing something that may have already been written by someone else led me to find a number of existing slides written by others with the same goal: to present on presenting. The only problem was that although these slides all contained excellent tips on making and subsequently presenting talks, the slides themselves were perfect examples of what <em>not</em> to do when making slides; they were insurmountable walls of text.</p>
-<p>I decided that I would have to make my own slides after all. The final product can be found <a href="../slides/presenting.pdf">here</a> and is embedded below:</p>
+<p>Anyway, my lack of desire to spend time writing something that may have already been
+written by someone else led me to find a number of existing slides written by others
+with the same goal: to present on presenting. The only problem was that
+although these slides all contained excellent tips on making and subsequently
+presenting talks, the slides themselves were perfect examples of what <em>not</em> to do
+when making slides; they were insurmountable walls of text.</p>
+<p>I decided that I would have to make my own slides after all. The final product
+can be found <a href="../slides/presenting.pdf">here</a> and is embedded below:</p>
 <iframe src="https://docs.google.com/presentation/d/1cbwpLcEhHxz-FcMh99dlboBrXUDAIrzRJE7mu9uFmGU/embed?start=false&amp;loop=false&amp;delayms=5000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 </iframe>
 <p>Read on for a more in-depth glimpse into my presentation pro-tips</p>
@@ -569,7 +571,7 @@ ga('send', 'pageview');
 <p>For more tips like this, I encourage you to check out Cole Nussbaumer Knaflic’s book, <a href="http://www.storytellingwithdata.com/book/"><em>Storytelling with Data</em></a>, which I really enjoyed. It is a great read if you want to learn how to present your figures to maximize impact and to use your data to tell a story.</p>
 <p>Another important step to presenting results is to treat the audience like idiots. Trust me, they’ll appreciate it (mostly becauase they won’t realize that you’re doing it). Explain in excruciating detail what every single element of your figure means. For example, in presenting the plot above, rather than simply saying <em>“this plot shows that our method clearly outperforms our competitors”</em>, I would say:</p>
 <blockquote>
-<p>“In the figure on this slide, we are plotting the prediction <em>error</em> rate over time. That means that the lower the error, the better. The x-axis depicts time, while the y-axis depicts the error rate at that time for each method reporesented by the three lines. Our method is highlighted in blue and we see that the error rate hovers around 10%, but that this is better than our competitors whose error rates tend to lie between 12 and 16% or so.</p>
+<p>&quot;In the figure on this slide, we are plotting the prediction <em>error</em> rate over time. That means that the lower the error, the better. The x-axis depicts time, while the y-axis depicts the error rate at that time for each method reporesented by the three lines. Our method is highlighted in blue and we see that the error rate hovers around 10%, but that this is better than our competitors whose error rates tend to lie between 12 and 16% or so.</p>
 </blockquote>
 <p>Just because your figure is obvious to you after having put a lot of thought into making the figure in the first place, that doesn’t mean that it is obvious to your audience who have viewed the figure for a total of 2 seconds.</p>
 <div id="presenting-many-plots-on-the-same-slide" class="section level3">
@@ -753,13 +755,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2017-11-17-ggplot2_tutorial/">ggplot2: Mastering the basics</a></h3>
+                                <h3><a href="/blog/2018-05-23-instrumental_variables/">Understanding Instrumental Variables</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2017-11-17'>
-                                    November 17, 2017</time>
+                                    '2018-05-23'>
+                                    May 23, 2018</time>
                             </header>
                         </article>
                     </li>
@@ -767,7 +769,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2017-11-17-caret_tutorial/">A basic tutorial of caret: the machine learning package in R</a></h3>
+                                <h3><a href="/blog/2017-11-17-ggplot2_tutorial/">ggplot2: Mastering the basics</a></h3>
                                 
                                     
                                 
@@ -821,7 +823,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/statistics/">Statistics</a>
-                                <span style="float:right;">3</span>
+                                <span style="float:right;">4</span>
                             </header>
                         </article>
                     </li>
@@ -830,7 +832,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/causal-inference/">Causal Inference</a>
-                                <span style="float:right;">2</span>
+                                <span style="float:right;">3</span>
                             </header>
                         </article>
                     </li>

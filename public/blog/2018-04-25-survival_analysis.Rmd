@@ -1,0 +1,353 @@
+---
+title:  "A Mathematical Introduction to Survival Analysis"
+author: "Rebecca Barter"
+categories: [Causal Inference, Statistics]
+date: 2018-04-20T21:13:14-05:00
+type: "post" 
+description: "A summary of the key concepts in survival analysis." 
+---
+
+THIS IS ALL FAR TOO TECHNICAL FOR MY BLOG. NARROW IT DOWN TO THE BIG IDEAS.
+
+
+# Key functions you need to know
+
+The main quantities of interest in survival analysis are the *survival function* and the *hazard function*.
+
+The actual (observed) survival time, $t$, of an individual can be viewed as a realization of a random variable $T$. The distribution function of this time-to-death variable can be written as 
+
+$$F(t) = P(T < t) = \int_0^t f(u) du.$$
+
+Instead of being the probability of death occurring *before* time $t$ (as above), the survival function is the probability that death occurs *after* (or at) time $t$:
+
+$$S(t) = P(T \geq t) = 1 - F(t).$$
+
+The hazard function, on the other hand, represents the instantaneous risk of death at time $t$. This can be formulated as the probability that an individual dies at time $t$ given that they survived up to time $t$. Since $T$ is a continuous random variable, $T$ is *exactly equal* to $t$ (a real number) with probability 0. Thus, instead of talking about $T$ being *equal* to $t$, we instead say that it is *very close* to $t$, i.e. that it lies between $t$ and $t + \delta$, where $\delta$ is a very small number.  Mathematically, the hazard function can be written as
+
+$$h(t) = \lim_{\delta \rightarrow 0} \left\{ \frac{P(t \leq T < t + \delta | T \geq t)}{\delta}\right\}$$
+If you've seen formal definitions of calculus, then you might recognize that this looks like a derivative!
+
+This can be re-written as
+
+$$h(t) \delta = P(t \leq T < t + \delta | T \geq t)$$
+
+for very small $\delta$, implying that $h(t) \delta$ is the probability of a death occuring within the interval $[t, t + \delta)$. Sending $\delta \rightarrow 0$ gives us the risk of death at $t$, which is the hazard ratio.
+
+Note that the rules of probability dictate that $P(A | B) = P(AB) / P(B)$, so that we can rewrite the internal portion hazard function as
+
+$$P(t \leq T < t + \delta | T \geq t) = \frac{P(t \leq T < t + \delta)}{P(T \geq t)} = \frac{F(t + \delta) - F(t)}{S(t)}$$
+
+This means that the hazard function can be re-written as
+
+$$
+\begin{align*}
+h(t) &= \lim_{\delta \rightarrow 0} \left\{\frac{F(t + \delta) - F(t)}{\delta S(t)} \right\}\\
+ & = \lim_{\delta \rightarrow 0} \left\{\frac{F(t + \delta) - F(t)}{\delta} \right\} \frac{1}{S(t)}\\
+ & = \frac{f(t)}{S(t)}\\
+\end{align*}
+$$
+
+where $f(t)$ is the density function of $T$ which is equal to the derivative of the CDF function, $F(t)$. 
+
+Recalling that $S(t) = 1 - F(t)$ and by properties of the logarithm, we then have that 
+
+$$h(t) = -\frac{d}{dt}\log S(t)$$
+
+
+and rearranging and integrating gives 
+
+$$S(t) = e^{-H(t)}$$
+
+so that
+
+$$H(t) = -\log S(t)$$
+
+
+i.e. **the cumulative hazard function can be obtained from the survival function**, implying that the hazard function can be estimated from the observed survival times!
+
+
+# Summarising survival data with non-parametric estimation
+
+Typically the first step of survival analysis is to estimate the survival and hazard functions based on the survival times observed. The initial estimates are typically *non-parametric* in that they make no assumptions about the distribution of the data and can be seen as akin to measuring the mean of variables in a dataset prior to modeling using linear regression.
+
+Estimating the survival function can be done by essentially calculating the number of patients that survive past time $t$ and dividing either by (1) the total number of patients in the study:
+
+$$\hat{S}(t) = \frac{\textrm{Number of individuals that survived past time $t$}}{\textrm{Number of individuals in the dataset}}$$
+
+or (2) the number of patients still alive at time $t$ (the Kaplan-Meier estimator):
+
+$$\hat{S}(t) = \frac{\textrm{Number of individuals that survived past time $t$}}{\textrm{Number of }}$$
+
+The Kaplan-Meier estimator is more commonly considered. TALK ABOUT KM CURVES
+
+
+# Modeling survival data using covariates
+
+In survival analysis, the quantity of interest isn't the final survival time itself (primarily because this is typically unobserved for most individuals), but is rather the hazard of death at any time in the study.
+
+Thus the outcome of regression models in survival analysis is the *hazard function*, rather than the survival outcome. This is quite a different setup to the usual linear regression models that we know and love.
+
+Two reasons for modelling:
+
+- estimate effect of varibales on the hazard
+
+- estimate hazard for an individual (previous section is to estimate average hazard for population
+
+Talk about hazard ratios, $h_1(t) = \psi h_0(t)$. Since the hazard cannot be negative, it is common to write $\psi = \exp(\eta)$ where $\eta$ might be a combination of covariates. There are other possible choices for $\psi$, but th echoice of $\psi(x_i) = \exp(\beta^T x_i)$ leads to the most commonly used model for survival data.
+
+The proportional hazard is thus
+
+$$h_i(t) = \exp(\beta_1 x_{1i} + ... + \beta_p x_{pi}) h_0(t)$$
+
+and since this can be re-expressed as
+
+$$\log \left( \frac{h_i(t)}{h_0(t)} \right) = \beta_1 x_{1i} + ... + \beta_p x_{pi}$$
+
+implying that the proportional hazards model can be regarded as a linear model for the logarithm of the hazards ratio.
+
+Notice that there is no constant term included in the linear component of the proportional hazards model. If a constant term, $\beta_0$ were included, then the baseline hazard function could simply be rescaled by dividing $h_0(t)$ by $\exp(b_0)$ and the constant term would cancel out. Importantly, we make no assumptions about the actual form of the baseline hazard function $h_0(t)$ and the $\beta$'s in the model above can be estimated without making any such assumptions (although it is certainly possible, and not uncommon, to estimate $h_0(t)$ itself).
+
+## Fitting the proportional hazards model
+
+How can we fit the proportional hazards model (i.e. estimate the $\beta$'s) without knowing anything about $h_0(t)$? The answer comes from using maximum likelihood estimation. The likelihood function can be considered the joint probability of observing the data observed under the assumed model. 
+
+To calculate the likelihood, recall that the hazard is equal to the probability that an individual dies at some time $t$ given that they survived up to at least time $t$. The likelihood is equal to the product of these probabilities for each individual $i$, i.e. the product, for each $i$, that the $i$th individual dies at some time $t_{(j)}$ conditional on $t_(j)$ being one of the observed set of $r$ death times $t_{(1)}, ..., $t_{(r)}$. If the vector of explanatory variables for the individual who dies at $t_(j)$ is denoted $x_{(j)}$ then this probability is
+
+$$
+\begin{align}
+P(\textrm{individual with variables } x_{(j)} \textrm{ dies at } t_{(j)} | \textrm{one death at }t_{(j)}) & = \frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies at } t_{(j)})}{P(\textrm{one death at }t_{(j)})}\\
+& = \frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies at } t_{(j)})}{ \sum_{l \in R(t_{(j)})} P(\textrm{individual } l \textrm{ dies at }t_{(j)})}\\
+& = \frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta))}{ \sum_{l \in R(t_{(j)})} P(\textrm{individual } l \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta))}\\
+& = \lim_{\delta \rightarrow 0}\frac{P(\textrm{individual with variables } x_{(j)} \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta)) / \delta}{ \sum_{l \in R(t_{(j)})} P(\textrm{individual } l \textrm{ dies in } (t_{(j)}, t_{(j)} + \delta)) / \delta}\\
+& = \frac{h_i(t_{(j)})}{\sum_{l \in R(t_{(j)})} h_l (t_{(j)})}\\
+& = \frac{h_0(t_{(j)}) \exp(\beta_1 x_{1i} + ... + \beta_p x_{pi})}{\sum_{l \in R(t_{(j)})} h_0 (t_{(j)}) \exp(\beta_1 x_{1l} + ... + \beta_p x_{pl})}\\
+& = \frac{\exp(\beta_1 x_{1i} + ... + \beta_p x_{pi})}{\sum_{l \in R(t_{(j)})} \exp(\beta_1 x_{1l} + ... + \beta_p x_{pl})}
+\end{align}\\
+$$
+
+which does not depend on the baseline hazard $h_0$. Thus the likelihood function is 
+
+$$L(\beta) = \prod_{j = 1} ^r \frac{\exp(\beta^T x_{(j)})}{\sum_{l \in R(t_{(j)})} \exp(\beta^T x_l)}$$
+
+Note that the summation of the denominator of this likelihood function is the sum of the values of $\exp(\beta^T x)$ over all individual who are at risk at time $t_{(j)}$. The overall product, however, is taken over the individuals for whom death times have been recorded. Individuals whose death times are censored do not contribute to the numerator of the log-likelihood function, but they do enter into the summation of the risk sets at death times that occur before a censored time. Moreover, the likelihood function depends only on the ranking of the death times, since this determines the risk set at each death time. Consequently, inferences about the effect of explanatory variables on the hazard function depend only on the rank order of the survival times. Since the likelihood function does not make direct use of all censored and uncensored survival times, it is not a true likelihood. Instead, it is called a *partial likelihood*.
+
+Now supose that the data consists of $n$ observed survival times (some of which are censored), and $\delta_i$ is an event indicator, where $\delta_i = 0$ if the $ith$ survival time is right-censored and $\delta_i = 1$ otherwise. Then, since $a^1 = a$ and $a^0 = 1$, the likelihood function can be expressed as a product over all observed survival times (rather than only over the uncensored death times) as
+
+$$L(\beta) = \prod_{j = 1} ^n \left(\frac{\exp(\beta^T x_{i})}{\sum_{l \in R(t_{i})} \exp(\beta^T x_l)} \right)^{\delta_i}$$
+
+The corresponding *log-likelihood* function is then given by
+
+$$l(\beta) = \log L(\beta) = \sum_{i=1}^n \delta_i \left( \beta^t x_i - \log \sum_{l \in R(t_i)} \exp(\beta^T x_l) \right)$$
+Then numerical methods can be used to find the values of $\beta$ that maximise the log-likelihood.
+
+## Interpreting the parameters
+
+Supose we have a proportional hazards model with a single continuous variable, $X$, $h_i(t) = e^{\beta x_i} h_0(t)$. Then $\beta$ can be interpreted as the logarithm of a hazard ratio for an individual with covariate value $x + 1$ versus an individual with covariate value $x$:
+
+$$ \frac{h_1(t)}{h_2(t)} =  \frac{\exp(\beta(x + 1))}{\exp(\beta x)} = \exp^\beta$$
+
+## Estimating the hazard and survival functions
+
+So far we have only discussed estimating the $\beta$ parameters in the hazard ratio model, but not estimating the hazard and survival functions themselves. Once the model has been fit, however, we can use it to estimate the hazard and corresponding survival function.
+
+Using the fitted model, the hazard function for an individual can be estimated once $h_0(t)$ has been found:
+
+$$\hat{h}_i(t) = \exp(\hat{\beta}^T x_i) \hat{h}_0(t)$$
+
+An estimate of the baseline hazard function can also be estimated using maximum likelihood estimation. MAYBE OUTLINE SOME OF THESE
+
+## Model checking
+
+DISCUSS
+
+
+# Parametric proportional hazards models
+
+While assuming a distribution for the hazard functions is not necessary, if one has reason to believe that the survival times follow a particular distribution, say a Wiebull or exponential distribution, then more precise inferences can be made. Once a distribution is specified for the survival times in terms of a probability dentity function, $f(t)$, then the survival and hazard functions can be calculated accordingly:
+
+$$S(t) = 1 - \int^t_0 f(u) du$$
+
+and 
+
+$$h(t) = \frac{f(t)}{S(t)} = -\frac{d}{dt}\log S(t)$$
+
+An alternative approach is to specify the functional form of the hazard function, $h(t)$, from which the survival function and probability density functions can be derived:
+
+$$S(t) = e^{-H(t)}$$
+and 
+
+$$f(t) = h(t) S(t) = - \frac{dS(t)}{dt}$$
+
+where
+
+$$H(t) = \int^t_0 h(u) du$$
+
+## The exponential distribution
+
+The simplest model is to assume that the hazard function is constant over time (an unrealistic assumption for real life, where your hazard as a baby is high and then it decreases through childood through adulthood and starts to increase again past middle aged). Under this model, the hazard function can be written as
+
+$$h(t) = \lambda$$
+
+where $\lambda$ is a positive constant which can be estimated from the data. In this case, the survival function is
+
+$$S(t) = \exp\left( - \int_0^t \lambda du \right) = e^{-\lambda t}$$
+
+so the density function for the survival times is
+
+$$f(t) = \lambda e^{-\lambda t}$$
+
+which is the exponential distribution with mean $\frac{1}{\lambda}$.
+
+## The Weibull distribution
+
+A more general form of the hazard function is
+
+$$h(t) = \lambda \gamma t^{\gamma - 1}$$
+
+which has two paramters. When $\gamma = 1$, then we have the constant hazard function as in the example above. When $\gamma \neq 1$, the hazard function increases or decreases monotonically (i.e. it does not change direction). The shape of the hazard function depends on $\gamma$ which is thus known as the *shape parameter*. The parameter $\lambda$ is a scale paramter.
+
+The survival function is 
+
+$$S(t) = e^{-\lambda t^\gamma}$$
+
+and the corresponding density is
+
+$$f(t) = \lambda \gamma t^{\gamma - 1} e^{-\lambda t^\gamma}$$
+
+which corresponds to the Wiebull distribution, $W(\lambda, \gamma)$.
+
+To determine whether these distributions are appropriate would be to non-parametrically estimate the hazard function over time to observe whether it is constant (indicating an exponential distribution) or increasing/decreasing monotonically (indicating a Wiebull distribution). More rigorously, one could compare the distribution of the survival times of the data to the distribution implied by the model.
+
+Since for the Weibull distribution we have $S(t) = e^{-\lambda t ^\gamma}$, we have
+
+$$\log ( -\log S(t)) = \log \lambda + \gamma \log t$$
+
+so substituting a KM estimate for $\hat{S}(t)$ we ca observe that a plot of $\log(-\log \hat{S}(t))$ against $t$ would give an approximately straight line. Such a plot could also be used to provide rough estimates of the Weibull distribution parameters.
+
+### The Weibull proportional hazards model
+
+When we assume a form of the hazard function, we can write the hazard function explicitly:
+
+$$h_i(t) = \exp(\beta^t x_i) \lambda \gamma t^{\gamma - 1}$$
+
+which itself is a Weibull density with scale paramter $\lambda\exp(\beta^t x_i) $ instead of just $\lambda$.
+
+
+## The likelihood for the parametric model
+
+The likelihood under no censoring can be written
+
+$$\prod_{i=1}^n f(t_i)$$
+
+Suppose instead that $r$ of the $n$ individuals die at times $t_1, ..., t_r$ and that the survival times for the remaining $n - r$ individuals, $t_1^*, ..., t_{n - r}^*$ are right-censored. Then if a survival time is censored at $t^*$, we know that the lifetime of the individual is at least $t^*$ and the probability of this event is $S(t^*)$. Thus the likelihood is the product of terms for the censored and uncensored individuals
+
+$$L = \prod_{j = 1}^r f(t_j) \prod_{l = 1}^{n - r} S(t^*_l)$$
+
+This can be written more compactly as
+
+$$L = \prod_{i=1}^n \{ f(t_i)\}^{\delta_i} \{ S(t_i) \}^{1 - \delta_i} = \prod_{i=1}^n \left( \frac{f(t_i)}{S(t_i)}\right)^{\delta_i} S(t_i) = \prod_{i=1}^n h(t_i)^{\delta_i} S(t_i) $$
+
+
+
+### The log-linear version
+
+Instead of fitting the Weibull proportional hazards model described above, it is common to fit an equivalent log-linear model. An alternative parameterization of the Weibull distribution yields
+
+$$S_i(t) = \exp \left( - \exp \left( \frac{\log t - \mu - \alpha^T x_i}{\sigma} \right)\right)$$
+
+# Additive hazard model
+
+
+The additive hazard model, as its name suggests, is an additive model:
+
+$$h_1(t) = h_0(t) + \beta(t)^Tx$$
+
+The Lin-Ying model assumes that the coefficients are constant through time i.e. $\beta(t) = \beta$.
+
+# Collapsability of survival models
+
+Consider a generalized linear model of $Y$ on independent covariates, $X$, and $L$:
+
+$$g(E[Y | X, L]) = \beta_0 + \beta_x X + \beta_l L$$
+
+and a marginal model (omitting $L$) with the same link function
+
+$$g(E[Y | X]) = \tilde{\beta}_0 + \tilde{\beta}_x X$$
+
+The full model (with $X$ and $L$) is said to be collapsable for $\beta_x$ over $L$ if $\beta_x = \tilde{\beta}_x$ and is non-collapsable if $\beta_x \neq \tilde{\beta}_x$.
+
+## Linear regression is collapsable
+
+$$
+\begin{align}
+E[Y | X] &= E[E[Y | L, X] | X] \\
+&= \beta_0 + \beta_xX + E[\beta_l L | X] \\
+&= \tilde{\beta}_0 + \beta_x X
+\end{align}
+$$
+
+
+## The log-linear model is collapsable
+
+Let $X$ and $L$ ve two independent random variables and assume that $Y$ is Poisson with mean $\mu$ and that $g(\mu) = \log(\mu)$ so that
+
+$$g(E[Y | X, L]) = \log(E[Y | X, L]) = \beta_0 + \beta_x X + \beta_l L$$
+Again, we have 
+
+
+$$
+\begin{align}
+E[Y | X] &= E[E[Y | L, X] | X] \\
+&= E[e^{\beta_0 + \beta_xX + \beta_l L} | X] \\
+&= e^{\beta_0 + \beta_xX}E[e^{\beta_l L} | X]
+\end{align}
+$$
+Hence
+
+$$g(E[Y | X]) = \log(E[Y | X]) = \tilde{\beta}_0 + \beta_x X$$
+
+where $\tilde{\beta}_0 = \beta_0 + \log(E[e^{\beta_lL}|X])$
+
+
+## Aalen's additive hazard model is collapsable
+
+Let 
+
+$$h(t | X, L) = h_0(t) + \beta_x(t)X + \beta_l(t) L$$
+
+The measure of association between $X$ and the response $h(t | X, L)$ is typically the hazard difference $\beta_x(t)$ which can be found in the full model by 
+
+$$\beta_x(t) = h(t|X = x + 1 , L ) - h(t  | X = x, L)$$
+
+We now need to find an expression for the marginal model. Recall by the law of total probability that
+
+$$S(t|X) = P(T > t | X) = E_L[P(T > t | X, L)] = E_L[S(t | X, L)]$$
+
+and it can be shown that  blah blah blah
+
+
+## Non-collapsability of the Cox model
+
+
+
+
+# Additive models
+
+Aalen's additive model turns out to be the first order Taylor expansion of the hazard function, $\lambda(t | Z)$ about $Z = 0$:
+
+$$ \lambda(t | z) = a_0 (t) + \sum_{i=1}^p z_i a_i(t)$$
+
+Of course, the RHS must be positive for all possible covariate vectors, $Z$ so it is common to expand the logarithm of the hazard rather than the hazard itself:
+
+$$\lambda(t | z) = \lambda_0(t) \exp\left(\sum_{i=1}^p z_i a_i(t) \right)$$
+which is regarded as a Cox model with time-dependent coefficients.
+
+
+
+
+
+# Resources
+
+One of the books I found to be most helpful in understanding survival analysis was *Modelling Survival Data in Medical Research* by David Collett.
+
+

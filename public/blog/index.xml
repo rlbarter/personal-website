@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Nov 2017 22:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 23 May 2018 21:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Understanding Instrumental Variables</title>
+      <link>/blog/2018-05-23-instrumental_variables/</link>
+      <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-05-23-instrumental_variables/</guid>
+      <description>Suppose, as many do, that we want to estimate the effect of an action (or treatment) on an outcome. As an example, we might be interested in estimating the effect of receiving a drug vs not receiving a drug on the incidence of heart disease. In an ideal futuristic world, we would take each individual in our population and split them into two identical humans: one who receives the treatment and the other who doesn’t.</description>
+    </item>
     
     <item>
       <title>ggplot2: Mastering the basics</title>

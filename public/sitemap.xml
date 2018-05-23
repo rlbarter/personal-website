@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2018-05-23-instrumental_variables/</loc>
+    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2017-11-17-ggplot2_tutorial/</loc>
     <lastmod>2017-11-17T22:13:14-05:00</lastmod>
   </url>
@@ -114,7 +119,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
+    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -126,7 +131,7 @@
   
   <url>
     <loc>/categories/causal-inference/</loc>
-    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
+    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -192,13 +197,13 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
+    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/statistics/</loc>
-    <lastmod>2017-07-05T21:13:14-05:00</lastmod>
+    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

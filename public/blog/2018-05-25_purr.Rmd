@@ -1,0 +1,8 @@
+---
+title:  "An introduction to the purr package"
+author: "Rebecca Barter"
+categories: [Causal Inference, Statistics]
+date: 2018-05-25T21:13:14-05:00
+type: "post" 
+description: "Something about why purr is useful and why I'm writing this post -- hadley's R ladies talk." 
+---

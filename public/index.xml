@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Rebecca Barter</title>
-    <link>/</link>
-    <description>Recent content on Rebecca Barter</description>
+    <title>Blogs on Rebecca Barter</title>
+    <link>/blog/</link>
+    <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Nov 2017 22:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 23 May 2018 21:13:14 -0500</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Understanding Instrumental Variables</title>
+      <link>/blog/2018-05-23-instrumental_variables/</link>
+      <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-05-23-instrumental_variables/</guid>
+      <description>Suppose, as many do, that we want to estimate the effect of an action (or treatment) on an outcome. As an example, we might be interested in estimating the effect of receiving a drug vs not receiving a drug on the incidence of heart disease. In an ideal futuristic world, we would take each individual in our population and split them into two identical humans: one who receives the treatment and the other who doesn’t.</description>
+    </item>
     
     <item>
       <title>ggplot2: Mastering the basics</title>
@@ -149,18 +158,6 @@ library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcar
     </item>
     
     <item>
-      <title>Tutorials</title>
-      <link>/tutorials/</link>
-      <pubDate>Sun, 15 Jan 2017 21:49:57 -0700</pubDate>
-      
-      <guid>/tutorials/</guid>
-      <description>I appear to have made a number of tutorials on a variety of (mostly R-related) topics. Below you will find descriptions of and links to these tutorials. Keep an eye on this page – I’m always adding more!
-R packages  caret: an introduction to caret prepared for STAT215A. (Jupyter notebook)
- ggplot2: ggplot2 basics prepared for a workshop at Joint Genome Institute. (Jupyter notebook)
- interactive visualization: a tutorial on interactive viz prepared for the SGSA student seminar series.</description>
-    </item>
-    
-    <item>
       <title>Gender Issues Roundtable Discussion: A Case Study in Uncomfortable Conversations</title>
       <link>/blog/2016-12-15-gender-bias/</link>
       <pubDate>Thu, 15 Dec 2016 21:49:57 -0700</pubDate>
@@ -178,58 +175,6 @@ In 2015, UC Berkeley experienced a series of high-profile sexual harassment inci
       <guid>/blog/2015-07-23-pie/</guid>
       <description>Pie charts are terrible Pie charts are notoriously terrible for data visualization. Humans are genuinely bad at comparing angles. Thus, the only reason one should ever use a pie chart is to make beautiful pie-chart-art.
 par(mar = c(0, 1, 0, 1)) pie( c(280, 60, 20), c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;), col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;), init.angle = -50, border = NA )  Figure 1: Pyramid pie chart art.</description>
-    </item>
-    
-    <item>
-      <title>About Rebecca</title>
-      <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/about/</guid>
-      <description>Hi there! I’m Rebecca Barter. I’m so glad you’ve made it to my page.
-I’m currently a fourth-year PhD student in the Department of Statistics at UC Berkeley, as well as a Data Science Fellow at the Berkeley Institute for Data Science (BIDS).
-In my research, I use data to solve problems related to healthcare and medicine. I particularly enjoy exploring complex datasets and teasing out the interesting components, and love to tell a story using both a written and visual narrative.</description>
-    </item>
-    
-    <item>
-      <title>Contact Me</title>
-      <link>/contact/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/contact/</guid>
-      <description>If you’d like to get in touch, feel free to email me at rebeccabarter@berkeley.edu.</description>
-    </item>
-    
-    <item>
-      <title>Rebecca&#39;s CV</title>
-      <link>/cv/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/cv/</guid>
-      <description>Experience August 2016 - Present Data Science Fellow, Berkeley Institute of Data Science, University of California, Berkeley
-August 2014 - May 2016 Graduate Student Researcher (GSR), Department of Statistics, University of California, Berkeley
-May 2016 - August 2016 Quantitative Analyst Intern, Google, Seattle
-Spring 2015, Fall 2016 Statistical Consultant, Department of Statistics, University of California, Berkeley
-February 2014 - July 2014 Research Assistant, Melanoma Institute Australia and School of Mathematics and Statistics, The University of Sydney Australia</description>
-    </item>
-    
-    <item>
-      <title>Teaching Materials</title>
-      <link>/teaching/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/teaching/</guid>
-      <description>Fall 2017: STAT 215A Statistical Models, Theory and Applications A graudate course in applied statistics taught by Bin Yu. The course covers a wide range of topics that focus on critical thinking for using statistics in the wild. I taught a section each week where I either re-inforced content the students were learning in class, or ran tutorials in a variety of topics in R.
-The materials that I prepared can be found in the following github repository: https://github.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/projects/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/</guid>
-      <description></description>
     </item>
     
   </channel>
