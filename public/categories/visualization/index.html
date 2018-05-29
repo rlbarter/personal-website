@@ -335,10 +335,7 @@ ga('send', 'pageview');
     
 
     <p>Here I provide the code I used to create the figures from my previous post on alternatives to grouped bar charts. You are encouraged to play with them yourself!
-Bars First, I load in the libraries (the data comes from the dslabs library), and convert the data to long-form for creating the grouped bar charts.</p>
-
-<h1 id="load-in-libraries-library-tidyverse-library-dslabs-combine-male-and-female-success-rates-into-single-data-frame-success-rates-lt-rbind-male-success-rates-transmute-research-funding-rates-discipline-success-success-rates-men-gender-quot-male-quot-female-success-rates-transmute-research-funding-rates-discipline-success-success-rates-women-gender-quot-female-quot-print-the-data-success-rates-discipline-success-gender-1-chemical-sciences-26">load in libraries library(tidyverse) library(dslabs) # combine male and female success rates into single data frame success_rates &lt;- rbind( # male success rates transmute(research_funding_rates, discipline, success = success_rates_men, gender = &quot;Male&quot;), # female success rates transmute(research_funding_rates, discipline, success = success_rates_women, gender = &quot;Female&quot;))  # print the data success_rates ## discipline success gender ## 1 Chemical sciences 26.</h1>
-</p>
+The key to creating unique and creative visualizations using libraries such as ggplot (or even just straight SVG) is (1) to move away from thinking of data visualization only as the default plot types (bar plots, boxplots, scatterplots, etc), and (2) to realise that most visualizations are essentially lines and circles that you can arrange however you desire in space.</p>
 
     <footer>
         <ul class="actions">
