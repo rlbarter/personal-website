@@ -1,0 +1,202 @@
+---
+title:  "Alternatives to grouped bar charts"
+author: "Rebecca Barter"
+categories: [R, Visualization]
+date: 2018-05-29T21:13:14-05:00
+type: "post" 
+description: "One of the most common chart types that is simultaneously the most difficult to read is the grouped bar chart. Fortunately, there exist several substantially more effective alternatives that convey the same information without overwhelming our visual cognition abilities." 
+---
+
+
+At some point in your life you have probably found yourself standing face-to-face with a beast known as a grouped bar chart. Perhaps it was in a research paper where the authors were trying to compare the results of several models across different datasets, or it was in a talk given by a colleague who was trying to compare the popularity of different products among distinct groups of consumers. 
+
+The first time you encountered a grouped bar chart you might have thought "what a neat way to put so much information in a single plot!". However, the moment you started trying to see whether the orange bar always does better than the green bar but worse than the blue bar.
+
+In the example below (made with ggplot2), I show a simple grouped bar chart comparing research funding success rates across a variety of disciplines with the data split into two categories for each discipline: males and females. This data came from Rafael Irizarry's excellent R package, `dslabs`, containing datasets for teaching data science. 
+
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+# load in libraries
+library(tidyverse)
+library(dslabs)
+library(knitr)
+# combine male and female success rates into single data frame
+success_rates <- rbind(
+  # male success rates
+  transmute(research_funding_rates, 
+            discipline, 
+            success = success_rates_men, 
+            gender = "Male"),
+  # female success rates
+  transmute(research_funding_rates, 
+            discipline, 
+            success = success_rates_women, 
+            gender = "Female"))
+```
+
+```{r echo = FALSE, message=FALSE, warning=FALSE, fig.align="center", fig.width = 10}
+# make grouped bar plot
+ggplot(success_rates) +
+  # add bar for each discipline colored by gender
+  geom_bar(aes(x = discipline, y = success, fill = gender),
+           stat = "identity", position = "dodge") +
+  # name axes and remove gap between bars and y-axis
+  scale_y_continuous("Success Rate", expand = c(0, 0)) +
+  scale_x_discrete("Discipline") +
+  scale_fill_manual(values = c("#468189", "#9DBEBB")) +
+  # remove grey theme
+  theme_classic(base_size = 18) +
+  # rotate x-axis and remove superfluous axis elements
+  theme(axis.text.x = element_text(angle = 90, 
+                                   hjust = 1, vjust = 0),
+        axis.line = element_blank(),
+        axis.ticks.x = element_blank()) 
+```
+
+Even in this simple example, I find it really difficult to compare male and female funding success rates across genders. Are the males having more success than the females overall? It's genuinely hard to tell unless I examine each discipline closely and see that men are doing better in the first two groups, but not the two after that, and then I think they are doing a bit better in the categories after that, but now I'm having a hard time and I really want to stop looking at this plot now...
+
+Fortunately, people such as Ann K. Emery (in [her post on grouped bar charts](http://annkemery.com/clustered-bar-chart/)) have thought about how to represent this information in a better way. Below I will show 2 alternative approaches (slope charts and horizontal dot plots). 
+
+While these are not necessarily "standard" plot types (as in there is no specific `geom_` for them), true freedom in visualization comes with the realization that most plots are just arrangements of circles and lines in space. When you truly embrace this idea, you can make any type of figure you want! By means of demonstration, in my [next post I show the ggplot2 R code for making each plot](../2018-05-29_getting_fancy_ggplot2/index.html).
+
+# Slope plots
+
+The first alternative is similar to parallel coordinates plots for multi-variate data visualization. The slope plot contains two axes (or three or four, depending on how many groups you have), one for each group (male and female). The disciplines are each represented by a line connecting the male success rates to the female success rates in as coded by their y-position. This plot makes it very clear for which disciplines women have greater funding success than men (the upward sloping, darker colored lines) and it also makes it very clear which disciplines have higher funding success rates overall (Physics and Chemical sciences).
+
+```{r echo = FALSE, message=FALSE, warning=FALSE, fig.height = 8, fig.align="center"}
+research_funding_rates %>%
+  # add a variable for when men are more successful than women (for colours)
+  mutate(men_more_successful = success_rates_men > success_rates_women) %>%
+  ggplot() +
+  # add a line segment that goes from men to women
+  geom_segment(aes(x = 1, xend = 2, 
+                   y = success_rates_men, 
+                   yend = success_rates_women,
+                   group = discipline,
+                   col = men_more_successful), 
+               size = 1.2) +
+  # add vertical lines that act as axis for men
+  geom_segment(x = 1, xend = 1, 
+               y = min(research_funding_rates$success_rates_men) - 2,
+               yend = max(research_funding_rates$success_rates_men) + 1,
+               col = "grey70", size = 0.5) +
+  # add vertical lines that act as axis for women
+  geom_segment(x = 2, xend = 2, 
+               y = min(research_funding_rates$success_rates_men) - 2,
+               yend = max(research_funding_rates$success_rates_men) + 1,
+               col = "grey70", size = 0.5) +
+  # add the white outline for the points at each rate for men
+  geom_point(aes(x = 1, 
+                 y = success_rates_men), size = 4.5,
+             col = "white") +
+  # add the white outline for the points at each rate for women
+  geom_point(aes(x = 2, 
+                 y = success_rates_women), size = 4.5,
+             col = "white") +
+  # add the actual points at each rate for men
+  geom_point(aes(x = 1, 
+                 y = success_rates_men), size = 4,
+             col = "grey60") +
+  # add the actual points at each rate for men
+  geom_point(aes(x = 2, 
+                 y = success_rates_women), size = 4,
+             col = "grey60") +
+  # add the label for each discipline next the men axis
+  geom_text(aes(x = 1 - 0.03, 
+                 y = success_rates_men, 
+                label = paste0(discipline, ", ", round(success_rates_men, 1), "%")),
+             col = "grey30", hjust = "right") +
+  # add the label next to each point on the women axis
+  geom_text(aes(x = 2 + 0.08, 
+                y = success_rates_women, 
+                label = paste0(round(success_rates_women, 1), "%")),
+            col = "grey30") +
+  # add the words "men" and "women" above their axes
+  geom_text(aes(x = x, y = y, label = label),
+            data = data.frame(x = 1:2, 
+                              y = 2 + max(research_funding_rates$success_rates_men),
+                              label = c("men", "women")),
+            col = "grey30",
+            size = 6) +
+  # set the limits of the x-axis
+  scale_x_continuous(limits = c(0.5, 2.1)) +
+  # set the colors
+  scale_color_manual(values = c("#468189", "#9DBEBB"), guide = "none") +
+  # universally increase the size of the text and remove grey background
+  theme_classic(base_size = 16) + 
+  # remove all axis stuff
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        axis.ticks = element_blank())
+```
+
+
+What we see much more clearly is that the number of disciplines in which men are more successful is similar to the number of disciplines in which women are more successful. The discipline with the most similar success rates between men and women is the Chemical sciences. All of this information was very difficult to obtain from the grouped bar chart!
+
+
+# Horizontal dot plots
+
+Another alternative is the horizontal dot plot: In this case each discipline is again represented by a line, but instead of coding the success rates as the y-position at the end of the discipline slope, the success rate is coded as the x-position along the discipline-specific horizontal line. I have ordered the disciplines by the women's funding success rate.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.align="center"}
+research_funding_rates %>%
+  # rearrange the factor levels for discipline by rates for women
+  arrange(success_rates_women) %>%
+  mutate(discipline = fct_inorder(discipline)) %>%
+  ggplot() +
+  # add a dummy point for scaling purposes
+  geom_point(aes(x = 12, y = discipline), 
+             size = 0, col = "white") + 
+  # add the horizontal grid lines
+  geom_hline(yintercept = 1:9, col = "grey80") +
+  # add a point for each male success rate
+  geom_point(aes(x = success_rates_men, y = discipline), 
+             size = 11, col = "#9DBEBB") +
+  # add the text (%) for each male success rate
+  geom_text(aes(x = success_rates_men, y = discipline, 
+                label = paste0(round(success_rates_men, 1))),
+            col = "black") +
+  # add the border for each point for female success rate
+  geom_point(aes(x = success_rates_women, y = discipline),
+             size = 11.5, col = "white") +
+  # add a point for each female success rate
+  geom_point(aes(x = success_rates_women, y = discipline),
+             size = 11, col = "#468189") +
+  # add the text (%) for each female success rate
+  geom_text(aes(x = success_rates_women, y = discipline, 
+                label = paste0(round(success_rates_women, 1))),
+            col = "white") +
+  # add a label above the first two points
+  geom_text(aes(x = x, y = y, label = label, col = label),
+            data.frame(x = c(25.6 - 1.1, 26.5 + 0.6), y = 10, 
+                       label = c("women", "men")), size = 6) +
+  scale_color_manual(values = c("#9DBEBB", "#468189"), guide = "none") +
+  # universally increase size of text and remove grey theme
+  theme_classic(base_size = 14) +
+  # manually specify the x-axis
+  scale_x_continuous(breaks = c(15, 20, 25), 
+                     labels = c("15%", "20%", "25%")) +
+  # remove gaps in the y-axis
+  scale_y_discrete(expand = c(0.2, 0)) +
+  # remove axes
+  theme(axis.title = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.line = element_blank()) 
+```
+
+For me, the horizontal dot plot highlights that in the disciplines with lower funding rates overall (the bottom few rows), men have higher success rates.
+
+Regardless of your preference, it is fairly clear that both the slope plot and the horizontal dot plots are easier to digest than the grouped bar plot!
+
+
+# Code
+
+My [next post](../2018-05-29_getting_fancy_ggplot2/index.html) shows the ggplot2 code that I wrote to produce the three plots in this post.
+
+
+# References
+
+- The research funding data comes from Rafael Irizarry's `dslabs` R package
+
+- The slope and dot plot ideas for this post come from [Ann K. Emery's post](http://annkemery.com/clustered-bar-chart/) on the same topic. 

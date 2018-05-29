@@ -6,10 +6,31 @@
     <description>Recent content in Visualization on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 27 Jun 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 29 May 2018 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/visualization/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Getting fancy with ggplot2: code for alternatives to grouped bar charts</title>
+      <link>/blog/2018-05-29_getting_fancy_ggplot2/</link>
+      <pubDate>Tue, 29 May 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-05-29_getting_fancy_ggplot2/</guid>
+      <description>Here I provide the code I used to create the figures from my previous post on alternatives to grouped bar charts. You are encouraged to play with them yourself!
+Bars First, I load in the libraries (the data comes from the dslabs library), and convert the data to long-form for creating the grouped bar charts.
+# load in libraries library(tidyverse) library(dslabs) # combine male and female success rates into single data frame success_rates &amp;lt;- rbind( # male success rates transmute(research_funding_rates, discipline, success = success_rates_men, gender = &amp;quot;Male&amp;quot;), # female success rates transmute(research_funding_rates, discipline, success = success_rates_women, gender = &amp;quot;Female&amp;quot;))  # print the data success_rates ## discipline success gender ## 1 Chemical sciences 26.</description>
+    </item>
+    
+    <item>
+      <title>Alternatives to grouped bar charts</title>
+      <link>/blog/2018-05-29_alternatives_dodged_bars/</link>
+      <pubDate>Tue, 29 May 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-05-29_alternatives_dodged_bars/</guid>
+      <description>At some point in your life you have probably found yourself standing face-to-face with a beast known as a grouped bar chart. Perhaps it was in a research paper where the authors were trying to compare the results of several models across different datasets, or it was in a talk given by a colleague who was trying to compare the popularity of different products among distinct groups of consumers.
+The first time you encountered a grouped bar chart you might have thought “what a neat way to put so much information in a single plot!</description>
+    </item>
     
     <item>
       <title>Coolors: choosing color schemes</title>

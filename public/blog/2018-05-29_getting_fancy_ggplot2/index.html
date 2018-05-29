@@ -1,0 +1,1103 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Getting fancy with ggplot2: code for alternatives to grouped bar charts</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="In this post I present the code I wrote to prodocue the figures in my previous post about alternatives to grouped bar charts.">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Getting fancy with ggplot2: code for alternatives to grouped bar charts"/>
+<meta name="twitter:description" content="In this post I present the code I wrote to prodocue the figures in my previous post about alternatives to grouped bar charts."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="Getting fancy with ggplot2: code for alternatives to grouped bar charts" />
+<meta property="og:description" content="In this post I present the code I wrote to prodocue the figures in my previous post about alternatives to grouped bar charts." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2018-05-29_getting_fancy_ggplot2/" />
+
+
+
+<meta property="article:published_time" content="2018-05-29T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2018-05-29T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Getting fancy with ggplot2: code for alternatives to grouped bar charts">
+<meta itemprop="description" content="In this post I present the code I wrote to prodocue the figures in my previous post about alternatives to grouped bar charts.">
+
+
+<meta itemprop="datePublished" content="2018-05-29T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2018-05-29T23:13:14-05:00" />
+<meta itemprop="wordCount" content="1231">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="//css/tomorrow.css">
+        <script src="//js/highlight.pack.js"></script>
+        <script>
+          hljs.initHighlightingOnLoad();
+        </script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2018-05-29_getting_fancy_ggplot2/"><p>Getting fancy with ggplot2: code for alternatives to grouped bar charts</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2018-05-29_alternatives_dodged_bars/"><p>Alternatives to grouped bar charts</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&text=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&title=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&title=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&title=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2018-05-29_getting_fancy_ggplot2/">Getting fancy with ggplot2: code for alternatives to grouped bar charts</a></h1>
+            
+        
+        
+            <p>In this post I present the code I wrote to prodocue the figures in my previous post about alternatives to grouped bar charts.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2018-05-29'>
+            May 29, 2018</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&text=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&title=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&title=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f&title=Getting%20fancy%20with%20ggplot2%3a%20code%20for%20alternatives%20to%20grouped%20bar%20charts" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-05-29_getting_fancy_ggplot2%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <p>Here I provide the code I used to create the figures from my <a href="../2018-05-29_alternatives_dodged_bars/index.html">previous post on alternatives to grouped bar charts</a>. You are encouraged to play with them yourself!</p>
+<div id="bars" class="section level1">
+<h1>Bars</h1>
+<p>First, I load in the libraries (the data comes from the <code>dslabs</code> library), and convert the data to long-form for creating the grouped bar charts.</p>
+<pre class="r"><code># load in libraries
+library(tidyverse)
+library(dslabs)
+# combine male and female success rates into single data frame
+success_rates &lt;- rbind(
+  # male success rates
+  transmute(research_funding_rates, 
+            discipline, 
+            success = success_rates_men, 
+            gender = &quot;Male&quot;),
+  # female success rates
+  transmute(research_funding_rates, 
+            discipline, 
+            success = success_rates_women, 
+            gender = &quot;Female&quot;)) </code></pre>
+<pre class="r"><code># print the data
+success_rates</code></pre>
+<pre><code>##             discipline success gender
+## 1    Chemical sciences    26.5   Male
+## 2    Physical sciences    19.3   Male
+## 3              Physics    26.9   Male
+## 4           Humanities    14.3   Male
+## 5   Technical sciences    15.9   Male
+## 6    Interdisciplinary    11.4   Male
+## 7  Earth/life sciences    24.4   Male
+## 8      Social sciences    15.3   Male
+## 9     Medical sciences    18.8   Male
+## 10   Chemical sciences    25.6 Female
+## 11   Physical sciences    23.1 Female
+## 12             Physics    22.2 Female
+## 13          Humanities    19.3 Female
+## 14  Technical sciences    21.0 Female
+## 15   Interdisciplinary    21.8 Female
+## 16 Earth/life sciences    14.3 Female
+## 17     Social sciences    11.5 Female
+## 18    Medical sciences    11.2 Female</code></pre>
+<p>I used <code>geom_bar()</code> to create a grouped bar chart containing the data. I grouped by gender by setting <code>fill = gender</code> within the <code>aes()</code> function.</p>
+<pre class="r"><code># make grouped bar plot
+ggplot(success_rates) +
+  # add bar for each discipline colored by gender
+  geom_bar(aes(x = discipline, y = success, fill = gender),
+           stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  # name axes and remove gap between bars and y-axis
+  scale_y_continuous(&quot;Success Rate&quot;, expand = c(0, 0)) +
+  scale_x_discrete(&quot;Discipline&quot;) +
+  scale_fill_manual(values = c(&quot;#468189&quot;, &quot;#9DBEBB&quot;)) +
+  # remove grey theme
+  theme_classic(base_size = 18) +
+  # rotate x-axis and remove superfluous axis elements
+  theme(axis.text.x = element_text(angle = 90, 
+                                   hjust = 1, vjust = 0),
+        axis.line = element_blank(),
+        axis.ticks.x = element_blank()) </code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="slope-plot" class="section level1">
+<h1>Slope plot</h1>
+<p>To create the sloped chart, it ends up being easier to keep the data in its original wide form.</p>
+<p>The first element I add is the slopes from men to women using <code>geom_segment()</code>. Each slope is colored based on whether men or women are more successful.</p>
+<pre class="r"><code>gg_slope &lt;- research_funding_rates %&gt;%
+  # add a variable for when men are more successful than women (for colours)
+  mutate(men_more_successful = success_rates_men &gt; success_rates_women) %&gt;%
+  ggplot() +
+  # add a line segment that goes from men to women for each discipline
+  geom_segment(aes(x = 1, xend = 2, 
+                   y = success_rates_men, 
+                   yend = success_rates_women,
+                   group = discipline,
+                   col = men_more_successful), 
+               size = 1.2) +
+  # set the colors
+  scale_color_manual(values = c(&quot;#468189&quot;, &quot;#9DBEBB&quot;), guide = &quot;none&quot;)  +
+  # remove all axis stuff
+  theme_classic() + 
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        axis.ticks = element_blank()) 
+gg_slope</code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Next, I add a left and right axis at the start and end of the slopes.</p>
+<pre class="r"><code>gg_slope &lt;- gg_slope +
+  # add vertical lines that act as axis for men
+  geom_segment(x = 1, xend = 1, 
+               y = min(research_funding_rates$success_rates_men) - 2,
+               yend = max(research_funding_rates$success_rates_men) + 1,
+               col = &quot;grey70&quot;, size = 0.5) +
+  # add vertical lines that act as axis for women
+  geom_segment(x = 2, xend = 2, 
+               y = min(research_funding_rates$success_rates_men) - 2,
+               yend = max(research_funding_rates$success_rates_men) + 1,
+               col = &quot;grey70&quot;, size = 0.5) +
+  # add the words &quot;men&quot; and &quot;women&quot; above their axes
+  geom_text(aes(x = x, y = y, label = label),
+            data = data.frame(x = 1:2, 
+                              y = 2 + max(research_funding_rates$success_rates_men),
+                              label = c(&quot;men&quot;, &quot;women&quot;)),
+            col = &quot;grey30&quot;,
+            size = 6) 
+gg_slope  </code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>I also need to add an identifier for each discipline’s slope. I do this by annotating the plot with text.</p>
+<pre class="r"><code>gg_slope &lt;- gg_slope +
+  # add the label and success rate for each discipline next the men axis
+  geom_text(aes(x = 1 - 0.03, 
+                y = success_rates_men, 
+                label = paste0(discipline, &quot;, &quot;, 
+                               round(success_rates_men, 1), &quot;%&quot;)),
+             col = &quot;grey30&quot;, hjust = &quot;right&quot;) +
+  # add the success rate next to each point on the women axis
+  geom_text(aes(x = 2 + 0.08, 
+                y = success_rates_women, 
+                label = paste0(round(success_rates_women, 1), &quot;%&quot;)),
+            col = &quot;grey30&quot;) +
+  # set the limits of the x-axis so that the labels are not cut off
+  scale_x_continuous(limits = c(0.5, 2.1)) 
+gg_slope</code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Finally, I decide to add points (for aesthetic purposes). Behind each circle, I add a slightly larger white circle to act as a border and to give a slight “gap” look.</p>
+<pre class="r"><code>gg_slope &lt;- gg_slope + 
+  
+  # add the white outline for the points at each rate for men
+  geom_point(aes(x = 1, 
+                 y = success_rates_men), size = 4.5,
+             col = &quot;white&quot;) +
+  # add the white outline for the points at each rate for women
+  geom_point(aes(x = 2, 
+                 y = success_rates_women), size = 4.5,
+             col = &quot;white&quot;) +
+  
+  # add the actual points at each rate for men
+  geom_point(aes(x = 1, 
+                 y = success_rates_men), size = 4,
+             col = &quot;grey60&quot;) +
+  # add the actual points at each rate for men
+  geom_point(aes(x = 2, 
+                 y = success_rates_women), size = 4,
+             col = &quot;grey60&quot;) 
+gg_slope</code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="horizontal-dots" class="section level1">
+<h1>Horizontal dots</h1>
+<p>To create the horizontal dot plot, I again keep the data in its original wide-form but I arrange the disciplines in order of women’s success rate (this will make the plot easier to read).</p>
+<p>The first things I do to create the dot plot is add the horizontal discipline lines and the points for the success rates of men and women.</p>
+<pre class="r"><code>gg_dot &lt;- research_funding_rates %&gt;%
+  # rearrange the factor levels for discipline by rates for women
+  arrange(success_rates_women) %&gt;%
+  mutate(discipline = fct_inorder(discipline)) %&gt;%
+  
+  ggplot() +
+  # remove axes and superfluous grids
+  theme_classic() +
+  theme(axis.title = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.line = element_blank()) +
+  
+  
+  # add a dummy point for scaling purposes
+  geom_point(aes(x = 12, y = discipline), 
+             size = 0, col = &quot;white&quot;) + 
+  
+  # add the horizontal discipline lines
+  geom_hline(yintercept = 1:9, col = &quot;grey80&quot;) +
+  
+  # add a point for each male success rate
+  geom_point(aes(x = success_rates_men, y = discipline), 
+             size = 11, col = &quot;#9DBEBB&quot;) +
+  # add a point for each female success rate
+  geom_point(aes(x = success_rates_women, y = discipline),
+             size = 11, col = &quot;#468189&quot;) 
+gg_dot</code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Since I really like to annotate my figures with text so that the audience can work less hard, I add the success rate on top of each dot. I also prefer to annotate features my plot directly instead of using legends, so I also add a label for men and women.</p>
+<pre class="r"><code>gg_dot &lt;- gg_dot + 
+  # add the text (%) for each male success rate
+  geom_text(aes(x = success_rates_men, y = discipline, 
+                label = paste0(round(success_rates_men, 1))),
+            col = &quot;black&quot;) +
+  # add the text (%) for each female success rate
+  geom_text(aes(x = success_rates_women, y = discipline, 
+                label = paste0(round(success_rates_women, 1))),
+            col = &quot;white&quot;) +
+  # add a label above the first two points
+  geom_text(aes(x = x, y = y, label = label, col = label),
+            data.frame(x = c(25.6 - 1.1, 26.5 + 0.6), y = 10, 
+                       label = c(&quot;women&quot;, &quot;men&quot;)), size = 6) +
+  scale_color_manual(values = c(&quot;#9DBEBB&quot;, &quot;#468189&quot;), guide = &quot;none&quot;) +
+  
+  # manually specify the x-axis
+  scale_x_continuous(breaks = c(15, 20, 25), 
+                     labels = c(&quot;15%&quot;, &quot;20%&quot;, &quot;25%&quot;)) +
+  # manually set the spacing above and below the plot
+  scale_y_discrete(expand = c(0.2, 0)) 
+gg_dot</code></pre>
+<p><img src="/blog/2018-05-29_getting_fancy_ggplot2_files/figure-html/unnamed-chunk-9-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<ul>
+<li><p>The research funding data comes from Rafael Irizarry’s <code>dslabs</code> R package</p></li>
+<li><p>The slope and dot plot ideas for this post come from <a href="http://annkemery.com/clustered-bar-chart/">Ann K. Emery’s post</a> on the same topic.</p></li>
+</ul>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesr'>R</a></li>
+    
+        <li><a href='/categoriesvisualization'>Visualization</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2018-05-29_alternatives_dodged_bars/"
+                class="button big previous">Alternatives to grouped bar charts</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-05-29_getting_fancy_ggplot2/">Getting fancy with ggplot2: code for alternatives to grouped bar charts</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-05-29'>
+                                    May 29, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-05-29_alternatives_dodged_bars/">Alternatives to grouped bar charts</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-05-29'>
+                                    May 29, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2018-05-29_getting_fancy_ggplot2/</loc>
+    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/2018-05-29_alternatives_dodged_bars/</loc>
+    <lastmod>2018-05-29T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2018-05-23-instrumental_variables/</loc>
     <lastmod>2018-05-23T21:13:14-05:00</lastmod>
   </url>
@@ -119,7 +129,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
+    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -185,7 +195,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2017-11-17T22:13:14-05:00</lastmod>
+    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,7 +207,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
+    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,13 +231,13 @@
   
   <url>
     <loc>/categories/visualization/</loc>
-    <lastmod>2017-06-27T21:13:14-05:00</lastmod>
+    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/visualization/</loc>
-    <lastmod>2017-06-27T21:13:14-05:00</lastmod>
+    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
