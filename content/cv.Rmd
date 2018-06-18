@@ -45,14 +45,16 @@ Sydney, Australia*, Graduated November 2013
 
 ## Publications
 
-**Barter RL**, Yu B (2017). Superheat: Supervised heatmaps for visualizing
-complex data, *(preprint) arXiv*  [http://arxiv.org/abs/1512.01524 ](http://arxiv.org/abs/1512.01524)
+**Barter RL**, Yu B (2018). Superheat: Supervised heatmaps for visualizing
+complex data, *Journal Of Computational And Graphical Statistics* [www.tandfonline.com/doi/abs/10.1080/10618600.2018.1473780](https://www.tandfonline.com/doi/abs/10.1080/10618600.2018.1473780)
 
 
 **Barter RL**, Schramm SJ, Mann GJ, and Yang YH (2014). Network-based biomarkers enhance classical approaches to prognostic gene expression signatures, *BMC Systems Biology* [www.biomedcentral.com/1752-0509/8/S4/S5](http://www.biomedcentral.com/1752-0509/8/S4/S5)
 
 
 ### On the web
+
+**Barter RL**, Yu B (2017). Superheat: creating beautiful and extendable heatmaps for visualizing complex data in R. [*IBS Biometric Bulletin*](https://www.biometricsociety.org/wp-content/uploads/2018/04/10-012_IBS_Bulletin_REV.pdf)
 
 **Barter RL**, Shrotriya S (2016). Integrated Data Analysis for Early Warning of Lung Failure. The Geisinger Collider Competition Winning Project. *ODBMS* [http://www.odbms.org/2016/06/integrated-data-analysis-for-early-warning-of-lung-failure/](http://www.odbms.org/2016/06/integrated-data-analysis-for-early-warning-of-lung-failure/)
                     
@@ -67,11 +69,13 @@ complex data, *(preprint) arXiv*  [http://arxiv.org/abs/1512.01524 ](http://arxi
 					
 ## Teaching Experience
 
+### Semester-long classes
+
 Fall 2017 **Graduate Student Instructor (GSI)**,
 *Department of Statistics, University of
 California, Berkeley*
 
-- [STAT215A](/teaching#stat215a)
+- [STAT215A](/teaching#stat215a) Statistical Models: Theory and Applications
 
 
 Spring 2015 **Graduate Student Instructor (GSI)**,
@@ -88,11 +92,13 @@ Tutorial)
 - MATH 1902 Linear Algebra (Advanced)
 - MATH 1005 Statistics
 
+### Workshops
 
+June 11-12, 2018, *Software Carpentry: Shell, Git and R*, [**Berkeley Institute For Data Science (BIDS)**](https://bids.berkeley.edu/events/introduction-shell-git-and-r)
 
-------
+- Co-taught a 2-day Software Carpentry workshop to 40 researchers at UC Berkeley. 
 
-## Workshops
+- I taught half of each of the [Git](http://swcarpentry.github.io/git-novice/) and [R](http://swcarpentry.github.io/r-novice-inflammation/) lessons, corresponding to just over one third of the whole workshop.
 
 April 4 2018, *Creating effective visualizations*, [**Environment and Society: Data Science for the 21st Century**](http://ds421.berkeley.edu/), UC Berkeley
 
@@ -149,6 +155,10 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 ------
 
 ## Community
+
+2018 - Judge for the [SciPy 2018 John Hunter Excellence in Plotting Competition/(https://scipy2018.scipy.org/ehome/299527/648119/?&speakerid=951914&language=eng&back=1)
+
+- I was one of the Judges who chose the best visualizations from among the 38 entries to the John Hunter Excellence in Plotting Competition.
 
 2018 - present *Certified Instructor*, [**Software Carpentry**](https://software-carpentry.org/)
 
