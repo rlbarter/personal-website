@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2018-06-20_bourke_gilman_trail/</loc>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2018-05-29_getting_fancy_ggplot2/</loc>
     <lastmod>2018-05-29T23:13:14-05:00</lastmod>
   </url>
@@ -129,7 +134,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -152,6 +157,18 @@
   </url>
   
   <url>
+    <loc>/categories/cycling/</loc>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/d3/</loc>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/discussion/</loc>
     <lastmod>2016-12-15T21:49:57-07:00</lastmod>
     <priority>0</priority>
@@ -160,6 +177,12 @@
   <url>
     <loc>/categories/documentation/</loc>
     <lastmod>2017-03-07T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/exploration/</loc>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -207,7 +230,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -231,13 +254,13 @@
   
   <url>
     <loc>/categories/visualization/</loc>
-    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/visualization/</loc>
-    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

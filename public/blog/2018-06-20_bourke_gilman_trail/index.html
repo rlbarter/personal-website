@@ -1,0 +1,1150 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Cycling the Burke Gilman Trail in Seattle</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills.">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cycling the Burke Gilman Trail in Seattle"/>
+<meta name="twitter:description" content="I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="Cycling the Burke Gilman Trail in Seattle" />
+<meta property="og:description" content="I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2018-06-20_bourke_gilman_trail/" />
+
+
+
+<meta property="article:published_time" content="2018-06-20T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2018-06-20T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Cycling the Burke Gilman Trail in Seattle">
+<meta itemprop="description" content="I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills.">
+
+
+<meta itemprop="datePublished" content="2018-06-20T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2018-06-20T23:13:14-05:00" />
+<meta itemprop="wordCount" content="622">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="//css/tomorrow.css">
+        <script src="//js/highlight.pack.js"></script>
+        <script>
+          hljs.initHighlightingOnLoad();
+        </script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2018-06-20_bourke_gilman_trail/"><p>Cycling the Burke Gilman Trail in Seattle</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2018-05-29_getting_fancy_ggplot2/"><p>Getting fancy with ggplot2: code for alternatives to grouped bar charts</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&text=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-06-20_bourke_gilman_trail%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&title=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&title=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&title=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-06-20_bourke_gilman_trail%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2018-06-20_bourke_gilman_trail/">Cycling the Burke Gilman Trail in Seattle</a></h1>
+            
+        
+        
+            <p>I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2018-06-20'>
+            June 20, 2018</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&text=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-06-20_bourke_gilman_trail%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&title=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&title=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-06-20_bourke_gilman_trail%2f&title=Cycling%20the%20Burke%20Gilman%20Trail%20in%20Seattle" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-06-20_bourke_gilman_trail%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <p>While living in Seattle, I rode to and from Fremont every day on the Burke Gilman bike trail. Little did I know that everytime I went past NE 70th St, I (along with everyone else) was being recorded… It turns out that hourly data of traffic on the Burke Gilman trail is <a href="https://catalog.data.gov/dataset/burke-gilman-trail-north-of-ne-70th-st-bike-and-ped-counter-aa37e">publicly available online</a>. I decided to try out my D3 skills and make a cute little visualization of an average day in the life of the Burke Gilman trail.</p>
+<p>I took all of the data from 2017 and averaged the number of cyclists going in each direction by hour for each day of the week. I then plotted the data in a radial line plot (inspiration librally taken from <a href="https://bl.ocks.org/tlfrd/fd6991b2d1947a3cb9e0bd20053899d6">this plot of twitter stocks</a>) and added some transitions over time.</p>
+<p>The end result (after 8 hours of work) turned out pretty nice. While it’s far from perfect, I’m pretty happy with my first attempt at creating a D3 visualization! The code can be found here: <a href="https://bl.ocks.org/rlbarter/da4decacf20dda2d9274e6986f4a81a8" class="uri">https://bl.ocks.org/rlbarter/da4decacf20dda2d9274e6986f4a81a8</a></p>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="/img/burke-gilman/d3-scale-radial.js"></script>
+<div id="viz">
+
+</div>
+<script type="text/javascript">
+var margin = {top: 20, right: 10, bottom: 20, left: 10};
+
+    var width = 990 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+
+    var svg = d3.select("#viz").append("svg")
+        .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var g = svg.append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var innerRadius = 100,
+        outerRadius = Math.min(width, height) / 2 - 30;
+
+    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
+        formatDay = d3.timeFormat("%A");
+        formatHour = d3.timeFormat("%H");
+        formatDayHour = d3.timeFormat("%A %H:%M");
+
+    var fullCircle = 2 * Math.PI;
+
+    var x = d3.scaleTime()
+        .range([0, fullCircle]);
+
+    var y = d3.scaleRadial()
+            .range([innerRadius, outerRadius]);
+
+    var linesouth = d3.lineRadial()
+            .angle(function(d) { return x(d.date_group); })
+            .radius(function(d) { return y(d.bikes_south); });
+
+        var linenorth = d3.lineRadial()
+                .angle(function(d) { return x(d.date_group); })
+                .radius(function(d) { return y(d.bikes_north); });
+
+    d3.csv("/img/burke-gilman/bg_trail.csv" ,function(d) {
+      d.date_group = parseTime(d.date_group);
+      d.bikes_south = +d.bikes_south;
+            d.bikes_north = +d.bikes_north;
+      return d;
+    }, function(error, data) {
+      if (error) throw error;
+
+      var maxValue = Math.max(0, d3.max(data, function(d) { return d.bikes_north; }));
+      var angleSlice = Math.PI * 2 / 7;
+
+      var rScale = d3.scaleLinear()
+          .range([0, outerRadius])
+          .domain([0, maxValue]);
+
+      x.domain([d3.min(data, function(d) { return d.date_group; }), d3.max(data, function(d) { return d.date_group; })]);
+        y.domain([0, d3.max(data, function(d) { return d.bikes_north; })]);
+
+      var linePlotSouth = g.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "#4099ff")
+        .attr("stroke-width", 3)
+        .attr("d", linesouth);
+
+            var linePlotNorth = g.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "   #ffa640")
+        .attr("stroke-width", 3)
+        .attr("d", linenorth);
+
+      var yAxis = g.append("g")
+          .attr("text-anchor", "middle");
+
+      var yTick = yAxis
+        .selectAll("g")
+        .data(y.ticks(3))
+        .enter().append("g");
+
+      yTick.append("circle")
+          .attr("fill", "none")
+          .attr("stroke", "black")
+            .attr("opacity", 0.2)
+          .attr("r", y);
+
+      yAxis.append("circle")
+            .attr("fill", "none")
+          .attr("stroke", "black")
+            .attr("opacity", 0.2)
+          .attr("r", function() { return y(y.domain()[0])});
+
+      var labels = yTick.append("text")
+          .attr("y", function(d) { return -y(d); })
+          .attr("dy", "0.35em")
+          .attr("fill", "none")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 5)
+          .attr("stroke-linejoin", "round")
+          .text(function(d) { return d; });
+
+      yTick.append("text")
+        .attr("y", function(d) { return -y(d); })
+        .attr("dy", "0.35em")
+        .text(function(d) { return d; });
+
+            var xAxisOuter = g.append("g");
+
+      var title = g.append("g")
+            .attr("class", "title")
+            .append("text")
+            .attr("dy", "-2em")
+            .attr("text-anchor", "middle")
+            .text("Cyclists per hour")
+
+      var subtitle = g.append("text")
+            .attr("dy", "-0.8em")
+          .attr("text-anchor", "middle")
+            .attr("opacity", 0.6)
+            .text("on Burke Gilman");
+
+      g.append("text")
+            .attr("dy", "1.4em")
+          .attr("dx", "2em")
+          .attr("text-anchor", "middle")
+          .attr("stroke", "#4099ff")
+            .attr("opacity", 0.8)
+            .text("South");
+
+      g.append("text")
+            .attr("dy", "1.4em")
+          .attr("dx", "-2em")
+          .attr("text-anchor", "middle")
+          .attr("stroke", "#ffa640")
+            .attr("opacity", 0.8)
+            .text("North");
+
+      g.append("text")
+          .attr("dy", "1.4em")
+          .attr("text-anchor", "middle")
+          .attr("opacity", 0.8)
+          .text("/");
+
+      var timedate = svg.selectAll("text").select("text1").data(data).enter();
+
+      timedate.append("text")
+          .attr("y", height / 2 + 50)
+          .attr("x", width / 2)
+          .attr("text-anchor", "middle")
+          .attr("opacity", 0)
+          .text(function(d, i) { return formatDayHour(d.date_group); })
+          .style("font-size", "18px")
+          .transition(0)
+          .delay(function(d, i) { return i * 35000 / (7 * 24); })
+          .attr("opacity", 0.6)
+          .transition(0)
+          .attr("opacity", 0)
+          .remove();
+
+      var days = svg.selectAll("text").select("text2")
+          .data(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).enter();
+
+      days.append("text")
+          .attr("text-anchor", "middle")
+          .attr("opacity", 0.5)
+          .text(function(d, i) { return d; })
+          .style("font-size", "22px")
+          .attr("transform", function(d, i) {
+            if (i >= 2 & i <= 4) {
+              return  "translate(" + (width / 2 + outerRadius * 1.1 * Math.cos(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ", " +
+                (height / 2 + outerRadius * 1.1 * Math.sin(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ") rotate(" + (180 + i * 360 / 7 + 25 ) + ")" ;
+            } else {
+              return  "translate(" + (width / 2 + outerRadius * 1.1 * Math.cos(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ", " +
+                (height / 2 + outerRadius * 1.1 * Math.sin(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ") rotate(" + (i * 360 / 7 + 25 ) + ")" ;
+            }
+
+          });
+
+      // Long axis
+            var vertline_data = [1, 2, 3, 4, 5, 6, 7];
+            var vertline = g.selectAll("vline")
+                    .data(vertline_data)
+                    .enter().append("line")
+                    .attr("x1", function(d, i) { return innerRadius * Math.cos(angleSlice * i - Math.PI / 2)})
+                    .attr("y1", function(d, i) { return innerRadius * Math.sin(angleSlice * i - Math.PI / 2)})
+                    .attr("x2", function(d, i) { return rScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2)})
+                    .attr("y2", function(d, i) { return rScale(maxValue * 1.1) * Math.sin(angleSlice * i - Math.PI / 2)})
+                    .style("stroke", "grey")
+                    .style("stroke-width",".5px");
+
+      var lineLengthSouth = linePlotSouth.node().getTotalLength();
+      var lineLengthNorth = linePlotNorth.node().getTotalLength();
+
+      // point that follows path of lines
+
+      // animate lines
+            linePlotSouth
+                .attr("stroke-dasharray", lineLengthSouth + " " + lineLengthSouth)
+                .attr("stroke-dashoffset", lineLengthSouth)
+                .transition()
+                .duration(35000)
+                .delay(0)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0);
+
+            linePlotNorth
+                .attr("stroke-dasharray", lineLengthNorth + " " + lineLengthNorth)
+                .attr("stroke-dashoffset", lineLengthNorth)
+                .transition()
+                .duration(35000)
+                .delay(0)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0);
+
+    });
+                
+</script>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesvisualization'>Visualization</a></li>
+    
+        <li><a href='/categoriesexploration'>Exploration</a></li>
+    
+        <li><a href='/categoriesd3'>D3</a></li>
+    
+        <li><a href='/categoriescycling'>Cycling</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2018-05-29_getting_fancy_ggplot2/"
+                class="button big previous">Getting fancy with ggplot2: code for alternatives to grouped bar charts</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-06-20_bourke_gilman_trail/">Cycling the Burke Gilman Trail in Seattle</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-06-20'>
+                                    June 20, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-05-29_getting_fancy_ggplot2/">Getting fancy with ggplot2: code for alternatives to grouped bar charts</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-05-29'>
+                                    May 29, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

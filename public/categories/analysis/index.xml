@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Analysis on Rebecca Barter</title>
+    <link>/categories/analysis/</link>
+    <description>Recent content in Analysis on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Jun 2018 23:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/analysis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cycling the Burke Gilman Trail in Seattle</title>
+      <link>/blog/2018-06-20_bourke_gilman_trail/</link>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-06-20_bourke_gilman_trail/</guid>
+      <description>While living in Seattle, I rode to and from Fremont every day on the Burke Gilman bike trail. Little did I knowm that everytime a pedestrian or bicycle travels on the BG trail north of NE 70th St, they were counted by wires in a diamond formation in the concrete.
+Since this data is publicly available online, I decided to explore usage of the Burke Gilman trail and see what trends lay within.</description>
+    </item>
+    
+  </channel>
+</rss>

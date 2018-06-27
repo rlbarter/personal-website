@@ -39,11 +39,38 @@
     </item>
     
     <item>
+      <title>Cycling</title>
+      <link>/categories/cycling/</link>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/cycling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>D3</title>
+      <link>/categories/d3/</link>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/d3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Documentation</title>
       <link>/categories/documentation/</link>
       <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
       
       <guid>/categories/documentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Exploration</title>
+      <link>/categories/exploration/</link>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/exploration/</guid>
       <description></description>
     </item>
     
@@ -104,7 +131,7 @@
     <item>
       <title>Visualization</title>
       <link>/categories/visualization/</link>
-      <pubDate>Tue, 29 May 2018 23:13:14 -0500</pubDate>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
       
       <guid>/categories/visualization/</guid>
       <description></description>
@@ -113,7 +140,7 @@
     <item>
       <title>Visualization</title>
       <link>/categories/visualization/</link>
-      <pubDate>Tue, 29 May 2018 23:13:14 -0500</pubDate>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
       
       <guid>/categories/visualization/</guid>
       <description></description>

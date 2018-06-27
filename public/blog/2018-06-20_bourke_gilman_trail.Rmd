@@ -1,0 +1,246 @@
+---
+title:  "Cycling the Burke Gilman Trail in Seattle"
+author: "Rebecca Barter"
+categories: [Visualization, Exploration, D3, Cycling]
+date: 2018-06-20T23:13:14-05:00
+type: "post" 
+description: "I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills." 
+---
+
+
+While living in Seattle, I rode to and from Fremont every day on the Burke Gilman bike trail. Little did I know that everytime I went past NE 70th St, I (along with everyone else) was being recorded... It turns out that hourly data of traffic on the Burke Gilman trail is [publicly available online](https://catalog.data.gov/dataset/burke-gilman-trail-north-of-ne-70th-st-bike-and-ped-counter-aa37e). I decided to try out my D3 skills and make a cute little visualization of an average day in the life of the Burke Gilman trail.
+
+I took all of the data from 2017 and averaged the number of cyclists going in each direction by hour for each day of the week. I then plotted the data in a radial line plot (inspiration librally taken from [this plot of twitter stocks](https://bl.ocks.org/tlfrd/fd6991b2d1947a3cb9e0bd20053899d6)) and added some transitions over time.
+
+The end result (after 8 hours of work) turned out pretty nice. While it's far from perfect, I'm pretty happy with my first attempt at creating a D3 visualization! The code can be found here: https://bl.ocks.org/rlbarter/da4decacf20dda2d9274e6986f4a81a8
+
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="/img/burke-gilman/d3-scale-radial.js"></script>
+<div id = "viz"></div>
+
+```{js, results = "here", echo = FALSE}
+var margin = {top: 20, right: 10, bottom: 20, left: 10};
+
+    var width = 990 - margin.left - margin.right,
+    	height = 600 - margin.top - margin.bottom;
+
+    var svg = d3.select("#viz").append("svg")
+    	.attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var g = svg.append("g")
+    	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var innerRadius = 100,
+        outerRadius = Math.min(width, height) / 2 - 30;
+
+    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
+        formatDay = d3.timeFormat("%A");
+        formatHour = d3.timeFormat("%H");
+        formatDayHour = d3.timeFormat("%A %H:%M");
+
+    var fullCircle = 2 * Math.PI;
+
+    var x = d3.scaleTime()
+        .range([0, fullCircle]);
+
+    var y = d3.scaleRadial()
+    		.range([innerRadius, outerRadius]);
+
+    var linesouth = d3.lineRadial()
+    		.angle(function(d) { return x(d.date_group); })
+    		.radius(function(d) { return y(d.bikes_south); });
+
+		var linenorth = d3.lineRadial()
+				.angle(function(d) { return x(d.date_group); })
+				.radius(function(d) { return y(d.bikes_north); });
+
+    d3.csv("/img/burke-gilman/bg_trail.csv" ,function(d) {
+      d.date_group = parseTime(d.date_group);
+      d.bikes_south = +d.bikes_south;
+			d.bikes_north = +d.bikes_north;
+      return d;
+    }, function(error, data) {
+      if (error) throw error;
+
+      var maxValue = Math.max(0, d3.max(data, function(d) { return d.bikes_north; }));
+      var angleSlice = Math.PI * 2 / 7;
+
+      var rScale = d3.scaleLinear()
+          .range([0, outerRadius])
+          .domain([0, maxValue]);
+
+      x.domain([d3.min(data, function(d) { return d.date_group; }), d3.max(data, function(d) { return d.date_group; })]);
+  		y.domain([0, d3.max(data, function(d) { return d.bikes_north; })]);
+
+      var linePlotSouth = g.append("path")
+      	.datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "#4099ff")
+        .attr("stroke-width", 3)
+        .attr("d", linesouth);
+
+			var linePlotNorth = g.append("path")
+      	.datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "	#ffa640")
+        .attr("stroke-width", 3)
+        .attr("d", linenorth);
+
+      var yAxis = g.append("g")
+          .attr("text-anchor", "middle");
+
+      var yTick = yAxis
+        .selectAll("g")
+        .data(y.ticks(3))
+        .enter().append("g");
+
+      yTick.append("circle")
+          .attr("fill", "none")
+          .attr("stroke", "black")
+      		.attr("opacity", 0.2)
+          .attr("r", y);
+
+      yAxis.append("circle")
+      		.attr("fill", "none")
+          .attr("stroke", "black")
+      		.attr("opacity", 0.2)
+          .attr("r", function() { return y(y.domain()[0])});
+
+      var labels = yTick.append("text")
+          .attr("y", function(d) { return -y(d); })
+          .attr("dy", "0.35em")
+          .attr("fill", "none")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 5)
+          .attr("stroke-linejoin", "round")
+          .text(function(d) { return d; });
+
+      yTick.append("text")
+        .attr("y", function(d) { return -y(d); })
+        .attr("dy", "0.35em")
+        .text(function(d) { return d; });
+
+			var xAxisOuter = g.append("g");
+
+
+      var title = g.append("g")
+      		.attr("class", "title")
+      		.append("text")
+      		.attr("dy", "-2em")
+      		.attr("text-anchor", "middle")
+      		.text("Cyclists per hour")
+
+      var subtitle = g.append("text")
+      		.attr("dy", "-0.8em")
+          .attr("text-anchor", "middle")
+      		.attr("opacity", 0.6)
+      		.text("on Burke Gilman");
+
+      g.append("text")
+      		.attr("dy", "1.4em")
+          .attr("dx", "2em")
+          .attr("text-anchor", "middle")
+          .attr("stroke", "#4099ff")
+      		.attr("opacity", 0.8)
+      		.text("South");
+
+      g.append("text")
+      		.attr("dy", "1.4em")
+          .attr("dx", "-2em")
+          .attr("text-anchor", "middle")
+          .attr("stroke", "#ffa640")
+      		.attr("opacity", 0.8)
+      		.text("North");
+
+      g.append("text")
+          .attr("dy", "1.4em")
+          .attr("text-anchor", "middle")
+          .attr("opacity", 0.8)
+          .text("/");
+
+      var timedate = svg.selectAll("text").select("text1").data(data).enter();
+
+      timedate.append("text")
+          .attr("y", height / 2 + 50)
+          .attr("x", width / 2)
+          .attr("text-anchor", "middle")
+          .attr("opacity", 0)
+          .text(function(d, i) { return formatDayHour(d.date_group); })
+          .style("font-size", "18px")
+          .transition(0)
+          .delay(function(d, i) { return i * 35000 / (7 * 24); })
+          .attr("opacity", 0.6)
+          .transition(0)
+          .attr("opacity", 0)
+          .remove();
+
+      var days = svg.selectAll("text").select("text2")
+          .data(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).enter();
+
+      days.append("text")
+          .attr("text-anchor", "middle")
+          .attr("opacity", 0.5)
+          .text(function(d, i) { return d; })
+          .style("font-size", "22px")
+          .attr("transform", function(d, i) {
+            if (i >= 2 & i <= 4) {
+              return  "translate(" + (width / 2 + outerRadius * 1.1 * Math.cos(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ", " +
+                (height / 2 + outerRadius * 1.1 * Math.sin(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ") rotate(" + (180 + i * 360 / 7 + 25 ) + ")" ;
+            } else {
+              return  "translate(" + (width / 2 + outerRadius * 1.1 * Math.cos(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ", " +
+                (height / 2 + outerRadius * 1.1 * Math.sin(angleSlice * i - Math.PI / 2 + 2 * Math.PI / 14)) + ") rotate(" + (i * 360 / 7 + 25 ) + ")" ;
+            }
+
+          });
+
+
+
+      // Long axis
+			var vertline_data = [1, 2, 3, 4, 5, 6, 7];
+			var vertline = g.selectAll("vline")
+					.data(vertline_data)
+					.enter().append("line")
+					.attr("x1", function(d, i) { return innerRadius * Math.cos(angleSlice * i - Math.PI / 2)})
+					.attr("y1", function(d, i) { return innerRadius * Math.sin(angleSlice * i - Math.PI / 2)})
+					.attr("x2", function(d, i) { return rScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2)})
+					.attr("y2", function(d, i) { return rScale(maxValue * 1.1) * Math.sin(angleSlice * i - Math.PI / 2)})
+					.style("stroke", "grey")
+					.style("stroke-width",".5px");
+
+
+      var lineLengthSouth = linePlotSouth.node().getTotalLength();
+      var lineLengthNorth = linePlotNorth.node().getTotalLength();
+
+      // point that follows path of lines
+
+
+      // animate lines
+			linePlotSouth
+				.attr("stroke-dasharray", lineLengthSouth + " " + lineLengthSouth)
+				.attr("stroke-dashoffset", lineLengthSouth)
+				.transition()
+				.duration(35000)
+				.delay(0)
+				.ease(d3.easeLinear)
+				.attr("stroke-dashoffset", 0);
+
+			linePlotNorth
+				.attr("stroke-dasharray", lineLengthNorth + " " + lineLengthNorth)
+				.attr("stroke-dashoffset", lineLengthNorth)
+				.transition()
+				.duration(35000)
+				.delay(0)
+				.ease(d3.easeLinear)
+				.attr("stroke-dashoffset", 0);
+
+    });
+				
+```
+
+
+

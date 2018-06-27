@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cycling on Rebecca Barter</title>
+    <link>/categories/cycling/</link>
+    <description>Recent content in Cycling on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Jun 2018 23:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/cycling/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cycling the Burke Gilman Trail in Seattle</title>
+      <link>/blog/2018-06-20_bourke_gilman_trail/</link>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-06-20_bourke_gilman_trail/</guid>
+      <description>While living in Seattle, I rode to and from Fremont every day on the Burke Gilman bike trail. Little did I know that everytime I went past NE 70th St, I (along with everyone else) was being recorded… It turns out that hourly data of traffic on the Burke Gilman trail is publicly available online. I decided to try out my D3 skills and make a cute little visualization of an average day in the life of the Burke Gilman trail.</description>
+    </item>
+    
+  </channel>
+</rss>
