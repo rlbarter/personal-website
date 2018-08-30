@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/useful_resources/</loc>
+    <lastmod>2018-08-30T21:48:51-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2018-06-20_bourke_gilman_trail/</loc>
     <lastmod>2018-06-20T23:13:14-05:00</lastmod>
   </url>
@@ -230,7 +235,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
+    <lastmod>2018-08-30T21:48:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
