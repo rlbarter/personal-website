@@ -27,3 +27,7 @@ R stuff
 
 - **R packages**: When I made my first R package, Hadley Wickham's [book on R packages](http://r-pkgs.had.co.nz/) was indispensable!
 
+Presentation and communication
+
+- **Slides**: I use [slides.com](https://slides.com/) to make all my slides. Slides.com makes it super easy to make impressive reveal.js presentations without having to write any JavaScript! No more Google Docs! (I have a widely known hatered of LaTeX beamer slides which encourage all text no visuals).
+
