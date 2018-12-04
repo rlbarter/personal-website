@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Prediction on Rebecca Barter</title>
+    <link>/categories/prediction/</link>
+    <description>Recent content in Prediction on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 18 Sep 2018 23:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/prediction/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>To transform or not to transform: advice on transforming variables in a regression</title>
+      <link>/blog/2018-09-18_transformation/</link>
+      <pubDate>Tue, 18 Sep 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-09-18_transformation/</guid>
+      <description>If you have ever run a regression, you have probably wondered whether or not you should transform your regression variables. If you Google this question, many of the answers you find will imply that the primary reason you should transform your variables in a linear regression is because linear regression assumes that your variables are normally distributed. So according to the internet, if your variables don’t look normal, you should be transforming them so that they do!</description>
+    </item>
+    
+  </channel>
+</rss>

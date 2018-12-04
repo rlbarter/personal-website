@@ -6,10 +6,20 @@
     <description>Recent content in Statistics on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 May 2018 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 04 Dec 2018 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/statistics/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A hypothesis testing flowchart</title>
+      <link>/blog/2018-12-04_hypothesis_testing/</link>
+      <pubDate>Tue, 04 Dec 2018 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2018-12-04_hypothesis_testing/</guid>
+      <description>Many years ago I taught a stats class for which one of the topics was hypothesis testing. Many of the students had a hard time remembering what situation each test was designed for, so I made a flowchart to help piece together the wild world of hypothesis tests.
+While the flowchart isn’t pretty (if I made it today, it would be much more attractive), I feel like it might be useful for others, so here it is:</description>
+    </item>
     
     <item>
       <title>Understanding Instrumental Variables</title>

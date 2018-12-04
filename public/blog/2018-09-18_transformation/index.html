@@ -1,0 +1,1036 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>To transform or not to transform: advice on transforming variables in a regression</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            
+                <meta name="description" content="Rebecca Barter&#39;s webpage.">
+            
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="To transform or not to transform: advice on transforming variables in a regression"/>
+<meta name="twitter:description" content="If you have ever run a regression, you have probably wondered whether or not you should transform your regression variables. If you Google this question, many of the answers you find will imply that the primary reason you should transform your variables in a linear regression is because linear regression assumes that your variables are normally distributed. So according to the internet, if your variables don’t look normal, you should be transforming them so that they do!"/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="To transform or not to transform: advice on transforming variables in a regression" />
+<meta property="og:description" content="If you have ever run a regression, you have probably wondered whether or not you should transform your regression variables. If you Google this question, many of the answers you find will imply that the primary reason you should transform your variables in a linear regression is because linear regression assumes that your variables are normally distributed. So according to the internet, if your variables don’t look normal, you should be transforming them so that they do!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2018-09-18_transformation/" />
+
+
+
+<meta property="article:published_time" content="2018-09-18T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2018-09-18T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="To transform or not to transform: advice on transforming variables in a regression">
+<meta itemprop="description" content="If you have ever run a regression, you have probably wondered whether or not you should transform your regression variables. If you Google this question, many of the answers you find will imply that the primary reason you should transform your variables in a linear regression is because linear regression assumes that your variables are normally distributed. So according to the internet, if your variables don’t look normal, you should be transforming them so that they do!">
+
+
+<meta itemprop="datePublished" content="2018-09-18T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2018-09-18T23:13:14-05:00" />
+<meta itemprop="wordCount" content="1428">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="//css/tomorrow.css">
+        <script src="//js/highlight.pack.js"></script>
+        <script>
+          hljs.initHighlightingOnLoad();
+        </script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/useful_resources">
+                        Useful resources
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/useful_resources">
+                            <h3>
+                                
+                                Useful resources
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2018-09-18_transformation/"><p>To transform or not to transform: advice on transforming variables in a regression</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2018-06-20_bourke_gilman_trail/"><p>Cycling the Burke Gilman Trail in Seattle</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-09-18_transformation%2f&text=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-09-18_transformation%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-09-18_transformation%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-09-18_transformation%2f&title=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-09-18_transformation%2f&title=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-09-18_transformation%2f&title=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-09-18_transformation%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2018-09-18_transformation/">To transform or not to transform: advice on transforming variables in a regression</a></h1>
+            
+        
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2018-09-18'>
+            September 18, 2018</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2018-09-18_transformation%2f&text=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2018-09-18_transformation%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-09-18_transformation%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2018-09-18_transformation%2f&title=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-09-18_transformation%2f&title=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-09-18_transformation%2f&title=To%20transform%20or%20not%20to%20transform%3a%20advice%20on%20transforming%20variables%20in%20a%20regression" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2018-09-18_transformation%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <p>If you have ever run a regression, you have probably wondered whether or not you should transform your regression variables. If you Google this question, many of the answers you find will imply that the primary reason you should transform your variables in a linear regression is because linear regression assumes that your variables are <em>normally distributed</em>. So according to the internet, if your variables don’t look normal, you should be transforming them so that they do!</p>
+<p>In many circumstances, in the responses immediately following these answers there was likely to be an army of protestors shouting “Don’t listen to them! It’s not your variables that need to be nomrally distributed, it’s your <em>residuals</em>!”. In actual fact, it’s not the residuals that are assumed to be normal, it is the unseeable <em>errors</em> (I’ll explain the difference between these below), and besides, it turns out that you don’t even <em>really</em> need these errors to be normal anyway…</p>
+<p>Let’s suppose that we want to regress some <strong>response</strong> of interest, such as life expectency (<span class="math inline">\(y\)</span>), on some <strong>predictor variable</strong> thought to be predictive of the outcome, such as GDP per capita (<span class="math inline">\(x\)</span>). Throughout this post, I will use the 2007 gapminder data (from the <code>gapminder</code> R package) that contains data on life expectency and GDP.</p>
+<pre><code>## ── Attaching packages ───────────</code></pre>
+<pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.7
+## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<p><img src="/blog/2018-09-18_transformation_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In my experience, there are a few main types of scenarios in which people to try transforming their variables:</p>
+<ol style="list-style-type: decimal">
+<li><p>the x-y relationship doesn’t look linear (e.g. if you plot life expectency against GDP, you don’t get a straight line)</p></li>
+<li><p>the variables (either the outcomes, or the covariates, or both) don’t look normally distributed</p></li>
+<li><p>their model isn’t fitting well</p></li>
+<li><p>there are outliers</p></li>
+<li><p>the residual plot looks weird</p></li>
+</ol>
+<p>In this post, I will discuss for which of these scenarios actually motivates transforming your variables in a regression. At the end of the day, my advice will depend on whether your goal for running the regression is to generate good predictions (the <strong>prediction</strong> goal), or whether it is to interpret the regression coefficients (the <strong>inference</strong> goal).</p>
+<div id="the-goals-of-linear-regression-inference-versus-prediction" class="section level1">
+<h1>The goals of linear regression: inference versus prediction</h1>
+<p>Linear regression has several assumptions, but it turns out none of actually imply that anything actually needs to be normal. To understand the assumptions of linear regression, we first need to undersatand the original intended <em>goal</em> of linear regression: to estimate some underlying, unseeable, linear relationship between the variables (this is essentially the <em>inference</em> goal that I mentioned above). The traditional idea behind linear regression is that the data were generated based on a strict relationship with purely random deviations. This formulation is often written as:</p>
+<p><span class="math display">\[ y = \alpha + \beta x + \epsilon \]</span></p>
+<p>where the <span class="math inline">\(\epsilon\)</span> terms represent the random deviation from the true linear relationship <span class="math inline">\(y = \alpha + \beta x\)</span>.</p>
+<p>The most important assumption of traditional linear regression is that for an observation whose covariate value is <span class="math inline">\(x\)</span>, the universe generated the corresponding response value, <span class="math inline">\(y\)</span>, precisely based on the linear relationship <span class="math inline">\(y = \alpha + \beta x\)</span> plus some random noise. This is impossible to check. For instance, if we were to regress a country’s average life expectency on the country’s GDP per capita, the traditional assumptions of linear regression say that there exist some values <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> (whose values we don’t know) such that</p>
+<p><span class="math display">\[\textrm{Life expectency } = \alpha + \beta \times \textrm{(GDP per cap)} + \epsilon\]</span></p>
+<p>That is, that every country magically has a life expectancy equal to <span class="math inline">\(\alpha + \beta \times \textrm{(GDP per cap)}\)</span> plus some random deviations from this rule (where the deviations from this rule are different and independent across each country). If I were a traditionalist, my goal in using least squares to try and fit this model would be specifically because I wanted to know the true values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. That is, I want to perform <strong>inference</strong> (the goal of saying something about the original population from which the data came).</p>
+<p>Instead, today, most of the times that people try to fit regression models is to perform <strong>prediction</strong>: it doesn’t matter if there is <em>really</em> an underlying linear relationship from which the data was generated, and you don’t <em>really</em> care about the “true” values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, but instead the goal is to develop a way of generating plausible response values <span class="math inline">\(\hat{y} = \hat{\alpha} + \hat{\beta} x\)</span>, based on whatever value of <span class="math inline">\(x\)</span> you like. For instance, the goal isn’t to care about the actual relationship between a country’s life expectency and their GDP, but instead is simply to predict the country’s life expectency based on their GDP (without really caring whether life expectancy and GDP truly have a linear relationship).</p>
+<div id="do-we-even-need-normality" class="section level2">
+<h2>Do we even need normality?</h2>
+<p>Notice that I haven’t mentioned normality anywhere yet. A lot of people quote that linear regression assumes that the <span class="math inline">\(\epsilon\)</span> values (the “error” terms) associated with each data point <span class="math inline">\((x_i, y_i)\)</span> are independent and each are drawn from a normal distribution with mean 0 and standard deviation, some unknown value <span class="math inline">\(\sigma\)</span>. This is typically written <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>.</p>
+<p>What are these assumptions for, you might ask? Well, it turns out that if you are equipped with these assumptions, it is possible can show that when you use the method of least squares to get <em>estimates</em> of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, if you did this many, many times, on average, your estimates would equal the true underlying unseeable values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. That is, these assumptions allow you to make (asymptotic) guarantees about your estimates of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span></p>
+<p>But, it turns out to prove these things you don’t actually need the <em>normality</em>, you “just” need the independence and identical distributions of the <span class="math inline">\(\epsilon\)</span>s, and the fact that whatever distribution they came from has an associated mean of 0 and standard deviation of <span class="math inline">\(\sigma\)</span>.</p>
+<p>I say “just” because given that we never actually observe the <span class="math inline">\(\epsilon\)</span>s themselves (because they exist in an unseeable world), it is darn difficult to actually check that these assumptions hold. What we <em>do</em> observe, however, is the residuals. When we use least squares to estimate the underlying, unseeable linear relationship, we obtain estimates of this relationship,</p>
+<p><span class="math display">\[\hat{y} = \hat{\alpha} = \hat{\beta} x\]</span></p>
+<p>and how close our predicted <span class="math inline">\(\hat{y}\)</span> values are to the actual <span class="math inline">\(\y\)</span> values can tell us a lot about how realistic our assumptions were. This closeness is defined by the difference between the “predicted” response, <span class="math inline">\(\hat{y}\)</span>, and the actual response:</p>
+<p><span class="math display">\[\textrm{residual}_i = \hat{y}_i - y_i\]</span></p>
+<p>But this is <strong>not</strong> equal to the corresponding error terms, <span class="math inline">\(\epsilon\)</span>. <strong>Checking the normality of the residuals is not the same as checking the normality of the errors!</strong></p>
+</div>
+</div>
+<div id="so-when-is-it-ok-to-transform-my-variables" class="section level1">
+<h1>So when is it ok to transform my variables?</h1>
+<p>Let’s return to the most common transformation scenarios that I listed in the introduction to this post:</p>
+<ol style="list-style-type: decimal">
+<li><p>the x-y relationship doesn’t look linear</p></li>
+<li><p>the variables (independent, dependent, or both) don’t look normally distributed</p></li>
+<li><p>their model isn’t fitting well</p></li>
+<li><p>there are outliers</p></li>
+<li><p>the residual plot looks weird</p></li>
+</ol>
+<p>What it comes down to is: if you care primarily about obtaining accurate predictions <span class="math inline">\(\hat{y}\)</span> without actually caring about the values of <span class="math inline">\(\hat{\alpha}\)</span> or <span class="math inline">\(\hat{\beta}\)</span>, then it <strong>if the transformation improves the accuracy go for it</strong> (just as long as you have an independent withheld test set that you have not used to train the models that you can test the final accuracy on).</p>
+<p>If, however, you actually care about estimating the true values, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> of the coefficients, then you need to be a lot more careful when transforming (although it may still be justified). Suppose that the relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> does not look linear (when plotted in a scatteprlot, for example). Then, the main assumption of traditional linear regression for inference doesn’t hold and you can’t trust the values of the coefficient estimates, <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> anyway. If a transformation makes the relationship more linear, then, assuming that the (uncheckable) assumptions on the error terms hold, your estimates might actually be representative of some true underlying linear relationship.</p>
+</div>
+<div id="common-transformations" class="section level1">
+<h1>Common transformations</h1>
+<p>The most common transformation that people apply to their variables is the logarithmic transformation. Taking the log of your data has the result of spreading out small values and</p>
+</div>
+<div id="consequences-of-transformation" class="section level1">
+<h1>Consequences of transformation</h1>
+</div>
+<div id="an-example-predicting-life-expectency-based-on-gdp" class="section level1">
+<h1>An example: predicting life expectency based on GDP</h1>
+<p><img src="/blog/2018-09-18_transformation_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>The data I used in this example was actually the Ames house price data.</p>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesstatistics'>statistics</a></li>
+    
+        <li><a href='/categoriesregression'>regression</a></li>
+    
+        <li><a href='/categoriesprediction'>prediction</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2018-06-20_bourke_gilman_trail/"
+                class="button big previous">Cycling the Burke Gilman Trail in Seattle</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-09-18_transformation/">To transform or not to transform: advice on transforming variables in a regression</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-09-18'>
+                                    September 18, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2018-06-20_bourke_gilman_trail/">Cycling the Burke Gilman Trail in Seattle</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2018-06-20'>
+                                    June 20, 2018</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">11</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/prediction/">prediction</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/regression/">regression</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">statistics</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

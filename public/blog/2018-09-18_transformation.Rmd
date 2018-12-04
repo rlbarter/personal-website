@@ -1,0 +1,128 @@
+---
+title:  "To transform or not to transform: advice on transforming variables in a regression"
+author: "Rebecca Barter"
+categories: [statistics, regression, prediction]
+date: 2018-09-18T23:13:14-05:00
+type: "post" 
+description: "" 
+---
+
+If you have ever run a regression, you have probably wondered whether or not you should transform your regression variables. If you Google this question, many of the answers you find will imply that the primary reason you should transform your variables in a linear regression is because linear regression assumes that your variables are *normally distributed*. So according to the internet, if your variables don't look normal, you should be transforming them so that they do!
+
+In many circumstances, in the responses immediately following these answers there was likely to be an army of protestors shouting "Don't listen to them! It's not your variables that need to be nomrally distributed, it's your *residuals*!". In actual fact, it's not the residuals that are assumed to be normal, it is the unseeable *errors* (I'll explain the difference between these below), and besides, it turns out that you don't even *really* need these errors to be normal anyway...
+
+Let's suppose that we want to regress some **response** of interest, such as life expectency ($y$), on some **predictor variable** thought to be predictive of the outcome, such as GDP per capita ($x$). Throughout this post, I will use the 2007 gapminder data (from the `gapminder` R package) that contains data on life expectency and GDP.  
+
+
+```{r, echo = FALSE, warning=FALSE, fig.align='center'}
+library(gapminder)
+library(tidyverse)
+gapminder %>% filter(year == 2007) %>%
+  ggplot() +
+  geom_point(aes(x = gdpPercap, y = lifeExp), 
+             col = "grey20", alpha = 0.5) +
+  theme_classic() +
+  scale_x_continuous("GDP per capita") +
+  scale_y_continuous("Life expectency")
+```
+
+In my experience, there are a few main types of scenarios in which people to try transforming their variables:
+
+1. the x-y relationship doesn't look linear (e.g. if you plot life expectency against GDP, you don't get a straight line)
+
+1. the variables (either the outcomes, or the covariates, or both) don't look normally distributed
+
+1. their model isn't fitting well
+
+1. there are outliers
+
+1. the residual plot looks weird
+
+In this post, I will discuss for which of these scenarios actually motivates transforming your variables in a regression. At the end of the day, my advice will depend on whether your goal for running the regression is to generate good predictions (the **prediction** goal), or whether it is to interpret the regression coefficients (the **inference** goal).
+
+
+# The goals of linear regression: inference versus prediction
+
+Linear regression has several assumptions, but it turns out none of actually imply that anything actually needs to be normal. To understand the assumptions of linear regression, we first need to undersatand the original intended *goal* of linear regression: to estimate some underlying, unseeable, linear relationship between the variables (this is essentially the *inference* goal that I mentioned above). The traditional idea behind linear regression is that the data were generated based on a strict relationship with purely random deviations. This formulation is often written as:
+
+$$ y = \alpha + \beta x + \epsilon $$
+
+where the $\epsilon$ terms represent the random deviation from the true linear relationship $y = \alpha + \beta x$.
+
+The most important assumption of traditional linear regression is that for an observation whose covariate value is $x$, the universe generated the corresponding response value, $y$, precisely based on the linear relationship $y = \alpha + \beta x$ plus some random noise. This is impossible to check. For instance, if we were to regress a country's average life expectency on the country's GDP per capita, the traditional assumptions of linear regression say that there exist some values $\alpha$ and $\beta$ (whose values we don't know) such that 
+
+$$\textrm{Life expectency } = \alpha + \beta \times \textrm{(GDP per cap)} + \epsilon$$
+
+That is, that every country magically has a life expectancy equal to $\alpha + \beta \times \textrm{(GDP per cap)}$ plus some random deviations from this rule (where the deviations from this rule are different and independent across each country). If I were a traditionalist, my goal in using least squares to try and fit this model would be specifically because I wanted to know the true values of $\alpha$ and $\beta$. That is, I want to perform **inference** (the goal of saying something about the original population from which the data came).
+
+Instead, today, most of the times that people try to fit regression models is to perform **prediction**: it doesn't matter if there is *really* an underlying linear relationship from which the data was generated, and you don't *really* care about the "true" values of $\alpha$ and $\beta$, but instead the goal is to develop a way of generating plausible response values $\hat{y} = \hat{\alpha} + \hat{\beta} x$, based on whatever value of $x$ you like. For instance, the goal isn't to care about the actual relationship between a country's life expectency and their GDP, but instead is simply to predict the country's life expectency based on their GDP (without really caring whether life expectancy and GDP truly have a linear relationship). 
+
+## Do we even need normality?
+
+Notice that I haven't mentioned normality anywhere yet. A lot of people quote that linear regression assumes that the $\epsilon$ values (the "error" terms) associated with each data point $(x_i, y_i)$ are independent and each are drawn from a normal distribution with mean 0 and standard deviation, some unknown value $\sigma$. This is typically written $\epsilon \sim N(0, \sigma^2)$. 
+
+What are these assumptions for, you might ask? Well, it turns out that if you are equipped with these assumptions, it is possible can show that when you use the method of least squares to get *estimates* of $\alpha$ and $\beta$, if you did this many, many times, on average, your estimates would equal the true underlying unseeable values of $\alpha$ and $\beta$. That is, these assumptions allow you to make (asymptotic) guarantees about your estimates of $\alpha$ and $\beta$
+
+But, it turns out to prove these things you don't actually need the *normality*, you "just" need the independence and identical distributions of the $\epsilon$s, and the fact that whatever distribution they came from has an associated mean of 0 and standard deviation of $\sigma$.
+
+I say "just" because given that we never actually observe the $\epsilon$s themselves (because they exist in an unseeable world), it is darn difficult to actually check that these assumptions hold. What we *do* observe, however, is the residuals. When we use least squares to estimate the underlying, unseeable linear relationship, we obtain estimates of this relationship, 
+
+$$\hat{y} = \hat{\alpha} = \hat{\beta} x$$
+
+and how close our predicted $\hat{y}$ values are to the actual $\y$ values can tell us a lot about how realistic our assumptions were. This closeness is defined by the difference between the "predicted" response, $\hat{y}$, and the actual response:
+
+$$\textrm{residual}_i = \hat{y}_i - y_i$$
+
+But this is **not** equal to the corresponding error terms, $\epsilon$. **Checking the normality of the residuals is not the same as checking the normality of the errors!**
+
+# So when is it ok to transform my variables?
+
+Let's return to the most common transformation scenarios that I listed in the introduction to this post:
+
+1. the x-y relationship doesn't look linear
+
+1. the variables (independent, dependent, or both) don't look normally distributed
+
+1. their model isn't fitting well
+
+1. there are outliers
+
+1. the residual plot looks weird
+
+
+What it comes down to is: if you care primarily about obtaining accurate predictions $\hat{y}$ without actually caring about the values of $\hat{\alpha}$ or $\hat{\beta}$, then it **if the transformation improves the accuracy go for it** (just as long as you have an independent withheld test set that you have not used to train the models that you can test the final accuracy on). 
+
+If, however, you actually care about estimating the true values, $\alpha$ and $\beta$ of the coefficients, then you need to be a lot more careful when transforming (although it may still be justified). Suppose that the relationship between $x$ and $y$ does not look linear (when plotted in a scatteprlot, for example). Then, the main assumption of traditional linear regression for inference doesn't hold and you can't trust the values of the coefficient estimates, $\hat{\alpha}$ and $\hat{\beta}$ anyway. If a transformation makes the relationship more linear, then, assuming that the (uncheckable) assumptions on the error terms hold, your estimates might actually be representative of some true underlying linear relationship.
+
+
+
+# Common transformations
+
+The most common transformation that people apply to their variables is the logarithmic transformation. Taking the log of your data has the result of spreading out small values and 
+
+# Consequences of transformation
+
+
+
+# An example: predicting life expectency based on GDP
+
+```{r, echo = FALSE, warning=FALSE, fig.align='center'}
+library(gapminder)
+library(tidyverse)
+gapminder %>% filter(year == 2007) %>%
+  ggplot() +
+  geom_point(aes(x = gdpPercap, y = lifeExp), 
+             col = "grey20", alpha = 0.5) +
+  theme_classic() +
+  scale_x_continuous("GDP per capita") +
+  scale_y_continuous("Life expectency")
+```
+
+
+
+# Resources
+
+The data I used in this example was actually the Ames house price data. 
+
+
+
