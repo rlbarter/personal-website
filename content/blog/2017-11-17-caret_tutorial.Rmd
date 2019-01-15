@@ -7,6 +7,8 @@ type: "post"
 description: "R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs. Caret unifies these packages into a single package with constant syntax, saving everyone a lot of frustration and time!" 
 ---
 
+Note: This tutorial was based on an older version of the abalone data that had a binary `old` varibale rather than a numeric `age` variable. It has been modified lightly so that it uses a manual `old` variable (is the abalone older than 10 or not) and ignores the numeric `age` variable.
+
 Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
 
 An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11. Feel free to download it and use for your own learning or teaching adventures!
@@ -45,11 +47,27 @@ First we load the data into R:
 # load in packages
 library(caret)
 library(ranger)
-library(dplyr)
+library(tidyverse)
 library(e1071)
 # load in abalone dataset
-abalone_train <- read.csv("../data/abalone-training.csv")
-abalone_test <- read.csv("../data/abalone-test.csv")
+abalone_data <- read.table("../data/abalone.data", sep = ",")
+# load in column names
+colnames(abalone_data) <- c("sex", "length", "diameter", "height", 
+                            "whole.weight", "shucked.weight", 
+                            "viscera.weight", "shell.weight", "age")
+# add a logical variable for "old" (age > 10)
+abalone_data <- abalone_data %>%
+  mutate(old = age > 10) %>%
+  # remove the "age" variable
+  select(-age)
+# split into training and testing
+set.seed(23489)
+train_index <- sample(1:nrow(abalone_data), 0.9 * nrow(abalone_data))
+abalone_train <- abalone_data[train_index, ]
+abalone_test <- abalone_data[-train_index, ]
+# remove the original dataset
+rm(abalone_data)
+# view the first 6 rows of the training data
 head(abalone_train)
 ```
 
@@ -84,7 +102,7 @@ To test the data on an independent test set is equally as simple using the inbui
 # predict the outcome on a test set
 abalone_rf_pred <- predict(rf_fit, abalone_test)
 # compare predicted outcome and true outcome
-confusionMatrix(abalone_rf_pred, abalone_test$old)
+confusionMatrix(abalone_rf_pred, as.factor(abalone_test$old))
 ```
 
 

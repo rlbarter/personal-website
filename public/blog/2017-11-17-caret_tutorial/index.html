@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2017-11-17T21:13:14-05:00" />
 <meta itemprop="dateModified" content="2017-11-17T21:13:14-05:00" />
-<meta itemprop="wordCount" content="3115">
+<meta itemprop="wordCount" content="3220">
 
 
 
@@ -312,7 +312,7 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2018-12-04_hypothesis_testing/"><p>A hypothesis testing flowchart</p></a>
+                        <a href="/blog/2018-12-04_hypothesis_testing/"><p>Which hypothesis test should I use? A flowchart</p></a>
                     </li>
                 
                     <li>
@@ -461,7 +461,8 @@ ga('send', 'pageview');
     
 
     <div id="content">
-        <p>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.</p>
+        <p>Note: This tutorial was based on an older version of the abalone data that had a binary <code>old</code> varibale rather than a numeric <code>age</code> variable. It has been modified lightly so that it uses a manual <code>old</code> variable (is the abalone older than 10 or not) and ignores the numeric <code>age</code> variable.</p>
+<p>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.</p>
 <p>An interactive Jupyter Notebook version of this tutorial can be found at <a href="https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11" class="uri">https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11</a>. Feel free to download it and use for your own learning or teaching adventures!</p>
 <p>R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.</p>
 <p>This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</p>
@@ -482,26 +483,42 @@ ga('send', 'pageview');
 <pre class="r"><code># load in packages
 library(caret)
 library(ranger)
-library(dplyr)
+library(tidyverse)
 library(e1071)
 # load in abalone dataset
-abalone_train &lt;- read.csv(&quot;../data/abalone-training.csv&quot;)
-abalone_test &lt;- read.csv(&quot;../data/abalone-test.csv&quot;)
+abalone_data &lt;- read.table(&quot;../data/abalone.data&quot;, sep = &quot;,&quot;)
+# load in column names
+colnames(abalone_data) &lt;- c(&quot;sex&quot;, &quot;length&quot;, &quot;diameter&quot;, &quot;height&quot;, 
+                            &quot;whole.weight&quot;, &quot;shucked.weight&quot;, 
+                            &quot;viscera.weight&quot;, &quot;shell.weight&quot;, &quot;age&quot;)
+# add a logical variable for &quot;old&quot; (age &gt; 10)
+abalone_data &lt;- abalone_data %&gt;%
+  mutate(old = age &gt; 10) %&gt;%
+  # remove the &quot;age&quot; variable
+  select(-age)
+# split into training and testing
+set.seed(23489)
+train_index &lt;- sample(1:nrow(abalone_data), 0.9 * nrow(abalone_data))
+abalone_train &lt;- abalone_data[train_index, ]
+abalone_test &lt;- abalone_data[-train_index, ]
+# remove the original dataset
+rm(abalone_data)
+# view the first 6 rows of the training data
 head(abalone_train)</code></pre>
-<pre><code>##   sex length diameter height whole.weight shucked.weight viscera.weight
-## 1   M  0.350    0.265  0.090       0.2255         0.0995         0.0485
-## 2   F  0.530    0.420  0.135       0.6770         0.2565         0.1415
-## 3   M  0.440    0.365  0.125       0.5160         0.2155         0.1140
-## 4   I  0.330    0.255  0.080       0.2050         0.0895         0.0395
-## 5   I  0.425    0.300  0.095       0.3515         0.1410         0.0775
-## 6   F  0.530    0.415  0.150       0.7775         0.2370         0.1415
-##   shell.weight   old
-## 1        0.070  TRUE
-## 2        0.210  TRUE
-## 3        0.155 FALSE
-## 4        0.055  TRUE
-## 5        0.120  TRUE
-## 6        0.330 FALSE</code></pre>
+<pre><code>##      sex length diameter height whole.weight shucked.weight viscera.weight
+## 3670   I  0.585    0.460  0.140       0.7635         0.3260         0.1530
+## 249    I  0.305    0.245  0.075       0.1560         0.0675         0.0380
+## 498    F  0.605    0.485  0.165       1.0105         0.4350         0.2090
+## 1889   F  0.565    0.445  0.125       0.8305         0.3135         0.1785
+## 3488   I  0.510    0.405  0.130       0.5990         0.3065         0.1155
+## 1852   I  0.485    0.370  0.115       0.4570         0.1885         0.0965
+##      shell.weight   old
+## 3670       0.2650 FALSE
+## 249        0.0450 FALSE
+## 498        0.3000  TRUE
+## 1889       0.2300  TRUE
+## 3488       0.1485 FALSE
+## 1852       0.1500 FALSE</code></pre>
 <p>It looks like we have 3,759 abalone:</p>
 <pre class="r"><code>dim(abalone_train)</code></pre>
 <pre><code>## [1] 3759    9</code></pre>
@@ -537,32 +554,32 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 <pre class="r"><code># predict the outcome on a test set
 abalone_rf_pred &lt;- predict(rf_fit, abalone_test)
 # compare predicted outcome and true outcome
-confusionMatrix(abalone_rf_pred, abalone_test$old)</code></pre>
+confusionMatrix(abalone_rf_pred, as.factor(abalone_test$old))</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
 ## Prediction FALSE TRUE
-##      FALSE   171   61
-##      TRUE     23  162
-##                                          
-##                Accuracy : 0.7986         
-##                  95% CI : (0.7568, 0.836)
-##     No Information Rate : 0.5348         
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
-##                                          
-##                   Kappa : 0.6003         
-##  Mcnemar&#39;s Test P-Value : 5.413e-05      
-##                                          
-##             Sensitivity : 0.8814         
-##             Specificity : 0.7265         
-##          Pos Pred Value : 0.7371         
-##          Neg Pred Value : 0.8757         
-##              Prevalence : 0.4652         
-##          Detection Rate : 0.4101         
-##    Detection Prevalence : 0.5564         
-##       Balanced Accuracy : 0.8040         
-##                                          
-##        &#39;Positive&#39; Class : FALSE          
+##      FALSE    81  143
+##      TRUE    192    2
+##                                           
+##                Accuracy : 0.1986          
+##                  95% CI : (0.1614, 0.2401)
+##     No Information Rate : 0.6531          
+##     P-Value [Acc &gt; NIR] : 1.000000        
+##                                           
+##                   Kappa : -0.6389         
+##  Mcnemar&#39;s Test P-Value : 0.008728        
+##                                           
+##             Sensitivity : 0.29670         
+##             Specificity : 0.01379         
+##          Pos Pred Value : 0.36161         
+##          Neg Pred Value : 0.01031         
+##              Prevalence : 0.65311         
+##          Detection Rate : 0.19378         
+##    Detection Prevalence : 0.53589         
+##       Balanced Accuracy : 0.15525         
+##                                           
+##        &#39;Positive&#39; Class : FALSE           
 ## </code></pre>
 </div>
 <div id="getting-a-little-fancier-with-caret" class="section level1">
@@ -594,7 +611,7 @@ abalone_no_nzv_pca</code></pre>
 ##   - Yeo-Johnson transformation (5)
 ## 
 ## Lambda estimates for Yeo-Johnson transformation:
-## -1.85, 0.05, -0.83, -1.83, -1.16
+## -1.83, 0.07, -0.81, -1.82, -1.13
 ## PCA needed 2 components to capture 95 percent of the variance</code></pre>
 <pre class="r"><code># identify which variables were ignored, centered, scaled, etc
 abalone_no_nzv_pca$method</code></pre>
@@ -618,14 +635,14 @@ abalone_no_nzv_pca$method</code></pre>
 ## [1] &quot;sex&quot;</code></pre>
 <pre class="r"><code># identify the principal components
 abalone_no_nzv_pca$rotation</code></pre>
-<pre><code>##                      PC1         PC2
-## length         0.3816318 -0.08579078
-## diameter       0.3820087 -0.03917963
-## height         0.3605513  0.88369339
-## whole.weight   0.3861041 -0.18447746
-## shucked.weight 0.3776840 -0.35538690
-## viscera.weight 0.3789907 -0.21852369
-## shell.weight   0.3782510  0.04589682</code></pre>
+<pre><code>##                       PC1         PC2
+## length         -0.3816405 -0.07870604
+## diameter       -0.3819720 -0.03188148
+## height         -0.3608405  0.88215353
+## whole.weight   -0.3860649 -0.18699204
+## shucked.weight -0.3774996 -0.36039743
+## viscera.weight -0.3791196 -0.21933075
+## shell.weight   -0.3780984  0.04044471</code></pre>
 </div>
 <div id="data-splitting-createdatapartition-and-groupkfold" class="section level2">
 <h2>Data splitting (<code>createDataPartition</code> and <code>groupKFold</code>)</h2>
@@ -659,28 +676,28 @@ head(train_index)</code></pre>
 # filter to the first 50 abalone for simplicity
 abalone_grouped &lt;- cbind(abalone_train[1:50, ], group = rep(1:10, each = 5))
 head(abalone_grouped, 10)</code></pre>
-<pre><code>##    sex length diameter height whole.weight shucked.weight viscera.weight
-## 1    M  0.350    0.265  0.090       0.2255         0.0995         0.0485
-## 2    F  0.530    0.420  0.135       0.6770         0.2565         0.1415
-## 3    M  0.440    0.365  0.125       0.5160         0.2155         0.1140
-## 4    I  0.330    0.255  0.080       0.2050         0.0895         0.0395
-## 5    I  0.425    0.300  0.095       0.3515         0.1410         0.0775
-## 6    F  0.530    0.415  0.150       0.7775         0.2370         0.1415
-## 7    F  0.545    0.425  0.125       0.7680         0.2940         0.1495
-## 8    M  0.475    0.370  0.125       0.5095         0.2165         0.1125
-## 9    F  0.550    0.440  0.150       0.8945         0.3145         0.1510
-## 10   F  0.525    0.380  0.140       0.6065         0.1940         0.1475
-##    shell.weight   old group
-## 1         0.070  TRUE     1
-## 2         0.210  TRUE     1
-## 3         0.155 FALSE     1
-## 4         0.055  TRUE     1
-## 5         0.120  TRUE     1
-## 6         0.330 FALSE     2
-## 7         0.260 FALSE     2
-## 8         0.165  TRUE     2
-## 9         0.320 FALSE     2
-## 10        0.210 FALSE     2</code></pre>
+<pre><code>##      sex length diameter height whole.weight shucked.weight viscera.weight
+## 3670   I  0.585    0.460  0.140       0.7635         0.3260         0.1530
+## 249    I  0.305    0.245  0.075       0.1560         0.0675         0.0380
+## 498    F  0.605    0.485  0.165       1.0105         0.4350         0.2090
+## 1889   F  0.565    0.445  0.125       0.8305         0.3135         0.1785
+## 3488   I  0.510    0.405  0.130       0.5990         0.3065         0.1155
+## 1852   I  0.485    0.370  0.115       0.4570         0.1885         0.0965
+## 2880   I  0.470    0.385  0.130       0.5870         0.2640         0.1170
+## 3203   F  0.620    0.485  0.220       1.5110         0.5095         0.2840
+## 365    F  0.620    0.500  0.175       1.1860         0.4985         0.3015
+## 2230   M  0.370    0.280  0.095       0.2225         0.0805         0.0510
+##      shell.weight   old group
+## 3670       0.2650 FALSE     1
+## 249        0.0450 FALSE     1
+## 498        0.3000  TRUE     1
+## 1889       0.2300  TRUE     1
+## 3488       0.1485 FALSE     1
+## 1852       0.1500 FALSE     2
+## 2880       0.1740 FALSE     2
+## 3203       0.5100  TRUE     2
+## 365        0.3500  TRUE     2
+## 2230       0.0750 FALSE     2</code></pre>
 <p>The following code performs 10-fold cross-validation while respecting the groups in the abalone data. That is, each group of abalone must always appear in the same group together.</p>
 <pre class="r"><code># perform grouped K means
 group_folds &lt;- groupKFold(abalone_grouped$group, k = 10)
@@ -752,16 +769,16 @@ rf_fit</code></pre>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (10 fold) 
-## Summary of sample sizes: 3383, 3384, 3384, 3382, 3382, 3383, ... 
+## Summary of sample sizes: 3382, 3383, 3384, 3383, 3383, 3382, ... 
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  splitrule   Accuracy   Kappa    
-##   2     gini        0.7983538  0.5966225
-##   2     extratrees  0.7866417  0.5731206
-##   5     gini        0.7927771  0.5854628
-##   5     extratrees  0.7924991  0.5848968
-##   9     gini        0.7871984  0.5743095
-##   9     extratrees  0.7882530  0.5764066
+##   2     gini        0.7871944  0.5188557
+##   2     extratrees  0.7869327  0.5113079
+##   5     gini        0.7821376  0.5100375
+##   5     extratrees  0.7858653  0.5172792
+##   9     gini        0.7762887  0.4969119
+##   9     extratrees  0.7855958  0.5175170
 ## 
 ## Tuning parameter &#39;min.node.size&#39; was held constant at a value of 1
 ## Accuracy was used to select the optimal model using the largest value.
@@ -789,13 +806,13 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 ## Summary of sample sizes: 45, 45, 45, 45, 45, 45, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  splitrule   Accuracy  Kappa     
-##   2     gini        0.64      0.02094780
-##   2     extratrees  0.68      0.11145105
-##   5     gini        0.64      0.02094780
-##   5     extratrees  0.68      0.12849650
-##   9     gini        0.66      0.08644134
-##   9     extratrees  0.68      0.09724650
+##   mtry  splitrule   Accuracy  Kappa    
+##   2     gini        0.70      0.4316517
+##   2     extratrees  0.76      0.5305528
+##   5     gini        0.68      0.3931901
+##   5     extratrees  0.76      0.5305528
+##   9     gini        0.70      0.4191642
+##   9     extratrees  0.76      0.5305528
 ## 
 ## Tuning parameter &#39;min.node.size&#39; was held constant at a value of 1
 ## Accuracy was used to select the optimal model using the largest value.
@@ -842,10 +859,8 @@ rf_fit &lt;- train(as.factor(old) ~ .,
                 method = &quot;ranger&quot;,
                 trControl = group_fit_control,
                 # provide a grid of parameters
-                tuneGrid = rf_grid)</code></pre>
-<pre><code>## Warning in nominalTrainWorkflow(x = x, y = y, wts = weights, info =
-## trainInfo, : There were missing values in resampled performance measures.</code></pre>
-<pre class="r"><code>rf_fit</code></pre>
+                tuneGrid = rf_grid)
+rf_fit</code></pre>
 <pre><code>## Random Forest 
 ## 
 ## 50 samples
@@ -857,35 +872,35 @@ rf_fit &lt;- train(as.factor(old) ~ .,
 ## Summary of sample sizes: 45, 45, 45, 45, 45, 45, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  splitrule   min.node.size  Accuracy  Kappa     
-##   2     gini        1              0.62      0.02094780
-##   2     gini        3              0.64      0.02906469
-##   2     gini        5              0.66      0.02906469
-##   2     extratrees  1              0.66      0.09724650
-##   2     extratrees  3              0.66      0.05463287
-##   2     extratrees  5              0.70      0.14716533
-##   3     gini        1              0.64      0.02094780
-##   3     gini        3              0.66      0.08912962
-##   3     gini        5              0.66      0.02906469
-##   3     extratrees  1              0.64      0.08304196
-##   3     extratrees  3              0.66      0.09724650
-##   3     extratrees  5              0.68      0.11145105
-##   4     gini        1              0.68      0.09724650
-##   4     gini        3              0.66      0.08912962
-##   4     gini        5              0.68      0.09724650
-##   4     extratrees  1              0.66      0.09724650
-##   4     extratrees  3              0.68      0.11145105
-##   4     extratrees  5              0.68      0.11145105
-##   5     gini        1              0.64      0.02094780
-##   5     gini        3              0.66      0.02906469
-##   5     gini        5              0.70      0.15406469
-##   5     extratrees  1              0.62      0.07492507
-##   5     extratrees  3              0.72      0.14270105
-##   5     extratrees  5              0.70      0.14270105
+##   mtry  splitrule   min.node.size  Accuracy  Kappa    
+##   2     gini        1              0.68      0.3786214
+##   2     gini        3              0.68      0.3786214
+##   2     gini        5              0.70      0.4316517
+##   2     extratrees  1              0.76      0.5305528
+##   2     extratrees  3              0.76      0.5305528
+##   2     extratrees  5              0.76      0.5305528
+##   3     gini        1              0.68      0.3931901
+##   3     gini        3              0.68      0.3931901
+##   3     gini        5              0.70      0.4316517
+##   3     extratrees  1              0.76      0.5305528
+##   3     extratrees  3              0.76      0.5305528
+##   3     extratrees  5              0.76      0.5305528
+##   4     gini        1              0.70      0.4316517
+##   4     gini        3              0.68      0.3931901
+##   4     gini        5              0.72      0.4765235
+##   4     extratrees  1              0.76      0.5305528
+##   4     extratrees  3              0.76      0.5305528
+##   4     extratrees  5              0.76      0.5305528
+##   5     gini        1              0.68      0.3931901
+##   5     gini        3              0.70      0.4380619
+##   5     gini        5              0.70      0.4191642
+##   5     extratrees  1              0.76      0.5305528
+##   5     extratrees  3              0.76      0.5305528
+##   5     extratrees  5              0.76      0.5305528
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final values used for the model were mtry = 5, splitrule =
-##  extratrees and min.node.size = 3.</code></pre>
+## The final values used for the model were mtry = 2, splitrule =
+##  extratrees and min.node.size = 1.</code></pre>
 </div>
 </div>
 <div id="advanced-topics" class="section level1">
@@ -1058,7 +1073,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2018-12-04_hypothesis_testing/">A hypothesis testing flowchart</a></h3>
+                                <h3><a href="/blog/2018-12-04_hypothesis_testing/">Which hypothesis test should I use? A flowchart</a></h3>
                                 
                                     
                                 

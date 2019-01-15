@@ -1,5 +1,5 @@
 ---
-title:  "A hypothesis testing flowchart"
+title:  "Which hypothesis test should I use? A flowchart"
 author: "Rebecca Barter"
 categories: [Statistics, Hypothesis testing]
 date: 2018-12-04T23:13:14-05:00
