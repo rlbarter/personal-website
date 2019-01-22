@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-&lt;?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-&lt;?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Rebecca Barter</title>
@@ -8,13 +6,25 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Dec 2018 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 21 Jan 2019 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>A hypothesis testing flowchart</title>
+      <title>Visualizing world happiness</title>
+      <link>/blog/2019-01-21_world_happiness/</link>
+      <pubDate>Mon, 21 Jan 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-01-21_world_happiness/</guid>
+      <description>Over the new year I decided to work on my D3.js skills (rather than do the actual work that I probably should’ve done) by submitting an entry to the World Data Visualization competition.
+The interactive version of the fruits of my labour can be found by clicking here. Below is a static screenshot.
+
+Essentially, the first screen shows each country’s happiness score (and are colored accordingly using the viridis color palette).</description>
+    </item>
+    
+    <item>
+      <title>Which hypothesis test should I use? A flowchart</title>
       <link>/blog/2018-12-04_hypothesis_testing/</link>
       <pubDate>Tue, 04 Dec 2018 23:13:14 -0500</pubDate>
       
@@ -77,10 +87,9 @@ Useful resources for learning ggplot2  ggplot2 book (https://www.amazon.com/dp/0
       <pubDate>Fri, 17 Nov 2017 21:13:14 -0500</pubDate>
       
       <guid>/blog/2017-11-17-caret_tutorial/</guid>
-      <description>Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
-An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/STAT-215A-Fall-2017/tree/master/week11. Feel free to download it and use for your own learning or teaching adventures!
-R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs.
-This means that if you want to do machine learning in R, you have to learn a large number of separate methods.</description>
+      <description>Note: This tutorial was based on an older version of the abalone data that had a binary old varibale rather than a numeric age variable. It has been modified lightly so that it uses a manual old variable (is the abalone older than 10 or not) and ignores the numeric age variable.
+Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
+An interactive Jupyter Notebook version of this tutorial can be found at https://github.</description>
     </item>
     
     <item>
