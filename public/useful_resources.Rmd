@@ -9,7 +9,7 @@ Web stuff
 
 - **Web development**: I've been making my way through Joel Ross and Mike Freeman's course book on [Client-Side Web Development](https://info343.github.io/) to learn the absolute basics of web development (namely html, css, and javascript). It's super easy to read and filled with examples. 
 
-- **D3.js**: By far the best resource I've found by far for learning D3 is Scott Murray's [Interactive Data Visualization for the Web: An Introduction to Designing with D3](https://www.amazon.com/gp/product/1491921285/ref=dbs_a_def_rwt_bibl_vppi_i0).
+- **D3.js**: By far the best resource I've found for learning D3 is Scott Murray's [Interactive Data Visualization for the Web: An Introduction to Designing with D3](https://www.amazon.com/gp/product/1491921285/ref=dbs_a_def_rwt_bibl_vppi_i0).
 
 Stats stuff 
 
@@ -19,7 +19,7 @@ Visualization stuff
 
 - **Colours**: My favourite way to choose colors for a plot is a website called https://coolors.co/, which randomly generates appealing color palettes for you to choose from. Just hit the space bar to generate a new palette!
 
-- **Data viz best practices**: I absolutely loved Cole Nussbaumer Knaflic's [Storytelling with Data: A Data Visualization Guide for Business Professionals](https://www.amazon.com/gp/product/1119002257/ref=dbs_a_def_rwt_bibl_vppi_i0). I totally bought it on a whim a couple of years ago, and surprisingly learnt a huge amount. This book made me a lot more thoughtful about the visualizations that I produce.
+- **Data viz best practices**: I absolutely loved Cole Nussbaumer Knaflic's [Storytelling with Data: A Data Visualization Guide for Business Professionals](https://www.amazon.com/gp/product/1119002257/ref=dbs_a_def_rwt_bibl_vppi_i0). I totally bought it on a whim a couple of years ago, and learnt a huge amount. This book made me a lot more thoughtful about the visualizations that I produce.
 
 R stuff
 
@@ -29,5 +29,5 @@ R stuff
 
 Presentation and communication
 
-- **Slides**: I use [slides.com](https://slides.com/) to make all my slides. Slides.com makes it super easy to make impressive reveal.js presentations without having to write any JavaScript! No more Google Docs! (I have a widely known hatered of LaTeX beamer slides which encourage all text and no visuals).
+- **Slides**: I use [slides.com](https://slides.com/) to make all my slides. Slides.com makes it super easy to make impressive reveal.js presentations without having to write any JavaScript! No more Google Docs! (I have a widely known hatered of LaTeX beamer slides since it tends to encourage all text and no visuals).
 

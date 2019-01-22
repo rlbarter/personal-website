@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type='text/css'>
+
+		<meta charset="utf-8">
+		<title>What do the happiest countries in the world have in common?</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<style type="text/css">
+
+		body {
+		   
+		  margin: 0;
+		  font-size: 14px;
+		  font-family: "Helvetica Neue", Helvetica;
+		}
+
+		div.tooltip {
+			position: absolute;
+			top: 100px;
+			left: 100px;
+		  -moz-border-radius:5px;
+			border-radius: 5px;
+		  border: 2px solid #000;
+		  background: #fff;
+			opacity: .9;
+		  color: black;
+			padding: 10px;
+			width: 300px;
+			font-size: 12px;
+			z-index: 10;
+		}
+
+		div.tooltip .title {
+			font-size: 13px;
+		}
+
+		div.tooltip .name {
+		  font-weight:bold;
+		}
+
+
+
+		#footer {
+				  position: absolute;
+				  top: 0;
+				  z-index: 1;
+				  display: block;
+				  font-size: 30px;
+				  font-weight: 300;
+				  text-shadow: 0 1px 0 #fff;
+				  top: 30px;
+				  left: 30px;
+				  text-align: left;
+				}
+
+
+
+				#owner{
+				  position: absolute;
+				  z-index: 1;
+				  display: block;
+				  font-weight: 300;
+				  text-shadow: 0 1px 0 #fff;
+				  top: 550px;
+				  left: 30px;
+				  text-align: left;
+				  color: #474747;
+				  padding-bottom: 20px;
+				  font-size: 10px;
+				}
+
+				#SideText{
+					font-family: "Helvetica Neue", Helvetica;
+				  position: absolute;
+				  display: block;
+				  font-size: 12px;
+				  color: #474747;
+				  top: 220px;
+				  left: 60px;
+				  width: 850px;
+					font-weight: 300;
+				  text-shadow: 0 1px 0 #fff;
+				}
+
+				#BelowLeftText{
+				  position: absolute;
+				  font-size: 14px;
+				  color: #474747;
+				  top: 370px;
+				  left: 50px;
+				  width: 110px;
+					text-align: center;
+					font-weight: 500;
+				  text-shadow: 0 1px 0 #fff;
+				}
+
+
+				#BelowRightText{
+				  position: absolute;
+				  font-size: 14px;
+				  color: #474747;
+				  top: 370px;
+					left: 780px;
+  				width: 110px;
+					text-align: center;
+					font-weight: 500;
+				  text-shadow: 0 1px 0 #fff;
+				}
+
+				line {
+				  stroke: #000;
+				  stroke-width: 1.px;
+				}
+
+				.hint {
+				  position: absolute;
+				  left: 0;
+				  width: 900px;
+				  font-size: 12px;
+				  color: #999;
+				}
+
+				.instructions {
+				  position: absolute;
+					top: 80px;
+				  left: 0;
+				  width: 900px;
+				  font-size: 14px;
+					text-align: center;
+				}
+
+				text {
+				  font-size: 10px;
+				}
+
+				.titles{
+				  font-size: 14px;
+				}
+
+				.annotate{
+				  font-size: 11px;
+				  fill: #474747;
+				}
+
+				path.chord {
+				  fill-opacity: .80;
+				}
+
+				.pTitle {
+				   font-size: 16px;
+				   text-shadow: 0 1px 0 #fff;
+				   fill: #474747;
+				   font-weight: bold;
+				}
+
+				.survey {
+				  font-size: 10px;
+				}
+
+				#buttons {
+					position: absolute;
+					top: 180px;
+					left: 30px;
+					display:inline-block;
+					 padding:0.35em 1.2em;
+					 border:0.1em solid #FFFFFF;
+					 margin:0 0.3em 0.3em 0;
+					 border-radius:0.12em;
+					 box-sizing: border-box;
+					 text-align:center;
+					 transition: all 0.2s;
+				}
+
+				#colorLegend {
+					position: absolute;
+					top: 490px;
+					left: 530px;
+					width: 380px;
+					display:inline-block;
+					font-weight: 200;
+				  text-shadow: 0 1px 0 #fff;
+
+				}
+
+
+				#titleColorLegend {
+					position: absolute;
+					top: 0px;
+					left: 10px;
+					width: 90px;
+					display:inline-block;
+					text-align: center;
+					font-weight: 400;
+				  text-shadow: 0 1px 0 #fff;
+				}
+
+				#leftColorLegend {
+					position: absolute;
+					top: 0px;
+					left: 118px;
+					width: 80px;
+					display:inline-block;
+					text-align: center;
+					font-weight: 200;
+				  text-shadow: 0 1px 0 #fff;
+				}
+
+				#rightColorLegend {
+					position: absolute;
+					top: 0px;
+					left: 285px;
+					width: 80px;
+					display:inline-block;
+					text-align: center;
+					font-weight: 200;
+				  text-shadow: 0 1px 0 #fff;
+				}
+
+
+				#sizeLegend {
+					position: absolute;
+					top: 490px;
+					left: 50px;
+					width: 380px;
+					display:inline-block;
+					font-weight: 200;
+					text-shadow: 0 1px 0 #fff;
+
+				}
+
+
+				#titleSizeLegend {
+					position: absolute;
+					top: 0px;
+					left: 10px;
+					width: 90px;
+					display:inline-block;
+					text-align: center;
+					font-weight: 400;
+					text-shadow: 0 1px 0 #fff;
+				}
+
+				#leftSizeLegend {
+					position: absolute;
+					top: 0px;
+					left: 118px;
+					width: 80px;
+					display:inline-block;
+					text-align: center;
+					font-weight: 200;
+					text-shadow: 0 1px 0 #fff;
+				}
+
+				#rightSizeLegend {
+					position: absolute;
+					top: 0px;
+					left: 315px;
+					width: 80px;
+					display:inline-block;
+					text-align: center;
+					font-weight: 200;
+					text-shadow: 0 1px 0 #fff;
+				}
+
+				#chart {
+					position: absolute;
+					top: 280px;
+					left: 90px;
+					display:inline-block;
+					 padding:0.35em 1.2em;
+					 margin:0 0.3em 0.3em 0;
+					 border-radius:0.12em;
+					 box-sizing: border-box;
+					 text-decoration:none;
+					 transition: all 0.2s;
+				}
+
+				#prettytooltip {
+				position: absolute;
+				width: 200px;
+				height: auto;
+				padding: 10px;
+				background-color: white;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				box-shadow: 4px 4px 10px rgba(0, 100, 100, 0.4);
+				pointer-events: none;
+			}
+
+			#prettytooltip.hidden {
+				display: none;
+			}
+
+			#prettytooltip p {
+				margin: 0;
+				font-family: sans-serif;
+				font-size: 16px;
+				line-height: 20px;
+			}
+
+
+
+
+		</style>
+		<svg width="960" height="200"></svg>
+	</head>
+	<body>
+
+
+		<div id="body">
+	      <div id="footer">
+	        What do the happiest countries in the world have in common?
+					<div class="hint">
+						<span>Every year the World Happiness Report is released based on a worldwide survey aimed at evaluating the average population happiness of each country worldwide.<span/></br>
+						<span>What other factors are correlated with happiness? </span></br>
+					</div>
+					<div class="instructions">
+						<span id="variable-buttons">Click on a variable button below to see how it is related to happiness. </br></span>
+							<span id="mouse-bubble">Mouse over a bubble to identify country. </br></span>
+							<span id="bubble-click">Double-click on a bubble to highlight it.</span>
+					</div>
+		    </div>
+				<div id="buttons"></div>
+				<div id="SideText">
+				  <p id="p0" class="pTitle Side">Happiness score</p>
+			 	  <p id="p1" class="Side">Happiness is measured based on an the average happiness score collected in an annual worldwide survey.</p>
+					<p id="p2" class="Side">Scandinavian countries seem to be the happiest followed by Israel, Costa Rica, New Zealand and Australia.</p>
+			  </div>
+			  <div id="chart"></div>
+			  <div id="BelowLeftText">
+					<p id="less">
+						Less happy
+					</p>
+				  </div>
+					<div id="BelowRightText">
+					<p id = "more">
+						More happy
+					</p>
+			  </div>
+				<div id="colorLegend">
+					<svg height="30" width="280">
+						<circle cx="270" cy="15" r="8" stroke="black" stroke-width="0.5" fill="#FEEC09" />
+						<circle cx="240" cy="15" r="8" stroke="black" stroke-width="0.5" fill="#08968D" />
+						<circle cx="210" cy="15" r="8" stroke="black" stroke-width="0.5" fill="#55005D" />
+					</svg>
+					<span id="titleColorLegend">Color legend:</span>
+					<span id="leftColorLegend">Less happy countries</span>
+					<span id="rightColorLegend">More happy countries</span>
+				</div>
+				<div id="sizeLegend">
+					<svg height="60" width="350">
+						<circle cx="295" cy="15" r="15" stroke="black" stroke-width="0.5" fill="grey" />
+						<circle cx="247" cy="15" r="10" stroke="black" stroke-width="0.5" fill="grey" />
+						<circle cx="210" cy="15" r="7" stroke="black" stroke-width="0.5" fill="grey" />
+					</svg>
+					<span id="titleSizeLegend">Size legend:</span>
+					<span id="leftSizeLegend">Smaller population</span>
+					<span id="rightSizeLegend">Bigger population</span>
+				</div>
+			  <div id="owner">Analysis and Visualization created by <A HREF="http://www.rebeccabarter.com/">Rebecca Barter</A></div>
+
+				<div id="prettytooltip" class="hidden">
+					<p><strong id="country">Country</strong></p>
+					<p><span id="pretty_variable">Happiness score: </span><span id="pre_symbol"></span><span id="value">100</span><span id="post_symbol"></span></p>
+				</div>
+		</div>
+
+		<script type="text/javascript">
+		
+		
+		
+
+
+		
+var width = 750,
+	height = 250,
+	radius = 10;
+	padding = 100;
+
+
+var buttons = d3.selectAll('#buttons')
+buttons.append('button')
+			 .text('Happiness')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+  	 	.style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+		  .style("background", "#ecf0f1")
+		  .style("border", "2px solid white")
+		  .style("cursor", "pointer")
+		  .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+		  .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'world_happiness_score')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('GDP')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'gdp_per_capita')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('School years')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'school_years')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('Sustainable economic development')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'sustainable_economic_development_assessment')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('Employment rate')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'employment_rate')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('Health expenditure')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'health_expenditure_per_person')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('Government effectiveness')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'government_effectiveness')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('Female MPs')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'women_mps_pct')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+buttons.append('button')
+			 .text('Control of corruption')
+			 .style("font-size", "10px")
+			 .style("font-family", "Helvetica Neue")
+			 .style("padding", "8px")
+			 .style("color", "#454545")
+			 .style("text-shadow", "0 1px 2px rgba(0, 0, 0, 0.25)")
+			 .style("background", "#ecf0f1")
+			 .style("border", "2px solid white")
+			 .style("cursor", "pointer")
+			 .style("-webkit-box-shadow", "inset 0 -2px #dadedf")
+			 .style("box-shadow", "inset 0 -2px #dadedf")
+			 .attr('value', 'control_of_corruption')
+			 .classed('d_sel', true)
+			 .on("mouseover", function(d) {
+				 d3.select(this)
+				 		.style("background", "orange")
+						.style("color", "white")
+			 })
+			 .on("mouseout", function(d) {
+				 d3.select(this)
+				 	.style("background", "#ecf0f1")
+				 	.style("color", "#454545")
+			 })
+
+
+
+
+var svg = d3.select('#chart').append('svg')
+			.attr('width', width)
+			.attr('height', height)
+
+
+var div = d3.select("body").append("div")
+	.attr("class", "tooltip")
+	.style("opacity", 0);
+
+
+var formatValue = d3.format(".2n");
+
+var selected_variable = 'world_happiness_score';
+var selected_variable_scaled = 'world_happiness_score_scaled';
+var pre_symbol = ""
+var post_symbol = ""
+var pretty_variable = "Happiness score: "
+var formatValue = d3.format(".2n");
+
+
+
+
+
+d3.csv('country_data_non_missing.csv', function(data){
+	
+	var radiusScale = d3.scaleLinear()
+		.domain(d3.extent(data, function(d) { return parseFloat(d.population) }))
+		.range([7, 30]);
+	var scaleColor = d3.scaleSequential()
+  .domain([0, 1])
+  .interpolator(d3.interpolateViridis);;
+	var scaleStroke = d3.scaleOrdinal()
+		.domain(["Scandinavian Europe", "Europe", "Israel", "New Zealand", "NA"])
+		.range(["#338F72", "#73A521", "#C95A2F", "#5A6D98", "#A0A0A0"]);
+	var xScale = d3.scaleLinear()
+		.rangeRound([padding, width - padding])
+
+	
+	var toggleHighlight = (function(){
+		 var current_stroke_width = 0.5
+		 var current_stroke = "black"
+
+	    return function(){
+					current_stroke_width = current_stroke_width == 0.5 ? 3 : 0.5
+					current_stroke = current_stroke == "black" ? "#C40320" : "black"
+	        d3.select(this).style("stroke-width", current_stroke_width)
+						.style("stroke", current_stroke);
+	    }
+	})();
+
+	
+	xScale.domain(d3.extent(data, function(d) { return d[selected_variable_scaled]; }));
+
+
+
+	function tick(){
+
+		d3.selectAll('.circ')
+			.attr('cx', function(d){return d.x})
+			.attr('cy', function(d){return d.y})
+	}
+
+
+	var circles = svg.selectAll('.circ')
+		.data(data)
+		.enter().append('circle').classed('circ', true)
+		.attr('r', function(d) { return radiusScale(d.population); })
+		.attr('cx', function(d){ return xScale(d[selected_variable_scaled]); })
+		.attr('cy', function(){ return height/2; })
+		.attr("fill", function(d) { return scaleColor(d.world_happiness_score_scaled); })
+		.attr("stroke", "black")
+		.attr("stroke-width", 0.5)
+		.on('click', toggleHighlight)
+
+
+		circles.on("mouseover", function(d) {
+					d3.select(this)
+						.attr("stroke", "black")
+						.attr("stroke-width", 3);
+
+
+					d3.select("#prettytooltip")
+
+						.style("left", (d3.event.pageX) + "px")
+
+						.style("top", (d3.event.pageY - 90) + "px")
+
+						.select("#country")
+						.text(d.country)
+					d3.select("#prettytooltip")
+						.select("#value")
+						.text(formatValue(d[selected_variable]));
+					d3.select("#prettytooltip")
+						.select("#pretty_variable")
+						.text(pretty_variable);
+					d3.select("#prettytooltip")
+						.select("#post_symbol")
+						.text(post_symbol);
+					d3.select("#prettytooltip")
+						.select("#pre_symbol")
+						.text(pre_symbol);
+
+					
+					d3.select("#prettytooltip").classed("hidden", false);
+
+			   })
+			   .on("mouseout", function() {
+
+						
+						d3.select("#prettytooltip").classed("hidden", true);
+						d3.select(this)
+							.attr("fill", function(d) {return scaleColor(d.world_happiness_score_scaled); })
+							.attr("stroke", "black")
+							.attr("stroke-width", 0.5)
+							.attr("r", function(d) { return radiusScale(d.population); });
+
+			   })
+
+	var simulation = d3.forceSimulation(data)
+		.force('x', d3.forceX(function(d){
+				return xScale(d[selected_variable_scaled])
+			})
+		)
+		.force('y', d3.forceY(height/2).strength(0.03))
+		.force('collide', d3.forceCollide(function(d) { return radiusScale(d.population); }).strength(0.9))
+		.alpha(0.01)
+		.alphaTarget(0.3)
+		.alphaDecay(0.1)
+		.on('tick', tick)
+
+	d3.selectAll('.d_sel').on('click', function(){
+
+		selected_variable = this.value;
+		selected_variable_scaled = this.value + '_scaled';
+
+		simulation.force('x', d3.forceX(function(d){
+			return xScale(d[selected_variable_scaled])
+		}))
+
+
+		if(selected_variable == "world_happiness_score") {
+			pre_symbol = ""
+			post_symbol = ""
+			pretty_variable = "Happiness score: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Happiness score");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("Happiness is measured based on an the average happiness score collected in an annual worldwide survey.");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("Scandinavian countries seem to be the happiest followed by Israel, Costa Rica, New Zealand and Australia.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Less happy");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("More happy");
+		} else if (selected_variable == "gdp_per_capita") {
+			pre_symbol = "$"
+			post_symbol = ""
+			pretty_variable = "GDP per capita: "
+			formatValue = d3.format(",");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("GDP per capita");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("GDP per capita measures the value of a country's economic activity relative to the size of its population.");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("Luxemborg and Singapore have the highest GDP per capita. There appears to be a strong correlation (cor = 0.71) between GDP per capita happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Lower GDP per capita");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("Higher GDP per capita");
+		} else if (selected_variable == "school_years") {
+			pre_symbol = ""
+			post_symbol = " years"
+			pretty_variable = "School years: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Years of schooling");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("School years reports the average number of years spent in primary and tertiary education as reported by the CIA World Factbook. ");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("Australia, Iceland, and Belgium have the most years of schooling. There appears to be a strong correlation (cor = 0.71) between years of schooling and happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Less school");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("More school");
+		} else if (selected_variable == "sustainable_economic_development_assessment") {
+			pre_symbol = ""
+			post_symbol = ""
+			pretty_variable = "Sustanable economic development score: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Sustainable economic development");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("The sustainable economic development assessment is based on 40 indicators of sustainability, economics and investment and is collected by the Boston Consulting Group (BCG).");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("The happiest countries also tend to have the highest sustainable economic development (with the exception of Israel and Costa Rica). There appears to be a strong correlation (cor = 0.81) between sustainable economic development and happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Lower sustainable economic development");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("Higher sustainable economic development");
+		} else if (selected_variable == "employment_rate") {
+			pre_symbol = ""
+			post_symbol = "%"
+			pretty_variable = "Percent employed: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Employment rate");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("The employment rate is the proportion of the working age population who are employed. Most countries have fairly high employment rates as reported by the Heritage Foundation.");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("There does not appear to be much of a correlation (cor = 0.23) between employment rate and happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Lower employment");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("Higher employment");
+		} else if (selected_variable == "health_expenditure_per_person") {
+			pre_symbol = "$"
+			post_symbol = ""
+			pretty_variable = "Health expenditure per person: "
+			formatValue = d3.format(",");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Health expenditure");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("Health expenditure is calculated per person and is reported by the World Bank.");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("Despite its lack of a universal health care system, the US has the highest healthcare expenditure per person. There seems to be a strong correlation (cor = 0.75) between health expenditure per person and happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Lower health expenditure");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("Higher health expenditure");
+		} else if (selected_variable == "government_effectiveness") {
+			pre_symbol = ""
+			post_symbol = ""
+			pretty_variable = "Government effectiveness score: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Government effectiveness");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("Government effectiveness measures the percieved quality of public services, civil service, policy formation, government commitment and is measured on a scale from -2.5 to +2.5 and is reported by the World Bank");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("Singapore is rated as having the highest governemnt effeciveness in the world. There appears to be a strong correlation (cor = 0.75) between government effectiveness and happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Lower government effectiveness");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("Higher government effectiveness");
+		} else if (selected_variable == "women_mps_pct") {
+			pre_symbol = ""
+			post_symbol = "%"
+			pretty_variable = "Female MPs: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Proportion of female MPs");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("The proportion of the country's MPs that are women as reported by the World Bank.");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("Iceland had the highest proportion of female MPs in the world. There does not appear to be a strong correlation (cor = 0.35) between the proportion of female MPs and happiness. The happiest countries do tend to have more female MPs, but there are also many less happy countries with a high proportion of female MPs.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Fewer female MPs");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("More female MPs");
+		} else if (selected_variable == "control_of_corruption") {
+			pre_symbol = ""
+			post_symbol = ""
+			pretty_variable = "Control of corruption score: "
+			formatValue = d3.format(".2n");
+
+			d3.select("#p0").transition().duration(800).style("opacity", 1).text("Control of corruption");
+			d3.select("#p1").transition().duration(800).style("opacity", 1).text("The governemnt's percieved control of corruption as reported by the World Bank");
+			d3.select("#p2").transition().duration(800).style("opacity", 1).text("There appears to be a correlation (cor = 0.68) between control of corruption and happiness.");
+
+			d3.select("#less").transition().duration(800).style("opacity", 1).text("Worse control of corruption");
+			d3.select("#more").transition().duration(800).style("opacity", 1).text("Better control of corruption");
+		};
+
+	})
+
+})
+
+		</script>
+	</body>
+</html>

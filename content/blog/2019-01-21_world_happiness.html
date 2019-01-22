@@ -1,0 +1,18 @@
+---
+title:  "Visualizing world happiness"
+author: "Rebecca Barter"
+categories: [Visualization, Exploration, D3]
+date: 2019-01-21T23:13:14-05:00
+type: "post" 
+description: "I created an interactive D3 visualization of the annual world happiness survey and its relation to several variables related to each country's government." 
+---
+
+
+
+<p>Over the new year I decided to work on my D3.js skills (rather than do the actual work that I probably should’ve done) by submitting an entry to the <a href="https://wdvp.worldgovernmentsummit.org/?mc_cid=94a374db6f&amp;mc_eid=43391d3299">World Data Visualization competition</a>.</p>
+<p>The interactive version of the fruits of my labour can be found by clicking <a href="http://bl.ocks.org/rlbarter/raw/22670f3a7429316bd893078e57e23345/">here</a>. Below is a static screenshot.</p>
+<p><a href="http://bl.ocks.org/rlbarter/raw/22670f3a7429316bd893078e57e23345/"><img src="/img/world-happiness/world-happiness.png" alt="world-happiness" /></a></p>
+<p>Essentially, the first screen shows each country’s happiness score (and are colored accordingly using the <a href="">viridis</a> color palette). When you hover over a bubble, it reveals which country each bubble belongs to. If you click on a variable name, the position of each bubble is jiggled to its new ranking according to the variable selected.</p>
+<p>When I began to create this visualization, I had a picture in my head of a plot that a lot of Google searching lead me to realize was called a <a href="https://bl.ocks.org/mbostock/6526445e2b44303eebf21da3b6627320">“beeswarm plot”</a>, which is essentially a jittered one-dimensional scatterplot where the points are kind of “glued” together.</p>
+<p>The main thing I struggled with when creating this visualization was realizing that <em>forces</em> in D3 are inherently different from <em>transitions</em> when I was implementing the buttons. But once I wrapped my head around these different types of “simulations”, a lot of things magically started falling into place.</p>
+<p>Most of all, I learnt a huge amount from the process and am really proud of my second-ever D3 project!</p>
