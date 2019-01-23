@@ -12,6 +12,12 @@ googleAnalytics = "UA-90929425-1"
 
     # Sets the meta tag description, usually reserved for the main page
     description          = "Rebecca Barter's webpage."
+
+    highlightjsVersion = "9.11.0"
+    highlightjsCDN = "//cdn.bootcss.com"
+    highlightjsLang = ["r", "yaml"]
+    highlightjsTheme = "github"
+
     # This will appear on the top left of the navigation bar
     navbarTitle          = "Rebecca Barter"
     # Social media buttons that appear on the sidebar
