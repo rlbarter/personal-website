@@ -1,0 +1,289 @@
+---
+title:  "mutate_all(), select_if(), summarise_at()... what's the deal with scoped verbs?!"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [dplyr, R]
+date: 2019-01-23T23:13:14-05:00
+type: "post" 
+description: "What's the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn't seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they're called 'scoped verbs' and hopefully this post will become one of many decent explanations of how to use them!" 
+---
+
+I often find myself wishing that I could apply the same `mutate` function to several columns in a data frame at once, such as convert all factors to characters, or do something to all columns that have missing values, or select all variables whose names end with `_important`. When I first googled these problems around a year ago, I started to see solutions that use weird extensions of the basic `mutate()`, `select()`, `rename()`, and `summarise()` dplyr functions that look like `summarise_all()`, `filter_at()`, `mutate_if()`, and so on. I have since learned that these functions are called **"scoped verbs"** (where "scoped" means that they operate only on a selection of variables).
+
+Unfortunately, despite my extensive googling, I never really found a satisfactory description of *how* to use these functions in general, I think primarily because the documentation for these functions is not particularly useful (try `?mutate_at()`).
+
+Fortunately, I recently attended a series of lightening talks hosted by the RLadies SF chapter where Sara Altman pointed us towards a [summary document](https://dcl-2017-04.github.io/curriculum/manip-scoped.html) that Hadley Wickham wrote for the Data Science class he helped create at Stanford in 2017 (this class is now taught by Sara Altman herself). 
+
+To summarise what I will demonstrate below, there are three scoped variants of the standard `mutate`, `summarise`, `rename` and `select` (and `transmute`) dplyr functions that can be specified by the following suffixes:
+
+- `_if`: allows you to pick variables that satisfy some logical criteria such as `is.numeric()` or `is.character()` (e.g. summarising only the numeric columns)
+
+- `_at`: allows you to perform an operation only on variables specified by name (e.g. mutating only the columns whose name ends with "_date")
+
+- `_all`: allows you to perform an operation on all variables at once (e.g. calculating the number of missing values in every column)
+
+
+To explain how these functions all work, I will use the dataset from a survey of 800 Pittsburgh residents on whether or not they approve of self-driving car companies testing their autonomous vehicles on the streets of Pittsburgh (there have several articles on this issue in recent times in case you missed them: [1](https://www.wired.com/story/uber-returns-self-driving-after-deadly-crash/), [2](https://www.nytimes.com/2018/12/05/technology/uber-self-driving-cars.html)). The data can usually be downloaded from data.gov (but is currently unavailable due to the current Government Shutdown - I will update this with an actual link to the data one day). For now you can download the data from [here](/data/bikepghpublic.csv).
+
+A random sample of 10 rows of this dataset is shown below. To make it easy to see what's going on, I'll restrict my analysis below to these 10 rows
+
+```{r, message=FALSE}
+# load in the only library you ever really need
+library(tidyverse)
+library(lubridate)
+# load in survey data
+av_survey <- read_csv("../data/bikepghpublic.csv")
+```
+
+
+```{r}
+set.seed(45679)
+av_survey_sample <- av_survey %>% 
+  # select jsut a few columns and give some more intuitive column names
+  select(id = `Response ID`,
+         start_date = `Start Date`, 
+         end_date = `End Date`,
+         interacted_with_av_as_pedestrian = InteractPedestrian,
+         interacted_with_av_as_cyclist = InteractBicycle,
+         circumstanses_of_interaction = CircumstancesCoded, # lol @ typo in data
+         approve_av_testing_pgh = FeelingsProvingGround) %>%
+  # take a random sample of 10 rows
+  sample_n(10) %>%
+  # make data frame so that we view the whole thing
+  as.data.frame()
+av_survey_sample
+```
+
+
+
+# A quick useful aside: Using shorthand for functions
+
+For many of the examples below, I will be using the `~fun(.x)` shorthand for writing temporary functions. If you've never seen this shorthand before it's incredibly useful. As an example, here are three ways of counting the number of missing values in each column of a data frame. 
+
+The first approach uses the traditional `sapply()` function and temporary function syntax. 
+
+```{r}
+# using apply and the normal temporary function syntax
+sapply(av_survey_sample, function(x) sum(is.na(x)))
+```
+
+The second still uses the temporary function syntax, but is using the `map_dbl()` function from the `purrr` package instead of the old-school `sapply()` function.
+```{r}
+# using purrr::map_dbl and the normal temporary function syntax
+av_survey_sample %>% map_dbl(function(x) sum(is.na(x)))
+```
+
+The third uses the `map_dbl()` function with the `~fun(.x)` syntax.
+```{r}
+# using purrr::map_dbl and the `~fun(.x)` temporary function syntax
+av_survey_sample %>% map_dbl(~sum(is.na(.x)))
+```
+
+
+# The _if() scoped variant: perform an operation on variables that satisfy a logical criteria
+
+`_if` allows you to perform an operation on variables that satisfy some logical criteria such as `is.numeric()` or `is.character()`.
+
+## select_if()
+
+For instance, we can use `select_if()` to extract the numeric columns of the tibble only.
+
+```{r}
+av_survey_sample %>% select_if(is.numeric)
+```
+
+We could also apply use more complex logical statements, for example by selecting columns that have at least one missing value. 
+
+```{r}
+av_survey_sample %>% 
+  # select columns with at least one NA
+  # the expression evaluates to TRUE if there is one or more missing values
+  select_if(~sum(is.na(.x)) > 0) 
+```
+
+## rename_if()
+
+We could rename columns that satisfy a logical expression using `rename_if()`. For instance, we can add a `num_` prefix to all numeric column names.
+
+```{r}
+av_survey_sample %>%
+  # only rename numeric columns by adding a "num_" prefix
+  rename_if(is.numeric, ~paste0("num_", .x))
+```
+
+## mutate_if()
+
+We could similarly use `mutate_if()` to mutate columns that satisfy specified logical conditions. In the example below, we mutate all columns that have at least one missing value by replacing `NA` with `"missing"`.
+
+```{r}
+av_survey_sample %>% 
+  # only mutate columns with at least one NA
+  # replace each NA value with the character "missing"
+  mutate_if(~sum(is.na(.x)) > 0,
+            ~if_else(is.na(.x), "missing", as.character(.x)))
+```
+
+## summarise_if()
+
+Similarly, `summarise_if()` will summarise columns that satisfy the specified logical conditions. Below, we summarise each character column by reporting the most common value (but for some reason there is no `mode()` function in R, so we need to write our own).
+
+```{r}
+# function to calculate the mode (most common) observation
+mode <- function(x) {
+  names(sort(table(x)))[1]
+}
+# summarise character
+av_survey_sample %>% 
+  summarise_if(is.character, mode)
+```
+
+
+
+# The _at() scoped variant: perform an operation only on variables specified by name
+
+`_at` allows you to perform an operation only on variables specified by name.
+
+To specify which variables you want to operate on, you need to include the variable names inside the `vars()` function as the first argument. I think of as like `vars()` like `c()` to provide multiple values (in this case variable names) as a single argument. For example `av_survey_sample %>% mutate_at(vars(start_date, end_date), mdy_hms)` will only mutate the `start_date` and `end_date` variables by converting them to lubridate format using the `mdy_hms` function.
+
+These variables can be specified explicitly by name within the `vars()` function, or using the **select_helpers** within the `vars()` function.
+
+## Select helpers
+
+Select helpers are functions that you can use within `select()` to help specify which variables you want to select. The options are
+
+- `starts_with()`: select all variables that start with a specified character string
+
+- `ends_with()`: select all variables that end with a specified character string
+
+- `contains()`: select all variables that contain a specified character string
+
+- `matches()`: select variables that match a specified character string
+
+- `one_of()`: selects variables that match any entries in the specified character vector
+
+- `num_range()`: selects variables that are numbered (e.g. columns named `V1`, `V2`, `V3` would be selected by `select(num_range("V", 1:3))`)
+
+There are many ways that we could select the `date` variables using the `ends_with()` and `contains()` select helpers:
+
+```{r}
+# selecting the date columns by providing their names
+av_survey_sample %>% select(start_date, end_date)
+# selecting the columns that end with "_date"
+av_survey_sample %>% select(ends_with("_date"))
+# selecting the columns that contain "date"
+av_survey_sample %>% select(contains("date"))
+```
+
+If you ever find yourself wanting to provide variable names as characters, the `matches()` and `one_of()` select helpers can help you do that.
+
+```{r}
+# provide matches with a single character variables
+variable <- "start_date"
+av_survey_sample %>% select(matches(variable))
+# provide one_of with a vector of character variables
+variables <- c("start_date", "end_date")
+av_survey_sample %>% select(one_of(variables))
+```
+
+Note that technically there does exist a `select_at()` function that requires a `vars()` input, but I can't really think of a good use of this function...
+```{r}
+# this is the same as av_survey_sample %>% select(start_date, end_date)
+av_survey_sample %>% 
+  select_at(vars(start_date, end_date))
+```
+
+The syntax of this `select_at()` example though can be useful for understanding how the `vars()` function can be used in `mutate_at()` (and later `summarise_at()`).
+
+## rename_at()
+
+You can rename specified variables using the `rename_at()` function. For instance, we could replace all column names that contain the character string "av" with the same column name but an uppercase "AV" instead of the original lowercase "av".
+
+To do this, we use the select helper `contains()` within the `vars()` function.
+
+```{r}
+# use a select helper to only apply to columns whose name contains "av"
+# then rename these columns with "AV" in place of "av"
+av_survey_sample %>% 
+  rename_at(vars(contains("av")), 
+            ~gsub("av", "AV", .x))
+```
+
+
+## mutate_at()
+
+To mutate only the date variables, normally we would do the `mdy_hms()` transformation to each variable separately as follows:
+```{r}
+# use the standard (unscoped) approach
+av_survey_sample %>% 
+  mutate(start_date = mdy_hms(start_date),
+         end_date = mdy_hms(end_date))
+```
+
+However, using `mutate_at()` and supplying these column names as arguments to the `vars()` function, we could specify the function only once. 
+```{r}
+# specifying specific variables to apply the same function to
+av_survey_sample %>% 
+  mutate_at(vars(start_date, end_date), mdy_hms)
+```
+
+Moreover, we can use the select helpers to specify which columns we want to mutate, without having to write out the entire column names.
+```{r}
+# use a "select helper" to specify the variables that end with "_date"
+av_survey_sample %>% 
+  mutate_at(vars(ends_with("_date")), mdy_hms)
+```
+
+
+## summarise_at()
+
+The `summarise_at()` scoped verb behaves very similarly to the `mutate_at()` scoped verb, in that we can easily specify *which* variables we want to apply the same summary function to.
+
+For instance, the following example summarises all variables that contain the word "interacted" by counting the number of "Yes" entries.
+
+```{r echo = FALSE}
+av_survey_sample %>% 
+  summarise_at(vars(contains("interacted")), ~sum(.x == "Yes"))
+```
+
+
+# The _all() scoped variant: perform an operation on all variables at once
+
+`_all` allows you to perform an operation on all variables at once (e.g. calculating the number of missing values in every column).
+
+## rename_all()
+
+The `select_all()` would is quite redundant (it would simply return all columns). Its friend `rename_all()`, however can be very useful. 
+
+For instance, we could rename all variables by replacing underscores `_` with dots `.` (although I would advise against this: underscores are way better than dots!).
+
+```{r}
+av_survey_sample %>% 
+  rename_all(~gsub("_", ".", .x))
+```
+
+## mutate_all()
+
+We could apply the same mutate function to every column at once using `mutate_all()`. For instance, the code below converts every column to a numeric (although this results in mostly missing values for the character variables)
+
+```{r, warning=FALSE}
+av_survey_sample %>%
+  mutate_all(as.numeric)
+```
+
+
+## summarise_all()
+
+We could also apply the same summary function to every column at once using `summarise_all()`. For instance, the example below calculates the number of distinct entries in each column.
+
+```{r}
+av_survey_sample %>%
+  summarise_all(n_distinct)
+```
+
+
+# Conclusion
+
+Hopefully this summary is useful to you in your data manipulation adventures! 
+

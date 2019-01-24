@@ -1,0 +1,1580 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!"/>
+<meta name="twitter:description" content="What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!"/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!" />
+<meta property="og:description" content="What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2019-01-23_scoped-verbs/" />
+
+
+
+<meta property="article:published_time" content="2019-01-23T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2019-01-23T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!">
+<meta itemprop="description" content="What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!">
+
+
+<meta itemprop="datePublished" content="2019-01-23T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2019-01-23T23:13:14-05:00" />
+<meta itemprop="wordCount" content="4227">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="/css/github-gist.css" rel="stylesheet" id="theme-stylesheet">
+          <script src="/js/highlight.pack.js"></script>
+          <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/useful_resources">
+                        Useful resources
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/useful_resources">
+                            <h3>
+                                
+                                Useful resources
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2019-01-23_scoped-verbs/"><p>mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2019-01-21_world_happiness/"><p>Visualizing world happiness</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-01-23_scoped-verbs%2f&text=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-01-23_scoped-verbs%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-01-23_scoped-verbs%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-01-23_scoped-verbs%2f&title=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-01-23_scoped-verbs%2f&title=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-01-23_scoped-verbs%2f&title=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-01-23_scoped-verbs%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2019-01-23_scoped-verbs/">mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</a></h1>
+            
+        
+        
+            <p>What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2019-01-23'>
+            January 23, 2019</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-01-23_scoped-verbs%2f&text=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-01-23_scoped-verbs%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-01-23_scoped-verbs%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-01-23_scoped-verbs%2f&title=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-01-23_scoped-verbs%2f&title=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-01-23_scoped-verbs%2f&title=mutate_all%28%29%2c%20select_if%28%29%2c%20summarise_at%28%29...%20what%27s%20the%20deal%20with%20scoped%20verbs%3f%21" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-01-23_scoped-verbs%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <div id="TOC">
+<ul>
+<li><a href="#a-quick-useful-aside-using-shorthand-for-functions">A quick useful aside: Using shorthand for functions</a></li>
+<li><a href="#the-_if-scoped-variant-perform-an-operation-on-variables-that-satisfy-a-logical-criteria">The _if() scoped variant: perform an operation on variables that satisfy a logical criteria</a><ul>
+<li><a href="#select_if">select_if()</a></li>
+<li><a href="#rename_if">rename_if()</a></li>
+<li><a href="#mutate_if">mutate_if()</a></li>
+<li><a href="#summarise_if">summarise_if()</a></li>
+</ul></li>
+<li><a href="#the-_at-scoped-variant-perform-an-operation-only-on-variables-specified-by-name">The _at() scoped variant: perform an operation only on variables specified by name</a><ul>
+<li><a href="#select-helpers">Select helpers</a></li>
+<li><a href="#rename_at">rename_at()</a></li>
+<li><a href="#mutate_at">mutate_at()</a></li>
+<li><a href="#summarise_at">summarise_at()</a></li>
+</ul></li>
+<li><a href="#the-_all-scoped-variant-perform-an-operation-on-all-variables-at-once">The _all() scoped variant: perform an operation on all variables at once</a><ul>
+<li><a href="#rename_all">rename_all()</a></li>
+<li><a href="#mutate_all">mutate_all()</a></li>
+<li><a href="#summarise_all">summarise_all()</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+
+<p>I often find myself wishing that I could apply the same <code>mutate</code> function to several columns in a data frame at once, such as convert all factors to characters, or do something to all columns that have missing values, or select all variables whose names end with <code>_important</code>. When I first googled these problems around a year ago, I started to see solutions that use weird extensions of the basic <code>mutate()</code>, <code>select()</code>, <code>rename()</code>, and <code>summarise()</code> dplyr functions that look like <code>summarise_all()</code>, <code>filter_at()</code>, <code>mutate_if()</code>, and so on. I have since learned that these functions are called <strong>“scoped verbs”</strong> (where “scoped” means that they operate only on a selection of variables).</p>
+<p>Unfortunately, despite my extensive googling, I never really found a satisfactory description of <em>how</em> to use these functions in general, I think primarily because the documentation for these functions is not particularly useful (try <code>?mutate_at()</code>).</p>
+<p>Fortunately, I recently attended a series of lightening talks hosted by the RLadies SF chapter where Sara Altman pointed us towards a <a href="https://dcl-2017-04.github.io/curriculum/manip-scoped.html">summary document</a> that Hadley Wickham wrote for the Data Science class he helped create at Stanford in 2017 (this class is now taught by Sara Altman herself).</p>
+<p>To summarise what I will demonstrate below, there are three scoped variants of the standard <code>mutate</code>, <code>summarise</code>, <code>rename</code> and <code>select</code> (and <code>transmute</code>) dplyr functions that can be specified by the following suffixes:</p>
+<ul>
+<li><p><code>_if</code>: allows you to pick variables that satisfy some logical criteria such as <code>is.numeric()</code> or <code>is.character()</code> (e.g. summarising only the numeric columns)</p></li>
+<li><p><code>_at</code>: allows you to perform an operation only on variables specified by name (e.g. mutating only the columns whose name ends with &quot;_date&quot;)</p></li>
+<li><p><code>_all</code>: allows you to perform an operation on all variables at once (e.g. calculating the number of missing values in every column)</p></li>
+</ul>
+<p>To explain how these functions all work, I will use the dataset from a survey of 800 Pittsburgh residents on whether or not they approve of self-driving car companies testing their autonomous vehicles on the streets of Pittsburgh (there have several articles on this issue in recent times in case you missed them: <a href="https://www.wired.com/story/uber-returns-self-driving-after-deadly-crash/">1</a>, <a href="https://www.nytimes.com/2018/12/05/technology/uber-self-driving-cars.html">2</a>). The data can usually be downloaded from data.gov (but is currently unavailable due to the current Government Shutdown - I will update this with an actual link to the data one day). For now you can download the data from <a href="/data/bikepghpublic.csv">here</a>.</p>
+<p>A random sample of 10 rows of this dataset is shown below. To make it easy to see what’s going on, I’ll restrict my analysis below to these 10 rows</p>
+<pre class="r"><code># load in the only library you ever really need
+library(tidyverse)
+library(lubridate)
+# load in survey data
+av_survey &lt;- read_csv(&quot;../data/bikepghpublic.csv&quot;)</code></pre>
+<pre class="r"><code>set.seed(45679)
+av_survey_sample &lt;- av_survey %&gt;% 
+  # select jsut a few columns and give some more intuitive column names
+  select(id = `Response ID`,
+         start_date = `Start Date`, 
+         end_date = `End Date`,
+         interacted_with_av_as_pedestrian = InteractPedestrian,
+         interacted_with_av_as_cyclist = InteractBicycle,
+         circumstanses_of_interaction = CircumstancesCoded, # lol @ typo in data
+         approve_av_testing_pgh = FeelingsProvingGround) %&gt;%
+  # take a random sample of 10 rows
+  sample_n(10) %&gt;%
+  # make data frame so that we view the whole thing
+  as.data.frame()
+av_survey_sample</code></pre>
+<pre><code>##           id                 start_date                   end_date
+## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses_of_interaction approve_av_testing_pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                            NA       Somewhat Approve
+## 5                            NA                Approve
+## 6                            NA    Somewhat Disapprove
+## 7                            NA                Neutral
+## 8                            NA                Approve
+## 9                            NA                Approve
+## 10                           NA                Approve</code></pre>
+<div id="a-quick-useful-aside-using-shorthand-for-functions" class="section level1">
+<h1>A quick useful aside: Using shorthand for functions</h1>
+<p>For many of the examples below, I will be using the <code>~fun(.x)</code> shorthand for writing temporary functions. If you’ve never seen this shorthand before it’s incredibly useful. As an example, here are three ways of counting the number of missing values in each column of a data frame.</p>
+<p>The first approach uses the traditional <code>sapply()</code> function and temporary function syntax.</p>
+<pre class="r"><code># using apply and the normal temporary function syntax
+sapply(av_survey_sample, function(x) sum(is.na(x)))</code></pre>
+<pre><code>##                               id                       start_date 
+##                                0                                0 
+##                         end_date interacted_with_av_as_pedestrian 
+##                                0                                0 
+##    interacted_with_av_as_cyclist     circumstanses_of_interaction 
+##                                0                                7 
+##           approve_av_testing_pgh 
+##                                0</code></pre>
+<p>The second still uses the temporary function syntax, but is using the <code>map_dbl()</code> function from the <code>purrr</code> package instead of the old-school <code>sapply()</code> function.</p>
+<pre class="r"><code># using purrr::map_dbl and the normal temporary function syntax
+av_survey_sample %&gt;% map_dbl(function(x) sum(is.na(x)))</code></pre>
+<pre><code>##                               id                       start_date 
+##                                0                                0 
+##                         end_date interacted_with_av_as_pedestrian 
+##                                0                                0 
+##    interacted_with_av_as_cyclist     circumstanses_of_interaction 
+##                                0                                7 
+##           approve_av_testing_pgh 
+##                                0</code></pre>
+<p>The third uses the <code>map_dbl()</code> function with the <code>~fun(.x)</code> syntax.</p>
+<pre class="r"><code># using purrr::map_dbl and the `~fun(.x)` temporary function syntax
+av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
+<pre><code>##                               id                       start_date 
+##                                0                                0 
+##                         end_date interacted_with_av_as_pedestrian 
+##                                0                                0 
+##    interacted_with_av_as_cyclist     circumstanses_of_interaction 
+##                                0                                7 
+##           approve_av_testing_pgh 
+##                                0</code></pre>
+</div>
+<div id="the-_if-scoped-variant-perform-an-operation-on-variables-that-satisfy-a-logical-criteria" class="section level1">
+<h1>The _if() scoped variant: perform an operation on variables that satisfy a logical criteria</h1>
+<p><code>_if</code> allows you to perform an operation on variables that satisfy some logical criteria such as <code>is.numeric()</code> or <code>is.character()</code>.</p>
+<div id="select_if" class="section level2">
+<h2>select_if()</h2>
+<p>For instance, we can use <code>select_if()</code> to extract the numeric columns of the tibble only.</p>
+<pre class="r"><code>av_survey_sample %&gt;% select_if(is.numeric)</code></pre>
+<pre><code>##           id circumstanses_of_interaction
+## 1  260332858                            2
+## 2  260336847                            2
+## 3  260381455                            2
+## 4  260342663                           NA
+## 5  260897634                           NA
+## 6  260334235                           NA
+## 7  260382639                           NA
+## 8  260352393                           NA
+## 9  260396004                           NA
+## 10 260343325                           NA</code></pre>
+<p>We could also apply use more complex logical statements, for example by selecting columns that have at least one missing value.</p>
+<pre class="r"><code>av_survey_sample %&gt;% 
+  # select columns with at least one NA
+  # the expression evaluates to TRUE if there is one or more missing values
+  select_if(~sum(is.na(.x)) &gt; 0) </code></pre>
+<pre><code>##    circumstanses_of_interaction
+## 1                             2
+## 2                             2
+## 3                             2
+## 4                            NA
+## 5                            NA
+## 6                            NA
+## 7                            NA
+## 8                            NA
+## 9                            NA
+## 10                           NA</code></pre>
+</div>
+<div id="rename_if" class="section level2">
+<h2>rename_if()</h2>
+<p>We could rename columns that satisfy a logical expression using <code>rename_if()</code>. For instance, we can add a <code>num_</code> prefix to all numeric column names.</p>
+<pre class="r"><code>av_survey_sample %&gt;%
+  # only rename numeric columns by adding a &quot;num_&quot; prefix
+  rename_if(is.numeric, ~paste0(&quot;num_&quot;, .x))</code></pre>
+<pre><code>##       num_id                 start_date                   end_date
+## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    num_circumstanses_of_interaction approve_av_testing_pgh
+## 1                                 2       Somewhat Approve
+## 2                                 2                Approve
+## 3                                 2             Disapprove
+## 4                                NA       Somewhat Approve
+## 5                                NA                Approve
+## 6                                NA    Somewhat Disapprove
+## 7                                NA                Neutral
+## 8                                NA                Approve
+## 9                                NA                Approve
+## 10                               NA                Approve</code></pre>
+</div>
+<div id="mutate_if" class="section level2">
+<h2>mutate_if()</h2>
+<p>We could similarly use <code>mutate_if()</code> to mutate columns that satisfy specified logical conditions. In the example below, we mutate all columns that have at least one missing value by replacing <code>NA</code> with <code>&quot;missing&quot;</code>.</p>
+<pre class="r"><code>av_survey_sample %&gt;% 
+  # only mutate columns with at least one NA
+  # replace each NA value with the character &quot;missing&quot;
+  mutate_if(~sum(is.na(.x)) &gt; 0,
+            ~if_else(is.na(.x), &quot;missing&quot;, as.character(.x)))</code></pre>
+<pre><code>##           id                 start_date                   end_date
+## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses_of_interaction approve_av_testing_pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                       missing       Somewhat Approve
+## 5                       missing                Approve
+## 6                       missing    Somewhat Disapprove
+## 7                       missing                Neutral
+## 8                       missing                Approve
+## 9                       missing                Approve
+## 10                      missing                Approve</code></pre>
+</div>
+<div id="summarise_if" class="section level2">
+<h2>summarise_if()</h2>
+<p>Similarly, <code>summarise_if()</code> will summarise columns that satisfy the specified logical conditions. Below, we summarise each character column by reporting the most common value (but for some reason there is no <code>mode()</code> function in R, so we need to write our own).</p>
+<pre class="r"><code># function to calculate the mode (most common) observation
+mode &lt;- function(x) {
+  names(sort(table(x)))[1]
+}
+# summarise character
+av_survey_sample %&gt;% 
+  summarise_if(is.character, mode)</code></pre>
+<pre><code>##                   start_date                   end_date
+## 1 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+##   interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                         Not sure                           Yes
+##   approve_av_testing_pgh
+## 1             Disapprove</code></pre>
+</div>
+</div>
+<div id="the-_at-scoped-variant-perform-an-operation-only-on-variables-specified-by-name" class="section level1">
+<h1>The _at() scoped variant: perform an operation only on variables specified by name</h1>
+<p><code>_at</code> allows you to perform an operation only on variables specified by name.</p>
+<p>To specify which variables you want to operate on, you need to include the variable names inside the <code>vars()</code> function as the first argument. I think of as like <code>vars()</code> like <code>c()</code> to provide multiple values (in this case variable names) as a single argument. For example <code>av_survey_sample %&gt;% mutate_at(vars(start_date, end_date), mdy_hms)</code> will only mutate the <code>start_date</code> and <code>end_date</code> variables by converting them to lubridate format using the <code>mdy_hms</code> function.</p>
+<p>These variables can be specified explicitly by name within the <code>vars()</code> function, or using the <strong>select_helpers</strong> within the <code>vars()</code> function.</p>
+<div id="select-helpers" class="section level2">
+<h2>Select helpers</h2>
+<p>Select helpers are functions that you can use within <code>select()</code> to help specify which variables you want to select. The options are</p>
+<ul>
+<li><p><code>starts_with()</code>: select all variables that start with a specified character string</p></li>
+<li><p><code>ends_with()</code>: select all variables that end with a specified character string</p></li>
+<li><p><code>contains()</code>: select all variables that contain a specified character string</p></li>
+<li><p><code>matches()</code>: select variables that match a specified character string</p></li>
+<li><p><code>one_of()</code>: selects variables that match any entries in the specified character vector</p></li>
+<li><p><code>num_range()</code>: selects variables that are numbered (e.g. columns named <code>V1</code>, <code>V2</code>, <code>V3</code> would be selected by <code>select(num_range(&quot;V&quot;, 1:3))</code>)</p></li>
+</ul>
+<p>There are many ways that we could select the <code>date</code> variables using the <code>ends_with()</code> and <code>contains()</code> select helpers:</p>
+<pre class="r"><code># selecting the date columns by providing their names
+av_survey_sample %&gt;% select(start_date, end_date)</code></pre>
+<pre><code>##                    start_date                   end_date
+## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+<pre class="r"><code># selecting the columns that end with &quot;_date&quot;
+av_survey_sample %&gt;% select(ends_with(&quot;_date&quot;))</code></pre>
+<pre><code>##                    start_date                   end_date
+## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+<pre class="r"><code># selecting the columns that contain &quot;date&quot;
+av_survey_sample %&gt;% select(contains(&quot;date&quot;))</code></pre>
+<pre><code>##                    start_date                   end_date
+## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+<p>If you ever find yourself wanting to provide variable names as characters, the <code>matches()</code> and <code>one_of()</code> select helpers can help you do that.</p>
+<pre class="r"><code># provide matches with a single character variables
+variable &lt;- &quot;start_date&quot;
+av_survey_sample %&gt;% select(matches(variable))</code></pre>
+<pre><code>##                    start_date
+## 1   02/23/2017 9:31:44 AM PST
+## 2  02/23/2017 11:46:17 AM PST
+## 3   02/24/2017 3:43:22 AM PST
+## 4   02/23/2017 2:10:53 PM PST
+## 5  03/06/2017 11:25:59 AM PST
+## 6  02/23/2017 10:26:07 AM PST
+## 7   02/24/2017 4:54:41 AM PST
+## 8   02/23/2017 7:12:21 PM PST
+## 9   02/24/2017 1:20:53 PM PST
+## 10  02/23/2017 2:27:05 PM PST</code></pre>
+<pre class="r"><code># provide one_of with a vector of character variables
+variables &lt;- c(&quot;start_date&quot;, &quot;end_date&quot;)
+av_survey_sample %&gt;% select(one_of(variables))</code></pre>
+<pre><code>##                    start_date                   end_date
+## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+<p>Note that technically there does exist a <code>select_at()</code> function that requires a <code>vars()</code> input, but I can’t really think of a good use of this function…</p>
+<pre class="r"><code># this is the same as av_survey_sample %&gt;% select(start_date, end_date)
+av_survey_sample %&gt;% 
+  select_at(vars(start_date, end_date))</code></pre>
+<pre><code>##                    start_date                   end_date
+## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+<p>The syntax of this <code>select_at()</code> example though can be useful for understanding how the <code>vars()</code> function can be used in <code>mutate_at()</code> (and later <code>summarise_at()</code>).</p>
+</div>
+<div id="rename_at" class="section level2">
+<h2>rename_at()</h2>
+<p>You can rename specified variables using the <code>rename_at()</code> function. For instance, we could replace all column names that contain the character string “av” with the same column name but an uppercase “AV” instead of the original lowercase “av”.</p>
+<p>To do this, we use the select helper <code>contains()</code> within the <code>vars()</code> function.</p>
+<pre class="r"><code># use a select helper to only apply to columns whose name contains &quot;av&quot;
+# then rename these columns with &quot;AV&quot; in place of &quot;av&quot;
+av_survey_sample %&gt;% 
+  rename_at(vars(contains(&quot;av&quot;)), 
+            ~gsub(&quot;av&quot;, &quot;AV&quot;, .x))</code></pre>
+<pre><code>##           id                 start_date                   end_date
+## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+##    interacted_with_AV_as_pedestrian interacted_with_AV_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses_of_interaction approve_AV_testing_pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                            NA       Somewhat Approve
+## 5                            NA                Approve
+## 6                            NA    Somewhat Disapprove
+## 7                            NA                Neutral
+## 8                            NA                Approve
+## 9                            NA                Approve
+## 10                           NA                Approve</code></pre>
+</div>
+<div id="mutate_at" class="section level2">
+<h2>mutate_at()</h2>
+<p>To mutate only the date variables, normally we would do the <code>mdy_hms()</code> transformation to each variable separately as follows:</p>
+<pre class="r"><code># use the standard (unscoped) approach
+av_survey_sample %&gt;% 
+  mutate(start_date = mdy_hms(start_date),
+         end_date = mdy_hms(end_date))</code></pre>
+<pre><code>##           id          start_date            end_date
+## 1  260332858 2017-02-23 09:31:44 2017-02-23 09:41:07
+## 2  260336847 2017-02-23 11:46:17 2017-02-23 11:51:50
+## 3  260381455 2017-02-24 03:43:22 2017-02-24 03:47:05
+## 4  260342663 2017-02-23 14:10:53 2017-02-23 14:12:42
+## 5  260897634 2017-03-06 11:25:59 2017-03-06 11:28:04
+## 6  260334235 2017-02-23 10:26:07 2017-02-23 10:28:13
+## 7  260382639 2017-02-24 04:54:41 2017-02-24 04:57:21
+## 8  260352393 2017-02-23 19:12:21 2017-02-23 19:14:30
+## 9  260396004 2017-02-24 13:20:53 2017-02-24 13:23:58
+## 10 260343325 2017-02-23 14:27:05 2017-02-23 14:32:06
+##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses_of_interaction approve_av_testing_pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                            NA       Somewhat Approve
+## 5                            NA                Approve
+## 6                            NA    Somewhat Disapprove
+## 7                            NA                Neutral
+## 8                            NA                Approve
+## 9                            NA                Approve
+## 10                           NA                Approve</code></pre>
+<p>However, using <code>mutate_at()</code> and supplying these column names as arguments to the <code>vars()</code> function, we could specify the function only once.</p>
+<pre class="r"><code># specifying specific variables to apply the same function to
+av_survey_sample %&gt;% 
+  mutate_at(vars(start_date, end_date), mdy_hms)</code></pre>
+<pre><code>##           id          start_date            end_date
+## 1  260332858 2017-02-23 09:31:44 2017-02-23 09:41:07
+## 2  260336847 2017-02-23 11:46:17 2017-02-23 11:51:50
+## 3  260381455 2017-02-24 03:43:22 2017-02-24 03:47:05
+## 4  260342663 2017-02-23 14:10:53 2017-02-23 14:12:42
+## 5  260897634 2017-03-06 11:25:59 2017-03-06 11:28:04
+## 6  260334235 2017-02-23 10:26:07 2017-02-23 10:28:13
+## 7  260382639 2017-02-24 04:54:41 2017-02-24 04:57:21
+## 8  260352393 2017-02-23 19:12:21 2017-02-23 19:14:30
+## 9  260396004 2017-02-24 13:20:53 2017-02-24 13:23:58
+## 10 260343325 2017-02-23 14:27:05 2017-02-23 14:32:06
+##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses_of_interaction approve_av_testing_pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                            NA       Somewhat Approve
+## 5                            NA                Approve
+## 6                            NA    Somewhat Disapprove
+## 7                            NA                Neutral
+## 8                            NA                Approve
+## 9                            NA                Approve
+## 10                           NA                Approve</code></pre>
+<p>Moreover, we can use the select helpers to specify which columns we want to mutate, without having to write out the entire column names.</p>
+<pre class="r"><code># use a &quot;select helper&quot; to specify the variables that end with &quot;_date&quot;
+av_survey_sample %&gt;% 
+  mutate_at(vars(ends_with(&quot;_date&quot;)), mdy_hms)</code></pre>
+<pre><code>##           id          start_date            end_date
+## 1  260332858 2017-02-23 09:31:44 2017-02-23 09:41:07
+## 2  260336847 2017-02-23 11:46:17 2017-02-23 11:51:50
+## 3  260381455 2017-02-24 03:43:22 2017-02-24 03:47:05
+## 4  260342663 2017-02-23 14:10:53 2017-02-23 14:12:42
+## 5  260897634 2017-03-06 11:25:59 2017-03-06 11:28:04
+## 6  260334235 2017-02-23 10:26:07 2017-02-23 10:28:13
+## 7  260382639 2017-02-24 04:54:41 2017-02-24 04:57:21
+## 8  260352393 2017-02-23 19:12:21 2017-02-23 19:14:30
+## 9  260396004 2017-02-24 13:20:53 2017-02-24 13:23:58
+## 10 260343325 2017-02-23 14:27:05 2017-02-23 14:32:06
+##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses_of_interaction approve_av_testing_pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                            NA       Somewhat Approve
+## 5                            NA                Approve
+## 6                            NA    Somewhat Disapprove
+## 7                            NA                Neutral
+## 8                            NA                Approve
+## 9                            NA                Approve
+## 10                           NA                Approve</code></pre>
+</div>
+<div id="summarise_at" class="section level2">
+<h2>summarise_at()</h2>
+<p>The <code>summarise_at()</code> scoped verb behaves very similarly to the <code>mutate_at()</code> scoped verb, in that we can easily specify <em>which</em> variables we want to apply the same summary function to.</p>
+<p>For instance, the following example summarises all variables that contain the word “interacted” by counting the number of “Yes” entries.</p>
+<pre><code>##   interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
+## 1                                3                             2</code></pre>
+</div>
+</div>
+<div id="the-_all-scoped-variant-perform-an-operation-on-all-variables-at-once" class="section level1">
+<h1>The _all() scoped variant: perform an operation on all variables at once</h1>
+<p><code>_all</code> allows you to perform an operation on all variables at once (e.g. calculating the number of missing values in every column).</p>
+<div id="rename_all" class="section level2">
+<h2>rename_all()</h2>
+<p>The <code>select_all()</code> would is quite redundant (it would simply return all columns). Its friend <code>rename_all()</code>, however can be very useful.</p>
+<p>For instance, we could rename all variables by replacing underscores <code>_</code> with dots <code>.</code> (although I would advise against this: underscores are way better than dots!).</p>
+<pre class="r"><code>av_survey_sample %&gt;% 
+  rename_all(~gsub(&quot;_&quot;, &quot;.&quot;, .x))</code></pre>
+<pre><code>##           id                 start.date                   end.date
+## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
+## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
+## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
+## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
+## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
+## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
+## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
+## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
+## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+##    interacted.with.av.as.pedestrian interacted.with.av.as.cyclist
+## 1                               Yes                      Not sure
+## 2                               Yes                           Yes
+## 3                               Yes                           Yes
+## 4                                No                            No
+## 5                                No                            No
+## 6                                No                            No
+## 7                                No                            No
+## 8                          Not sure                      Not sure
+## 9                          Not sure                      Not sure
+## 10                               No                            No
+##    circumstanses.of.interaction approve.av.testing.pgh
+## 1                             2       Somewhat Approve
+## 2                             2                Approve
+## 3                             2             Disapprove
+## 4                            NA       Somewhat Approve
+## 5                            NA                Approve
+## 6                            NA    Somewhat Disapprove
+## 7                            NA                Neutral
+## 8                            NA                Approve
+## 9                            NA                Approve
+## 10                           NA                Approve</code></pre>
+</div>
+<div id="mutate_all" class="section level2">
+<h2>mutate_all()</h2>
+<p>We could apply the same mutate function to every column at once using <code>mutate_all()</code>. For instance, the code below converts every column to a numeric (although this results in mostly missing values for the character variables)</p>
+<pre class="r"><code>av_survey_sample %&gt;%
+  mutate_all(as.numeric)</code></pre>
+<pre><code>##           id start_date end_date interacted_with_av_as_pedestrian
+## 1  260332858         NA       NA                               NA
+## 2  260336847         NA       NA                               NA
+## 3  260381455         NA       NA                               NA
+## 4  260342663         NA       NA                               NA
+## 5  260897634         NA       NA                               NA
+## 6  260334235         NA       NA                               NA
+## 7  260382639         NA       NA                               NA
+## 8  260352393         NA       NA                               NA
+## 9  260396004         NA       NA                               NA
+## 10 260343325         NA       NA                               NA
+##    interacted_with_av_as_cyclist circumstanses_of_interaction
+## 1                             NA                            2
+## 2                             NA                            2
+## 3                             NA                            2
+## 4                             NA                           NA
+## 5                             NA                           NA
+## 6                             NA                           NA
+## 7                             NA                           NA
+## 8                             NA                           NA
+## 9                             NA                           NA
+## 10                            NA                           NA
+##    approve_av_testing_pgh
+## 1                      NA
+## 2                      NA
+## 3                      NA
+## 4                      NA
+## 5                      NA
+## 6                      NA
+## 7                      NA
+## 8                      NA
+## 9                      NA
+## 10                     NA</code></pre>
+</div>
+<div id="summarise_all" class="section level2">
+<h2>summarise_all()</h2>
+<p>We could also apply the same summary function to every column at once using <code>summarise_all()</code>. For instance, the example below calculates the number of distinct entries in each column.</p>
+<pre class="r"><code>av_survey_sample %&gt;%
+  summarise_all(n_distinct)</code></pre>
+<pre><code>##   id start_date end_date interacted_with_av_as_pedestrian
+## 1 10         10       10                                3
+##   interacted_with_av_as_cyclist circumstanses_of_interaction
+## 1                             3                            2
+##   approve_av_testing_pgh
+## 1                      5</code></pre>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>Hopefully this summary is useful to you in your data manipulation adventures!</p>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesdplyr'>dplyr</a></li>
+    
+        <li><a href='/categoriesr'>R</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2019-01-21_world_happiness/"
+                class="button big previous">Visualizing world happiness</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-01-23_scoped-verbs/">mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-01-23'>
+                                    January 23, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-01-21_world_happiness/">Visualizing world happiness</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-01-21'>
+                                    January 21, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">12</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

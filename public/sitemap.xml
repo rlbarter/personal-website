@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2019-01-23_scoped-verbs/</loc>
+    <lastmod>2019-01-23T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2019-01-21_world_happiness/</loc>
     <lastmod>2019-01-21T23:13:14-05:00</lastmod>
   </url>
@@ -149,7 +154,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
+    <lastmod>2019-01-23T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -192,6 +197,12 @@
   <url>
     <loc>/categories/documentation/</loc>
     <lastmod>2017-03-07T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/dplyr/</loc>
+    <lastmod>2019-01-23T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -239,7 +250,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2018-05-29T23:13:14-05:00</lastmod>
+    <lastmod>2019-01-23T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -251,7 +262,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
+    <lastmod>2019-01-23T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
