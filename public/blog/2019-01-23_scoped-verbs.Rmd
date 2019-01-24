@@ -194,7 +194,7 @@ av_survey_sample %>%
   select_at(vars(start_date, end_date))
 ```
 
-The syntax of this `select_at()` example though can be useful for understanding how the `vars()` function can be used in `mutate_at()` (and later `summarise_at()`).
+The syntax of this `select_at()` example though can be useful for understanding how the `vars()` function can be used in the other `_at()` functions).
 
 ## rename_at()
 
@@ -242,7 +242,7 @@ The `summarise_at()` scoped verb behaves very similarly to the `mutate_at()` sco
 
 For instance, the following example summarises all variables that contain the word "interacted" by counting the number of "Yes" entries.
 
-```{r echo = FALSE}
+```{r}
 av_survey_sample %>% 
   summarise_at(vars(contains("interacted")), ~sum(.x == "Yes"))
 ```

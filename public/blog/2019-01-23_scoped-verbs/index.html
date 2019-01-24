@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2019-01-23T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2019-01-23T23:13:14-05:00" />
-<meta itemprop="wordCount" content="4227">
+<meta itemprop="wordCount" content="4233">
 
 
 
@@ -819,7 +819,7 @@ av_survey_sample %&gt;%
 ## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
 ## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
 ## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
-<p>The syntax of this <code>select_at()</code> example though can be useful for understanding how the <code>vars()</code> function can be used in <code>mutate_at()</code> (and later <code>summarise_at()</code>).</p>
+<p>The syntax of this <code>select_at()</code> example though can be useful for understanding how the <code>vars()</code> function can be used in the other <code>_at()</code> functions).</p>
 </div>
 <div id="rename_at" class="section level2">
 <h2>rename_at()</h2>
@@ -983,6 +983,8 @@ av_survey_sample %&gt;%
 <h2>summarise_at()</h2>
 <p>The <code>summarise_at()</code> scoped verb behaves very similarly to the <code>mutate_at()</code> scoped verb, in that we can easily specify <em>which</em> variables we want to apply the same summary function to.</p>
 <p>For instance, the following example summarises all variables that contain the word “interacted” by counting the number of “Yes” entries.</p>
+<pre class="r"><code>av_survey_sample %&gt;% 
+  summarise_at(vars(contains(&quot;interacted&quot;)), ~sum(.x == &quot;Yes&quot;))</code></pre>
 <pre><code>##   interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
 ## 1                                3                             2</code></pre>
 </div>
