@@ -6,10 +6,10 @@ date: "2016-05-05T21:48:51-07:00"
 
 Hi there! I'm Rebecca Barter. I'm so glad you've made it to my page.
 
-I'm currently a fourth-year PhD student in the [Department of Statistics](http://statistics.berkeley.edu) at UC Berkeley, as well as a Data Science Fellow at the [Berkeley Institute for Data Science (BIDS)](https://bids.berkeley.edu). 
+Originally from Australia, I moved to California in 2014 and am now towards the tail-end of my PhD in Statistics at UC Berkeley where I'm advised primarily by Prof Bin Yu. I have been fortunate to be a Data Science Fellow for the past few years at the [Berkeley Institute for Data Science (BIDS)](https://bids.berkeley.edu). 
 
-In my research, I use data to solve problems related to healthcare and medicine. I particularly enjoy exploring complex datasets and teasing out the interesting components, and love to tell a story using both a written and visual narrative. I am also the author of the [superheat](https://github.com/rlbarter/superheat) R package for creating beautiful and customizable heatmaps in R.
+My research interests lie primarily in applications to medical domains (such as predicting surgical site infections using electronic medical records). My dual passions are explaining "seemingly complicated" concepts to others in plain English, and exploring and presenting the stories that underlie complex datasets.
 
-Currently, I am working on a number of projects including re-evaluating the allocation of livers to patients on the transplant waiting list in the US, as well as writing a book on data science together with my advisor, Bin Yu. 
+I have dabbled in writing software as the author of the [superheat](https://github.com/rlbarter/superheat) R package for creating beautiful and customizable heatmaps in R.
 
-I am passionate about demystifying the wonderful world of statistics and data science, and subsequently seem to spend a lot of time explaining statistics to others via both teaching and writing. I truly believe that everyone can understand statistics if it is taught well!
+When I'm not doing R or stats stuff, I'm usually found climbing rocks somewhere, taking photos of beautiful places (check out my [instagram](https://www.instagram.com/rlbarter/)), or throwing wonky mugs and bowls at the pottery studio!

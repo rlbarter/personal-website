@@ -94,7 +94,15 @@ Tutorial)
 
 ### Workshops
 
-June 11-12, 2018, *Software Carpentry: Shell, Git and R*, [**Berkeley Institute For Data Science (BIDS)**](https://bids.berkeley.edu/events/introduction-shell-git-and-r)
+
+Feb 12 2019, *Interactivity and Shiny*, [**Environment and Society: Data Science for the 21st Century**](http://ds421.berkeley.edu/), UC Berkeley
+
+- A 1.5 hour workshop on interactivity and creating shiny applications to 15 students in the National Science Foundation Research Traineeship (NRT) interdisciplinary graduate training program at UC Berkeley at the interface of data, social and natural sciences.
+
+- [slides](http://slides.com/rebeccabarter/shiny/fullscreen)
+
+
+June 11-12 2018, *Software Carpentry: Shell, Git and R*, [**Berkeley Institute For Data Science (BIDS)**](https://bids.berkeley.edu/events/introduction-shell-git-and-r)
 
 - Co-taught a 2-day Software Carpentry workshop to 40 researchers at UC Berkeley. 
 
