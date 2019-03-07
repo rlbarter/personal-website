@@ -1,0 +1,1054 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>A quick guide to developing a reproducible and consistent data science workflow</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="When you&#39;re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I&#39;ve put together a short document with some guiding advice.">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A quick guide to developing a reproducible and consistent data science workflow"/>
+<meta name="twitter:description" content="When you&#39;re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I&#39;ve put together a short document with some guiding advice."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="A quick guide to developing a reproducible and consistent data science workflow" />
+<meta property="og:description" content="When you&#39;re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I&#39;ve put together a short document with some guiding advice." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2019-03-07_reproducible_pipeline/" />
+
+
+
+<meta property="article:published_time" content="2019-03-23T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2019-03-23T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="A quick guide to developing a reproducible and consistent data science workflow">
+<meta itemprop="description" content="When you&#39;re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I&#39;ve put together a short document with some guiding advice.">
+
+
+<meta itemprop="datePublished" content="2019-03-23T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2019-03-23T23:13:14-05:00" />
+<meta itemprop="wordCount" content="748">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="/css/github-gist.css" rel="stylesheet" id="theme-stylesheet">
+          <script src="/js/highlight.pack.js"></script>
+          <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/useful_resources">
+                        Useful resources
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/useful_resources">
+                            <h3>
+                                
+                                Useful resources
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2019-03-07_reproducible_pipeline/"><p>A quick guide to developing a reproducible and consistent data science workflow</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2019-01-23_scoped-verbs/"><p>mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&text=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-03-07_reproducible_pipeline%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&title=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&title=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&title=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-03-07_reproducible_pipeline%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2019-03-07_reproducible_pipeline/">A quick guide to developing a reproducible and consistent data science workflow</a></h1>
+            
+        
+        
+            <p>When you&#39;re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I&#39;ve put together a short document with some guiding advice.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2019-03-23'>
+            March 23, 2019</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&text=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-03-07_reproducible_pipeline%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&title=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&title=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-03-07_reproducible_pipeline%2f&title=A%20quick%20guide%20to%20developing%20a%20reproducible%20and%20consistent%20data%20science%20workflow" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-03-07_reproducible_pipeline%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <p>When you’re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I’ve put together a short GitHub-based document with some guiding advice: <a href="https://github.com/rlbarter/reproducibility-workflow" class="uri">https://github.com/rlbarter/reproducibility-workflow</a></p>
+<p>If you’re interested in contributing or improving this document, please get in touch, or even better, submit a pull request (<a href="https://github.com/rlbarter/reproducibility-workflow" class="uri">https://github.com/rlbarter/reproducibility-workflow</a>)!</p>
+<p>The document as of writing is shown below.</p>
+<div id="reproducbility-workflow" class="section level2">
+<h2>Reproducbility workflow</h2>
+<p>Every project should consist of a single well structured directory with meaningful subdirectories. Every project should be its own git repository that is hosted on GitHub.</p>
+<p>Data cleaning and analyses should be carefully documented in a Jupyter Notebook or R markdown file and should be created with reproducibility in mind. Everyone on the team (and future you) should be able to re-create what you have performed.</p>
+<p>The overall purpose is to have an organized project structure in place so that the project is easily approachable to many different individuals.</p>
+<blockquote>
+<p>Someone unfamiliar with your project should be able to look at your computer files and understand in detail what you did and why - Bill Noble</p>
+</blockquote>
+<p>An example of a reproducible project that follows this workflow lives in the <a href="https://github.com/rlbarter/reproducibility-workflow/tree/master/project_example">project_example/</a> folder.</p>
+<div id="project-structure" class="section level3">
+<h3>Project Structure</h3>
+<p>The project will typically consist of the following subdirectories:</p>
+<div id="data" class="section level4">
+<h4>Data</h4>
+<p>Original raw data files data should be backed up on something like Google Drive, Dropbox or Box. The raw data itself should never be touched manually. Instead, you should have scripts or notebooks that load the raw data into an R or Python environment for in-environment data manipulation (this will not modify the raw data files themselves).</p>
+<p>Any data that is produced by code should be saved in the <code>data/processed_data/</code> subdirectory.</p>
+</div>
+<div id="documents" class="section level4">
+<h4>Documents</h4>
+<p>This is a good place to keep meeting notes, data dictionaries, and any other associated materials.</p>
+</div>
+<div id="code" class="section level4">
+<h4>Code</h4>
+<p>There are three types of code documents:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Function scripts</strong> (.R, .py): scripts that contain reusable functions that will be called in the action scripts below (and possibly in the exploration notebooks). By convention, function scripts are given the name <code>xx_funs_yy.R</code>, where <code>xx</code> is a number and <code>yy</code> describes what the functions are for (e.g. <code>01_funs_clean_data.R</code>).</p></li>
+<li><p><strong>Action scripts</strong> (.R, .py): scripts that perform activities such as a detailed data cleaning pipeline, or running many models. Often these scripts will load in data, do something to it (e.g. clean it or fit a model to it) and will then save a new object (such as a cleaned dataset or model results). By convention, action scripts are given the name <code>xx_do_yy.R</code>, where <code>xx</code> is a number and <code>yy</code> describes what action is undertaken by running the script (e.g. <code>01_do_clean_data.R</code>).</p></li>
+<li><p><strong>Exploration notebooks</strong> (.Rmd, .ipynb): R Markdown or Jupyter notebook files that are used to produce figures and explanatory files that contain figures and explanations of data cleaning steps and results of analyses. These are the files that an external viewer would find useful to understand your data and analysis.</p></li>
+</ol>
+<p>Scripts that are run sequentially are numbered accordingly. An example of a project structure is shown below. Note that in the example below the functions folder is nested as a subdirectory of the scripts folder which contains the actionable scripts. This makes sense when the functions are only called in the actionable scripts (but not in the exploration notebooks).</p>
+<pre><code>project
+│   README.md
+└───data/
+│       └───raw_data/
+│           │   data_orig.csv
+│       └───processed_data/
+│           │   data_clean.csv
+│       └───results/
+│           │   model_results.csv
+└───documents/
+│       meeting_notes.md
+│       data_dictionary.md
+└───code/
+│       └───exploration/
+│           │   01_data_exploration.Rmd
+│           │   02_model_results.Rmd
+│       └───scripts/
+│           │   01_do_clean_data.R
+│           │   02_do_model_data.R
+│           └───functions/
+│               │   01_funs_clean_data.R
+│               │   02_funs_model_data.R
+</code></pre>
+</div>
+</div>
+<div id="syntax-and-conventions" class="section level3">
+<h3>Syntax and conventions</h3>
+<p>All filenames are always lowercase and use underscores to separate words.</p>
+<p>Code should follow an appropriate style guide:</p>
+<ul>
+<li>R: <a href="https://style.tidyverse.org/">Tidyverse Style Guide</a> (based on the R Google Style Guide)</li>
+<li>Python: <a href="https://google.github.io/styleguide/pyguide.html">Google Style Guide</a></li>
+</ul>
+</div>
+<div id="resources" class="section level3">
+<h3>Resources</h3>
+<ul>
+<li><p>I wrote a much more detailed blog post on my workflow a few years ago that can be found here: <a href="http://www.rebeccabarter.com/blog/2017-08-16-data-science-workflow/" class="uri">http://www.rebeccabarter.com/blog/2017-08-16-data-science-workflow/</a>. My workflow has changed a bit since then, but the underlying ideas are all more or less the same.</p></li>
+<li><p>William Noble’s article on organizing computational biology projects: <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424" class="uri">https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424</a></p></li>
+<li><p>Marwick, Boettiger and Mullen’s article on packaging data analytical work reproducibly: <a href="https://ro.uow.edu.au/cgi/viewcontent.cgi?article=6445&amp;context=smhpapers" class="uri">https://ro.uow.edu.au/cgi/viewcontent.cgi?article=6445&amp;context=smhpapers</a></p></li>
+</ul>
+</div>
+<div id="acknowledgements" class="section level3">
+<h3>Acknowledgements</h3>
+<p>Thanks very much to Ciera Martinez for sharing her <a href="https://github.com/DiscoveryDNA/team_neural_network/blob/master/data_managment.md">project workflow</a>.</p>
+<p>I’d also like to acknowledge the <em>Meta Research and Best Practices</em> working group (formerly the <em>Reproducility working group</em>) at the Berkeley Institute for Data Science (BIDS) for insightful discussions that have helped me form my own workflow over the years.</p>
+</div>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesdata-science'>Data Science</a></li>
+    
+        <li><a href='/categoriesworkflow'>Workflow</a></li>
+    
+        <li><a href='/categoriesreproducibility'>Reproducibility</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2019-01-23_scoped-verbs/"
+                class="button big previous">mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-03-07_reproducible_pipeline/">A quick guide to developing a reproducible and consistent data science workflow</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-03-23'>
+                                    March 23, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-01-23_scoped-verbs/">mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-01-23'>
+                                    January 23, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">12</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/data-science/">Data Science</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/reproducibility/">Reproducibility</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

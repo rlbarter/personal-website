@@ -12,4 +12,6 @@ My research interests lie primarily in applications to medical domains (such as 
 
 I have dabbled in writing software as the author of the [superheat](https://github.com/rlbarter/superheat) R package for creating beautiful and customizable heatmaps in R.
 
+Looking for useful data science resources? Check out my [useful resources](http://www.rebeccabarter.com/useful_resources/) page!
+
 When I'm not doing R or stats stuff, I'm usually found climbing rocks somewhere, taking photos of beautiful places (check out my [instagram](https://www.instagram.com/rlbarter/)), or throwing wonky mugs and bowls at the pottery studio!

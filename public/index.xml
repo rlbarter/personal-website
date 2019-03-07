@@ -6,10 +6,21 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Jan 2019 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 23 Mar 2019 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A quick guide to developing a reproducible and consistent data science workflow</title>
+      <link>/blog/2019-03-07_reproducible_pipeline/</link>
+      <pubDate>Sat, 23 Mar 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-03-07_reproducible_pipeline/</guid>
+      <description>When you’re learning to code and perform data analysis, it can be overwhelming to figure out how to structure your projects. To help data scientists develop a reproducible and consistent workflow, I’ve put together a short GitHub-based document with some guiding advice: https://github.com/rlbarter/reproducibility-workflow
+If you’re interested in contributing or improving this document, please get in touch, or even better, submit a pull request (https://github.com/rlbarter/reproducibility-workflow)!
+The document as of writing is shown below.</description>
+    </item>
     
     <item>
       <title>mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!</title>

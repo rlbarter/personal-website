@@ -19,11 +19,23 @@ I appear to have made a number of tutorials on a variety of (mostly R-related) t
 - [superheat](https://rlbarter.github.io/superheat/) I made a super cool R package ([blog post](../blog/2017-02-02-superheat-example/index.html), [github](https://github.com/rlbarter/superheat), [vignette](https://rlbarter.github.io/superheat/), [paper](https://arxiv.org/abs/1512.01524), [video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Superheat-Supervised-heatmaps-for-visualizing-complex-data/player)) for creating customizable, extendable, and beautiful heatmaps.
 
 
-## Statistics & data science
+## Statistics
 
 - [ANOVA](http://www.rebeccabarter.com/blog/2017-02-17-anova/): an intuitive explanation of ANOVA prepared for the Practical Statistics group.
 
-- [A data science workflow](http://www.rebeccabarter.com/blog/2017-08-16-data-science-workflow/): a description of my data science project setup workflow made for funsies.
+## Causal Inference
+
+- [Confounding](http://www.rebeccabarter.com/blog/2017-07-05-confounding/)
+
+- [Instrumental Variables](http://www.rebeccabarter.com/blog/2018-05-23-instrumental_variables/)
+
+- [Inverse Probability (IP) Weighting](http://www.rebeccabarter.com/blog/2017-07-05-ip-weighting/)
+
+## Data Science
+
+- [A consistent and reproducibile workflow](http://www.rebeccabarter.com/blog/2019-03-07_reproducible_pipeline/): a [github repository](https://github.com/rlbarter/reproducibility-workflow) that contains a guide for a consistent and reproducible data science project workflow.
+
+- [A detailed data science workflowexample ](http://www.rebeccabarter.com/blog/2017-08-16-data-science-workflow/): a detailed description of my data science project workflow.
 
 
 
