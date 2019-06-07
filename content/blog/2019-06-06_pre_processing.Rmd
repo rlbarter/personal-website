@@ -1,0 +1,282 @@
+---
+title: "Using the recpie package for easy pre-processing"
+author: "Rebecca Barter"
+categories: [R, Workflow, Machine Learning]
+date: 2019-06-06T23:13:14-05:00
+type: "post" 
+description: "Having to apply the same pre-processing steps to training, testing and validation data to do some machine learning can be surprisingly frustrating. But thanks to the recipes R package, it's now super-duper easy. Instead of having five functions and maybe hundreds of lines of code, you can preprocess multiple datasets using a single 'recipe' in fewer than 10 lines of code." 
+---
+
+
+Pre-processing data in R used to be the bane of my existence. For something that should be fairly straightforward, it often really wasn't. Often my frustrations stemmed from simple things such as factor variables having different levels in the training data and test data, or a variable having missing values in the test data but not in the training data. I'd write a function that would pre-process the training data, and when I'd try to apply it to the test data, R would cry and yell and just be generally unpleasant. 
+
+Thankfully most of the pain of pre-processing is now in the past thanks to the [recipes](https://tidymodels.github.io/recipes/) R package that is a part of the new "tidymodels" package ecosystem (which, I guess is supposed to be equivalent to the data-focused "tidyverse" package ecosystem that includes dplyr, tidyr, and other super awesome packages like that). Recipes was developed by Max Kuhn and Hadley Wickham.
+
+Those who have ever seen Hadley Wickham give a talk will know that baking and data are inherently related (see photo below). 
+
+```{r echo = FALSE, fig.align="center", fig.cap = "A photo I took at an R Ladies SF meetup of Hadley's cupcake recipes."}
+knitr::include_graphics("/img/recipes/hadley_cupcakes.jpg")
+```
+
+
+So let's get baking!
+
+## The fundamentals of pre-processing your data using recipes
+
+Creating a recipe has three steps:
+
+1. **Get the ingredients** (`recipe()`): specify the response variable and predictor variables
+
+1. **Write the recipe** (`step_zzz()`): define the pre-processing steps, such as imputation, creating dummy variables, scaling, and more
+
+1. **Prepare the recipe** (`prep()`): provide a dataset to base each step on (e.g. if one of the steps is to remove variables that only have one unique value, then you need to give it a dataset so it can decide which variables satisfy this criteria to ensure that it is doing the same thing to every dataset you apply it to)
+
+1. **Bake the recipe** (`bake()`): apply the pre-processing steps to your datasets
+
+
+In this blog post I'll walk you through these three steps, touching on the wide range of things that recipes can do, while hopefully convincing you that recipes makes life really easy and that you should use it next time you need to do some pre-processing. 
+
+## A simple example: cupcakes or muffins?
+
+To keep things in the theme, I'm going to use a dataset from [Alice Zhao's git repo](https://github.com/adashofdata) that I found when I typed "cupcake dataset" into Google. Our goal will be to classify recipes as either cupcakes or muffins based on the quantities used for each of the ingredients. So perhaps we will learn two things today: (1) how to use the recipes package, and (2) the difference between cupcakes and muffins.
+
+```{r, message=FALSE, warning=FALSE}
+# load useful libraries
+library(tidyverse)
+library(gt)
+library(recipes) # could also load the tidymodels package
+# load in the data
+muffin_cupcake_data_orig <- read_csv("https://raw.githubusercontent.com/adashofdata/muffin-cupcake/master/recipes_muffins_cupcakes.csv")
+# look at data
+gt(muffin_cupcake_data_orig)
+```
+
+Since the space in the column name `Baking Powder` is going to really annoy me, I'm going to do a quick clean where I convert all of the column names to lower case and replace the space with an underscore. 
+
+As a side note, I've started naming all of my temporary function arguments (lambda functions?) with a period preceding the name. I find it makes it a lot easier to read. As another side note, if you've never seen the `rename_all()` function before, check out my [blog post](http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/) on scoped verbs!
+
+
+```{r}
+muffin_cupcake_data <- muffin_cupcake_data_orig %>%
+  # rename all columns 
+  rename_all(function(.name) {
+    .name %>% 
+      # replace all names with the lowercase versions
+      tolower %>%
+      # replace all spaces with underscores
+      str_replace(" ", "_")
+    })
+# check that this did what I wanted
+gt(muffin_cupcake_data)
+```
+
+
+Since recipes does a lot of useful stuff for categorical variables as well as with missing values, I'm going to modify the data a little bit so that it's a bit more interesting (for educational purposes only - don't ever actually modify your data so it's more interesting, in science that's called "fraud", and fraud is bad).
+
+```{r}
+# add an additional ingredients column that is categorical
+muffin_cupcake_data <- muffin_cupcake_data %>%
+  mutate(additional_ingredients = c("fruit", 
+                                    "fruit", 
+                                    "none", 
+                                    "nuts", 
+                                    "fruit", 
+                                    "fruit", 
+                                    "nuts", 
+                                    "none", 
+                                    "none", 
+                                    "nuts",
+                                    "icing",
+                                    "icing",
+                                    "fruit",
+                                    "none",
+                                    "fruit",
+                                    "icing",
+                                    "none",
+                                    "fruit",
+                                    "icing",
+                                    "icing"))
+# add some random missing values here and there just for fun
+set.seed(26738)
+muffin_cupcake_data <- muffin_cupcake_data %>%
+  # only add missing values to numeric columns
+  mutate_if(is.numeric,
+            function(x) {
+              # randomly decide if 0, 2, or 3 values will be missing from each column
+              n_missing <- sample(0:3, 8, replace = TRUE)
+              # replace n_missing randomly selected values from each column with NA
+              x[sample(1:20, n_missing)] <- NA
+              return(x)
+              })
+gt(muffin_cupcake_data)
+```
+
+
+Finally, I'm going to split my data into training and test sets, so that you can see how nicely our recipe can be applied to multiple data frames.
+
+```{r, message=FALSE}
+library(rsample)
+muffin_cupcake_split <- initial_split(muffin_cupcake_data)
+muffin_cupcake_train <- training(muffin_cupcake_split)
+muffin_cupcake_test <- testing(muffin_cupcake_split)
+rm(muffin_cupcake_data)
+```
+
+Our training data is 
+
+```{r}
+gt(muffin_cupcake_train)
+```
+
+and our testing data is 
+
+```{r}
+gt(muffin_cupcake_test)
+```
+
+## Writing and applying the recipe
+
+Now that we've set up our data, we're ready to write some recipes and do some baking! The first thing we need to do is get the ingredients. We can use formula notation within the `recipe()` function to do this: the thing we're trying to predict is the variable to the left of the `~`, and the predictor variables are the things to the right of it (Since I'm including all of my variables, I could have written `type ~ .`). 
+
+```{r}
+# define the recipe (it looks a lot like applying the lm function)
+model_recipe <- recipe(type ~ flour + milk + sugar + butter + egg + 
+                         baking_powder + vanilla + salt + additional_ingredients, 
+                       data = muffin_cupcake_train)
+```
+
+If we print a summary of the `model_recipe` object, it just shows us the variables we've specified, their type, and whether they're a predictor or an outcome.
+
+```{r}
+summary(model_recipe)
+```
+
+### Writing the recipe steps
+
+So now we have our ingredients, we are ready to write the recipe (i.e. describe our pre-processing steps). We write the recipe one step at a time. We have many steps to choose from, including:
+
+- `step_dummy()`: creating dummy variables from categorical variables.
+
+- `step_zzzimpute()`: where instead of "`zzz`" it is the name of a method, such as `step_knnimpute()`, `step_meanimpute()`, `step_modeimpute()`. I find that the fancier imputation methods are reeeeally slow for decently large datasets, so I would probably do this step outside of the recipes package unless you just want to do a quick mean or mode impute (which, to be honest, I often do).
+
+- `step_scale()`: normalize to have a standard deviation of 1.
+
+- `step_center()`: center to have a mean of 0.
+
+- `step_range()`: normalize numeric data to be within a pre-defined range of values.
+
+- `step_pca()`: create principal component variables from your data.
+
+- `step_nzv()`: remove variables that have (or almost have) the same value for every data point.
+
+You can also create your own step (which I've never felt the need to do, but the details of which can be found here https://tidymodels.github.io/recipes/articles/Custom_Steps.html).
+
+
+In each step, you need to specify which variables you want to apply it to. There are many ways to do this:
+
+
+1. Specifying the variable name(s) as the first argument
+
+2. Standard dplyr selectors: 
+    
+    - `everything()` applies the step to all columns, 
+    
+    - `contains()` allows you to specify column names that contain a specific string, 
+    
+    - `starts_with()` allows you to specify column names that start with a sepcific string, 
+    
+    - etc
+
+3. Functions that specify the role of the variables:
+  
+    - `all_outcomes()` applies the step to all outcome variables
+    
+    - `all_predictors()` applies the step to the predictor variables only
+    
+    - `all_outcomes()` applies the step to the outcome variable(s) only
+
+4. Functions that specify the type of the variables:
+  
+    - `all_nominal()` applies the step to all variables that are nominal (categorical)
+    
+    - `all_numeric()` applies the step to all variables that are numeric
+
+To ignore a specific column, you can specify it's name with a negative sign as a variable (just like you would in `select()`)
+
+```{r}
+# define the steps we want to apply
+model_recipe_steps <- model_recipe %>% 
+  # mean impute numeric variables
+  step_meanimpute(all_numeric()) %>%
+  # convert the additional ingredients variable to dummy variables
+  step_dummy(additional_ingredients) %>%
+  # rescale all numeric variables except for vanilla, salt and baking powder to lie between 0 and 1
+  step_range(all_numeric(), min = 0, max = 1, -vanilla, -salt, -baking_powder) %>%
+  # remove predictor variables that are almost the same for every entry
+  step_nzv(all_predictors()) 
+```
+
+```{r}
+model_recipe_steps
+```
+
+Note that the order in which you apply the steps does matter to some extent. The recommended ordering ([taken from here](https://tidymodels.github.io/recipes/articles/Ordering.html)) is
+
+1. Impute
+
+1. Individual transformations for skewness and other issues
+
+1. Discretize (if needed and if you have no other choice)
+
+1. Create dummy variables
+
+1. Create interactions
+
+1. Normalization steps (center, scale, range, etc)
+
+1. Multivariate transformation (e.g. PCA, spatial sign, etc)
+
+### Preparing the recipe
+
+Next, we need to provide a dataset on which to base the pre-processing steps. This allows the same recipe to be applied to multiple datasets.
+
+```{r, warning=FALSE}
+prepped_recipe <- prep(model_recipe_steps, training = muffin_cupcake_train)
+```
+
+```{r}
+prepped_recipe
+```
+
+### Bake the recipe
+
+Next, you apply your recipe to your datasets.
+
+So what did our recipe do?
+
+- `step_meanimpute(all_numeric())` imputed all of the missing values with the mean value for that variable 
+
+- `step_dummy(additional_ingredients)` converted the `additional_ingredients` into three dummy variables corresponding to three of the four levels of the original variable
+
+- `step_range(all_numeric(), min = 0, max = 1, -vanilla, -salt, -baking_powder)` converted the range of all of the numeric variables except for those specified to lie between 0 and 1
+
+- `step_nzv(all_predictors())` removed the `salt` variable since it was 0 across all rows (except where it was missing)
+
+```{r, warning=FALSE}
+muffin_cupcake_train_preprocessed <- bake(prepped_recipe, muffin_cupcake_train) 
+# put it in a nice table
+muffin_cupcake_train_preprocessed %>%
+  gt %>%
+  fmt_number(vars(flour, milk, sugar, butter, egg, vanilla), decimals = 2)
+```
+
+```{r, warning=FALSE}
+muffin_cupcake_test_preprocessed <- bake(prepped_recipe, muffin_cupcake_test)
+# put it in a nice table
+muffin_cupcake_test_preprocessed %>%
+  gt %>%
+  fmt_number(vars(flour, milk, sugar, butter, egg, vanilla), decimals = 2)
+```
+
+
+

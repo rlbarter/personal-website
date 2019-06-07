@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Mar 2019 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2019 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using the recpie package for easy pre-processing</title>
+      <link>/blog/2019-06-06_pre_processing/</link>
+      <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-06-06_pre_processing/</guid>
+      <description>Pre-processing data in R used to be the bane of my existence. For something that should be fairly straightforward, it often really wasn’t. Often my frustrations stemmed from simple things such as factor variables having different levels in the training data and test data, or a variable having missing values in the test data but not in the training data. I’d write a function that would pre-process the training data, and when I’d try to apply it to the test data, R would cry and yell and just be generally unpleasant.</description>
+    </item>
     
     <item>
       <title>A quick guide to developing a reproducible and consistent data science workflow</title>

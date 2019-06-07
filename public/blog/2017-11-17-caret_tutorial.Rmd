@@ -1,7 +1,7 @@
 ---
 title:  "A basic tutorial of caret: the machine learning package in R"
 author: "Rebecca Barter"
-categories: [R, machine learning]
+categories: [R, Machine Learning]
 date: 2017-11-17T21:13:14-05:00
 type: "post" 
 description: "R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs. Caret unifies these packages into a single package with constant syntax, saving everyone a lot of frustration and time!" 

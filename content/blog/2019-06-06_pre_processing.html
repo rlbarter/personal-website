@@ -1,0 +1,3185 @@
+---
+title: "Using the recpie package for easy pre-processing"
+author: "Rebecca Barter"
+categories: [R, Workflow, Machine Learning]
+date: 2019-06-06T23:13:14-05:00
+type: "post" 
+description: "Having to apply the same pre-processing steps to training, testing and validation data to do some machine learning can be surprisingly frustrating. But thanks to the recipes R package, it's now super-duper easy. Instead of having five functions and maybe hundreds of lines of code, you can preprocess multiple datasets using a single 'recipe' in fewer than 10 lines of code." 
+---
+
+
+
+<p>Pre-processing data in R used to be the bane of my existence. For something that should be fairly straightforward, it often really wasn’t. Often my frustrations stemmed from simple things such as factor variables having different levels in the training data and test data, or a variable having missing values in the test data but not in the training data. I’d write a function that would pre-process the training data, and when I’d try to apply it to the test data, R would cry and yell and just be generally unpleasant.</p>
+<p>Thankfully most of the pain of pre-processing is now in the past thanks to the <a href="https://tidymodels.github.io/recipes/">recipes</a> R package that is a part of the new “tidymodels” package ecosystem (which, I guess is supposed to be equivalent to the data-focused “tidyverse” package ecosystem that includes dplyr, tidyr, and other super awesome packages like that). Recipes was developed by Max Kuhn and Hadley Wickham.</p>
+<p>Those who have ever seen Hadley Wickham give a talk will know that baking and data are inherently related (see photo below).</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
+<img src="/img/recipes/hadley_cupcakes.jpg" alt="A photo I took at an R Ladies SF meetup of Hadley's cupcake recipes."  />
+<p class="caption">
+Figure 1: A photo I took at an R Ladies SF meetup of Hadley’s cupcake recipes.
+</p>
+</div>
+<p>So let’s get baking!</p>
+<div id="the-fundamentals-of-pre-processing-your-data-using-recipes" class="section level2">
+<h2>The fundamentals of pre-processing your data using recipes</h2>
+<p>Creating a recipe has three steps:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Get the ingredients</strong> (<code>recipe()</code>): specify the response variable and predictor variables</p></li>
+<li><p><strong>Write the recipe</strong> (<code>step_zzz()</code>): define the pre-processing steps, such as imputation, creating dummy variables, scaling, and more</p></li>
+<li><p><strong>Prepare the recipe</strong> (<code>prep()</code>): provide a dataset to base each step on (e.g. if one of the steps is to remove variables that only have one unique value, then you need to give it a dataset so it can decide which variables satisfy this criteria to ensure that it is doing the same thing to every dataset you apply it to)</p></li>
+<li><p><strong>Bake the recipe</strong> (<code>bake()</code>): apply the pre-processing steps to your datasets</p></li>
+</ol>
+<p>In this blog post I’ll walk you through these three steps, touching on the wide range of things that recipes can do, while hopefully convincing you that recipes makes life really easy and that you should use it next time you need to do some pre-processing.</p>
+</div>
+<div id="a-simple-example-cupcakes-or-muffins" class="section level2">
+<h2>A simple example: cupcakes or muffins?</h2>
+<p>To keep things in the theme, I’m going to use a dataset from <a href="https://github.com/adashofdata">Alice Zhao’s git repo</a> that I found when I typed “cupcake dataset” into Google. Our goal will be to classify recipes as either cupcakes or muffins based on the quantities used for each of the ingredients. So perhaps we will learn two things today: (1) how to use the recipes package, and (2) the difference between cupcakes and muffins.</p>
+<pre class="r"><code># load useful libraries
+library(tidyverse)
+library(gt)
+library(recipes) # could also load the tidymodels package
+# load in the data
+muffin_cupcake_data_orig &lt;- read_csv(&quot;https://raw.githubusercontent.com/adashofdata/muffin-cupcake/master/recipes_muffins_cupcakes.csv&quot;)
+# look at data
+gt(muffin_cupcake_data_orig)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#spmwsdektv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#spmwsdektv .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#spmwsdektv .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#spmwsdektv .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#spmwsdektv .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#spmwsdektv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#spmwsdektv .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#spmwsdektv .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#spmwsdektv .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#spmwsdektv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#spmwsdektv .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#spmwsdektv .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#spmwsdektv .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#spmwsdektv .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#spmwsdektv .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#spmwsdektv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#spmwsdektv .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#spmwsdektv .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#spmwsdektv .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#spmwsdektv .gt_center {
+  text-align: center;
+}
+
+#spmwsdektv .gt_left {
+  text-align: left;
+}
+
+#spmwsdektv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#spmwsdektv .gt_font_normal {
+  font-weight: normal;
+}
+
+#spmwsdektv .gt_font_bold {
+  font-weight: bold;
+}
+
+#spmwsdektv .gt_font_italic {
+  font-style: italic;
+}
+
+#spmwsdektv .gt_super {
+  font-size: 65%;
+}
+
+#spmwsdektv .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="spmwsdektv" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>Type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Baking Powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Salt</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>55</td>
+<td class='gt_row gt_right'>28</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>24</td>
+<td class='gt_row gt_right gt_striped'>12</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>47</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>18</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>4</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>45</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>25</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>55</td>
+<td class='gt_row gt_right gt_striped'>27</td>
+<td class='gt_row gt_right gt_striped'>3</td>
+<td class='gt_row gt_right gt_striped'>7</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>54</td>
+<td class='gt_row gt_right'>27</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>26</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>4</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>50</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>4</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>39</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>26</td>
+<td class='gt_row gt_right'>19</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>21</td>
+<td class='gt_row gt_right gt_striped'>16</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>3</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>34</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>20</td>
+<td class='gt_row gt_right'>20</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>39</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>19</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>38</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>18</td>
+<td class='gt_row gt_right gt_striped'>25</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>21</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>11</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>38</td>
+<td class='gt_row gt_right gt_striped'>15</td>
+<td class='gt_row gt_right gt_striped'>31</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>16</td>
+<td class='gt_row gt_right'>24</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>9</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>34</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>23</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+<p>Since the space in the column name <code>Baking Powder</code> is going to really annoy me, I’m going to do a quick clean where I convert all of the column names to lower case and replace the space with an underscore.</p>
+<p>As a side note, I’ve started naming all of my temporary function arguments (lambda functions?) with a period preceding the name. I find it makes it a lot easier to read. As another side note, if you’ve never seen the <code>rename_all()</code> function before, check out my <a href="http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/">blog post</a> on scoped verbs!</p>
+<pre class="r"><code>muffin_cupcake_data &lt;- muffin_cupcake_data_orig %&gt;%
+  # rename all columns 
+  rename_all(function(.name) {
+    .name %&gt;% 
+      # replace all names with the lowercase versions
+      tolower %&gt;%
+      # replace all spaces with underscores
+      str_replace(&quot; &quot;, &quot;_&quot;)
+    })
+# check that this did what I wanted
+gt(muffin_cupcake_data)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ghutjfflqj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#ghutjfflqj .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#ghutjfflqj .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ghutjfflqj .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ghutjfflqj .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#ghutjfflqj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ghutjfflqj .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#ghutjfflqj .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#ghutjfflqj .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#ghutjfflqj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#ghutjfflqj .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#ghutjfflqj .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#ghutjfflqj .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#ghutjfflqj .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#ghutjfflqj .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#ghutjfflqj .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#ghutjfflqj .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#ghutjfflqj .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#ghutjfflqj .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#ghutjfflqj .gt_center {
+  text-align: center;
+}
+
+#ghutjfflqj .gt_left {
+  text-align: left;
+}
+
+#ghutjfflqj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ghutjfflqj .gt_font_normal {
+  font-weight: normal;
+}
+
+#ghutjfflqj .gt_font_bold {
+  font-weight: bold;
+}
+
+#ghutjfflqj .gt_font_italic {
+  font-style: italic;
+}
+
+#ghutjfflqj .gt_super {
+  font-size: 65%;
+}
+
+#ghutjfflqj .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="ghutjfflqj" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>baking_powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>salt</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>55</td>
+<td class='gt_row gt_right'>28</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>24</td>
+<td class='gt_row gt_right gt_striped'>12</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>47</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>18</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>4</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>45</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>25</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>55</td>
+<td class='gt_row gt_right gt_striped'>27</td>
+<td class='gt_row gt_right gt_striped'>3</td>
+<td class='gt_row gt_right gt_striped'>7</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>54</td>
+<td class='gt_row gt_right'>27</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>26</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>4</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>50</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>4</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>39</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>26</td>
+<td class='gt_row gt_right'>19</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>21</td>
+<td class='gt_row gt_right gt_striped'>16</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>3</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>34</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>20</td>
+<td class='gt_row gt_right'>20</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>39</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>19</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>38</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>18</td>
+<td class='gt_row gt_right gt_striped'>25</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>21</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>11</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>38</td>
+<td class='gt_row gt_right gt_striped'>15</td>
+<td class='gt_row gt_right gt_striped'>31</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>16</td>
+<td class='gt_row gt_right'>24</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>9</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>34</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>23</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+<p>Since recipes does a lot of useful stuff for categorical variables as well as with missing values, I’m going to modify the data a little bit so that it’s a bit more interesting (for educational purposes only - don’t ever actually modify your data so it’s more interesting, in science that’s called “fraud”, and fraud is bad).</p>
+<pre class="r"><code># add an additional ingredients column that is categorical
+muffin_cupcake_data &lt;- muffin_cupcake_data %&gt;%
+  mutate(additional_ingredients = c(&quot;fruit&quot;, 
+                                    &quot;fruit&quot;, 
+                                    &quot;none&quot;, 
+                                    &quot;nuts&quot;, 
+                                    &quot;fruit&quot;, 
+                                    &quot;fruit&quot;, 
+                                    &quot;nuts&quot;, 
+                                    &quot;none&quot;, 
+                                    &quot;none&quot;, 
+                                    &quot;nuts&quot;,
+                                    &quot;icing&quot;,
+                                    &quot;icing&quot;,
+                                    &quot;fruit&quot;,
+                                    &quot;none&quot;,
+                                    &quot;fruit&quot;,
+                                    &quot;icing&quot;,
+                                    &quot;none&quot;,
+                                    &quot;fruit&quot;,
+                                    &quot;icing&quot;,
+                                    &quot;icing&quot;))
+# add some random missing values here and there just for fun
+set.seed(26738)
+muffin_cupcake_data &lt;- muffin_cupcake_data %&gt;%
+  # only add missing values to numeric columns
+  mutate_if(is.numeric,
+            function(x) {
+              # randomly decide if 0, 2, or 3 values will be missing from each column
+              n_missing &lt;- sample(0:3, 8, replace = TRUE)
+              # replace n_missing randomly selected values from each column with NA
+              x[sample(1:20, n_missing)] &lt;- NA
+              return(x)
+              })
+gt(muffin_cupcake_data)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#nadxuerdbc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#nadxuerdbc .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#nadxuerdbc .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nadxuerdbc .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nadxuerdbc .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#nadxuerdbc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#nadxuerdbc .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#nadxuerdbc .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#nadxuerdbc .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#nadxuerdbc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#nadxuerdbc .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#nadxuerdbc .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#nadxuerdbc .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#nadxuerdbc .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#nadxuerdbc .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#nadxuerdbc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#nadxuerdbc .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#nadxuerdbc .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#nadxuerdbc .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#nadxuerdbc .gt_center {
+  text-align: center;
+}
+
+#nadxuerdbc .gt_left {
+  text-align: left;
+}
+
+#nadxuerdbc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nadxuerdbc .gt_font_normal {
+  font-weight: normal;
+}
+
+#nadxuerdbc .gt_font_bold {
+  font-weight: bold;
+}
+
+#nadxuerdbc .gt_font_italic {
+  font-style: italic;
+}
+
+#nadxuerdbc .gt_super {
+  font-size: 65%;
+}
+
+#nadxuerdbc .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="nadxuerdbc" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>baking_powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>salt</th>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>additional_ingredients</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>55</td>
+<td class='gt_row gt_right'>28</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>24</td>
+<td class='gt_row gt_right gt_striped'>12</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>47</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>18</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>45</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>nuts</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>55</td>
+<td class='gt_row gt_right gt_striped'>27</td>
+<td class='gt_row gt_right gt_striped'>3</td>
+<td class='gt_row gt_right gt_striped'>7</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>54</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>nuts</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>26</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>50</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>4</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>nuts</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>39</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>19</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>21</td>
+<td class='gt_row gt_right gt_striped'>16</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>3</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>34</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>20</td>
+<td class='gt_row gt_right'>20</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>39</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>19</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>38</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>18</td>
+<td class='gt_row gt_right gt_striped'>25</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>21</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>38</td>
+<td class='gt_row gt_right gt_striped'>15</td>
+<td class='gt_row gt_right gt_striped'>31</td>
+<td class='gt_row gt_right gt_striped'>8</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_left gt_striped'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>16</td>
+<td class='gt_row gt_right'>24</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>9</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>34</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>23</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>icing</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+<p>Finally, I’m going to split my data into training and test sets, so that you can see how nicely our recipe can be applied to multiple data frames.</p>
+<pre class="r"><code>library(rsample)
+muffin_cupcake_split &lt;- initial_split(muffin_cupcake_data)
+muffin_cupcake_train &lt;- training(muffin_cupcake_split)
+muffin_cupcake_test &lt;- testing(muffin_cupcake_split)
+rm(muffin_cupcake_data)</code></pre>
+<p>Our training data is</p>
+<pre class="r"><code>gt(muffin_cupcake_train)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#kxnwjdybzz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#kxnwjdybzz .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#kxnwjdybzz .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kxnwjdybzz .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kxnwjdybzz .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#kxnwjdybzz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kxnwjdybzz .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#kxnwjdybzz .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#kxnwjdybzz .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#kxnwjdybzz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#kxnwjdybzz .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#kxnwjdybzz .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#kxnwjdybzz .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#kxnwjdybzz .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#kxnwjdybzz .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#kxnwjdybzz .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#kxnwjdybzz .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#kxnwjdybzz .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#kxnwjdybzz .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#kxnwjdybzz .gt_center {
+  text-align: center;
+}
+
+#kxnwjdybzz .gt_left {
+  text-align: left;
+}
+
+#kxnwjdybzz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kxnwjdybzz .gt_font_normal {
+  font-weight: normal;
+}
+
+#kxnwjdybzz .gt_font_bold {
+  font-weight: bold;
+}
+
+#kxnwjdybzz .gt_font_italic {
+  font-style: italic;
+}
+
+#kxnwjdybzz .gt_super {
+  font-size: 65%;
+}
+
+#kxnwjdybzz .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="kxnwjdybzz" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>baking_powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>salt</th>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>additional_ingredients</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>47</td>
+<td class='gt_row gt_right'>24</td>
+<td class='gt_row gt_right'>12</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>9</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>23</td>
+<td class='gt_row gt_right gt_striped'>18</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>45</td>
+<td class='gt_row gt_right'>11</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>nuts</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>50</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>12</td>
+<td class='gt_row gt_right gt_striped'>6</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>55</td>
+<td class='gt_row gt_right'>27</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>54</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>7</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>nuts</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>50</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>50</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>11</td>
+<td class='gt_row gt_right gt_striped'>4</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>nuts</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>39</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>19</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>39</td>
+<td class='gt_row gt_right gt_striped'>13</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>19</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>38</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>42</td>
+<td class='gt_row gt_right gt_striped'>18</td>
+<td class='gt_row gt_right gt_striped'>25</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>36</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>21</td>
+<td class='gt_row gt_right'>14</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>36</td>
+<td class='gt_row gt_right gt_striped'>16</td>
+<td class='gt_row gt_right gt_striped'>24</td>
+<td class='gt_row gt_right gt_striped'>12</td>
+<td class='gt_row gt_right gt_striped'>9</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>34</td>
+<td class='gt_row gt_right'>17</td>
+<td class='gt_row gt_right'>23</td>
+<td class='gt_row gt_right'>11</td>
+<td class='gt_row gt_right'>13</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>icing</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+<p>and our testing data is</p>
+<pre class="r"><code>gt(muffin_cupcake_test)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#vbrfslcwxj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#vbrfslcwxj .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#vbrfslcwxj .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vbrfslcwxj .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vbrfslcwxj .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#vbrfslcwxj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#vbrfslcwxj .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#vbrfslcwxj .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#vbrfslcwxj .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#vbrfslcwxj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#vbrfslcwxj .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#vbrfslcwxj .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#vbrfslcwxj .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#vbrfslcwxj .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#vbrfslcwxj .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#vbrfslcwxj .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#vbrfslcwxj .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#vbrfslcwxj .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#vbrfslcwxj .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#vbrfslcwxj .gt_center {
+  text-align: center;
+}
+
+#vbrfslcwxj .gt_left {
+  text-align: left;
+}
+
+#vbrfslcwxj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vbrfslcwxj .gt_font_normal {
+  font-weight: normal;
+}
+
+#vbrfslcwxj .gt_font_bold {
+  font-weight: bold;
+}
+
+#vbrfslcwxj .gt_font_italic {
+  font-style: italic;
+}
+
+#vbrfslcwxj .gt_super {
+  font-size: 65%;
+}
+
+#vbrfslcwxj .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="vbrfslcwxj" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>baking_powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>salt</th>
+<th class='gt_col_heading gt_left' rowspan='1' colspan='1'>additional_ingredients</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_left'>Muffin</td>
+<td class='gt_row gt_right'>55</td>
+<td class='gt_row gt_right'>28</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>7</td>
+<td class='gt_row gt_right'>5</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>47</td>
+<td class='gt_row gt_right gt_striped'>26</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>10</td>
+<td class='gt_row gt_right gt_striped'>NA</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>none</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>42</td>
+<td class='gt_row gt_right'>21</td>
+<td class='gt_row gt_right'>16</td>
+<td class='gt_row gt_right'>10</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_left'>icing</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>34</td>
+<td class='gt_row gt_right gt_striped'>17</td>
+<td class='gt_row gt_right gt_striped'>20</td>
+<td class='gt_row gt_right gt_striped'>20</td>
+<td class='gt_row gt_right gt_striped'>5</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_left gt_striped'>fruit</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Cupcake</td>
+<td class='gt_row gt_right'>38</td>
+<td class='gt_row gt_right'>15</td>
+<td class='gt_row gt_right'>31</td>
+<td class='gt_row gt_right'>8</td>
+<td class='gt_row gt_right'>6</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_right'>NA</td>
+<td class='gt_row gt_left'>fruit</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+</div>
+<div id="writing-and-applying-the-recipe" class="section level2">
+<h2>Writing and applying the recipe</h2>
+<p>Now that we’ve set up our data, we’re ready to write some recipes and do some baking! The first thing we need to do is get the ingredients. We can use formula notation within the <code>recipe()</code> function to do this: the thing we’re trying to predict is the variable to the left of the <code>~</code>, and the predictor variables are the things to the right of it (Since I’m including all of my variables, I could have written <code>type ~ .</code>).</p>
+<pre class="r"><code># define the recipe (it looks a lot like applying the lm function)
+model_recipe &lt;- recipe(type ~ flour + milk + sugar + butter + egg + 
+                         baking_powder + vanilla + salt + additional_ingredients, 
+                       data = muffin_cupcake_train)</code></pre>
+<p>If we print a summary of the <code>model_recipe</code> object, it just shows us the variables we’ve specified, their type, and whether they’re a predictor or an outcome.</p>
+<pre class="r"><code>summary(model_recipe)</code></pre>
+<pre><code>## # A tibble: 10 x 4
+##    variable               type    role      source  
+##    &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;   
+##  1 flour                  numeric predictor original
+##  2 milk                   numeric predictor original
+##  3 sugar                  numeric predictor original
+##  4 butter                 numeric predictor original
+##  5 egg                    numeric predictor original
+##  6 baking_powder          numeric predictor original
+##  7 vanilla                numeric predictor original
+##  8 salt                   numeric predictor original
+##  9 additional_ingredients nominal predictor original
+## 10 type                   nominal outcome   original</code></pre>
+<div id="writing-the-recipe-steps" class="section level3">
+<h3>Writing the recipe steps</h3>
+<p>So now we have our ingredients, we are ready to write the recipe (i.e. describe our pre-processing steps). We write the recipe one step at a time. We have many steps to choose from, including:</p>
+<ul>
+<li><p><code>step_dummy()</code>: creating dummy variables from categorical variables.</p></li>
+<li><p><code>step_zzzimpute()</code>: where instead of “<code>zzz</code>” it is the name of a method, such as <code>step_knnimpute()</code>, <code>step_meanimpute()</code>, <code>step_modeimpute()</code>. I find that the fancier imputation methods are reeeeally slow for decently large datasets, so I would probably do this step outside of the recipes package unless you just want to do a quick mean or mode impute (which, to be honest, I often do).</p></li>
+<li><p><code>step_scale()</code>: normalize to have a standard deviation of 1.</p></li>
+<li><p><code>step_center()</code>: center to have a mean of 0.</p></li>
+<li><p><code>step_range()</code>: normalize numeric data to be within a pre-defined range of values.</p></li>
+<li><p><code>step_pca()</code>: create principal component variables from your data.</p></li>
+<li><p><code>step_nzv()</code>: remove variables that have (or almost have) the same value for every data point.</p></li>
+</ul>
+<p>You can also create your own step (which I’ve never felt the need to do, but the details of which can be found here <a href="https://tidymodels.github.io/recipes/articles/Custom_Steps.html" class="uri">https://tidymodels.github.io/recipes/articles/Custom_Steps.html</a>).</p>
+<p>In each step, you need to specify which variables you want to apply it to. There are many ways to do this:</p>
+<ol style="list-style-type: decimal">
+<li><p>Specifying the variable name(s) as the first argument</p></li>
+<li><p>Standard dplyr selectors:</p>
+<ul>
+<li><p><code>everything()</code> applies the step to all columns,</p></li>
+<li><p><code>contains()</code> allows you to specify column names that contain a specific string,</p></li>
+<li><p><code>starts_with()</code> allows you to specify column names that start with a sepcific string,</p></li>
+<li><p>etc</p></li>
+</ul></li>
+<li><p>Functions that specify the role of the variables:</p>
+<ul>
+<li><p><code>all_outcomes()</code> applies the step to all outcome variables</p></li>
+<li><p><code>all_predictors()</code> applies the step to the predictor variables only</p></li>
+<li><p><code>all_outcomes()</code> applies the step to the outcome variable(s) only</p></li>
+</ul></li>
+<li><p>Functions that specify the type of the variables:</p>
+<ul>
+<li><p><code>all_nominal()</code> applies the step to all variables that are nominal (categorical)</p></li>
+<li><p><code>all_numeric()</code> applies the step to all variables that are numeric</p></li>
+</ul></li>
+</ol>
+<p>To ignore a specific column, you can specify it’s name with a negative sign as a variable (just like you would in <code>select()</code>)</p>
+<pre class="r"><code># define the steps we want to apply
+model_recipe_steps &lt;- model_recipe %&gt;% 
+  # mean impute numeric variables
+  step_meanimpute(all_numeric()) %&gt;%
+  # convert the additional ingredients variable to dummy variables
+  step_dummy(additional_ingredients) %&gt;%
+  # rescale all numeric variables except for vanilla, salt and baking powder to lie between 0 and 1
+  step_range(all_numeric(), min = 0, max = 1, -vanilla, -salt, -baking_powder) %&gt;%
+  # remove predictor variables that are almost the same for every entry
+  step_nzv(all_predictors()) </code></pre>
+<pre class="r"><code>model_recipe_steps</code></pre>
+<pre><code>## Data Recipe
+## 
+## Inputs:
+## 
+##       role #variables
+##    outcome          1
+##  predictor          9
+## 
+## Operations:
+## 
+## Mean Imputation for all_numeric()
+## Dummy variables from additional_ingredients
+## Range scaling to [0,1] for all_numeric(), -vanilla, ...
+## Sparse, unbalanced variable filter on all_predictors()</code></pre>
+<p>Note that the order in which you apply the steps does matter to some extent. The recommended ordering (<a href="https://tidymodels.github.io/recipes/articles/Ordering.html">taken from here</a>) is</p>
+<ol style="list-style-type: decimal">
+<li><p>Impute</p></li>
+<li><p>Individual transformations for skewness and other issues</p></li>
+<li><p>Discretize (if needed and if you have no other choice)</p></li>
+<li><p>Create dummy variables</p></li>
+<li><p>Create interactions</p></li>
+<li><p>Normalization steps (center, scale, range, etc)</p></li>
+<li><p>Multivariate transformation (e.g. PCA, spatial sign, etc)</p></li>
+</ol>
+</div>
+<div id="preparing-the-recipe" class="section level3">
+<h3>Preparing the recipe</h3>
+<p>Next, we need to provide a dataset on which to base the pre-processing steps. This allows the same recipe to be applied to multiple datasets.</p>
+<pre class="r"><code>prepped_recipe &lt;- prep(model_recipe_steps, training = muffin_cupcake_train)</code></pre>
+<pre class="r"><code>prepped_recipe</code></pre>
+<pre><code>## Data Recipe
+## 
+## Inputs:
+## 
+##       role #variables
+##    outcome          1
+##  predictor          9
+## 
+## Training data contained 15 data points and 7 incomplete rows. 
+## 
+## Operations:
+## 
+## Mean Imputation for flour, milk, sugar, butter, ... [trained]
+## Dummy variables from additional_ingredients [trained]
+## Range scaling to [0,1] for flour, milk, sugar, butter, ... [trained]
+## Sparse, unbalanced variable filter removed salt [trained]</code></pre>
+</div>
+<div id="bake-the-recipe" class="section level3">
+<h3>Bake the recipe</h3>
+<p>Next, you apply your recipe to your datasets.</p>
+<p>So what did our recipe do?</p>
+<ul>
+<li><p><code>step_meanimpute(all_numeric())</code> imputed all of the missing values with the mean value for that variable</p></li>
+<li><p><code>step_dummy(additional_ingredients)</code> converted the <code>additional_ingredients</code> into three dummy variables corresponding to three of the four levels of the original variable</p></li>
+<li><p><code>step_range(all_numeric(), min = 0, max = 1, -vanilla, -salt, -baking_powder)</code> converted the range of all of the numeric variables except for those specified to lie between 0 and 1</p></li>
+<li><p><code>step_nzv(all_predictors())</code> removed the <code>salt</code> variable since it was 0 across all rows (except where it was missing)</p></li>
+</ul>
+<pre class="r"><code>muffin_cupcake_train_preprocessed &lt;- bake(prepped_recipe, muffin_cupcake_train) 
+# put it in a nice table
+muffin_cupcake_train_preprocessed %&gt;%
+  gt %&gt;%
+  fmt_number(vars(flour, milk, sugar, butter, egg, vanilla), decimals = 2)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#cgunqlgqog .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#cgunqlgqog .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#cgunqlgqog .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cgunqlgqog .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cgunqlgqog .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#cgunqlgqog .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cgunqlgqog .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#cgunqlgqog .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#cgunqlgqog .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#cgunqlgqog .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#cgunqlgqog .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#cgunqlgqog .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#cgunqlgqog .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#cgunqlgqog .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#cgunqlgqog .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#cgunqlgqog .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#cgunqlgqog .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#cgunqlgqog .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#cgunqlgqog .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#cgunqlgqog .gt_center {
+  text-align: center;
+}
+
+#cgunqlgqog .gt_left {
+  text-align: left;
+}
+
+#cgunqlgqog .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cgunqlgqog .gt_font_normal {
+  font-weight: normal;
+}
+
+#cgunqlgqog .gt_font_bold {
+  font-weight: bold;
+}
+
+#cgunqlgqog .gt_font_italic {
+  font-style: italic;
+}
+
+#cgunqlgqog .gt_super {
+  font-size: 65%;
+}
+
+#cgunqlgqog .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="cgunqlgqog" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>baking_powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>additional_ingredients_icing</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>additional_ingredients_none</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>additional_ingredients_nuts</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_center'>Muffin</td>
+<td class='gt_row gt_right'>0.62</td>
+<td class='gt_row gt_right'>0.89</td>
+<td class='gt_row gt_right'>0.41</td>
+<td class='gt_row gt_right'>0.07</td>
+<td class='gt_row gt_right'>0.50</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>0.62</td>
+<td class='gt_row gt_right gt_striped'>0.85</td>
+<td class='gt_row gt_right gt_striped'>0.68</td>
+<td class='gt_row gt_right gt_striped'>0.07</td>
+<td class='gt_row gt_right gt_striped'>0.38</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Muffin</td>
+<td class='gt_row gt_right'>0.52</td>
+<td class='gt_row gt_right'>0.41</td>
+<td class='gt_row gt_right'>0.64</td>
+<td class='gt_row gt_right'>0.86</td>
+<td class='gt_row gt_right'>0.40</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0.62</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>0.76</td>
+<td class='gt_row gt_right gt_striped'>0.60</td>
+<td class='gt_row gt_right gt_striped'>0.41</td>
+<td class='gt_row gt_right gt_striped'>0.07</td>
+<td class='gt_row gt_right gt_striped'>0.10</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Muffin</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0.14</td>
+<td class='gt_row gt_right'>0.10</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>0.95</td>
+<td class='gt_row gt_right gt_striped'>0.60</td>
+<td class='gt_row gt_right gt_striped'>0.18</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>0.10</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Muffin</td>
+<td class='gt_row gt_right'>0.76</td>
+<td class='gt_row gt_right'>0.63</td>
+<td class='gt_row gt_right'>0.64</td>
+<td class='gt_row gt_right'>0.21</td>
+<td class='gt_row gt_right'>0.20</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>0.76</td>
+<td class='gt_row gt_right gt_striped'>0.63</td>
+<td class='gt_row gt_right gt_striped'>0.64</td>
+<td class='gt_row gt_right gt_striped'>0.43</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Cupcake</td>
+<td class='gt_row gt_right'>0.24</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0.63</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>0.24</td>
+<td class='gt_row gt_right gt_striped'>0.48</td>
+<td class='gt_row gt_right gt_striped'>0.64</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>0.60</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Cupcake</td>
+<td class='gt_row gt_right'>0.19</td>
+<td class='gt_row gt_right'>0.56</td>
+<td class='gt_row gt_right'>0.91</td>
+<td class='gt_row gt_right'>0.71</td>
+<td class='gt_row gt_right'>0.40</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>0.38</td>
+<td class='gt_row gt_right gt_striped'>0.67</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>0.29</td>
+<td class='gt_row gt_right gt_striped'>0.10</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0.62</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Cupcake</td>
+<td class='gt_row gt_right'>0.10</td>
+<td class='gt_row gt_right'>0.52</td>
+<td class='gt_row gt_right'>0.82</td>
+<td class='gt_row gt_right'>0.64</td>
+<td class='gt_row gt_right'>0.38</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>0.10</td>
+<td class='gt_row gt_right gt_striped'>0.59</td>
+<td class='gt_row gt_right gt_striped'>0.95</td>
+<td class='gt_row gt_right gt_striped'>0.50</td>
+<td class='gt_row gt_right gt_striped'>0.50</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Cupcake</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0.63</td>
+<td class='gt_row gt_right'>0.91</td>
+<td class='gt_row gt_right'>0.43</td>
+<td class='gt_row gt_right'>0.90</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+<pre class="r"><code>muffin_cupcake_test_preprocessed &lt;- bake(prepped_recipe, muffin_cupcake_test)
+# put it in a nice table
+muffin_cupcake_test_preprocessed %&gt;%
+  gt %&gt;%
+  fmt_number(vars(flour, milk, sugar, butter, egg, vanilla), decimals = 2)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#xxdymawzpn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#xxdymawzpn .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#xxdymawzpn .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xxdymawzpn .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xxdymawzpn .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#xxdymawzpn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#xxdymawzpn .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#xxdymawzpn .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#xxdymawzpn .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#xxdymawzpn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#xxdymawzpn .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#xxdymawzpn .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#xxdymawzpn .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#xxdymawzpn .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#xxdymawzpn .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#xxdymawzpn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#xxdymawzpn .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#xxdymawzpn .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#xxdymawzpn .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#xxdymawzpn .gt_center {
+  text-align: center;
+}
+
+#xxdymawzpn .gt_left {
+  text-align: left;
+}
+
+#xxdymawzpn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xxdymawzpn .gt_font_normal {
+  font-weight: normal;
+}
+
+#xxdymawzpn .gt_font_bold {
+  font-weight: bold;
+}
+
+#xxdymawzpn .gt_font_italic {
+  font-style: italic;
+}
+
+#xxdymawzpn .gt_super {
+  font-size: 65%;
+}
+
+#xxdymawzpn .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="xxdymawzpn" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>type</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>flour</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>milk</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>sugar</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>butter</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>egg</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>baking_powder</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>vanilla</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>additional_ingredients_icing</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>additional_ingredients_none</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>additional_ingredients_nuts</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_center'>Muffin</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0.14</td>
+<td class='gt_row gt_right'>0.10</td>
+<td class='gt_row gt_right'>2</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Muffin</td>
+<td class='gt_row gt_right gt_striped'>0.62</td>
+<td class='gt_row gt_right gt_striped'>0.96</td>
+<td class='gt_row gt_right gt_striped'>0.32</td>
+<td class='gt_row gt_right gt_striped'>0.36</td>
+<td class='gt_row gt_right gt_striped'>0.38</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>1</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Cupcake</td>
+<td class='gt_row gt_right'>0.38</td>
+<td class='gt_row gt_right'>0.78</td>
+<td class='gt_row gt_right'>0.59</td>
+<td class='gt_row gt_right'>0.36</td>
+<td class='gt_row gt_right'>0.40</td>
+<td class='gt_row gt_right'>3</td>
+<td class='gt_row gt_right'>0.00</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center gt_striped'>Cupcake</td>
+<td class='gt_row gt_right gt_striped'>0.00</td>
+<td class='gt_row gt_right gt_striped'>0.63</td>
+<td class='gt_row gt_right gt_striped'>0.77</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>0.10</td>
+<td class='gt_row gt_right gt_striped'>2</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+<td class='gt_row gt_right gt_striped'>0</td>
+</tr>
+<tr>
+<td class='gt_row gt_center'>Cupcake</td>
+<td class='gt_row gt_right'>0.19</td>
+<td class='gt_row gt_right'>0.56</td>
+<td class='gt_row gt_right'>1.00</td>
+<td class='gt_row gt_right'>0.21</td>
+<td class='gt_row gt_right'>0.20</td>
+<td class='gt_row gt_right'>1</td>
+<td class='gt_row gt_right'>0.62</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+<td class='gt_row gt_right'>0</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
+</div>
+</div>
