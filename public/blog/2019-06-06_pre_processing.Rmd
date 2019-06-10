@@ -1,5 +1,5 @@
 ---
-title: "Using the recpie package for easy pre-processing"
+title: "Using the recipes package for easy pre-processing"
 author: "Rebecca Barter"
 categories: [R, Workflow, Machine Learning]
 date: 2019-06-06T23:13:14-05:00
