@@ -41,14 +41,15 @@ In this blog post I'll walk you through these three steps, touching on the wide 
 To keep things in the theme, I'm going to use a dataset from [Alice Zhao's git repo](https://github.com/adashofdata) that I found when I typed "cupcake dataset" into Google. Our goal will be to classify recipes as either cupcakes or muffins based on the quantities used for each of the ingredients. So perhaps we will learn two things today: (1) how to use the recipes package, and (2) the difference between cupcakes and muffins.
 
 ```{r, message=FALSE, warning=FALSE}
+# set up so that all variables of tibbles are printed
+options(dplyr.width = Inf)
 # load useful libraries
 library(tidyverse)
-library(gt)
 library(recipes) # could also load the tidymodels package
 # load in the data
 muffin_cupcake_data_orig <- read_csv("https://raw.githubusercontent.com/adashofdata/muffin-cupcake/master/recipes_muffins_cupcakes.csv")
 # look at data
-gt(muffin_cupcake_data_orig)
+muffin_cupcake_data_orig
 ```
 
 Since the space in the column name `Baking Powder` is going to really annoy me, I'm going to do a quick clean where I convert all of the column names to lower case and replace the space with an underscore. 
@@ -67,7 +68,7 @@ muffin_cupcake_data <- muffin_cupcake_data_orig %>%
       str_replace(" ", "_")
     })
 # check that this did what I wanted
-gt(muffin_cupcake_data)
+muffin_cupcake_data
 ```
 
 
@@ -108,7 +109,7 @@ muffin_cupcake_data <- muffin_cupcake_data %>%
               x[sample(1:20, n_missing)] <- NA
               return(x)
               })
-gt(muffin_cupcake_data)
+muffin_cupcake_data
 ```
 
 
@@ -125,13 +126,13 @@ rm(muffin_cupcake_data)
 Our training data is 
 
 ```{r}
-gt(muffin_cupcake_train)
+muffin_cupcake_train
 ```
 
 and our testing data is 
 
 ```{r}
-gt(muffin_cupcake_test)
+muffin_cupcake_test
 ```
 
 ## Writing and applying the recipe
@@ -264,18 +265,12 @@ So what did our recipe do?
 
 ```{r, warning=FALSE}
 muffin_cupcake_train_preprocessed <- bake(prepped_recipe, muffin_cupcake_train) 
-# put it in a nice table
-muffin_cupcake_train_preprocessed %>%
-  gt %>%
-  fmt_number(vars(flour, milk, sugar, butter, egg, vanilla), decimals = 2)
+muffin_cupcake_train_preprocessed
 ```
 
 ```{r, warning=FALSE}
 muffin_cupcake_test_preprocessed <- bake(prepped_recipe, muffin_cupcake_test)
-# put it in a nice table
-muffin_cupcake_test_preprocessed %>%
-  gt %>%
-  fmt_number(vars(flour, milk, sugar, butter, egg, vanilla), decimals = 2)
+muffin_cupcake_test_preprocessed
 ```
 
 
