@@ -190,8 +190,6 @@ In each step, you need to specify which variables you want to apply it to. There
 
 3. Functions that specify the role of the variables:
   
-    - `all_outcomes()` applies the step to all outcome variables
-    
     - `all_predictors()` applies the step to the predictor variables only
     
     - `all_outcomes()` applies the step to the outcome variable(s) only
