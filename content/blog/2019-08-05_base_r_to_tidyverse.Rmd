@@ -295,19 +295,56 @@ gapminder %>%
 
 The `group_by()` function can be really useful if you want to apply a function independently within groups of observations (where the groups are specified by a categorical variable in your data frame). Think of `group_by()` as splitting your data frame into several separate data frames based on the categorical variable you specify. All functions that you apply to the grouped data frame are applied separately to each group until you specify an `ungroup()` function.
 
-The code below first filters to the year 2007, and then splits the data frame into groups by continent and adds a row to each group corresponding to the average life expectancy of all of the countries in that group/continent. 
+The code below filters the data frame to only the country-years that have life expectancy above the average life expectancy *for their continent*. 
+
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  filter(lifeExp > mean(lifeExp)) %>%
+  ungroup() 
+```
+
+To check that this does something different than it would without the `group_by()` (i.e. filtering to the country-years that have life expectancy above the average *global* life expectancy), compare the distribution of continents from each `filter()` command using the `count()` function (another handly dplyr function):
+
+The number of countries from each continent included post-filtering when grouping by continent is:
+
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  filter(lifeExp > mean(lifeExp)) %>%
+  ungroup() %>%
+  count(continent)
+```
+
+The number of countries from each continent included post-filtering when **not** grouping by continent is:
+
+```{r}
+gapminder %>%
+  filter(lifeExp > mean(lifeExp)) %>%
+  count(continent)
+```
+
+Notice that when you *don't* group by continent, substantially fewer African countries are included since they tend to have lower life expectencies than the global average. 
+
+
+To combine some of the things you've just learnt, the code below first filters to the year 2007, and then splits the data frame into groups by continent and adds a row to each group corresponding to the average life expectancy of all of the countries in that group/continent.
 
 ```{r}
 gapminder %>% 
+  # first filter to 2007
   filter(year == 2007) %>%
+  # group by continent
   group_by(continent) %>%
+  # add a column within each continent corresponding to the average life expectancy
   mutate(continent_lifeExp = mean(lifeExp)) %>%
+  # ungroup the data frame
   ungroup() %>% 
+  # only show a few variables
   select(country, continent, lifeExp, continent_lifeExp) %>%
   head(10)
 ```
 
-Notice that all rows from the same continent have the same value for `continent_lifeExp`. 
+Notice that all rows from the same continent have the same value for `continent_lifeExp`. Note that even though this example defines a single value for each continent, this value is repeated for all rows within the continent.
 
 ## `summarise`/`summarize`: define a variable that is a summary of other variables
 

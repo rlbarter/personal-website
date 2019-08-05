@@ -3710,12 +3710,64 @@ gapminder[continent_year_index, c(&quot;country&quot;, &quot;lifeExp&quot;)]</co
 <div id="group_by-apply-other-dplyr-functions-separately-within-within-a-group-defined-by-one-or-more-variables" class="section level2">
 <h2><code>group_by</code>: apply other dplyr functions separately within within a group defined by one or more variables</h2>
 <p>The <code>group_by()</code> function can be really useful if you want to apply a function independently within groups of observations (where the groups are specified by a categorical variable in your data frame). Think of <code>group_by()</code> as splitting your data frame into several separate data frames based on the categorical variable you specify. All functions that you apply to the grouped data frame are applied separately to each group until you specify an <code>ungroup()</code> function.</p>
-<p>The code below first filters to the year 2007, and then splits the data frame into groups by continent and adds a row to each group corresponding to the average life expectancy of all of the countries in that group/continent.</p>
-<pre class="r"><code>gapminder %&gt;% 
-  filter(year == 2007) %&gt;%
+<p>The code below filters the data frame to only the country-years that have life expectancy above the average life expectancy <em>for their continent</em>.</p>
+<pre class="r"><code>gapminder %&gt;%
   group_by(continent) %&gt;%
+  filter(lifeExp &gt; mean(lifeExp)) %&gt;%
+  ungroup() </code></pre>
+<pre><code>## # A tibble: 873 x 7
+##    country  year      pop continent lifeExp gdpPercap           gdp
+##    &lt;fct&gt;   &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+##  1 Albania  1987  3075321 Europe       72       3739.  11498418358.
+##  2 Albania  1997  3428038 Europe       73.0     3193.  10945912519.
+##  3 Albania  2002  3508512 Europe       75.7     4604.  16153932130.
+##  4 Albania  2007  3600523 Europe       76.4     5937.  21376411360.
+##  5 Algeria  1967 12760499 Africa       51.4     3247.  41433235247.
+##  6 Algeria  1972 14760787 Africa       54.5     4183.  61739408943.
+##  7 Algeria  1977 17152804 Africa       58.0     4910.  84227416174.
+##  8 Algeria  1982 20033753 Africa       61.4     5745. 115097120653.
+##  9 Algeria  1987 23254956 Africa       65.8     5681. 132119742845.
+## 10 Algeria  1992 26298373 Africa       67.7     5023. 132102425043.
+## # … with 863 more rows</code></pre>
+<p>To check that this does something different than it would without the <code>group_by()</code> (i.e. filtering to the country-years that have life expectancy above the average <em>global</em> life expectancy), compare the distribution of continents from each <code>filter()</code> command using the <code>count()</code> function (another handly dplyr function):</p>
+<p>The number of countries from each continent included post-filtering when grouping by continent is:</p>
+<pre class="r"><code>gapminder %&gt;%
+  group_by(continent) %&gt;%
+  filter(lifeExp &gt; mean(lifeExp)) %&gt;%
+  ungroup() %&gt;%
+  count(continent)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent     n
+##   &lt;fct&gt;     &lt;int&gt;
+## 1 Africa      282
+## 2 Americas    176
+## 3 Asia        216
+## 4 Europe      189
+## 5 Oceania      10</code></pre>
+<p>The number of countries from each continent included post-filtering when <strong>not</strong> grouping by continent is:</p>
+<pre class="r"><code>gapminder %&gt;%
+  filter(lifeExp &gt; mean(lifeExp)) %&gt;%
+  count(continent)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent     n
+##   &lt;fct&gt;     &lt;int&gt;
+## 1 Africa       80
+## 2 Americas    218
+## 3 Asia        224
+## 4 Europe      349
+## 5 Oceania      24</code></pre>
+<p>Notice that when you <em>don’t</em> group by continent, substantially fewer African countries are included since they tend to have lower life expectencies than the global average.</p>
+<p>To combine some of the things you’ve just learnt, the code below first filters to the year 2007, and then splits the data frame into groups by continent and adds a row to each group corresponding to the average life expectancy of all of the countries in that group/continent.</p>
+<pre class="r"><code>gapminder %&gt;% 
+  # first filter to 2007
+  filter(year == 2007) %&gt;%
+  # group by continent
+  group_by(continent) %&gt;%
+  # add a column within each continent corresponding to the average life expectancy
   mutate(continent_lifeExp = mean(lifeExp)) %&gt;%
+  # ungroup the data frame
   ungroup() %&gt;% 
+  # only show a few variables
   select(country, continent, lifeExp, continent_lifeExp) %&gt;%
   head(10)</code></pre>
 <pre><code>## # A tibble: 10 x 4
@@ -3731,7 +3783,7 @@ gapminder[continent_year_index, c(&quot;country&quot;, &quot;lifeExp&quot;)]</co
 ##  8 Bahrain     Asia         75.6              70.7
 ##  9 Bangladesh  Asia         64.1              70.7
 ## 10 Belgium     Europe       79.4              77.6</code></pre>
-<p>Notice that all rows from the same continent have the same value for <code>continent_lifeExp</code>.</p>
+<p>Notice that all rows from the same continent have the same value for <code>continent_lifeExp</code>. Note that even though this example defines a single value for each continent, this value is repeated for all rows within the continent.</p>
 </div>
 <div id="summarisesummarize-define-a-variable-that-is-a-summary-of-other-variables" class="section level2">
 <h2><code>summarise</code>/<code>summarize</code>: define a variable that is a summary of other variables</h2>
@@ -3790,9 +3842,9 @@ gapminder[continent_year_index, c(&quot;country&quot;, &quot;lifeExp&quot;)]</co
 <p><code>sample_n()</code> and <code>sample_frac()</code> for taking random samples of rows</p>
 <pre class="r"><code>gapminder %&gt;% 
   sample_n(2)</code></pre>
-<pre><code>##      country year      pop continent lifeExp gdpPercap          gdp
-## 1   Thailand 1992 56667095      Asia  67.298  4616.897 261626115121
-## 2 Congo Rep. 1987  2064095    Africa  57.470  4201.195   8671665463</code></pre>
+<pre><code>##      country year      pop continent lifeExp  gdpPercap          gdp
+## 1 Mauritania 1957  1076852    Africa  42.338   846.1203    911146296
+## 2  Australia 1967 11872264   Oceania  71.100 14526.1246 172457986742</code></pre>
 <p><code>count()</code> for counting the number of rows with each value of a categorical variable</p>
 <pre class="r"><code>gapminder %&gt;% 
   count(continent)</code></pre>
@@ -3824,12 +3876,12 @@ gapminder[continent_year_index, c(&quot;country&quot;, &quot;lifeExp&quot;)]</co
 <p>The first tidyverse package I ever learnt was ggplot2 (the more popular older sibling of the non-existent ggplot1). Ggplot2 is the data visualization package made by Hadley Wickham, and it is based a set of principles called the <em>layered grammar of graphics</em>. The basic idea is that a ggplot graphic layers geometric objects (circles, lines, etc), themes, and scales ontop of data. The form of the geometric object is defined by a <code>geom_xxx()</code> function and the properties (position, size, colour) of the geometric objects that based on the data variables are specified by the aesthetic (<code>aes()</code>) function (within the <code>geom_xxx()</code> function).</p>
 <p>The base layer of any ggplot graph is the empty ggplot layer defined by the <code>ggplot()</code> function, which describes the data frame that the plot will be based on. I haven’t told ggplot what type of geometric object(s) I want yet, nor how the variables should be mapped to the geometric objects, so I just have a blank plot.</p>
 <pre class="r"><code>ggplot(gapminder)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Since you now know about pipes, you could pipe in the data that you want to plot. Piping makes it easy to do intermediate manipulations that you don’t necessarily want to save in the data frame itself, such as only plotting one year’s worth of data</p>
 <pre class="r"><code>gapminder %&gt;% 
   filter(year == 2007) %&gt;%
   ggplot()</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="adding-geom-layers" class="section level2">
 <h2>Adding geom layers</h2>
 <p>Next, I will add a “geom” layer to our ggplot object.</p>
@@ -3841,7 +3893,7 @@ gapminder %&gt;%
   ggplot() +
   # add a points layer on top
   geom_point(aes(x = gdpPercap, y = lifeExp))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We could also add a smoothed trend line layer on top of the points using <code>geom_smooth()</code>.</p>
 <pre class="r"><code># describe the base ggplot object and tell it what data we are interested in along with the aesthetic mapping
 gapminder %&gt;%
@@ -3851,7 +3903,7 @@ gapminder %&gt;%
   geom_point(aes(x = gdpPercap, y = lifeExp)) +
   # add a smoothed LOESS layer
   geom_smooth(aes(x = gdpPercap, y = lifeExp), method = &quot;loess&quot;)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Note that since the aesthetics for <code>geom_point()</code> and <code>geom_smooth()</code> are the same, you might want to just specify global aesthetics in the <code>ggplot()</code> function, rather than layer-specific aesthetics.</p>
 <pre class="r"><code># describe the base ggplot object and tell it what data we are interested in along with the aesthetic mapping
 gapminder %&gt;%
@@ -3862,7 +3914,7 @@ gapminder %&gt;%
   geom_point() +
   # add a smoothed LOESS layer
   geom_smooth(method = &quot;loess&quot;)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-43-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We could also combine a <em>points</em> geom layer with a <em>line</em> geom layer, or any other type of geom layer. Line plots work well for plotting time series, so below we plot the average life expectancy over time using both point and line layers.</p>
 <p>Here you can do some clever combinations of dplyr manipulations with ggplot2 by summarising life expectancy by year and piping the results into a ggplot without having to define any intermediate variables.</p>
 <pre class="r"><code>gapminder %&gt;%
@@ -3876,9 +3928,9 @@ gapminder %&gt;%
   geom_point() +
   # add a line layer on top
   geom_line()</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>If you wanted to have a separate line on our plot for each continent (rather than an aggregated line across all continents), you <strong>don’t</strong> need to add an individual layer for each continent to get the following plot:</p>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Instead, start by also grouping by <code>continent</code> when you calculate the average life expectency by year.</p>
 <pre class="r"><code>gapminder %&gt;%
   group_by(continent, year) %&gt;%
@@ -3909,7 +3961,7 @@ gapminder %&gt;%
   geom_point(aes(x = year, y = avg_lifeExp)) +
   # add a lines layer ontop
   geom_line(aes(x = year, y = avg_lifeExp))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This happens because you now have multiple average life expectancy values for each year, but you haven’t specified which ones go together. To fix this plot, you need to specify how the rows are grouped together (i.e. which variable defines the individual lines) by specifying the <code>group = continent</code> argument in the <code>aes()</code> function of the <code>geom_line()</code> layer.</p>
 <pre class="r"><code>gapminder %&gt;%
   group_by(continent, year) %&gt;%
@@ -3920,7 +3972,7 @@ gapminder %&gt;%
   geom_point(aes(x = year, y = avg_lifeExp)) +
   # add a lines layer on top that is grouped by continent
   geom_line(aes(x = year, y = avg_lifeExp, group = continent))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="more-aesthetic-mappings-based-on-variables" class="section level2">
 <h2>More aesthetic mappings based on variables</h2>
@@ -3930,14 +3982,14 @@ gapminder %&gt;%
   ggplot() +
   geom_point(aes(x = gdpPercap, y = lifeExp),
              col = &quot;cornflowerblue&quot;)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-46-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>However, if you wanted to use a variable from the data frame to define the colour (or any other aesthetic feature) of the geoms, <strong>you will need to include it inside the <code>aes()</code> function</strong>.</p>
 <pre class="r"><code>gapminder %&gt;%
   ggplot() +
   geom_point(aes(x = gdpPercap, 
                  y = lifeExp, 
                  col  = continent))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Note that the <code>continent</code> variable does not specify the colours themselves: this is done automatically. You can specify the colours you want yourself by adding a scale layer for colour.</p>
 <pre class="r"><code>gapminder %&gt;%
   ggplot() +
@@ -3945,7 +3997,7 @@ gapminder %&gt;%
                  y = lifeExp, 
                  col  = continent)) +
   scale_colour_manual(values = c(&quot;orange&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;blue&quot;))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>These colours are atrocious though, so don’t use these. There are lots of types of scales that you can use for every type of aesthetic mapping (including x- and y-positions), and typically scales are specific to whether your variable using in the aesthetic mapping is discrete or continuous.</p>
 <p>We could also add aesthetic mappings for other features such as shape, size, transparency (alpha) and more! For example, changing the size based on population:</p>
 <pre class="r"><code>gapminder %&gt;%
@@ -3953,7 +4005,7 @@ gapminder %&gt;%
   geom_point(aes(x = gdpPercap, y = lifeExp, 
                  col = continent, size = pop),
              alpha = 0.5)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-52-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>For the line plot example above where we plotted an average life expectancy time line for each continent, instead of specifying a <code>group</code> argument, you could instead specify a <code>colour</code> argument to be <code>continent</code>. This will will automatically group and colour by <code>continent</code>.</p>
 <pre class="r"><code>gapminder %&gt;%
   group_by(continent, year) %&gt;%
@@ -3962,7 +4014,7 @@ gapminder %&gt;%
   ggplot() +
   # add a points layer on top
   geom_line(aes(x = year, y = avg_lifeExp, colour = continent))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-53-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="other-types-of-layers" class="section level2">
 <h2>Other types of layers</h2>
@@ -3973,7 +4025,7 @@ gapminder %&gt;%
 <pre class="r"><code>gapminder %&gt;%
   ggplot() + 
   geom_histogram(aes(x = lifeExp), binwidth = 3)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-54-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="boxplots" class="section level3">
 <h3>Boxplots</h3>
@@ -3981,7 +4033,7 @@ gapminder %&gt;%
 <pre class="r"><code>gapminder %&gt;%
   ggplot() +
   geom_boxplot(aes(x = continent, y = lifeExp, fill = continent))</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-52-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="faceting" class="section level3">
 <h3>Faceting</h3>
@@ -3990,7 +4042,7 @@ gapminder %&gt;%
   ggplot() +
   geom_point(aes(x = gdpPercap, y = lifeExp)) +
   facet_wrap(~continent, ncol = 2)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-53-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-56-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="customizing-ggplot2" class="section level2">
@@ -4022,9 +4074,9 @@ gapminder %&gt;%
   theme_classic() +
   # place legend at top and grey axis lines
   theme(legend.position = &quot;top&quot;)</code></pre>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-54-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/">part two</a> of this post on the tidyverse, you will see some ggplot2 code (under the guise of learning about factors) that makes this plot:</p>
-<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-58-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>If you’d like to learn more about ggplot2, such as themes, scales and advanced geoms, check out my more detailed <a href="http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/">ggplot2 blog post</a>.</p>
 <p>If the tidyverse is new to you, I suggest that you stop here for now. Focus on incorporating piping, dplyr, and ggplot2 into every analysis that you do for the next few months (even if it would initially be quicker to use base R versions). When you feel comfortable with your new skills, move onto <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/">part two</a> of this blog post start to incorporate the remaining tidyverse packages (below) into your analytic workflow. Trying to learn everything at once is a sure-fire way to become discouraged. First get comfortable with the main ideas, then learn some more.</p>
 </div>
