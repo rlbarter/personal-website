@@ -1,0 +1,506 @@
+---
+title: "Transitioning into the tidyverse (part 2)"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, tidyverse, tidyr, purrr, readr, tibbles, lubridate, forcats, stringr]
+date: 2019-08-05T23:13:14-05:00
+type: "post" 
+description: "." 
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#data-shaping-tidyr">Data shaping: tidyr</a><ul>
+<li><a href="#gathering-and-spreading">Gathering and spreading</a></li>
+<li><a href="#combining-and-separating-variables">Combining and separating variables</a></li>
+</ul></li>
+<li><a href="#replacing-loops-purrr">Replacing loops: purrr</a></li>
+<li><a href="#loading-data-readr">Loading data: readr</a></li>
+<li><a href="#storing-data-tibbles">Storing data: tibbles</a></li>
+<li><a href="#dates-factors-and-strings-lubridate-forcats-and-stringr">Dates, factors and strings: lubridate, forcats and stringr</a><ul>
+<li><a href="#handling-dates-and-times-lubridate">Handling dates and times: lubridate</a></li>
+<li><a href="#handling-factors-forcats">Handling factors: forcats</a></li>
+<li><a href="#handling-strings-stringr">Handling strings: stringr</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p><img src="/img/tidyverse/tidyverse_all.png" style="display: block; margin: auto;" /></p>
+<p>If you’re new to the tidyverse, I recommend that you first read <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">part one</a> of this two-part series on transitioning into the tidyverse. Part 1 focuses on what I feel are the most important aspects and packages of the tidyverse: tidy thinking, piping, dplyr and ggplot2.</p>
+<p>This second part of the two-part series focuses on the remaining (less essential, but still immensely useful) packages that make up the tidyverse: tidyr, purrr, readr, tibbles, as well as some additional type-specific packages (lubridate, forcats and stringr). Additional resources include the set of tidyverse <a href="https://www.rstudio.com/resources/cheatsheets/">cheatsheets</a>, as well as the <a href="https://r4ds.had.co.nz/">R for Data Science book</a>.</p>
+<p>Start by loading the tidyverse package into your environment.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Then load the gapminder data.</p>
+<pre class="r"><code># to download the data directly:
+gapminder_orig &lt;- read.csv(&quot;https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv&quot;)
+# define a copy of the original dataset that we will clean and play with 
+gapminder &lt;- gapminder_orig</code></pre>
+<div id="data-shaping-tidyr" class="section level1">
+<h1>Data shaping: tidyr</h1>
+<p><img src="/img/tidyverse/tidyr.jpg" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>Tidyr aims to help you reshape your data, and is very useful if you receive data in a format that isn’t already “tidy”. I also find myself using tidyr functions to help me calculate specific types of summaries and plots.</p>
+<p>For instance, tidyr helps you convert your data between (a) long-form data where each variable is in a single column</p>
+<pre><code>##          country year lifeExp
+## 1      Australia 1992  77.560
+## 2      Australia 1997  78.830
+## 3      Australia 2002  80.370
+## 4      Australia 2007  81.235
+## 5         Canada 1992  77.950
+## 6         Canada 1997  78.610
+## 7         Canada 2002  79.770
+## 8         Canada 2007  80.653
+## 9  United States 1992  76.090
+## 10 United States 1997  76.810
+## 11 United States 2002  77.310
+## 12 United States 2007  78.242</code></pre>
+<p>and (b) wide-form data where a single variable is separated into multiple columns based on some grouping (in this case, the life expectancy variable is separated into three columns, one for each country):</p>
+<pre><code>##   year Australia_lifeExp Canada_lifeExp United States_lifeExp
+## 1 1992            77.560         77.950                76.090
+## 2 1997            78.830         78.610                76.810
+## 3 2002            80.370         79.770                77.310
+## 4 2007            81.235         80.653                78.242</code></pre>
+<div id="gathering-and-spreading" class="section level2">
+<h2>Gathering and spreading</h2>
+<p>The main tidyr functions are <code>spread()</code> and <code>gather()</code>. If you are familiar with the older reshape2 R package, you can think of tidyr as the tidyverse version, where <code>spread()</code> is the equivalent of <code>cast</code>, and <code>gather()</code> is the equivalent of <code>melt()</code>. If not… never mind!</p>
+<p>Think of <code>spread()</code> as a function that will spread a single variable’s “values” across multiple columns based on a “key”, or grouping variable. Similarly, think of <code>gather()</code> as a function that will gather a variable whose “values” are spread across multiple columns (where the “key” is the grouping variable that distinguishes the columns) into a single column.</p>
+<p>The main things you need to figure out when using <code>spread()</code> and <code>gather()</code> are what are the “key” and what are the “value” columns of your data frame. If you are spreading your data (to make it wider), then your key and value variables are existing variables in the data. If you are gathering your data (making it longer), then you will need to define key and value variables that will become variable names in your long-form data frame.</p>
+<p>Below I’ll show how this works with a small subset of the gapminder dataset, corresponding to the life expectancy for US, Australia, and Canada for each year in the data after 1990.</p>
+<p>Suppose that you started with the long-form data.</p>
+<pre class="r"><code>gapminder_sample_long &lt;- gapminder %&gt;%
+  filter(country %in% c(&quot;Australia&quot;, &quot;United States&quot;, &quot;Canada&quot;), year &gt; 1990) %&gt;%
+  select(country, year, lifeExp) 
+gapminder_sample_long</code></pre>
+<pre><code>##          country year lifeExp
+## 1      Australia 1992  77.560
+## 2      Australia 1997  78.830
+## 3      Australia 2002  80.370
+## 4      Australia 2007  81.235
+## 5         Canada 1992  77.950
+## 6         Canada 1997  78.610
+## 7         Canada 2002  79.770
+## 8         Canada 2007  80.653
+## 9  United States 1992  76.090
+## 10 United States 1997  76.810
+## 11 United States 2002  77.310
+## 12 United States 2007  78.242</code></pre>
+<p>A wide-form version might have the life expectancy variable <em>spread</em> into three variables, one for each country (it would also be perfectly feasible to separate by year). So in this case, the <strong>value</strong> that you want to spread is the <code>lifeExp</code> variable, and the <strong>key</strong> that you want to spread/group by is the <code>country</code> variable.</p>
+<pre class="r"><code>gapminder_sample_wide &lt;- gapminder_sample_long %&gt;% 
+  spread(key = country, value = lifeExp)
+gapminder_sample_wide</code></pre>
+<pre><code>##   year Australia Canada United States
+## 1 1992    77.560 77.950        76.090
+## 2 1997    78.830 78.610        76.810
+## 3 2002    80.370 79.770        77.310
+## 4 2007    81.235 80.653        78.242</code></pre>
+<p>So the columns with the country names, <code>Australia</code>, <code>Canada</code>, and <code>United States</code> contain the <code>lifeExp</code> values corresponding to those countries for each year. Note that the <code>year</code> variable has been retained in the wide form. If you had tried to do this without the <code>year</code> variable in the data frame, you would run into an error that said <code>&quot;Error: Each row of output must be identified by a unique combination of keys.&quot;</code> Try running the following code.</p>
+<pre class="r"><code>gapminder_sample_long %&gt;%
+  select(-year) %&gt;%
+  spread(key = country, value = lifeExp)</code></pre>
+<p>This is because when the year column is missing, there is no variable that tells purrr which values should go in the same rows together. This error message is a common source of frustration in tidyr, and Hadley has been working on replacements for <code>gather()</code> and <code>spread()</code> called <code>pivot_wider()</code> and <code>pivot_longer()</code>: <a href="https://tidyr.tidyverse.org/dev/articles/pivot.html" class="uri">https://tidyr.tidyverse.org/dev/articles/pivot.html</a>. They haven’t been incorporated into the CRAN versions of tidyr and the tidyverse yet though, but they probably will be soon. If you understand the principles of <code>gather()</code> and <code>spread()</code> then when the new pivot functions are introduced, it will be easy to learn how to use them.</p>
+<p>If you wanted to go from the wide form to the long-form, you need to <em>gather</em> together the life expectancy values. This time, the <code>country</code> <strong>key</strong> and <code>lifeExp</code> <strong>value</strong> variable names do not currently exist in the data frame. The <code>key</code> and <code>value</code> arguments that you provide in the <code>gather()</code> function are what will be used as the names of the variables for the long-form version you’re about to create. Just so you can see that these variables did not need to exist in the original data, you will call the key <code>country_var</code> and the value <code>lifeExp_var</code> (previously unused names).</p>
+<pre class="r"><code>gapminder_sample_wide</code></pre>
+<pre><code>##   year Australia Canada United States
+## 1 1992    77.560 77.950        76.090
+## 2 1997    78.830 78.610        76.810
+## 3 2002    80.370 79.770        77.310
+## 4 2007    81.235 80.653        78.242</code></pre>
+<pre class="r"><code>gapminder_sample_wide %&gt;% 
+  gather(key = country_var, value = lifeExp_var)</code></pre>
+<pre><code>##      country_var lifeExp_var
+## 1           year    1992.000
+## 2           year    1997.000
+## 3           year    2002.000
+## 4           year    2007.000
+## 5      Australia      77.560
+## 6      Australia      78.830
+## 7      Australia      80.370
+## 8      Australia      81.235
+## 9         Canada      77.950
+## 10        Canada      78.610
+## 11        Canada      79.770
+## 12        Canada      80.653
+## 13 United States      76.090
+## 14 United States      76.810
+## 15 United States      77.310
+## 16 United States      78.242</code></pre>
+<p>Oh no…. something went wrong! The <code>year</code> variable has been included as a key (country). Since there is no distinction between the three country columns (<code>Australia</code>, <code>Canada</code>, and <code>United States</code>) and the <code>year</code> column, the <code>year</code> column was included in the gathering process. To exclude a column from the gathering process, you can explicitly remove it using e.g. <code>-year</code> as an argument to the gather function.</p>
+<pre class="r"><code>gapminder_sample_wide %&gt;% 
+  gather(key = country_var, value = lifeExp_var, -year)</code></pre>
+<pre><code>##    year   country_var lifeExp_var
+## 1  1992     Australia      77.560
+## 2  1997     Australia      78.830
+## 3  2002     Australia      80.370
+## 4  2007     Australia      81.235
+## 5  1992        Canada      77.950
+## 6  1997        Canada      78.610
+## 7  2002        Canada      79.770
+## 8  2007        Canada      80.653
+## 9  1992 United States      76.090
+## 10 1997 United States      76.810
+## 11 2002 United States      77.310
+## 12 2007 United States      78.242</code></pre>
+</div>
+<div id="combining-and-separating-variables" class="section level2">
+<h2>Combining and separating variables</h2>
+<p>The <code>unite()</code> function combines columns into a single column. For instance, you can combine the country and year variables into a single variable, <code>countryyear</code>.</p>
+<pre class="r"><code>gapminder_sample_united &lt;- gapminder_sample_long %&gt;%
+  unite(&quot;countryyear&quot;, country, year, sep = &quot;_&quot;)
+gapminder_sample_united</code></pre>
+<pre><code>##           countryyear lifeExp
+## 1      Australia_1992  77.560
+## 2      Australia_1997  78.830
+## 3      Australia_2002  80.370
+## 4      Australia_2007  81.235
+## 5         Canada_1992  77.950
+## 6         Canada_1997  78.610
+## 7         Canada_2002  79.770
+## 8         Canada_2007  80.653
+## 9  United States_1992  76.090
+## 10 United States_1997  76.810
+## 11 United States_2002  77.310
+## 12 United States_2007  78.242</code></pre>
+<p>Conversely, you can separate single columns into multiple columns. Below, I undo the <code>unite()</code> that I performed above using <code>separate()</code>.</p>
+<pre class="r"><code>gapminder_sample_united %&gt;%
+  separate(countryyear, c(&quot;country&quot;, &quot;year&quot;), sep = &quot;_&quot;)</code></pre>
+<pre><code>##          country year lifeExp
+## 1      Australia 1992  77.560
+## 2      Australia 1997  78.830
+## 3      Australia 2002  80.370
+## 4      Australia 2007  81.235
+## 5         Canada 1992  77.950
+## 6         Canada 1997  78.610
+## 7         Canada 2002  79.770
+## 8         Canada 2007  80.653
+## 9  United States 1992  76.090
+## 10 United States 1997  76.810
+## 11 United States 2002  77.310
+## 12 United States 2007  78.242</code></pre>
+<p>Tidyr also has some nice functions for dealing with missing values including</p>
+<ul>
+<li><p><code>drop_na()</code> that will remove every row that has a missing value (<code>NA</code>) in it.</p></li>
+<li><p><code>replace_na()</code> that will replace every missing value (<code>NA</code>) with whatever value you specify.</p></li>
+</ul>
+</div>
+</div>
+<div id="replacing-loops-purrr" class="section level1">
+<h1>Replacing loops: purrr</h1>
+<p><img src="/img/tidyverse/purrr.jpg" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>Iteration in the tidyverse is handled using <code>purrr</code>; a feline-friendly package for applying “map” functions (although it does a few other neat things too). If you are experienced in base R, then you’re probably familiar with the <code>apply()</code> functions that can be used in place of loops for iteratively applying a function. The most common apply functions are</p>
+<p><code>apply(matrix, margin, fun)</code> applies a function, <code>fun</code>, across each of the rows (if you set <code>margin = 1</code>) or each of the columns (if you set <code>margin = 2</code>) of a <code>matrix</code> (or array) and returns a vector.</p>
+<p><code>sapply(object, fun)</code> applies a function, <code>fun</code>, to each entry of an <code>object</code> (which could be a vector, a data frame or a list), and usually returns a vector, but sometimes it returns a matrix, and often it is difficult to guess what type of object it will return before you run your code.</p>
+<p><code>lapply(list, fun)</code> applies a function, <code>fun</code>, to each entry of a <code>list</code>, and returns a list. This one at least usually makes sense relative to the other apply functions.</p>
+<p>While there is nothing fundamentally wrong with the base R apply functions, the syntax is somewhat inconsistent across the different apply functions, and the expected type of the object they return is often ambiguous (at least it is for <code>sapply</code>…). Each of <code>purrr</code>’s map functions can be applied to vectors, lists and data frames.</p>
+<p>It is useful to remember that a data frame is a special type of a list where each columns of the data frame corresponds to an entry of the list. Each entry of the data frame-list is a vector of the same length (although the vectors do not need to be of the same type).</p>
+<p>One of the primary features of <code>purrr</code>’s map functions is that you need to specify the form of your output as a function suffix separated by an underscore. The first element is always the data object over which you want to iterate, and the second argument is always the function that you want to iteratively apply. For example:</p>
+<ul>
+<li><p><code>map(object, fun)</code> is the primary mapping function and returns a list</p></li>
+<li><p><code>map_df(object, fun)</code> returns a data frame</p></li>
+<li><p><code>map_dbl(object, fun)</code> returns a numeric (double) vector</p></li>
+<li><p><code>map_chr(object, fun)</code> returns a character vector</p></li>
+<li><p><code>map_lgl(object, fun)</code> returns a logical vector</p></li>
+</ul>
+<p>The <strong>input</strong> to any <code>map</code> function is always either</p>
+<ul>
+<li><p>a <strong>vector</strong> (of any type), in which case the iteration is done over the entries of the vector</p></li>
+<li><p>a <strong>list</strong>, in which case the iteration is performed over the elements of the list</p></li>
+<li><p>a <strong>data frame</strong>, in which case the iteration is performed over the columns of the data frame (which, since a data frame is a special kind of list, is technically the same as the previous point)</p></li>
+</ul>
+<p>The <strong>output</strong> of each map function is specified by the term that follows the underscore in the function name.</p>
+<p>Fundamentally, maps are for iteration. In the example below I will iterate through the vector <code>c(1, 4, 7)</code> by adding 10 to each entry. The following code is how you would do this using the base R apply functions</p>
+<pre class="r"><code>lapply(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>sapply(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<p>For the <code>purrr</code> equivalents, if you want your output to be a list, you would use <code>map()</code>, if you want it to be a numeric vector, then you would use <code>map_dbl()</code>, if you want it to be a character, then it is <code>map_chr()</code>.</p>
+<pre class="r"><code>library(purrr)
+map(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>map_dbl(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<pre class="r"><code>map_chr(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [1] &quot;11.000000&quot; &quot;14.000000&quot; &quot;17.000000&quot;</code></pre>
+<p>If you want to return a data frame, then you would use <code>map_df</code> (but you need to make sure that what you’re returning in each iteration is a data frame which has the same column names in each iteration).</p>
+<pre class="r"><code>map_df(c(1, 4, 7), function(number) {
+  return(data.frame(old_number = number, 
+                    new_number = number + 10))
+})</code></pre>
+<pre><code>##   old_number new_number
+## 1          1         11
+## 2          4         14
+## 3          7         17</code></pre>
+<p><code>map2</code> and <code>pmap</code> are versions of map functions that work over multiple data frames/lists/vectors at once. There are also fancy things that you can do with purrr that include iterating over entire lists of data as entries to columns of a tibble, but I won’t talk about those here. My next blog post will be on purrr so keep a look out if you want to learn more. For a more comprehensive look at purrr, I recommend <a href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s tutorial</a>.</p>
+</div>
+<div id="loading-data-readr" class="section level1">
+<h1>Loading data: readr</h1>
+<p><img src="/img/tidyverse/readr.png" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>At face-value, readr is probably the least exciting tidyverse package. At first glance, it mostly appears to offer tidyverse equivalents to the classic base R data loading functions such as <code>read.csv()</code>. Calling a readr data loading function is usually the same as the base R versions, <em>but</em> they use an underscore <code>_</code> separator rather than a period separator <code>.</code>, as in <code>read_csv()</code>.</p>
+<p>The main advantages of the readr versions is that the data is read in directly as a <strong>tibble</strong>, and the readr loading functions do a much better job at deciding what <em>type</em> each variable should be (and it makes it easier to specify what types the columns should be at the time of loading if you have strong opinions).</p>
+<p>However, a closer look reveals that <code>readr</code> has some hidden talents that are sure to come in handy! For instance, readr has a series of <code>parse_</code> functions that convert abnormally represented data into normally represented data. For instance, <code>parse_number()</code> will extract the numeric component of strings with numbers in them. So if your collaborators give you a file with prices that have preceding “$”s or other characters in them, <code>parse_number()</code> will remove them for you without you having to do anything involving regular expressions.</p>
+<pre class="r"><code>parse_number(c(&quot;$1,234.5&quot;, &quot;$12.45&quot;, &quot;99%&quot;))</code></pre>
+<pre><code>## [1] 1234.50   12.45   99.00</code></pre>
+<p>Tidyr can also be used to convert dates and times coded as strings to actual date-time formats.</p>
+<pre class="r"><code>parse_datetime(&quot;2010-10-01 21:45&quot;)</code></pre>
+<pre><code>## [1] &quot;2010-10-01 21:45:00 UTC&quot;</code></pre>
+<p>But to be honest, I prefer to use the <em>lubridate</em> package for doing things with dates (see below).</p>
+<p>Okay, so maybe tidyr isn’t the most exciting package, but that <code>parse_number()</code> thing is pretty neat!</p>
+</div>
+<div id="storing-data-tibbles" class="section level1">
+<h1>Storing data: tibbles</h1>
+<p><img src="/img/tidyverse/tibble.png" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>Tibbles are the tidyverse version of a data frame. You’ve probably used tibbles before without even realizing. They look and behave a LOT like a data frame. Often when you input a data frame to a tidyverse function, it comes out the other end as a tibble. The differences are minor and you’re unlikely to notice them if you’re just starting out, so I wouldn’t worry about whether your data is stored as a data frame or a tibble.</p>
+<p>The main differences that you might notice is in how they are printed to the console: tibbles are automatically truncated to 10 rows when printed into the console, and if you have too many variables, many of the variables are hidden from view. I secretly sometimes view my tibbles in the console using <code>as.data.frame(data)</code> so that it doesn’t truncate. Probably a better thing to do would be to <code>View(data)</code>, but that opens a whole new window which I sometimes find kind of annoying.</p>
+<p>Tibbles only become important much later down the tidyverse track when you want to use list columns to do fancy stuff with purrr.</p>
+</div>
+<div id="dates-factors-and-strings-lubridate-forcats-and-stringr" class="section level1">
+<h1>Dates, factors and strings: lubridate, forcats and stringr</h1>
+<p>While not technically a part of the tidyverse, there are also very useful packages for manipulating type-specific variables: lubridate for dates/times, forcats for factors and stringr for strings.</p>
+<div id="handling-dates-and-times-lubridate" class="section level2">
+<h2>Handling dates and times: lubridate</h2>
+<p><img src="/img/tidyverse/lubridate.png" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>Lubridate makes it really straightforward to deal with dates. One might say… it <em>lubricates</em> them… one might also not say that, because it’s a bit weird.</p>
+<p>Lubridate offers a simple way of converting dates/times stored as strings to dates/times stored as dates/times, and it makes it easy to do math with dates.</p>
+<p>The primary set of functions are date-time-reading functions that convert strings to dates. To decide which function to use, you will need to figure out what format your dates are in (by… looking at them…). For instance, if your date is coded as <code>&quot;August 2nd 2019&quot;</code> or <code>&quot;08-05-19&quot;</code> or <code>&quot;08/02/19&quot;</code>, then you would use the <code>mdy()</code> function because it is coded as “month-day-year”:</p>
+<pre class="r"><code>library(lubridate)
+mdy(&quot;August 2nd 2019&quot;)</code></pre>
+<pre><code>## [1] &quot;2019-08-02&quot;</code></pre>
+<pre class="r"><code>mdy(&quot;8-2-2019&quot;)</code></pre>
+<pre><code>## [1] &quot;2019-08-02&quot;</code></pre>
+<pre class="r"><code>mdy(&quot;8/2/19&quot;)</code></pre>
+<pre><code>## [1] &quot;2019-08-02&quot;</code></pre>
+<p>If your dates were coded as “year-month-day” then you would use the <code>ymd()</code> function, and so on.</p>
+<p>Strings that contain times can be parsed using <code>hms()</code> for “hour-minute-second”.</p>
+<pre class="r"><code>hms(&quot;8:45:12&quot;)</code></pre>
+<pre><code>## [1] &quot;8H 45M 12S&quot;</code></pre>
+<p>And date-times can be parsed using <code>ymd_hms()</code>, <code>ymd_hm()</code>, <code>ymd_h()</code>, as well as for the other date versions (<code>mdy_hms()</code>, <code>dmy_hms()</code>, etc…).</p>
+<pre class="r"><code>mdy_hms(&quot;March 13th 2019 at 9:02:00&quot;)</code></pre>
+<pre><code>## [1] &quot;2019-03-13 09:02:00 UTC&quot;</code></pre>
+<pre class="r"><code>mdy_hm(&quot;03-13-19, 9:02&quot;)</code></pre>
+<pre><code>## [1] &quot;2019-03-13 09:02:00 UTC&quot;</code></pre>
+<p>You can add fixed periods of time to dates easily using the <code>years()</code>, <code>months()</code>, <code>days()</code>, <code>hours()</code>, etc… functions. For instance:</p>
+<pre class="r"><code>mdy(&quot;August 2nd 2019&quot;) + days(42)</code></pre>
+<pre><code>## [1] &quot;2019-09-13&quot;</code></pre>
+<p>Once your dates are in an actual date format, you can do intuitive mathematical calculations with date-times:</p>
+<pre class="r"><code>mdy_hms(&quot;August 2nd 2019, 1:21:30 pm&quot;) - mdy_hms(&quot;August 1st 2019, 11:23:33 am&quot;)</code></pre>
+<pre><code>## Time difference of 1.08191 days</code></pre>
+<p>Plus ggplot2 handles lubridate-dates really well.</p>
+</div>
+<div id="handling-factors-forcats" class="section level2">
+<h2>Handling factors: forcats</h2>
+<p><img src="/img/tidyverse/forcats.png" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>Factors are somehow simultaneously very useful and the worst thing ever. Fortunately, since I discovered the <code>forcats</code> package, my factors have been on their best behaviour.</p>
+<p>The forcats package has a few really useful functions. The ones I use most often are</p>
+<ul>
+<li><p><code>fct_inorder()</code> for reordering the levels of a factor so that the levels are in the order that they appear in the factor vector.</p></li>
+<li><p><code>fct_infreq()</code> for reordering the levels of a factor so that the levels are in order of most to least frequent.</p></li>
+<li><p><code>fct_rev()</code> for reversing the order of the levels of a factor.</p></li>
+<li><p><code>fct_relevel()</code> for manually reordering the levels of the factor.</p></li>
+<li><p><code>fct_reorder()</code> for reordering the levels based on their relationship to another variable.</p></li>
+</ul>
+<p>There are other functions too, but I rarely use them. Check out the forcats <a href="file:///Users/Rebecca/Downloads/factors.pdf">cheatsheet</a>!</p>
+<p>An example of how the forcats package makes my life easier is when I want to reorder the factor levels. Factor levels are usually alphabetical by default, and I often want the factor levels to be in a specific order.</p>
+<p>As an exercise both in ggplot2 and dplyr, I want to make a plot that shows the difference between life expectancy between 2007 and 1952 and arrange the countries in order of greatest difference in life expectancy.</p>
+<pre class="r"><code>gapminder_life_exp_diff &lt;- gapminder %&gt;%
+  # filter to the starting and ending years only
+  filter(year == 1952 | year == 2007) %&gt;%
+  # ensure that the data are arranged so that 1952 is first and 2007 is second 
+  # within each year
+  arrange(country, year) %&gt;%
+  # for country, add a variable corresponding to the difference between life 
+  # expectency in 2007 and 1952
+  group_by(country) %&gt;%
+  mutate(lifeExp_diff = lifeExp[2] - lifeExp[1],
+         # also calculate the largest population for the country (based on the two years)
+         max_pop = max(pop)) %&gt;%
+  ungroup() %&gt;%
+  # arrange in order of the biggest difference in life expectency
+  arrange(lifeExp_diff) %&gt;%
+  # restrict to countries with a population of at least 30,000 so we can fit 
+  # the plot in a reasonable space
+  filter(max_pop &gt; 30000000) %&gt;%
+  # redefine the country varaible so that it does not have the additional 
+  # country levels corresponding to countries that were removed in the previous
+  # step
+  mutate(country = droplevels(country)) %&gt;%
+  select(country, year, continent, lifeExp, lifeExp_diff)
+gapminder_life_exp_diff  </code></pre>
+<pre><code>## # A tibble: 72 x 5
+##    country          year continent lifeExp lifeExp_diff
+##    &lt;fct&gt;           &lt;int&gt; &lt;fct&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+##  1 South Africa     1952 Africa       45.0         4.33
+##  2 South Africa     2007 Africa       49.3         4.33
+##  3 Congo Dem. Rep.  1952 Africa       39.1         7.32
+##  4 Congo Dem. Rep.  2007 Africa       46.5         7.32
+##  5 United States    1952 Americas     68.4         9.80
+##  6 United States    2007 Americas     78.2         9.80
+##  7 United Kingdom   1952 Europe       69.2        10.2 
+##  8 United Kingdom   2007 Europe       79.4        10.2 
+##  9 Nigeria          1952 Africa       36.3        10.5 
+## 10 Nigeria          2007 Africa       46.9        10.5 
+## # … with 62 more rows</code></pre>
+<p>To understand what the intermediate dplyr steps are doing in the code below, I suggest printing each step out to the console (without defining a new data frame) - i.e. first print <code>gapminder %&gt;% filter(year == 1952 | year == 2007)</code>, then print <code>gapminder %&gt;% filter(year == 1952 | year == 2007) %&gt;% arrange(country, year)</code>, etc.</p>
+<p>The next task is to make a dot plot that shows the life expectancy in 1952 and 2007 for each country. Since the countries in our data frame is arranged in order of smallest to biggest difference in life expectancy, one would expect that the plot will be too. However, the countries in the plot still appear in alphabetical order! The problem is that ggplot2 plots factors in order of their levels, but the <code>arrange()</code> dplyr function rearranges the order of the rows in the data frame but does not change the order of the factor levels.</p>
+<pre class="r"><code>gapminder_life_exp_diff %&gt;%
+  ggplot() +
+  geom_point(aes(x = lifeExp, y = country, col = as.factor(year)))</code></pre>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_pt2_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>If I tried to fix this using base R, I would undoubtedly end up messing up which country is which. Fortunately this is really, really easy to fix using forcats! The <code>fct_inorder()</code> function will automatically reorder the levels of a factor in the order in which they appear in the vector. So all I need to do is add one line of pre-processing code before I make my plot: <code>mutate(country = fct_inorder(country))</code>.</p>
+<pre class="r"><code>gapminder_life_exp_diff %&gt;%
+  mutate(country = fct_inorder(country)) %&gt;%
+  ggplot() +
+  geom_point(aes(x = lifeExp, y = country, col = as.factor(year)))</code></pre>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_pt2_files/figure-html/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>I’m a bit pedantic about data viz, so I can’t leave this plot looking like this, so I’m just going to place some ggplot2 code here for making this plot waaaaay more badass. Try to read through the code and understand what its doing. This isn’t a lesson in forcats, it’s a lesson in EDA!</p>
+<pre class="r"><code>gapminder_life_exp_diff %&gt;%
+  mutate(country = fct_inorder(country)) %&gt;%
+  # for each country define a varaible for min and max life expectancy
+  group_by(country) %&gt;%
+  mutate(max_lifeExp = max(lifeExp),
+         min_lifeExp = min(lifeExp)) %&gt;% 
+  ungroup() %&gt;%
+  ggplot() +
+  # plot a horizontal line from min to max life expectency for each country
+  geom_segment(aes(x = min_lifeExp, xend = max_lifeExp, 
+                   y = country, yend = country,
+                   col = continent), alpha = 0.5, size = 7) +
+  # add a point for each life expectancy data point
+  geom_point(aes(x = lifeExp, y = country, col = continent), size = 8) +
+  # add text of the country name as well as the max and min life expectency 
+  geom_text(aes(x = min_lifeExp + 0.7, y = country, 
+                label = paste(country, round(min_lifeExp))), 
+            col = &quot;grey50&quot;, hjust = &quot;right&quot;) +
+  geom_text(aes(x = max_lifeExp - 0.7, y = country, 
+                label = round(max_lifeExp)), 
+            col = &quot;grey50&quot;, hjust = &quot;left&quot;) +
+  # ensure that the left-most text is not cut off 
+  scale_x_continuous(limits = c(20, 85)) +
+  # choose a different colour palette
+  scale_colour_brewer(palette = &quot;Pastel2&quot;) +
+  # set the title
+  labs(title = &quot;Change in life expectancy&quot;,
+       subtitle = &quot;Between 1952 and 2007&quot;,
+       x = &quot;Life expectancy (in 1952 and 2007)&quot;,
+       y = NULL, 
+       col = &quot;Continent&quot;) +
+  # remove the grey background
+  theme_classic() +
+  # remove the axes and move the legend to the top
+  theme(legend.position = &quot;top&quot;, 
+        axis.line = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_blank())</code></pre>
+<p><img src="/blog/2019-08-05_base_r_to_tidyverse_pt2_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="handling-strings-stringr" class="section level2">
+<h2>Handling strings: stringr</h2>
+<p><img src="/img/tidyverse/stringr.jpg" width="180px" height="200px" style="display: block; margin: auto;" /></p>
+<p>R used to be terrible at handling strings. Stringr has made string-handling a LOT easier. The functions all start with <code>str_</code> and end with what you want to do to the string.</p>
+<p>For instance, to return a logical that specifies whether a specific pattern exists in the string (the equivalent of <code>grepl()</code> in base R), you can use the <code>str_detect()</code> function</p>
+<pre class="r"><code>str_detect(&quot;I like bananas&quot;, &quot;banana&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>My friend Sara Stoudt <a href="https://twitter.com/sastoudt">@sastoudt</a> wrote a wrote a very useful post for the tidyverse website comparing stringr with its Base R equivalents (<a href="https://stringr.tidyverse.org/articles/from-base.html" class="uri">https://stringr.tidyverse.org/articles/from-base.html</a>). She provides the following useful table (hers is a bit longer - I’m just showing the parts I find most useful):</p>
+<table>
+<colgroup>
+<col width="38%" />
+<col width="29%" />
+<col width="32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Action</th>
+<th>Base R</th>
+<th>Tidyverse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Identify the location of a pattern</td>
+<td><code>gregexpr(pattern, x)</code></td>
+<td><code>str_locate_all(x, pattern)</code></td>
+</tr>
+<tr class="even">
+<td>Keep strings matching a pattern</td>
+<td><code>grep(pattern, x, value = TRUE)</code></td>
+<td><code>str_subset(x, pattern)</code></td>
+</tr>
+<tr class="odd">
+<td>Identify position matching a pattern</td>
+<td><code>grep(pattern, x)</code></td>
+<td><code>str_which(x, pattern)</code></td>
+</tr>
+<tr class="even">
+<td>Detect presence or absence of a pattern</td>
+<td><code>grepl(pattern, x)</code></td>
+<td><code>str_detect(x, pattern)</code></td>
+</tr>
+<tr class="odd">
+<td>Replace a pattern</td>
+<td><code>gsub(pattern, replacement, x)</code></td>
+<td><code>str_replace_all(x, pattern, replacement)</code></td>
+</tr>
+<tr class="even">
+<td>Calculate the number of characters in a string</td>
+<td><code>nchar(x)</code></td>
+<td><code>str_length(x)</code></td>
+</tr>
+<tr class="odd">
+<td>Split a string into pieces</td>
+<td><code>strsplit(x, pattern)</code></td>
+<td><code>str_split(x, pattern)</code></td>
+</tr>
+<tr class="even">
+<td>Extract a subset of a string</td>
+<td><code>substr(x, start, end)</code></td>
+<td><code>str_sub(x, start, end)</code></td>
+</tr>
+<tr class="odd">
+<td>Convert a string to lowercase</td>
+<td><code>tolower(x)</code></td>
+<td><code>str_to_lower(x)</code></td>
+</tr>
+<tr class="even">
+<td>Convert a string to “Title Case”</td>
+<td><code>tools::toTitleCase(x)</code></td>
+<td><code>str_to_title(x)</code></td>
+</tr>
+<tr class="odd">
+<td>Convert a string to uppercase</td>
+<td><code>toupper(x)</code></td>
+<td><code>str_to_upper(x)</code></td>
+</tr>
+<tr class="even">
+<td>Trim white space from a string</td>
+<td><code>trimws(x)</code></td>
+<td><code>str_trim(x)</code></td>
+</tr>
+</tbody>
+</table>
+<p>If you’d like to see a little more of stringr, check out Sara’s post!</p>
+</div>
+</div>

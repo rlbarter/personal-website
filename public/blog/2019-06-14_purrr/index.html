@@ -1,0 +1,2958 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Learn to purrr</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content=".">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learn to purrr"/>
+<meta name="twitter:description" content="."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="Learn to purrr" />
+<meta property="og:description" content="." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2019-06-14_purrr/" />
+
+
+
+<meta property="article:published_time" content="2019-06-06T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2019-06-06T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Learn to purrr">
+<meta itemprop="description" content=".">
+
+
+<meta itemprop="datePublished" content="2019-06-06T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2019-06-06T23:13:14-05:00" />
+<meta itemprop="wordCount" content="7508">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="/css/github-gist.css" rel="stylesheet" id="theme-stylesheet">
+          <script src="/js/highlight.pack.js"></script>
+          <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/useful_resources">
+                        Useful resources
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/useful_resources">
+                            <h3>
+                                
+                                Useful resources
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2019-07-25_base_r_to_tidyverse_pt2/"><p>A guide to the tidyverse (part 2)</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2019-07-25_base_r_to_tidyverse/"><p>A guide to the tidyverse (part 1)</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-06-14_purrr%2f&text=Learn%20to%20purrr&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-06-14_purrr%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-06-14_purrr%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-06-14_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-06-14_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-06-14_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-06-14_purrr%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2019-06-14_purrr/">Learn to purrr</a></h1>
+            
+        
+        
+            <p>.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2019-06-06'>
+            June 6, 2019</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-06-14_purrr%2f&text=Learn%20to%20purrr&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-06-14_purrr%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-06-14_purrr%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-06-14_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-06-14_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-06-14_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-06-14_purrr%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <p>When I started writing this blog post I thought of <code>purrr</code> both as a tidy tool for applying map functions and as the package with the cutest name ever.</p>
+<p>To start with, here is a picture of a cat reading a map. Perhaps this cat is relevant to this post. Perhaps it is not.</p>
+<p><img src="/img/purrr/cat_map.jpg" /><!-- --></p>
+<p>If you’re not sure about how cats and maps are related, think briefly on the Harry Potter quote:</p>
+<blockquote>
+<p>“It was on the corner of the street that he noticed the first sign of something peculiar - a cat reading a map”</p>
+</blockquote>
+<p>Feline wizidry musings aside, a “map” function is one that applies the same action/function to every element of an object (e.g. each entry of a list or a vector, or each of the columns of a data frame). If you’re familiar with the base R <code>apply()</code> functions, then it turns out that you are already familiar with map functions, even if you didn’t know it! For people who like to think about different styles of programming, the use of maps to iteratively apply functions is a key element of “functional programming”.</p>
+<p>While map functions are probably the most widely used feature of the purrr package, in this blog you will learn that there is actually a lot more to purrr than map functions. To get a quick snapshot of any tidyverse package, a nice place to start is the <a href="https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf">cheatsheet</a>.</p>
+<p>In this blog post, I’ll give some examples of <code>purrr</code>’s most useful features, starting with the <code>map</code> functions. If after reading this short post, you’re looking for a more in-depth resource for learning purrr, look no further than <a href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s tutorial</a>. Jenny’s page is fantastic. This blog post will be a lot shorter than Jenny’s tutorial, and will get you going with the basics of purrr very quickly.</p>
+<div id="map-functions-beyond-apply" class="section level1">
+<h1>Map functions: beyond apply</h1>
+<p>The <code>apply()</code> functions are set of super useful base-R functions for iteratively performing an action across entries of a vector or list without having to write a for-loop. The most common apply functions are</p>
+<ul>
+<li><p><code>apply(matrix, margin, fun)</code> applies a function, <code>fun</code>, across each of the rows (if you set <code>margin = 1</code>) or each of the columns (if you set <code>margin = 2</code>) of a <code>matrix</code> (or array) and returns a vector.</p></li>
+<li><p><code>sapply(object, fun)</code> applies a function, <code>fun</code>, to each entry of an <code>object</code> (which could be a vector, a data frame or a list), and usually returns a vector, but sometimes it returns a matrix, and often it is difficult to guess what type of object it will return before you run your code.</p></li>
+<li><p><code>lapply(list, fun)</code> applies a function, <code>fun</code>, to each entry of a <code>list</code>, and returns a list. This one at least usually makes sense relative to the other apply functions.</p></li>
+</ul>
+<p>While there is nothing fundamentally wrong with the base R apply functions, the syntax is somewhat inconsistent across the different apply functions, and the expected type of the object they return is often ambiguous (at least it is for <code>sapply</code>…)</p>
+<p>Each of <code>purrr</code>’s map functions can be applied to vectors, lists and data frames. It is useful to remember that a data frame is a special type of a list where each columns of the data frame corresponds to an entry of the list. Each entry of the data frame-list is a vector of the same length (although the vectors do not need to be of the same type).</p>
+<p>One of the primary features of <code>purrr</code>’s map functions is that you need to specify the form of your output as a function suffix separated by an underscore. For example:</p>
+<ul>
+<li><p><code>map(object, fun)</code> is the primary mapping function and returns a list</p></li>
+<li><p><code>map_df(object, fun)</code> returns a data frame</p></li>
+<li><p><code>map_dbl(object, fun)</code> returns a numeric (double) vector</p></li>
+<li><p><code>map_chr(object, fun)</code> returns a character vector</p></li>
+<li><p><code>map_lgl(object, fun)</code> returns a logical vector</p></li>
+</ul>
+<p>Consistent with the way of the tidyverse, the first argument of each mapping function is always the data object that you want to map over and the second argument is the function that you want to apply to each element of the data object. Since the first argument is always the data, this means that map functions play nicely with pipes (<code>%&gt;%</code>).</p>
+<p>If you’ve never seen pipes before, they’re really useful (originally from the <code>magrittr</code> package, but also ported with the <code>dplyr</code> package). Piping allows you to string together many functions by piping an object (which itself might be the output of a function) into the first argument of the next function.</p>
+<div id="simplest-usage-repeated-looping-with-map" class="section level2">
+<h2>Simplest usage: repeated looping with map</h2>
+<p>Fundamentally, maps are for iteration. Long ago, the wisdom was that the best way to iterate in R is not to use a for-loop (as in the example below)</p>
+<pre class="r"><code># initialize an empty list
+number_list &lt;- list()
+# initialize an index
+i &lt;- 1
+# start a for-loop
+for (number in c(1, 4, 7)) {
+  # enter the current number + 10 into the list 
+  number_list[[i]] &lt;- number + 10
+  # increase the list index by 1
+  i &lt;- i + 1
+}
+number_list</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<p>but to use an apply function, whose first argument is the thing you’re looping over, and the second argument is the function you’re applying at each iteration.
+There are a few apply functions out there:</p>
+<ul>
+<li><p><code>lapply</code> is the apply function that iterates on the entries of a vector or list (or the columns of a data frame) and returns a list</p></li>
+<li><p><code>sapply</code> is the apply function that iterates on the entries of a vector or list (or the columns of a data frame) and returns a vector, a matrix, or something else entirely</p></li>
+</ul>
+<pre class="r"><code>lapply(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>sapply(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<p>The map <code>purrr</code> equivalent of <code>lapply</code> is <code>map</code> and the <code>purrr</code> equivalent of <code>sapply</code> comes in a few forms: if we want our output to be numeric, then it is <code>map_dbl</code>, if we want it to be a character, then it is <code>map_chr</code>.</p>
+<pre class="r"><code>library(purrr)
+map(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>map_dbl(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<pre class="r"><code>map_chr(c(1, 4, 7), function(number) {
+  return(number + 10)
+})</code></pre>
+<pre><code>## [1] &quot;11.000000&quot; &quot;14.000000&quot; &quot;17.000000&quot;</code></pre>
+<p>If you want to return a data frame, then you would use <code>map_df</code></p>
+<pre class="r"><code>map_df(c(1, 4, 7), function(number) {
+  data.frame(old_number = number, 
+             new_number = number + 10)
+})</code></pre>
+<pre><code>##   old_number new_number
+## 1          1         11
+## 2          4         14
+## 3          7         17</code></pre>
+<p>The <strong>input</strong> to any <code>map</code> function is always either</p>
+<ul>
+<li><p>a <strong>vector</strong> (of any type), in which case the iteration is done over the entries of the vector</p></li>
+<li><p>a <strong>list</strong>, in which case the iteration is performed over the elements of the list</p></li>
+<li><p>a <strong>data frame</strong>, in which case the iteration is performed over the columns of the data frame (which, since a data frame is a special kind of list, is technically the same as the previous point)</p></li>
+</ul>
+<p>The <strong>output</strong> of each map function is specified by the term that follows the underscore in the funciton name.</p>
+</div>
+<div id="applying-map-functions-to-co2-emissions" class="section level2">
+<h2>Applying map functions to CO2 emissions</h2>
+<p>Let’s start to play with some more interesting data on CO2 emissions by city. The data can be downloaded from here: <a href="https://doi.pangaea.de/10.1594/PANGAEA.884141" class="uri">https://doi.pangaea.de/10.1594/PANGAEA.884141</a>.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.1.0          ✔ readr   1.1.1     
+## ✔ tibble  2.1.3          ✔ dplyr   0.8.1     
+## ✔ tidyr   0.8.3.9000     ✔ stringr 1.4.0     
+## ✔ ggplot2 3.1.0          ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>co2_orig &lt;- read_tsv(&quot;~/Downloads/SCRIPTS/DATA/D_FINAL.tsv&quot;)</code></pre>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   X1 = col_integer(),
+##   `City name` = col_character(),
+##   `City name (CDP)` = col_character(),
+##   `City name (carbonn)` = col_character(),
+##   `City name (PKU)` = col_character(),
+##   `City name (GEA)` = col_character(),
+##   `City name (UITP)` = col_character(),
+##   `City name (WB)` = col_character(),
+##   `Definition (CDP)` = col_character(),
+##   `Definition (carbonn)` = col_character(),
+##   `Definition (WB)` = col_character(),
+##   `Scope-1 source dataset` = col_character(),
+##   `Scope-1 GHG emissions units` = col_character(),
+##   `Emissions protocol` = col_character(),
+##   `Gases included (CDP)` = col_character(),
+##   `Methodology details (CDP)` = col_character(),
+##   `Increase/Decrease from last year (CDP)` = col_character(),
+##   `Reason for increase/decrease in emissions (CDP)` = col_character(),
+##   `CDP2016 data edited (CDP)` = col_character(),
+##   `Emissions Quality Flag (CDP)` = col_character()
+##   # ... with 29 more columns
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>co2 &lt;- co2_orig %&gt;% select(city = `City name`,
+              country = Country,
+              region = Region,
+              population = `Population (CDP)`,
+              area = `City area (others) [km2]`,
+              year = `Year of emission`,
+              emissions = `Total emissions (CDP) [tCO2-eq]`)
+co2</code></pre>
+<pre><code>## # A tibble: 343 x 7
+##    city        country  region             population  area  year emissions
+##    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Aarhus      Denmark  Europe                 320000 468.   2016      1900
+##  2 Abington    USA      North America           55310  40.2  2010    615224
+##  3 Addis Ababa Ethiopia Africa                3384569 540    2012   3708292
+##  4 Adelaide    Austral… Oceania                 23169  15.6  2013    486541
+##  5 Aerøskøbing Denmark  Europe                   6200  88    2015       225
+##  6 Aguascalie… Mexico   Latin America &amp; C…         NA 385    2010        NA
+##  7 Ahmedabad   India    South Asia                 NA 464.   2008        NA
+##  8 Ajax, ON    Canada   North America          109600  67.1  2008    538836
+##  9 Albany      USA      North America           97856  55.4  2010   1217091
+## 10 Alton, IL   USA      North America           26581  40.1  2013    401079
+## # … with 333 more rows</code></pre>
+<p>For summarizing. You can just provide the function name if it is a simple function with one argument.</p>
+<pre class="r"><code>co2 %&gt;% map_chr(class)</code></pre>
+<pre><code>##        city     country      region  population        area        year 
+## &quot;character&quot; &quot;character&quot; &quot;character&quot;   &quot;numeric&quot;   &quot;numeric&quot;   &quot;numeric&quot; 
+##   emissions 
+##   &quot;numeric&quot;</code></pre>
+<pre class="r"><code>co2 %&gt;% map_dbl(n_distinct)</code></pre>
+<pre><code>##       city    country     region population       area       year 
+##        343         51          9        185        337         17 
+##  emissions 
+##        188</code></pre>
+<p>If you want to do something a little more complicated, such as return a few different columns summaries as columns in a data frame, you can use <code>map_df()</code>:</p>
+<pre class="r"><code>co2 %&gt;% map_df(~data.frame(unqiue_entries = n_distinct(.),
+                           class = typeof(.)))</code></pre>
+<pre><code>##   unqiue_entries     class
+## 1            343 character
+## 2             51 character
+## 3              9 character
+## 4            185    double
+## 5            337    double
+## 6             17    double
+## 7            188    double</code></pre>
+<p>Note that we’ve lost the variable names! We can include them as a column in the data frame by providing a column name in the <code>.id</code> argument.</p>
+<pre class="r"><code>co2 %&gt;% map_df(~data.frame(unqiue_entries = n_distinct(.),
+                           class = typeof(.)),
+               .id = &quot;variable&quot;)</code></pre>
+<pre><code>##     variable unqiue_entries     class
+## 1       city            343 character
+## 2    country             51 character
+## 3     region              9 character
+## 4 population            185    double
+## 5       area            337    double
+## 6       year             17    double
+## 7  emissions            188    double</code></pre>
+<p><code>map_df()</code> is definitely one of the most powerful functions of <code>purrr</code> in my opinion, and is definitely the one that I use most.</p>
+<p>I like to think of simple usage of <code>map_df()</code> as a more general version of the <code>dplyr</code> function <code>summarise_all()</code>, (which lets us present one summary at a time), but can’t return a general data frame with as many summary columns as you like.</p>
+<p>As you’ll see in the <a href="#list-columns">list columns</a> section below, <code>map_df()</code> is even more powerful than you ever imagined.</p>
+<pre class="r"><code>co2 %&gt;% summarise_all(class)</code></pre>
+<pre><code>## # A tibble: 1 x 7
+##   city      country   region    population area    year    emissions
+##   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    
+## 1 character character character numeric    numeric numeric numeric</code></pre>
+<pre class="r"><code>co2_list &lt;- co2 %&gt;% split(co2$country)
+
+map(co2_list, &quot;city&quot;)</code></pre>
+<pre><code>## $Argentina
+## [1] &quot;Buenos Aires&quot; &quot;Rosario&quot;     
+## 
+## $Australia
+## [1] &quot;Adelaide&quot;  &quot;Canberra&quot;  &quot;Melbourne&quot; &quot;Sydney&quot;   
+## 
+## $Austria
+## [1] &quot;Graz&quot;
+## 
+## $Belgium
+## [1] &quot;Brussels&quot;
+## 
+## $Bolivia
+## [1] &quot;La Paz&quot;
+## 
+## $Brazil
+##  [1] &quot;Belo Horizonte&quot; &quot;Betim&quot;          &quot;Brasília&quot;       &quot;Curitiba&quot;      
+##  [5] &quot;Florianópolis&quot;  &quot;Goiânia&quot;        &quot;Guaratinguetá&quot;  &quot;Palmas&quot;        
+##  [9] &quot;Porto Alegre&quot;   &quot;Recife&quot;         &quot;Rio de Janeiro&quot; &quot;Salvador&quot;      
+## [13] &quot;Sao Paulo&quot;      &quot;Sorocaba&quot;      
+## 
+## $Canada
+##  [1] &quot;Ajax, ON&quot;         &quot;Calgary&quot;          &quot;Edmonton&quot;        
+##  [4] &quot;Hamilton, ON&quot;     &quot;London, ON&quot;       &quot;Montreal&quot;        
+##  [7] &quot;North Vancouver&quot;  &quot;Peterborough, ON&quot; &quot;Toronto&quot;         
+## [10] &quot;Vancouver&quot;        &quot;Windsor, ON&quot;      &quot;Winnipeg&quot;        
+## 
+## $Chile
+## [1] &quot;Santiago&quot;
+## 
+## $China
+##  [1] &quot;Anshan&quot;           &quot;Anyang&quot;           &quot;Baoding&quot;         
+##  [4] &quot;Baotou&quot;           &quot;Beijing&quot;          &quot;Benxi&quot;           
+##  [7] &quot;Changchun&quot;        &quot;Changsha, Hunan&quot;  &quot;Changzhou&quot;       
+## [10] &quot;Chengdou&quot;         &quot;Chongqing&quot;        &quot;Dalian&quot;          
+## [13] &quot;Dandong&quot;          &quot;Daqing&quot;           &quot;Datong&quot;          
+## [16] &quot;Fushun&quot;           &quot;Fuxin&quot;            &quot;Fuzhou&quot;          
+## [19] &quot;Guangzhou&quot;        &quot;Guiyang&quot;          &quot;Haerbin&quot;         
+## [22] &quot;Haikou&quot;           &quot;Handan&quot;           &quot;Hangzhou&quot;        
+## [25] &quot;Hefei&quot;            &quot;Hegang&quot;           &quot;Heilongjiang&quot;    
+## [28] &quot;Hengyang&quot;         &quot;Hohhot&quot;           &quot;Hong Kong&quot;       
+## [31] &quot;Huaibei&quot;          &quot;Huainan&quot;          &quot;Huangshi&quot;        
+## [34] &quot;Jiamusi&quot;          &quot;Jiaozhuo&quot;         &quot;Jilin&quot;           
+## [37] &quot;Jinan, Shandong&quot;  &quot;Jingzhou&quot;         &quot;Jinzhou&quot;         
+## [40] &quot;Jixi&quot;             &quot;Kaifeng&quot;          &quot;Kunming&quot;         
+## [43] &quot;Lanzhou&quot;          &quot;Liaoyang&quot;         &quot;Linyi&quot;           
+## [46] &quot;Liuzhou&quot;          &quot;Luoyang&quot;          &quot;Mudanjiang&quot;      
+## [49] &quot;Nanchang&quot;         &quot;Nanjing, Jiangsu&quot; &quot;Nanning&quot;         
+## [52] &quot;Ningbo&quot;           &quot;Pingdingshan&quot;     &quot;Qingdao&quot;         
+## [55] &quot;Qiqihaer&quot;         &quot;Shanghai&quot;         &quot;Shantou&quot;         
+## [58] &quot;Shenyang&quot;         &quot;Shenzhen&quot;         &quot;Shijiazhuang&quot;    
+## [61] &quot;Suzhou&quot;           &quot;Taian&quot;            &quot;Taiyuan, Shanxi&quot; 
+## [64] &quot;Tangshan&quot;         &quot;Tianjin&quot;          &quot;Weifang&quot;         
+## [67] &quot;Wuhan&quot;            &quot;Wuxi&quot;             &quot;Xi&#39;an, Shaanxi&quot;  
+## [70] &quot;Xiamen&quot;           &quot;Xiangtan&quot;         &quot;Xiangyang&quot;       
+## [73] &quot;Xining&quot;           &quot;Xinxiang&quot;         &quot;Xuzhou&quot;          
+## [76] &quot;Yantai&quot;           &quot;Yinchuan&quot;         &quot;Zhangjiakou&quot;     
+## [79] &quot;Zhanjiang&quot;        &quot;Zhaozhuang&quot;       &quot;Zhengzhou&quot;       
+## [82] &quot;Zhuzhou&quot;          &quot;Zibo&quot;             &quot;Ürümqi (Wulumqi)&quot;
+## 
+## $Colombia
+## [1] &quot;Barranquilla&quot;             &quot;Bogotá&quot;                  
+## [3] &quot;San Jerónimo de Montería&quot; &quot;Santiago de Cali&quot;        
+## [5] &quot;Valledupar&quot;              
+## 
+## $Denmark
+## [1] &quot;Aarhus&quot;                 &quot;Aerøskøbing&quot;           
+## [3] &quot;Copenhagen&quot;             &quot;Gladsaxe Kommune&quot;      
+## [5] &quot;Hjørring&quot;               &quot;Hoeje-Taastrup Kommune&quot;
+## 
+## $Ecuador
+## [1] &quot;Quito&quot;                 &quot;Santiago de Guayaquil&quot;
+## 
+## $Ethiopia
+## [1] &quot;Addis Ababa&quot;
+## 
+## $Finland
+## [1] &quot;Helsinki&quot; &quot;Lahti&quot;    &quot;Turku&quot;   
+## 
+## $France
+## [1] &quot;Lyon&quot;   &quot;Nancy&quot;  &quot;Nantes&quot; &quot;Nice&quot;   &quot;Paris&quot; 
+## 
+## $Germany
+## [1] &quot;Hamburg&quot;    &quot;Heidelberg&quot; &quot;Magdeburg&quot; 
+## 
+## $Greece
+## [1] &quot;Athens&quot;
+## 
+## $Iceland
+## [1] &quot;Reykjavík&quot;
+## 
+## $India
+##  [1] &quot;Ahmedabad&quot;        &quot;Bangalore&quot;        &quot;Bhubaneswar&quot;     
+##  [4] &quot;Cochin&quot;           &quot;Coimbatore&quot;       &quot;Dehradun&quot;        
+##  [7] &quot;Gandhinagar&quot;      &quot;Gwalior&quot;          &quot;Hyderabad&quot;       
+## [10] &quot;Indore&quot;           &quot;Jaipur&quot;           &quot;Kota&quot;            
+## [13] &quot;Nagpur&quot;           &quot;Pimpri-Chinchwad&quot; &quot;Pune&quot;            
+## [16] &quot;Rajkot&quot;           &quot;Shimla&quot;           &quot;Surat&quot;           
+## [19] &quot;Thane&quot;           
+## 
+## $Indonesia
+## [1] &quot;Balikpapan&quot;  &quot;Bandung&quot;     &quot;Bogor&quot;       &quot;Jakarta&quot;     &quot;Malang&quot;     
+## [6] &quot;Probolinggo&quot; &quot;Semarang&quot;   
+## 
+## $Ireland
+## [1] &quot;Dublin&quot;
+## 
+## $Israel
+## [1] &quot;Jerusalem&quot;
+## 
+## $Italy
+##  [1] &quot;Bologna&quot;  &quot;Ferrara&quot;  &quot;Genova&quot;   &quot;Milano&quot;   &quot;Piacenza&quot; &quot;Ravenna&quot; 
+##  [7] &quot;Roma&quot;     &quot;Torino&quot;   &quot;Udine&quot;    &quot;Venezia&quot; 
+## 
+## $Japan
+## [1] &quot;Hiroshima&quot; &quot;Kyoto&quot;     &quot;Nagoya&quot;    &quot;Okayama&quot;   &quot;Osaka&quot;     &quot;Sapporo&quot;  
+## [7] &quot;Sendai&quot;    &quot;Tokyo&quot;     &quot;Yokohama&quot; 
+## 
+## $Jordan
+## [1] &quot;Amman&quot;
+## 
+## $Lithuania
+## [1] &quot;Vilnius&quot;
+## 
+## $Malaysia
+## [1] &quot;Seberang&quot;
+## 
+## $Mexico
+## [1] &quot;Aguascalientes&quot;      &quot;León de los Aldamas&quot; &quot;Mexico City&quot;        
+## [4] &quot;San Luis Potosí&quot;     &quot;Toluca de Lerdo&quot;     &quot;Tuxtla Gutiérrez&quot;   
+## 
+## $Namibia
+## [1] &quot;Windhoek&quot;
+## 
+## $Netherlands
+## [1] &quot;Amsterdam&quot; &quot;Rotterdam&quot;
+## 
+## $`New Zealand`
+## [1] &quot;Auckland&quot;   &quot;Wellington&quot;
+## 
+## $Nigeria
+## [1] &quot;Lagos&quot;
+## 
+## $Norway
+## [1] &quot;Oslo&quot;
+## 
+## $Peru
+## [1] &quot;Lima&quot;
+## 
+## $Philippines
+## [1] &quot;Batangas&quot;                       &quot;Makati&quot;                        
+## [3] &quot;Naga&quot;                           &quot;Pasig&quot;                         
+## [5] &quot;Quezon&quot;                         &quot;San Carlos (Negros Occidental)&quot;
+## [7] &quot;Santa Rosa&quot;                    
+## 
+## $Poland
+## [1] &quot;Warsaw&quot;
+## 
+## $Portugal
+## [1] &quot;Barreiro&quot;      &quot;Cascais&quot;       &quot;Faro&quot;          &quot;Lisbon&quot;       
+## [5] &quot;Moita&quot;         &quot;Porto&quot;         &quot;Santarém&quot;      &quot;Torres Vedras&quot;
+## [9] &quot;Águeda&quot;       
+## 
+## $Singapore
+## [1] &quot;Singapore&quot;
+## 
+## $Slovenia
+## [1] &quot;Ljubljana&quot;
+## 
+## $`South Africa`
+## [1] &quot;Buffalo City&quot;     &quot;Cape Town&quot;        &quot;Durban&quot;          
+## [4] &quot;Ekurhuleni&quot;       &quot;Johannesburg&quot;     &quot;Msunduzi&quot;        
+## [7] &quot;Nelson Mandela&quot;   &quot;Pretoria Tshwane&quot; &quot;eThekwini&quot;       
+## 
+## $`South Korea`
+## [1] &quot;Incheon&quot; &quot;Seoul&quot;   &quot;Suwon&quot;   &quot;Wonju&quot;  
+## 
+## $Spain
+## [1] &quot;Barcelona&quot; &quot;Madrid&quot;    &quot;Zaragoza&quot; 
+## 
+## $Sweden
+## [1] &quot;Gävle&quot;     &quot;Stockholm&quot; &quot;Umeå&quot;      &quot;Uppsala&quot;   &quot;Växjö&quot;     &quot;Örebro&quot;   
+## 
+## $Switzerland
+## [1] &quot;Basel&quot;    &quot;Lausanne&quot; &quot;Zürich&quot;  
+## 
+## $Taiwan
+## [1] &quot;Kaohsiung&quot;   &quot;New Taipei&quot;  &quot;Pingtung&quot;    &quot;Taipei City&quot; &quot;Taoyuan&quot;    
+## [6] &quot;Yilan&quot;      
+## 
+## $Thailand
+## [1] &quot;Hat Yai&quot;          &quot;Khelang Nakhon&quot;   &quot;Lampang&quot;         
+## [4] &quot;Phuket&quot;           &quot;Ubon Ratchathani&quot;
+## 
+## $Turkey
+## [1] &quot;Bornova&quot;    &quot;Istanbul&quot;   &quot;Izmir&quot;      &quot;Kadiovacik&quot;
+## 
+## $`United Kingdom`
+## [1] &quot;Birmingham&quot;     &quot;Bournemouth&quot;    &quot;Bristol&quot;        &quot;Cardiff&quot;       
+## [5] &quot;Greater London&quot; &quot;Leicester&quot;      &quot;Manchester&quot;    
+## 
+## $USA
+##  [1] &quot;Abington&quot;                &quot;Albany&quot;                 
+##  [3] &quot;Alton, IL&quot;               &quot;Arlington, VA&quot;          
+##  [5] &quot;Aspen and Pitkin County&quot; &quot;Atlanta&quot;                
+##  [7] &quot;Austin&quot;                  &quot;Baltimore&quot;              
+##  [9] &quot;Benicia&quot;                 &quot;Blacksburg&quot;             
+## [11] &quot;Boston&quot;                  &quot;Boulder&quot;                
+## [13] &quot;Brisbane, CA&quot;            &quot;Burlington&quot;             
+## [15] &quot;Chicago&quot;                 &quot;Cleveland&quot;              
+## [17] &quot;Columbus&quot;                &quot;Dallas&quot;                 
+## [19] &quot;Davis, CA&quot;               &quot;Denver&quot;                 
+## [21] &quot;Detroit&quot;                 &quot;District of Columbia&quot;   
+## [23] &quot;Durham&quot;                  &quot;Emeryville, CA&quot;         
+## [25] &quot;Eugene&quot;                  &quot;Flagstaff&quot;              
+## [27] &quot;Fort Collins&quot;            &quot;Hayward&quot;                
+## [29] &quot;Hermosa Beach, CA&quot;       &quot;Houston&quot;                
+## [31] &quot;Indianapolis&quot;            &quot;Iowa&quot;                   
+## [33] &quot;Knoxville&quot;               &quot;Lake Forest, IL&quot;        
+## [35] &quot;Lakewood&quot;                &quot;Lancaster, PA&quot;          
+## [37] &quot;Las Vegas&quot;               &quot;Los Altos Hills&quot;        
+## [39] &quot;Los Angeles&quot;             &quot;Minneapolis&quot;            
+## [41] &quot;Nashville and Davidson&quot;  &quot;New Orleans&quot;            
+## [43] &quot;New York City&quot;           &quot;Oakland&quot;                
+## [45] &quot;Palo Alto&quot;               &quot;Philadelphia&quot;           
+## [47] &quot;Piedmont, CA&quot;            &quot;Pittsburgh&quot;             
+## [49] &quot;Portland, OR&quot;            &quot;Reno&quot;                   
+## [51] &quot;Richmond, VA&quot;            &quot;Roanoke&quot;                
+## [53] &quot;San Antonio&quot;             &quot;San Diego&quot;              
+## [55] &quot;San Francisco&quot;           &quot;Santa Monica&quot;           
+## [57] &quot;Savannah&quot;                &quot;Seattle&quot;                
+## [59] &quot;Somerville, MA&quot;          &quot;St Louis&quot;               
+## [61] &quot;Tucson&quot;                  &quot;University City, MO&quot;    
+## [63] &quot;West Hollywood&quot;          &quot;Yonkers&quot;                
+## 
+## $Venezuela
+## [1] &quot;Caracas&quot;
+## 
+## $Vietnam
+## [1] &quot;Hue&quot;</code></pre>
+<pre class="r"><code>map(co2_list, `[`, &quot;city&quot;)</code></pre>
+<pre><code>## $Argentina
+## # A tibble: 2 x 1
+##   city        
+##   &lt;chr&gt;       
+## 1 Buenos Aires
+## 2 Rosario     
+## 
+## $Australia
+## # A tibble: 4 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Adelaide 
+## 2 Canberra 
+## 3 Melbourne
+## 4 Sydney   
+## 
+## $Austria
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Graz 
+## 
+## $Belgium
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Brussels
+## 
+## $Bolivia
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 La Paz
+## 
+## $Brazil
+## # A tibble: 14 x 1
+##    city          
+##    &lt;chr&gt;         
+##  1 Belo Horizonte
+##  2 Betim         
+##  3 Brasília      
+##  4 Curitiba      
+##  5 Florianópolis 
+##  6 Goiânia       
+##  7 Guaratinguetá 
+##  8 Palmas        
+##  9 Porto Alegre  
+## 10 Recife        
+## 11 Rio de Janeiro
+## 12 Salvador      
+## 13 Sao Paulo     
+## 14 Sorocaba      
+## 
+## $Canada
+## # A tibble: 12 x 1
+##    city            
+##    &lt;chr&gt;           
+##  1 Ajax, ON        
+##  2 Calgary         
+##  3 Edmonton        
+##  4 Hamilton, ON    
+##  5 London, ON      
+##  6 Montreal        
+##  7 North Vancouver 
+##  8 Peterborough, ON
+##  9 Toronto         
+## 10 Vancouver       
+## 11 Windsor, ON     
+## 12 Winnipeg        
+## 
+## $Chile
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Santiago
+## 
+## $China
+## # A tibble: 84 x 1
+##    city           
+##    &lt;chr&gt;          
+##  1 Anshan         
+##  2 Anyang         
+##  3 Baoding        
+##  4 Baotou         
+##  5 Beijing        
+##  6 Benxi          
+##  7 Changchun      
+##  8 Changsha, Hunan
+##  9 Changzhou      
+## 10 Chengdou       
+## # … with 74 more rows
+## 
+## $Colombia
+## # A tibble: 5 x 1
+##   city                    
+##   &lt;chr&gt;                   
+## 1 Barranquilla            
+## 2 Bogotá                  
+## 3 San Jerónimo de Montería
+## 4 Santiago de Cali        
+## 5 Valledupar              
+## 
+## $Denmark
+## # A tibble: 6 x 1
+##   city                  
+##   &lt;chr&gt;                 
+## 1 Aarhus                
+## 2 Aerøskøbing           
+## 3 Copenhagen            
+## 4 Gladsaxe Kommune      
+## 5 Hjørring              
+## 6 Hoeje-Taastrup Kommune
+## 
+## $Ecuador
+## # A tibble: 2 x 1
+##   city                 
+##   &lt;chr&gt;                
+## 1 Quito                
+## 2 Santiago de Guayaquil
+## 
+## $Ethiopia
+## # A tibble: 1 x 1
+##   city       
+##   &lt;chr&gt;      
+## 1 Addis Ababa
+## 
+## $Finland
+## # A tibble: 3 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Helsinki
+## 2 Lahti   
+## 3 Turku   
+## 
+## $France
+## # A tibble: 5 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Lyon  
+## 2 Nancy 
+## 3 Nantes
+## 4 Nice  
+## 5 Paris 
+## 
+## $Germany
+## # A tibble: 3 x 1
+##   city      
+##   &lt;chr&gt;     
+## 1 Hamburg   
+## 2 Heidelberg
+## 3 Magdeburg 
+## 
+## $Greece
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Athens
+## 
+## $Iceland
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Reykjavík
+## 
+## $India
+## # A tibble: 19 x 1
+##    city            
+##    &lt;chr&gt;           
+##  1 Ahmedabad       
+##  2 Bangalore       
+##  3 Bhubaneswar     
+##  4 Cochin          
+##  5 Coimbatore      
+##  6 Dehradun        
+##  7 Gandhinagar     
+##  8 Gwalior         
+##  9 Hyderabad       
+## 10 Indore          
+## 11 Jaipur          
+## 12 Kota            
+## 13 Nagpur          
+## 14 Pimpri-Chinchwad
+## 15 Pune            
+## 16 Rajkot          
+## 17 Shimla          
+## 18 Surat           
+## 19 Thane           
+## 
+## $Indonesia
+## # A tibble: 7 x 1
+##   city       
+##   &lt;chr&gt;      
+## 1 Balikpapan 
+## 2 Bandung    
+## 3 Bogor      
+## 4 Jakarta    
+## 5 Malang     
+## 6 Probolinggo
+## 7 Semarang   
+## 
+## $Ireland
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Dublin
+## 
+## $Israel
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Jerusalem
+## 
+## $Italy
+## # A tibble: 10 x 1
+##    city    
+##    &lt;chr&gt;   
+##  1 Bologna 
+##  2 Ferrara 
+##  3 Genova  
+##  4 Milano  
+##  5 Piacenza
+##  6 Ravenna 
+##  7 Roma    
+##  8 Torino  
+##  9 Udine   
+## 10 Venezia 
+## 
+## $Japan
+## # A tibble: 9 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Hiroshima
+## 2 Kyoto    
+## 3 Nagoya   
+## 4 Okayama  
+## 5 Osaka    
+## 6 Sapporo  
+## 7 Sendai   
+## 8 Tokyo    
+## 9 Yokohama 
+## 
+## $Jordan
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Amman
+## 
+## $Lithuania
+## # A tibble: 1 x 1
+##   city   
+##   &lt;chr&gt;  
+## 1 Vilnius
+## 
+## $Malaysia
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Seberang
+## 
+## $Mexico
+## # A tibble: 6 x 1
+##   city               
+##   &lt;chr&gt;              
+## 1 Aguascalientes     
+## 2 León de los Aldamas
+## 3 Mexico City        
+## 4 San Luis Potosí    
+## 5 Toluca de Lerdo    
+## 6 Tuxtla Gutiérrez   
+## 
+## $Namibia
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Windhoek
+## 
+## $Netherlands
+## # A tibble: 2 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Amsterdam
+## 2 Rotterdam
+## 
+## $`New Zealand`
+## # A tibble: 2 x 1
+##   city      
+##   &lt;chr&gt;     
+## 1 Auckland  
+## 2 Wellington
+## 
+## $Nigeria
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Lagos
+## 
+## $Norway
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Oslo 
+## 
+## $Peru
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Lima 
+## 
+## $Philippines
+## # A tibble: 7 x 1
+##   city                          
+##   &lt;chr&gt;                         
+## 1 Batangas                      
+## 2 Makati                        
+## 3 Naga                          
+## 4 Pasig                         
+## 5 Quezon                        
+## 6 San Carlos (Negros Occidental)
+## 7 Santa Rosa                    
+## 
+## $Poland
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Warsaw
+## 
+## $Portugal
+## # A tibble: 9 x 1
+##   city         
+##   &lt;chr&gt;        
+## 1 Barreiro     
+## 2 Cascais      
+## 3 Faro         
+## 4 Lisbon       
+## 5 Moita        
+## 6 Porto        
+## 7 Santarém     
+## 8 Torres Vedras
+## 9 Águeda       
+## 
+## $Singapore
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Singapore
+## 
+## $Slovenia
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Ljubljana
+## 
+## $`South Africa`
+## # A tibble: 9 x 1
+##   city            
+##   &lt;chr&gt;           
+## 1 Buffalo City    
+## 2 Cape Town       
+## 3 Durban          
+## 4 Ekurhuleni      
+## 5 Johannesburg    
+## 6 Msunduzi        
+## 7 Nelson Mandela  
+## 8 Pretoria Tshwane
+## 9 eThekwini       
+## 
+## $`South Korea`
+## # A tibble: 4 x 1
+##   city   
+##   &lt;chr&gt;  
+## 1 Incheon
+## 2 Seoul  
+## 3 Suwon  
+## 4 Wonju  
+## 
+## $Spain
+## # A tibble: 3 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Barcelona
+## 2 Madrid   
+## 3 Zaragoza 
+## 
+## $Sweden
+## # A tibble: 6 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Gävle    
+## 2 Stockholm
+## 3 Umeå     
+## 4 Uppsala  
+## 5 Växjö    
+## 6 Örebro   
+## 
+## $Switzerland
+## # A tibble: 3 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Basel   
+## 2 Lausanne
+## 3 Zürich  
+## 
+## $Taiwan
+## # A tibble: 6 x 1
+##   city       
+##   &lt;chr&gt;      
+## 1 Kaohsiung  
+## 2 New Taipei 
+## 3 Pingtung   
+## 4 Taipei City
+## 5 Taoyuan    
+## 6 Yilan      
+## 
+## $Thailand
+## # A tibble: 5 x 1
+##   city            
+##   &lt;chr&gt;           
+## 1 Hat Yai         
+## 2 Khelang Nakhon  
+## 3 Lampang         
+## 4 Phuket          
+## 5 Ubon Ratchathani
+## 
+## $Turkey
+## # A tibble: 4 x 1
+##   city      
+##   &lt;chr&gt;     
+## 1 Bornova   
+## 2 Istanbul  
+## 3 Izmir     
+## 4 Kadiovacik
+## 
+## $`United Kingdom`
+## # A tibble: 7 x 1
+##   city          
+##   &lt;chr&gt;         
+## 1 Birmingham    
+## 2 Bournemouth   
+## 3 Bristol       
+## 4 Cardiff       
+## 5 Greater London
+## 6 Leicester     
+## 7 Manchester    
+## 
+## $USA
+## # A tibble: 64 x 1
+##    city                   
+##    &lt;chr&gt;                  
+##  1 Abington               
+##  2 Albany                 
+##  3 Alton, IL              
+##  4 Arlington, VA          
+##  5 Aspen and Pitkin County
+##  6 Atlanta                
+##  7 Austin                 
+##  8 Baltimore              
+##  9 Benicia                
+## 10 Blacksburg             
+## # … with 54 more rows
+## 
+## $Venezuela
+## # A tibble: 1 x 1
+##   city   
+##   &lt;chr&gt;  
+## 1 Caracas
+## 
+## $Vietnam
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Hue</code></pre>
+<pre class="r"><code>map(co2_list, `[`, c(&quot;city&quot;, &quot;emissions&quot;))</code></pre>
+<pre><code>## $Argentina
+## # A tibble: 2 x 2
+##   city         emissions
+##   &lt;chr&gt;            &lt;dbl&gt;
+## 1 Buenos Aires  19667128
+## 2 Rosario             NA
+## 
+## $Australia
+## # A tibble: 4 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Adelaide     486541
+## 2 Canberra    4003900
+## 3 Melbourne   4372420
+## 4 Sydney      3556529
+## 
+## $Austria
+## # A tibble: 1 x 2
+##   city  emissions
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 Graz         NA
+## 
+## $Belgium
+## # A tibble: 1 x 2
+##   city     emissions
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Brussels        NA
+## 
+## $Bolivia
+## # A tibble: 1 x 2
+##   city   emissions
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 La Paz  1426534.
+## 
+## $Brazil
+## # A tibble: 14 x 2
+##    city           emissions
+##    &lt;chr&gt;              &lt;dbl&gt;
+##  1 Belo Horizonte  3241713 
+##  2 Betim                NA 
+##  3 Brasília        7739830 
+##  4 Curitiba        3036279 
+##  5 Florianópolis   1450465 
+##  6 Goiânia         2016320 
+##  7 Guaratinguetá    548196.
+##  8 Palmas           625392.
+##  9 Porto Alegre    2829128 
+## 10 Recife          1705245 
+## 11 Rio de Janeiro 20268045 
+## 12 Salvador        3698964 
+## 13 Sao Paulo            NA 
+## 14 Sorocaba        1113971 
+## 
+## $Canada
+## # A tibble: 12 x 2
+##    city             emissions
+##    &lt;chr&gt;                &lt;dbl&gt;
+##  1 Ajax, ON            538836
+##  2 Calgary           18207232
+##  3 Edmonton          16576702
+##  4 Hamilton, ON      16469283
+##  5 London, ON         3070000
+##  6 Montreal          13722942
+##  7 North Vancouver     187055
+##  8 Peterborough, ON    283061
+##  9 Toronto           18320966
+## 10 Vancouver          2442602
+## 11 Windsor, ON        2482412
+## 12 Winnipeg           5257325
+## 
+## $Chile
+## # A tibble: 1 x 2
+##   city     emissions
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Santiago 31426697.
+## 
+## $China
+## # A tibble: 84 x 2
+##    city            emissions
+##    &lt;chr&gt;               &lt;dbl&gt;
+##  1 Anshan                 NA
+##  2 Anyang                 NA
+##  3 Baoding                NA
+##  4 Baotou                 NA
+##  5 Beijing                NA
+##  6 Benxi                  NA
+##  7 Changchun              NA
+##  8 Changsha, Hunan        NA
+##  9 Changzhou              NA
+## 10 Chengdou               NA
+## # … with 74 more rows
+## 
+## $Colombia
+## # A tibble: 5 x 2
+##   city                     emissions
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 Barranquilla                   NA 
+## 2 Bogotá                   12359325.
+## 3 San Jerónimo de Montería       NA 
+## 4 Santiago de Cali          4174608 
+## 5 Valledupar                     NA 
+## 
+## $Denmark
+## # A tibble: 6 x 2
+##   city                   emissions
+##   &lt;chr&gt;                      &lt;dbl&gt;
+## 1 Aarhus                      1900
+## 2 Aerøskøbing                  225
+## 3 Copenhagen               1450358
+## 4 Gladsaxe Kommune          331283
+## 5 Hjørring                  417000
+## 6 Hoeje-Taastrup Kommune    297000
+## 
+## $Ecuador
+## # A tibble: 2 x 2
+##   city                  emissions
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 Quito                   5233350
+## 2 Santiago de Guayaquil   6787374
+## 
+## $Ethiopia
+## # A tibble: 1 x 2
+##   city        emissions
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Addis Ababa   3708292
+## 
+## $Finland
+## # A tibble: 3 x 2
+##   city     emissions
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Helsinki   4885930
+## 2 Lahti       874807
+## 3 Turku      1107500
+## 
+## $France
+## # A tibble: 5 x 2
+##   city   emissions
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Lyon          NA
+## 2 Nancy    2150000
+## 3 Nantes        NA
+## 4 Nice     3352154
+## 5 Paris    5195663
+## 
+## $Germany
+## # A tibble: 3 x 2
+##   city       emissions
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 Hamburg        17755
+## 2 Heidelberg    879900
+## 3 Magdeburg    1400000
+## 
+## $Greece
+## # A tibble: 1 x 2
+##   city   emissions
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Athens   4711576
+## 
+## $Iceland
+## # A tibble: 1 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Reykjavík    346630
+## 
+## $India
+## # A tibble: 19 x 2
+##    city             emissions
+##    &lt;chr&gt;                &lt;dbl&gt;
+##  1 Ahmedabad               NA
+##  2 Bangalore               NA
+##  3 Bhubaneswar             NA
+##  4 Cochin                  NA
+##  5 Coimbatore              NA
+##  6 Dehradun                NA
+##  7 Gandhinagar             NA
+##  8 Gwalior                 NA
+##  9 Hyderabad               NA
+## 10 Indore                  NA
+## 11 Jaipur                  NA
+## 12 Kota                    NA
+## 13 Nagpur                  NA
+## 14 Pimpri-Chinchwad        NA
+## 15 Pune                    NA
+## 16 Rajkot                  NA
+## 17 Shimla                  NA
+## 18 Surat                   NA
+## 19 Thane                   NA
+## 
+## $Indonesia
+## # A tibble: 7 x 2
+##   city        emissions
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Balikpapan         NA
+## 2 Bandung            NA
+## 3 Bogor         2193642
+## 4 Jakarta      27780000
+## 5 Malang             NA
+## 6 Probolinggo        NA
+## 7 Semarang           NA
+## 
+## $Ireland
+## # A tibble: 1 x 2
+##   city   emissions
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Dublin   2942349
+## 
+## $Israel
+## # A tibble: 1 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Jerusalem        NA
+## 
+## $Italy
+## # A tibble: 10 x 2
+##    city     emissions
+##    &lt;chr&gt;        &lt;dbl&gt;
+##  1 Bologna   2270525.
+##  2 Ferrara   1582605.
+##  3 Genova    1810370 
+##  4 Milano    5976779 
+##  5 Piacenza   615452 
+##  6 Ravenna     11419 
+##  7 Roma     10008879 
+##  8 Torino    3496156 
+##  9 Udine      613588 
+## 10 Venezia   1418344 
+## 
+## $Japan
+## # A tibble: 9 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Hiroshima   8675437
+## 2 Kyoto            NA
+## 3 Nagoya     13420000
+## 4 Okayama     6916000
+## 5 Osaka            NA
+## 6 Sapporo          NA
+## 7 Sendai           NA
+## 8 Tokyo      70125000
+## 9 Yokohama   21950000
+## 
+## $Jordan
+## # A tibble: 1 x 2
+##   city  emissions
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 Amman   7215407
+## 
+## $Lithuania
+## # A tibble: 1 x 2
+##   city    emissions
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 Vilnius   1994560
+## 
+## $Malaysia
+## # A tibble: 1 x 2
+##   city     emissions
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Seberang        NA
+## 
+## $Mexico
+## # A tibble: 6 x 2
+##   city                emissions
+##   &lt;chr&gt;                   &lt;dbl&gt;
+## 1 Aguascalientes            NA 
+## 2 León de los Aldamas       NA 
+## 3 Mexico City         23655111.
+## 4 San Luis Potosí      1320630.
+## 5 Toluca de Lerdo           NA 
+## 6 Tuxtla Gutiérrez          NA 
+## 
+## $Namibia
+## # A tibble: 1 x 2
+##   city     emissions
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Windhoek        NA
+## 
+## $Netherlands
+## # A tibble: 2 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Amsterdam   4471000
+## 2 Rotterdam  34190633
+## 
+## $`New Zealand`
+## # A tibble: 2 x 2
+##   city       emissions
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 Auckland    10472155
+## 2 Wellington    792959
+## 
+## $Nigeria
+## # A tibble: 1 x 2
+##   city  emissions
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 Lagos  29426266
+## 
+## $Norway
+## # A tibble: 1 x 2
+##   city  emissions
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 Oslo    1340422
+## 
+## $Peru
+## # A tibble: 1 x 2
+##   city  emissions
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 Lima   27810839
+## 
+## $Philippines
+## # A tibble: 7 x 2
+##   city                           emissions
+##   &lt;chr&gt;                              &lt;dbl&gt;
+## 1 Batangas                          457288
+## 2 Makati                           1660370
+## 3 Naga                                  NA
+## 4 Pasig                                 NA
+## 5 Quezon                                NA
+## 6 San Carlos (Negros Occidental)        NA
+## 7 Santa Rosa                            NA
+## 
+## $Poland
+## # A tibble: 1 x 2
+##   city   emissions
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Warsaw  11721774
+## 
+## $Portugal
+## # A tibble: 9 x 2
+##   city          emissions
+##   &lt;chr&gt;             &lt;dbl&gt;
+## 1 Barreiro        290849 
+## 2 Cascais         831603 
+## 3 Faro               266.
+## 4 Lisbon         1934361 
+## 5 Moita            96508 
+## 6 Porto          1020000 
+## 7 Santarém        331717 
+## 8 Torres Vedras   260331 
+## 9 Águeda          258882 
+## 
+## $Singapore
+## # A tibble: 1 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Singapore        NA
+## 
+## $Slovenia
+## # A tibble: 1 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Ljubljana   2733850
+## 
+## $`South Africa`
+## # A tibble: 9 x 2
+##   city             emissions
+##   &lt;chr&gt;                &lt;dbl&gt;
+## 1 Buffalo City            NA
+## 2 Cape Town         22643846
+## 3 Durban            22587081
+## 4 Ekurhuleni              NA
+## 5 Johannesburg      24716713
+## 6 Msunduzi                NA
+## 7 Nelson Mandela          NA
+## 8 Pretoria Tshwane  15236693
+## 9 eThekwini               NA
+## 
+## $`South Korea`
+## # A tibble: 4 x 2
+##   city    emissions
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 Incheon  69794140
+## 2 Seoul    47612664
+## 3 Suwon     5775155
+## 4 Wonju          NA
+## 
+## $Spain
+## # A tibble: 3 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Barcelona       NA 
+## 2 Madrid    10257048 
+## 3 Zaragoza   1785604.
+## 
+## $Sweden
+## # A tibble: 6 x 2
+##   city      emissions
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 Gävle            NA
+## 2 Stockholm   2693442
+## 3 Umeå             NA
+## 4 Uppsala          NA
+## 5 Växjö            NA
+## 6 Örebro           NA
+## 
+## $Switzerland
+## # A tibble: 3 x 2
+##   city     emissions
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Basel      1105753
+## 2 Lausanne    499573
+## 3 Zürich     1822367
+## 
+## $Taiwan
+## # A tibble: 6 x 2
+##   city        emissions
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Kaohsiung   58755764.
+## 2 New Taipei  17233924 
+## 3 Pingtung     4969247.
+## 4 Taipei City 14957404 
+## 5 Taoyuan     35764526.
+## 6 Yilan        8180557.
+## 
+## $Thailand
+## # A tibble: 5 x 2
+##   city             emissions
+##   &lt;chr&gt;                &lt;dbl&gt;
+## 1 Hat Yai                 NA
+## 2 Khelang Nakhon          NA
+## 3 Lampang                 NA
+## 4 Phuket                  NA
+## 5 Ubon Ratchathani        NA
+## 
+## $Turkey
+## # A tibble: 4 x 2
+##   city       emissions
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 Bornova      758627 
+## 2 Istanbul         NA 
+## 3 Izmir            NA 
+## 4 Kadiovacik      444.
+## 
+## $`United Kingdom`
+## # A tibble: 7 x 2
+##   city           emissions
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 Birmingham         5200.
+## 2 Bournemouth      782650 
+## 3 Bristol              NA 
+## 4 Cardiff         2128000 
+## 5 Greater London 40190000 
+## 6 Leicester       1719600 
+## 7 Manchester     14889318 
+## 
+## $USA
+## # A tibble: 64 x 2
+##    city                    emissions
+##    &lt;chr&gt;                       &lt;dbl&gt;
+##  1 Abington                  615224 
+##  2 Albany                   1217091 
+##  3 Alton, IL                 401079 
+##  4 Arlington, VA            2480700 
+##  5 Aspen and Pitkin County   394341 
+##  6 Atlanta                  9024235 
+##  7 Austin                  13700000 
+##  8 Baltimore                7230497 
+##  9 Benicia                   688706 
+## 10 Blacksburg                347483.
+## # … with 54 more rows
+## 
+## $Venezuela
+## # A tibble: 1 x 2
+##   city    emissions
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 Caracas  17774776
+## 
+## $Vietnam
+## # A tibble: 1 x 2
+##   city  emissions
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 Hue          NA</code></pre>
+<pre class="r"><code>map(co2_list, magrittr::extract, &quot;city&quot;)</code></pre>
+<pre><code>## $Argentina
+## # A tibble: 2 x 1
+##   city        
+##   &lt;chr&gt;       
+## 1 Buenos Aires
+## 2 Rosario     
+## 
+## $Australia
+## # A tibble: 4 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Adelaide 
+## 2 Canberra 
+## 3 Melbourne
+## 4 Sydney   
+## 
+## $Austria
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Graz 
+## 
+## $Belgium
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Brussels
+## 
+## $Bolivia
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 La Paz
+## 
+## $Brazil
+## # A tibble: 14 x 1
+##    city          
+##    &lt;chr&gt;         
+##  1 Belo Horizonte
+##  2 Betim         
+##  3 Brasília      
+##  4 Curitiba      
+##  5 Florianópolis 
+##  6 Goiânia       
+##  7 Guaratinguetá 
+##  8 Palmas        
+##  9 Porto Alegre  
+## 10 Recife        
+## 11 Rio de Janeiro
+## 12 Salvador      
+## 13 Sao Paulo     
+## 14 Sorocaba      
+## 
+## $Canada
+## # A tibble: 12 x 1
+##    city            
+##    &lt;chr&gt;           
+##  1 Ajax, ON        
+##  2 Calgary         
+##  3 Edmonton        
+##  4 Hamilton, ON    
+##  5 London, ON      
+##  6 Montreal        
+##  7 North Vancouver 
+##  8 Peterborough, ON
+##  9 Toronto         
+## 10 Vancouver       
+## 11 Windsor, ON     
+## 12 Winnipeg        
+## 
+## $Chile
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Santiago
+## 
+## $China
+## # A tibble: 84 x 1
+##    city           
+##    &lt;chr&gt;          
+##  1 Anshan         
+##  2 Anyang         
+##  3 Baoding        
+##  4 Baotou         
+##  5 Beijing        
+##  6 Benxi          
+##  7 Changchun      
+##  8 Changsha, Hunan
+##  9 Changzhou      
+## 10 Chengdou       
+## # … with 74 more rows
+## 
+## $Colombia
+## # A tibble: 5 x 1
+##   city                    
+##   &lt;chr&gt;                   
+## 1 Barranquilla            
+## 2 Bogotá                  
+## 3 San Jerónimo de Montería
+## 4 Santiago de Cali        
+## 5 Valledupar              
+## 
+## $Denmark
+## # A tibble: 6 x 1
+##   city                  
+##   &lt;chr&gt;                 
+## 1 Aarhus                
+## 2 Aerøskøbing           
+## 3 Copenhagen            
+## 4 Gladsaxe Kommune      
+## 5 Hjørring              
+## 6 Hoeje-Taastrup Kommune
+## 
+## $Ecuador
+## # A tibble: 2 x 1
+##   city                 
+##   &lt;chr&gt;                
+## 1 Quito                
+## 2 Santiago de Guayaquil
+## 
+## $Ethiopia
+## # A tibble: 1 x 1
+##   city       
+##   &lt;chr&gt;      
+## 1 Addis Ababa
+## 
+## $Finland
+## # A tibble: 3 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Helsinki
+## 2 Lahti   
+## 3 Turku   
+## 
+## $France
+## # A tibble: 5 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Lyon  
+## 2 Nancy 
+## 3 Nantes
+## 4 Nice  
+## 5 Paris 
+## 
+## $Germany
+## # A tibble: 3 x 1
+##   city      
+##   &lt;chr&gt;     
+## 1 Hamburg   
+## 2 Heidelberg
+## 3 Magdeburg 
+## 
+## $Greece
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Athens
+## 
+## $Iceland
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Reykjavík
+## 
+## $India
+## # A tibble: 19 x 1
+##    city            
+##    &lt;chr&gt;           
+##  1 Ahmedabad       
+##  2 Bangalore       
+##  3 Bhubaneswar     
+##  4 Cochin          
+##  5 Coimbatore      
+##  6 Dehradun        
+##  7 Gandhinagar     
+##  8 Gwalior         
+##  9 Hyderabad       
+## 10 Indore          
+## 11 Jaipur          
+## 12 Kota            
+## 13 Nagpur          
+## 14 Pimpri-Chinchwad
+## 15 Pune            
+## 16 Rajkot          
+## 17 Shimla          
+## 18 Surat           
+## 19 Thane           
+## 
+## $Indonesia
+## # A tibble: 7 x 1
+##   city       
+##   &lt;chr&gt;      
+## 1 Balikpapan 
+## 2 Bandung    
+## 3 Bogor      
+## 4 Jakarta    
+## 5 Malang     
+## 6 Probolinggo
+## 7 Semarang   
+## 
+## $Ireland
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Dublin
+## 
+## $Israel
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Jerusalem
+## 
+## $Italy
+## # A tibble: 10 x 1
+##    city    
+##    &lt;chr&gt;   
+##  1 Bologna 
+##  2 Ferrara 
+##  3 Genova  
+##  4 Milano  
+##  5 Piacenza
+##  6 Ravenna 
+##  7 Roma    
+##  8 Torino  
+##  9 Udine   
+## 10 Venezia 
+## 
+## $Japan
+## # A tibble: 9 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Hiroshima
+## 2 Kyoto    
+## 3 Nagoya   
+## 4 Okayama  
+## 5 Osaka    
+## 6 Sapporo  
+## 7 Sendai   
+## 8 Tokyo    
+## 9 Yokohama 
+## 
+## $Jordan
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Amman
+## 
+## $Lithuania
+## # A tibble: 1 x 1
+##   city   
+##   &lt;chr&gt;  
+## 1 Vilnius
+## 
+## $Malaysia
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Seberang
+## 
+## $Mexico
+## # A tibble: 6 x 1
+##   city               
+##   &lt;chr&gt;              
+## 1 Aguascalientes     
+## 2 León de los Aldamas
+## 3 Mexico City        
+## 4 San Luis Potosí    
+## 5 Toluca de Lerdo    
+## 6 Tuxtla Gutiérrez   
+## 
+## $Namibia
+## # A tibble: 1 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Windhoek
+## 
+## $Netherlands
+## # A tibble: 2 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Amsterdam
+## 2 Rotterdam
+## 
+## $`New Zealand`
+## # A tibble: 2 x 1
+##   city      
+##   &lt;chr&gt;     
+## 1 Auckland  
+## 2 Wellington
+## 
+## $Nigeria
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Lagos
+## 
+## $Norway
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Oslo 
+## 
+## $Peru
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Lima 
+## 
+## $Philippines
+## # A tibble: 7 x 1
+##   city                          
+##   &lt;chr&gt;                         
+## 1 Batangas                      
+## 2 Makati                        
+## 3 Naga                          
+## 4 Pasig                         
+## 5 Quezon                        
+## 6 San Carlos (Negros Occidental)
+## 7 Santa Rosa                    
+## 
+## $Poland
+## # A tibble: 1 x 1
+##   city  
+##   &lt;chr&gt; 
+## 1 Warsaw
+## 
+## $Portugal
+## # A tibble: 9 x 1
+##   city         
+##   &lt;chr&gt;        
+## 1 Barreiro     
+## 2 Cascais      
+## 3 Faro         
+## 4 Lisbon       
+## 5 Moita        
+## 6 Porto        
+## 7 Santarém     
+## 8 Torres Vedras
+## 9 Águeda       
+## 
+## $Singapore
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Singapore
+## 
+## $Slovenia
+## # A tibble: 1 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Ljubljana
+## 
+## $`South Africa`
+## # A tibble: 9 x 1
+##   city            
+##   &lt;chr&gt;           
+## 1 Buffalo City    
+## 2 Cape Town       
+## 3 Durban          
+## 4 Ekurhuleni      
+## 5 Johannesburg    
+## 6 Msunduzi        
+## 7 Nelson Mandela  
+## 8 Pretoria Tshwane
+## 9 eThekwini       
+## 
+## $`South Korea`
+## # A tibble: 4 x 1
+##   city   
+##   &lt;chr&gt;  
+## 1 Incheon
+## 2 Seoul  
+## 3 Suwon  
+## 4 Wonju  
+## 
+## $Spain
+## # A tibble: 3 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Barcelona
+## 2 Madrid   
+## 3 Zaragoza 
+## 
+## $Sweden
+## # A tibble: 6 x 1
+##   city     
+##   &lt;chr&gt;    
+## 1 Gävle    
+## 2 Stockholm
+## 3 Umeå     
+## 4 Uppsala  
+## 5 Växjö    
+## 6 Örebro   
+## 
+## $Switzerland
+## # A tibble: 3 x 1
+##   city    
+##   &lt;chr&gt;   
+## 1 Basel   
+## 2 Lausanne
+## 3 Zürich  
+## 
+## $Taiwan
+## # A tibble: 6 x 1
+##   city       
+##   &lt;chr&gt;      
+## 1 Kaohsiung  
+## 2 New Taipei 
+## 3 Pingtung   
+## 4 Taipei City
+## 5 Taoyuan    
+## 6 Yilan      
+## 
+## $Thailand
+## # A tibble: 5 x 1
+##   city            
+##   &lt;chr&gt;           
+## 1 Hat Yai         
+## 2 Khelang Nakhon  
+## 3 Lampang         
+## 4 Phuket          
+## 5 Ubon Ratchathani
+## 
+## $Turkey
+## # A tibble: 4 x 1
+##   city      
+##   &lt;chr&gt;     
+## 1 Bornova   
+## 2 Istanbul  
+## 3 Izmir     
+## 4 Kadiovacik
+## 
+## $`United Kingdom`
+## # A tibble: 7 x 1
+##   city          
+##   &lt;chr&gt;         
+## 1 Birmingham    
+## 2 Bournemouth   
+## 3 Bristol       
+## 4 Cardiff       
+## 5 Greater London
+## 6 Leicester     
+## 7 Manchester    
+## 
+## $USA
+## # A tibble: 64 x 1
+##    city                   
+##    &lt;chr&gt;                  
+##  1 Abington               
+##  2 Albany                 
+##  3 Alton, IL              
+##  4 Arlington, VA          
+##  5 Aspen and Pitkin County
+##  6 Atlanta                
+##  7 Austin                 
+##  8 Baltimore              
+##  9 Benicia                
+## 10 Blacksburg             
+## # … with 54 more rows
+## 
+## $Venezuela
+## # A tibble: 1 x 1
+##   city   
+##   &lt;chr&gt;  
+## 1 Caracas
+## 
+## $Vietnam
+## # A tibble: 1 x 1
+##   city 
+##   &lt;chr&gt;
+## 1 Hue</code></pre>
+</div>
+<div id="maps-with-multiple-input-objects" class="section level2">
+<h2>Maps with multiple input objects</h2>
+</div>
+</div>
+<div id="nested-data-frames" class="section level1">
+<h1>Nested data frames</h1>
+</div>
+<div id="list-columns" class="section level1">
+<h1>List columns</h1>
+<p>You can use purrr to do really fancy things like storing model objects in a tibble and using list columns.</p>
+<p>Now it’s with this list stuff that I really started to get interested.</p>
+</div>
+<div id="dplyr-for-lists" class="section level1">
+<h1>dplyr for lists</h1>
+<p>You can do all kinds of things to lists, just as you can dplyr data frames!</p>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesr'>R</a></li>
+    
+        <li><a href='/categoriespurrr'>purrr</a></li>
+    
+        <li><a href='/categoriestidyverse'>tidyverse</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2019-06-06_pre_processing/"
+                class="button big previous">Using the recipes package for easy pre-processing</a></li>
+    
+
+    
+        <li><a href="/blog/2019-07_11_base_r_to_tidyverse_pt2/"
+                class="button big next">A guide to transitioning into the tidyverse (part 2)</a></li>
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-07-25_base_r_to_tidyverse_pt2/">A guide to the tidyverse (part 2)</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-08-02'>
+                                    August 2, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-07-25_base_r_to_tidyverse/">A guide to the tidyverse (part 1)</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-08-02'>
+                                    August 2, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">18</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyverse/">tidyverse</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/ggplot2/">ggplot2</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">Machine Learning</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/purrr/">purrr</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/data-science/">Data Science</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/reproducibility/">Reproducibility</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/forcats/">forcats</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/lubridate/">lubridate</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/pipes/">pipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/readr/">readr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/stringr/">stringr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tibbles/">tibbles</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyr/">tidyr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Data Scientist, Communicator, Artist, Adventurer.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

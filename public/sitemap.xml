@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2019-08-05_base_r_to_tidyverse_pt2/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/2019-08-05_base_r_to_tidyverse/</loc>
+    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2019-06-06_pre_processing/</loc>
     <lastmod>2019-06-06T23:13:14-05:00</lastmod>
   </url>
@@ -164,7 +174,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2019-06-06T23:13:14-05:00</lastmod>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -218,7 +228,7 @@
   
   <url>
     <loc>/categories/dplyr/</loc>
-    <lastmod>2019-01-23T23:13:14-05:00</lastmod>
+    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -229,8 +239,20 @@
   </url>
   
   <url>
+    <loc>/categories/forcats/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/gender-bias/</loc>
     <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/ggplot2/</loc>
+    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -243,6 +265,12 @@
   <url>
     <loc>/categories/interactivity/</loc>
     <lastmod>2017-04-20T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/lubridate/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -265,8 +293,20 @@
   </url>
   
   <url>
+    <loc>/categories/pipes/</loc>
+    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/purrr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-06-06T23:13:14-05:00</lastmod>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -277,8 +317,14 @@
   </url>
   
   <url>
+    <loc>/categories/readr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/</loc>
-    <lastmod>2019-06-06T23:13:14-05:00</lastmod>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -295,6 +341,12 @@
   </url>
   
   <url>
+    <loc>/categories/stringr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/superheat/</loc>
     <lastmod>2017-02-05T09:44:30-08:00</lastmod>
     <priority>0</priority>
@@ -303,6 +355,24 @@
   <url>
     <loc>/tags/</loc>
     <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/tibbles/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/tidyr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/tidyverse/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

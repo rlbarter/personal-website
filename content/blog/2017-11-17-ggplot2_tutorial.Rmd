@@ -71,7 +71,7 @@ ggplot(gapminder_2007) +
 
 ## The layered grammar of graphics
 
-Hadley Wickham built ggplot2 based on a set of principles outlines in his *layered grammar of graphics* (inspired by Wilkinson's original *grammar of graphics*). The basic idea is that a statistical graphic is a mapping from data to aesthetic attributed (such as colour, shape, and size) of geometric objects (such as points, lines, and bars).
+Hadley Wickham built ggplot2 based on a set of principles outlines in his *layered grammar of graphics* (inspired by Wilkinson's original *grammar of graphics*). The basic idea is that a statistical graphic is a mapping from data to aesthetic attributes (such as colour, shape, and size) of geometric objects (such as points, lines, and bars).
 
 We will use some of this terminology as we progress and discover that each piece of terminology corresponds to a type of object in ggplot2.
 
@@ -97,7 +97,7 @@ head(gapminder)
 ```
 
 
-The first argument we will use is the `ggplot` function. This function allows us to define the data that we will be using to make the plot, as well as the aesthetic properties that will be mapped to the geometric objects. That is, we will tell ggplot which data (a data frame) we are interested in and how each of the variables in our dataset will be used (e.g. as an x or y coordinate, as a coloring variable or a size variable, etc).
+The first function we will use is `ggplot()`. This function allows us to define the data that we will be using to make the plot, as well as the aesthetic properties that will be mapped to the geometric objects. That is, we will tell ggplot which data (a data frame) we are interested in and how each of the variables in our dataset will be used (e.g. as an x or y coordinate, as a coloring variable or a size variable, etc).
     
     
     

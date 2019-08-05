@@ -1,0 +1,507 @@
+---
+title: "A guide to transitioning into the tidyverse (part 1)"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, tidyverse, dplyr, ggplot2]
+date: 2019-07-11T23:13:14-05:00
+type: "post" 
+description: "." 
+---
+
+```{r echo = FALSE, fig.align = "center"}
+knitr::include_graphics("/img/tidyverse/tidyverse_all.png")
+```
+
+Most people who learned R long before the tidyverse came to be have at some point in the past couple of years felt at least a nibble of pressure to get aboard the tidyverse train... or climb the tidyverse wall... *(oh man - in my head this metaphor is going to be so good)*. But when you've been comfortable doing something a certain way for years, the tidyverse wall probably looks a bit like El Cap (*here we go...*). How in the world does anyone go from never having climbed anything ever to climbing the granite beast that is El Cap? While you may not be free-soloing El Cap like you're Alex Honnold anytime soon (*in my head, Alex is a metaphor for Hadley Wickham*), you can at take a few gentle steps towards getting comfortable on the tidyverse wall. (*I suspect that my climbing metaphors are probably getting away from me... so I'm going to quit while I'm ahead*)
+
+As someone who was first trained 10 years ago in base R, I too had an initial reluctance to learn the tidyverse, asking myself "why should I spend my time learning a different way of doing something that I already know how to do?". It has now been 5 years since I stuck my little toe into the shallow-end of the tidyverse pool after being pushed to learn ggplot2 in my first year of grad school. From where I float now substantially closer to the deep-end of the pool, I would provide the following arguments to my past (slightly stubborn) self for why it is a good idea to learn the tidyverse:
+
+- Regardless of whether you think the tidyverse or base R is "better", it is always a good idea to keep up with what is current. It's so easy to get left behind. What you learn today will most likely be out-of-date in a year, but next year's iteration of what is current will almost certainly be built upon today's iteration.
+
+- Code written in the tidyverse style is much easier to read, and is more consistent than base R (e.g. the first argument of almost every tidyverse function is a data frame). Base R has a somewhat inconsistent mish-mash of function and argument styles.
+
+- The humans that make up the tidyverse community is amazing.
+
+The "tidyverse" is both a way of thinking about implementing "tidy" data analysis, as well as a set of useful packages (*ggplot2*, *dplyr*, *purrr*, *tidyr*, *readr*, *tibble*) as well as the unnoficial tidyverse packages *lubridate*, *forcats*, and *stringr*)  that work well together to perform tidy analyses. Much of the initial efforts of the tidyverse were the brainchild of Hadley Wickham, but these days there are a huge number of people who contribute to, maintain and develop the tidyverse. The tidyverse is open-source and collaborative (which means that you - yes *you* - could contribute to it if you wanted to). Tidyverse packages are hosted on the tidyverse github: https://github.com/tidyverse.
+
+
+The goal of this post is to summarise the overall goals of the tidyverse, the packages that makeup the tidyverse (and how they play together) and to provide links to helpful resources for learning them. It is important to remember that the tidyverse is constantly evolving, and the best place to keep up to date with the evolving tidyverse ecosystem turns out to be twitter. Mara Averick (@dataandme) and Hadley Wickham (@hadleywickham) are good people to follow. 
+
+A great resource for learning about the tidyverse in more detail is [R for Data Science](https://r4ds.had.co.nz/) by Garrett Grolemund and Hadley Wickham.
+
+# Entering the tidyverse
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/tidyverse.png")
+```
+
+The fundamental object type of the tidyverse is the data frame (which, once you get a little deeper into the tidyverse ecosystem, becomes a "tibble" - more on that later). The starting point for getting comfortable with the tidyverse is to *always store your data as a **data frame***  (rather than as a matrix or as vectors) with informative string-based column names where words are separated by underscores.
+
+For me at least, the tidyverse is not simply a set of functions that replace base R functions. At the risk of sounding "preachy", the tidyverse represents a way of *thinking* about how you conduct your data analysis. 
+
+The primary ways in which my thinking changed after shifting from base R to the tidyverse are:
+
+- Think of your data frame as the universe, and the columns of your data frame as the objects in your universe that you can explore, manipulate and model.
+
+- When coding in *base R*, it is very common to define many modified versions of the same data frame (or data object). When coding in the *tidyverse*, the key is to **minimize defining new data objects**. Instead, focus on manipulating your current data frame and just printing the output of your manipulations (e.g. a summary or plot). Only save the new version as a new object if you will be using both the original data object and the new data object down the line. 
+
+If you're short on time, or just want to get the gist of the tidyverse, I'd recommend focusing on dplyr and ggplot2.
+
+To load the tidyverse packages, you could install them all individually (once):
+
+```{r, message=FALSE, warning=FALSE, eval = FALSE}
+# only ever run once to install the individual packages on your system
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("purrr")
+install.packages("tidyr")
+install.packages("readr")
+install.packages("tibble")
+```
+
+and then load them all into your session individually every time:
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(purrr)
+library(tidyr)
+library(readr)
+library(tibble)
+```
+
+*or*, you could just install and load the `tidyverse` package, which will do all of the above for you:
+
+```{r eval = FALSE, message=FALSE, warning=FALSE}
+# only ever run once to install the tidyverse on your system
+install.packages("tidyverse")
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+which is much easier.
+
+Throughout this tutorial, we will use the gapminder dataset that can be loaded directly if you're connected to the internet.
+
+My general workflow involves loading the original data and saving it as an object with a meaningful name and an `_orig` suffix. I then define a copy of the original dataset without the `_orig` suffix. Having an original copy of my data in my environment means that it is easy to check that my manipulations do what I expected.
+
+```{r message=FALSE, warning=FALSE}
+# to download the data directly:
+gapminder_orig <- read.csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv")
+# define a copy of the original dataset that we will play with
+gapminder <- gapminder_orig
+```
+
+
+```{r}
+dim(gapminder)
+head(gapminder)
+```
+
+# Core tidyverse: data manipulation and visualization
+
+If you're new to the tidyverse, I recommend focusing your energy on getting comfortable with three things: **piping** arguments into functions (using `%>%`), **dplyr** (the `filter()`, `select()`, `mutate()`, `summarise()`, `arrange()` and `group_by()` functions that you can use to manipulate data frames) and **ggplot2** for visualizing your data.
+
+## Piping: %>%
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/pipe.png")
+```
+
+Pipes are the workhorse of tidy analyses. Piping allows you to chain together many functions, eliminating the need to actulaly *define* multiple intermediate objects to use as the input to functions. Pipes are also the reason that tidyverse code is fundamentally easier to read than base R code: there is no need to keep track of multiple objects at once.
+
+Consider the following code. If you read the pipe symbol, `%>%`, as *"and then"*, can you think through what the code will produce (even if you've never seen the `filter` and `select` dplyr functions before)?
+
+```{r, eval = FALSE}
+gapminder %>%
+  filter(continent == "Americas", year == "2007") %>%
+  select(country, lifeExp)
+```
+
+
+I literally read this code in my head as: *take the gapminder dataset **and then** filter to the "Americas" continents for the year 2007 **and then** select the country and life expectancy variables.*
+
+Running this code first filters the data frame only to the rows whose `continent` value is "Americas" and whose `year` value is "2007", and then it shows you the `country` and `lifeExp` columns for those rows. Run it yourself to see.
+
+```{r}
+# take the gapminder dataset
+gapminder %>%
+  # and filter to the rows whose continent is Americas and year is 2007
+  filter(continent == "Americas", year == 2007) %>%
+  # show the country and lifeExp values for these rows
+  select(country, lifeExp)
+```
+
+Note that we couldn't reverse the `select` and `filter` actions because the `select` function manipulates the `gapminder` data frame so that it only has the `country` and `lifeExp` columns left, and then we are trying to filter on the `continent` and `year` variables that no longer exist. Check for yourself that the following code fires an error:
+
+```{r, eval = FALSE}
+gapminder %>%
+  select(country, lifeExp) %>%
+  filter(continent == "Americas", year == 2007) 
+```
+
+To really become dangerous with the pipe, it's a good idea to understand what it's actually doing. The pipe uses the object on the left-hand-side of the `%>%` as the *first argument* of the function on the right-hand-side.
+
+For instance, the un-piped version of 
+
+```{r eval = FALSE}
+gapminder %>%
+  filter(continent == "Americas", year == 2007)
+```
+
+is 
+
+```{r eval = FALSE}
+filter(gapminder, continent == "Americas", year == 2007)
+```
+
+However, if we didn't use piping, but we wanted to do many manipulations, our code would very quickly get messy and difficult to read. In the style of base R, the common way of making code more readable is to define intermediate objects. 
+
+```{r}
+gapminder_filtered <- filter(gapminder, continent == "Americas", year == 2007)
+gapminder_filtered_selected <- select(gapminder_filtered, country, lifeExp)
+gapminder_filtered_selected
+```
+
+To me, the piped version (below) is infinitely more clear, and simultaneously got rid of the need to define any intermediate objects that we would have needed to keep track of while reading the code:
+
+```{r eval = FALSE}
+# take the gapminder dataset
+gapminder %>%
+  # and filter to the rows whose continent is Americas and year is 2007
+  filter(continent == "Americas", year == 2007) %>%
+  # show the country and lifeExp values for these rows
+  select(country, lifeExp)
+```
+
+Once you get more and more comfortable with piping, you will find that *all* of your code ends up using pipes. 
+
+Hopefully you're already starting to see how the tidyverse alters your approach to how you write code itself.
+
+## Data maniupation: dplyr
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/dplyr.png")
+```
+
+The `filter` and `select` functions that we just introduced in the pipes section above are examples of data manipualtion functions from the `dplyr` package. 
+
+You may have noticed that the variable names `continent`, `year`, `country`, `lifeExp` that were used inside the `filter` and `select` functions were unquoted. One of the key components of the tidyverse is thinking of your universe as the data frame and the *columns* of the data frame as variables or objects that you can play with. Just like how you don't need to quote variables in your environment to play with them, you (generally) don't need to quote data frame variable names (columns) inside tidyverse functions. 
+
+Let's contrast this piped dplyr code:
+
+```{r eval = FALSE}
+# take the gapminder dataset
+gapminder %>%
+  # and filter to the rows whose continent is Americas and year is 2007
+  filter(continent == "Americas", year == 2007) %>%
+  # show the country and lifeExp values for these rows
+  select(country, lifeExp)
+```
+
+with one potential version of equivalent base R code:
+
+```{r eval = FALSE}
+# identify which rows correspond to the Americas and the year 2007
+continent_year_index <- which(gapminder["continent"] == "Americas" & gapminder["year"] == 2007)
+# pull only those rows and show the country and life expectency columns
+gapminder[continent_year_index, c("country", "lifeExp")]
+```
+
+There are a few key differences
+
+- The variable names are quoted in the base R version but not in the dplyr version
+
+- An intermediate row index variable was defined in the base R version but not in the dplyr version
+
+In the tidyverse, you will almost never use the `[]` indexing nor the `$` data frame column indexing that are pervasive throughout base R code. Indexing in dplyr is done using `filter()` for rows and `select()` for columns.
+
+The primary dplyr functions are 
+
+### `select`: select which columns to keep (can remove columns using `-colname`) 
+
+```{r}
+gapminder %>% 
+  select(country, gdpPercap) 
+```
+
+```{r}
+gapminder %>% 
+  select(-continent) 
+```
+
+### `filter`: filter to rows that satisfy certain conditions (where the conditions are based on logical statements involving variables/columns of the data frame)
+
+```{r}
+gapminder %>% 
+  filter(pop > 100000000) 
+```
+
+### `mutate`: add a new variable that can be a function of existing variables or based on external information entirely
+
+```{r}
+gapminder %>% 
+  mutate(gdp = gdpPercap * pop)
+```
+
+### `arrange`: arrange the rows of the data frame in order of one of the data frame variables (or more than one of the variables)
+
+```{r}
+gapminder %>% 
+  arrange(lifeExp)
+```
+
+```{r}
+gapminder %>% 
+  arrange(desc(gdpPercap))
+```
+
+### `group_by`: apply other dplyr functions separately within within a group defined by one or more variables
+
+```{r}
+gapminder %>% 
+  group_by(continent) %>%
+  arrange(lifeExp)
+```
+
+### `summarise`/`summarize`: define a variable that is a summary of other variables
+
+```{r}
+gapminder %>% 
+  summarise(mean_lifeExp = mean(lifeExp),
+            mean_gdpPercap = mean(gdpPercap))
+```
+
+Advanced dplyr practitioners will eventually want to learn about [*scoped verbs*](http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/). 
+
+
+
+
+## Visualization: ggplot2
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/ggplot2.png")
+```
+
+The first tidyverse package I ever learnt was ggplot2 (the more popoular older sibling of the non-existant ggplot1). Ggplot2 is the data visualization package that Hadley Wickham based on a set of principles outlines in his *layered grammar of graphics* (inspired by Wilkinson's original *grammar of graphics*). The basic idea is that a ggplot graphic (and any graphic, really) is a mapping from the variables in a data frame to aesthetic attributes (such as colour, shape, and size) of geometric objects (such as points, lines, and bars).
+
+
+We will use some of this terminology as we progress and discover that each piece of terminology corresponds to a type of object in ggplot2.
+
+- **data**: a data frame containing the variables that you want to visualize
+
+- **geoms**: geometric objects (circles, lines, text) that you will actually see
+
+- **aesthetics**: the mapping from the data to the geographic objects (e.g. by describing position, size, colour, etc)
+
+
+The first function we will use is the `ggplot()` function. This function allows us to define the data that we will be using to make the plot, as well as the aesthetic properties that will be mapped to the geometric objects. That is, we will tell ggplot which data (a data frame) we are interested in and how each of the variables in our dataset will be used (e.g. as an x or y coordinate, as a coloring variable or a size variable, etc).
+
+Below, we define our first ggplot object using the `ggplot` function, with the gapminder dataset and the x and y aesthetics defined by the `gdpPercap` and `lifeExp` variables, respectively. 
+
+The output of this function is a grid with `gdpPercap` as the x-axis and `lifeExp` as the y-axis. However, we have not yet told ggplot what type of geometric object the data will be mapped to, so no data has been displayed.
+
+```{r, fig.align="center"}
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp))
+```
+
+Note that now that we know about pipes, we can combine dplyr manipulations with ggplot easily. To only plot data from the year 2007, we can first produce a data frame that is a filtered version of the `gapminder` data frame consisting of only the year 2007, and pipe it into the `ggplot()` function.
+
+
+```{r, fig.align="center"}
+gapminder %>%
+  filter(year == 2007) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp))
+```
+
+
+### Adding aesthetic mapping layers
+
+Next, we will add a "geom" layer to our ggplot object. 
+
+Layers are added to ggplot objects using `+`, instead of `%>%`, since we are not explicitly piping a plot into each subsequent layer, we are literally adding a layer on top. The error messages have recently been improved to warn you if you are accidentally using a pipe `%>%` to add layers to ggplot objects (which, once you start piping everything into everything, becomes an easy mistake to make).
+
+For example, we could add a points layer which would automatically adopt the aesthetic mapping described in the previous line of code.
+
+```{r, fig.align="center"}
+# describe the base ggplot object and tell it what data we are interested in along with the aesthetic mapping
+gapminder %>%
+  filter(year == 2007) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  # add a points layer on top
+  geom_point()
+```
+
+What we have done is map each country (row) in the data to a point in the space defined by the GDP and life expectancy value. The end result is an ugly blob of points. Fortunately, there are many things that we can do to make this blob of points prettier.
+
+
+For example, we can change the transparency of all points by setting the alpha argument to a low value, changing the color of the points to be blue instead of black, and making the points smaller.
+
+```{r, fig.align="center"}
+gapminder %>%
+  filter(year == 2007) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(alpha = 0.5, col = "cornflowerblue")
+```
+
+
+Note that the above `color` argument changed the alpha value and color for *all of the points at once*. 
+
+One of the truly powerful features of ggplot2 is the ability to change these aesthetics based on the data itself. For example, perhaps we want to color each point by its `continent`. Instead of separating the data into five different subsets (based on the possible values of continent), and adding the different colored points separately, we can simply add all the points once and add an colour aesthetic map for `continent`.
+
+Note that whenever we are using a variable from the data to describe an aesthetic property of a geom, this aesthetic property needs to be included in the `aes()` function. We can first use dplyr's `distinct()` function to identify the distinct values of the continent variable.
+
+```{r}
+gapminder %>% distinct(continent)
+```
+
+```{r, fig.align="center"}
+gapminder %>%
+  filter(year == 2007) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point(alpha = 0.5)
+```
+
+We could also add aesthetic mappings for other features such as shape, size, transparency (alpha), and more! For example, changing the size based on population:
+
+```{r, fig.align="center"}
+gapminder %>%
+  filter(year == 2007) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+  geom_point(alpha = 0.5)
+```
+
+### Types of layers
+
+So far, we have only seen scatterplots (point geoms), however, there are many other geoms we could add, including:
+
+- lines
+
+- histograms
+
+- boxplots and violin plots
+
+- barplots
+
+- smoothed curves
+
+```{r, fig.align="center"}
+gapminder %>%
+  ggplot(aes(x = year, y = lifeExp, group = country, color = continent)) +
+  geom_line(alpha = 0.5)
+```
+
+```{r, fig.align="center"}
+gapminder %>%
+  ggplot(aes(x = continent, y = lifeExp, fill = continent)) +
+  geom_boxplot()
+```
+
+
+```{r, fig.align="center"}
+gapminder %>%
+  ggplot(aes(x = lifeExp)) + 
+  geom_histogram(binwidth = 3)
+```
+
+
+Note that we could either specify *global* aesthetics in the `ggplot()` function (as above), or we can specify geom-specific aesthetics in the `geom_()` function (this is useful if you are layering multiple geoms ontop of one another). For instance, we could plot a point geom where each point is colored by its continent, but if we also want to place a smoothed LOESS curve that isn't colored by continent, we could specify the `color` aesthetic only in the point geom layer, while specifying global `x` and `y` aesthetics in the `ggplot()` function.
+
+
+```{r, fig.align="center"}
+gapminder %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp, size = pop)) +
+  geom_point(aes(color = continent), alpha = 0.5) +
+  geom_smooth(se = FALSE, method = "loess", color = "grey30")
+```
+
+While we have stayed within the default ggplot2 functionalities here, there is a lot you can do with ggplot2. For instance, producing a highly-customized plot such as 
+
+```{r fig.align = "center"}
+gapminder %>% 
+  filter(year == 2007) %>%
+  ggplot() +
+  # add scatter points
+  geom_point(aes(x = gdpPercap, y = lifeExp, color = continent, size = pop),
+             alpha = 0.5) +
+  # add some text annotations for the very large countries
+  geom_text(aes(x = gdpPercap, y = lifeExp + 3, label = country),
+            color = "grey50",
+            data = filter(gapminder, year == 2007, pop > 1000000000 | country %in% c("Nigeria", "United States"))) +
+  # clean the axes names and breaks
+  scale_x_log10(limits = c(200, 60000)) +
+  # change labels
+  labs(title = "GDP versus life expectancy in 2007",
+       x = "GDP per capita (log scale)",
+       y = "Life expectancy",
+       size = "Popoulation",
+       color = "Continent") +
+  # change the size scale
+  scale_size(range = c(0.1, 10),
+             # remove size legend
+             guide = "none") +
+  # add a nicer theme
+  theme_classic() +
+  # place legend at top and grey axis lines
+  theme(legend.position = "top",
+        axis.line = element_line(color = "grey85"),
+        axis.ticks = element_line(color = "grey85"))
+```
+
+
+
+If you'd like to learn more about ggplot2, such as themes, scales and advanced geoms, check out my more detailed [ggplot2 blog post](http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/).
+
+
+If the tidyverse is new to you, I suggest that you stop here for now. Focus on incoporating piping, dplyr, and ggplot2 into every analysis that you do for the next few months (even if it would initially be quicker to use base R versions). When you feel comfortable with your new skills, come back to this post and start to incorporate the remaining tidyverse packages (below) into your analytic workflow. Trying to learn everything at once is a sure-fire way to become discouraged. First get comfortable with the main ideas, then learn some more.
+
+
+# Supplementary tidyverse
+
+
+## Data shaping: tidyr
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/tidyr.jpg")
+```
+
+
+## Replacing loops: purrr
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/purrr.jpg")
+```
+
+## Loading data: readr
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/readr.png")
+```
+
+
+## Storing data: tibbles
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/tibble.png")
+```
+
+## Dates, factors and strings: lubridate, forcats and stringr
+
+While not technically a part of the tidyverse, these are also very useful packages
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/lubridate.png")
+```
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/forcats.png")
+```
+
+```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
+knitr::include_graphics("/img/tidyverse/stringr.png")
+```

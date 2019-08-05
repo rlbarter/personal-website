@@ -4,7 +4,7 @@ author: "Rebecca Barter"
 output:
   blogdown::html_page:
     toc: true
-categories: [dplyr, R]
+categories: [dplyr, R, tidyverse]
 date: 2019-01-23T23:13:14-05:00
 type: "post" 
 description: "What's the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn't seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they're called 'scoped verbs' and hopefully this post will become one of many decent explanations of how to use them!" 

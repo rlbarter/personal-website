@@ -77,7 +77,7 @@
     <item>
       <title>Dplyr</title>
       <link>/categories/dplyr/</link>
-      <pubDate>Wed, 23 Jan 2019 23:13:14 -0500</pubDate>
+      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
       
       <guid>/categories/dplyr/</guid>
       <description></description>
@@ -89,6 +89,24 @@
       <pubDate>Mon, 21 Jan 2019 23:13:14 -0500</pubDate>
       
       <guid>/categories/exploration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Forcats</title>
+      <link>/categories/forcats/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/forcats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ggplot2</title>
+      <link>/categories/ggplot2/</link>
+      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
+      
+      <guid>/categories/ggplot2/</guid>
       <description></description>
     </item>
     
@@ -111,6 +129,15 @@
     </item>
     
     <item>
+      <title>Lubridate</title>
+      <link>/categories/lubridate/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/lubridate/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Machine Learning</title>
       <link>/categories/machine-learning/</link>
       <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
@@ -129,11 +156,38 @@
     </item>
     
     <item>
+      <title>Pipes</title>
+      <link>/categories/pipes/</link>
+      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
+      
+      <guid>/categories/pipes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Purrr</title>
+      <link>/categories/purrr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/purrr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
       
       <guid>/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Readr</title>
+      <link>/categories/readr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/readr/</guid>
       <description></description>
     </item>
     
@@ -156,11 +210,47 @@
     </item>
     
     <item>
+      <title>Stringr</title>
+      <link>/categories/stringr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/stringr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Superheat</title>
       <link>/categories/superheat/</link>
       <pubDate>Sun, 05 Feb 2017 09:44:30 -0800</pubDate>
       
       <guid>/categories/superheat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tibbles</title>
+      <link>/categories/tibbles/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tibbles/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tidyr</title>
+      <link>/categories/tidyr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidyr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tidyverse</title>
+      <link>/categories/tidyverse/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidyverse/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pipes on Rebecca Barter</title>
+    <link>/categories/pipes/</link>
+    <description>Recent content in Pipes on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Aug 2019 22:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/pipes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Transitioning into the tidyverse (part 1)</title>
+      <link>/blog/2019-08-05_base_r_to_tidyverse/</link>
+      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-08-05_base_r_to_tidyverse/</guid>
+      <description>Entering the tidyverse Piping: %&amp;gt;% Data manipulation: dplyr select: select columns filter: filter to rows that satisfy certain conditions mutate: add a new variable arrange: arrange the rows of the data frame in order a variable group_by: apply other dplyr functions separately within within a group defined by one or more variables summarise/summarize: define a variable that is a summary of other variables More dplyr functions  Visualization: ggplot2 Adding geom layers More aesthetic mappings based on variables Other types of layers Histograms Boxplots Faceting  Customizing ggplot2    Most people who learned R before the tidyverse have likely started to feel a nibble of pressure to get aboard the tidyverse train.</description>
+    </item>
+    
+  </channel>
+</rss>

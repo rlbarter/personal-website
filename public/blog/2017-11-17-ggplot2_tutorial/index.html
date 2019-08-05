@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2017-11-17T22:13:14-05:00" />
 <meta itemprop="dateModified" content="2017-11-17T22:13:14-05:00" />
-<meta itemprop="wordCount" content="2148">
+<meta itemprop="wordCount" content="2146">
 
 
 
@@ -310,11 +310,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2019-06-06_pre_processing/"><p>Using the recipes package for easy pre-processing</p></a>
+                        <a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/"><p>Transitioning into the tidyverse (part 2)</p></a>
                     </li>
                 
                     <li>
-                        <a href="/blog/2019-03-07_reproducible_pipeline/"><p>A quick guide to developing a reproducible and consistent data science workflow</p></a>
+                        <a href="/blog/2019-08-05_base_r_to_tidyverse/"><p>Transitioning into the tidyverse (part 1)</p></a>
                     </li>
                 
             </ul>
@@ -482,7 +482,7 @@ ga('send', 'pageview');
 </div>
 <div id="the-layered-grammar-of-graphics" class="section level2">
 <h2>The layered grammar of graphics</h2>
-<p>Hadley Wickham built ggplot2 based on a set of principles outlines in his <em>layered grammar of graphics</em> (inspired by Wilkinson’s original <em>grammar of graphics</em>). The basic idea is that a statistical graphic is a mapping from data to aesthetic attributed (such as colour, shape, and size) of geometric objects (such as points, lines, and bars).</p>
+<p>Hadley Wickham built ggplot2 based on a set of principles outlines in his <em>layered grammar of graphics</em> (inspired by Wilkinson’s original <em>grammar of graphics</em>). The basic idea is that a statistical graphic is a mapping from data to aesthetic attributes (such as colour, shape, and size) of geometric objects (such as points, lines, and bars).</p>
 <p>We will use some of this terminology as we progress and discover that each piece of terminology corresponds to a type of object in ggplot2.</p>
 <ul>
 <li><p><strong>data</strong>: a data frame containing the variables that you want to visualize</p></li>
@@ -504,7 +504,7 @@ gapminder &lt;- read.csv(&quot;https://raw.githubusercontent.com/swcarpentry/r-n
 ## 4 Afghanistan 1967 11537966      Asia  34.020  836.1971
 ## 5 Afghanistan 1972 13079460      Asia  36.088  739.9811
 ## 6 Afghanistan 1977 14880372      Asia  38.438  786.1134</code></pre>
-<p>The first argument we will use is the <code>ggplot</code> function. This function allows us to define the data that we will be using to make the plot, as well as the aesthetic properties that will be mapped to the geometric objects. That is, we will tell ggplot which data (a data frame) we are interested in and how each of the variables in our dataset will be used (e.g. as an x or y coordinate, as a coloring variable or a size variable, etc).</p>
+<p>The first function we will use is <code>ggplot()</code>. This function allows us to define the data that we will be using to make the plot, as well as the aesthetic properties that will be mapped to the geometric objects. That is, we will tell ggplot which data (a data frame) we are interested in and how each of the variables in our dataset will be used (e.g. as an x or y coordinate, as a coloring variable or a size variable, etc).</p>
 <p>Below, we define our first ggplot object using the <code>ggplot</code> function, with the gapminder dataset and the x and y aesthetics defined by the <code>gdpPercap</code> and <code>lifeExp</code> variables, respectively.</p>
 <p>The output of this function is a grid with <code>gdpPercap</code> as the x-axis and <code>lifeExp</code> as the y-axis. However, we have not yet told ggplot what type of geometric object the data will be mapped to, so no data has been displayed.</p>
 <pre class="r"><code>ggplot(gapminder, aes(x = gdpPercap, y = lifeExp))</code></pre>
@@ -896,13 +896,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2019-06-06_pre_processing/">Using the recipes package for easy pre-processing</a></h3>
+                                <h3><a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/">Transitioning into the tidyverse (part 2)</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2019-06-06'>
-                                    June 6, 2019</time>
+                                    '2019-08-05'>
+                                    August 5, 2019</time>
                             </header>
                         </article>
                     </li>
@@ -910,13 +910,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2019-03-07_reproducible_pipeline/">A quick guide to developing a reproducible and consistent data science workflow</a></h3>
+                                <h3><a href="/blog/2019-08-05_base_r_to_tidyverse/">Transitioning into the tidyverse (part 1)</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2019-03-23'>
-                                    March 23, 2019</time>
+                                    '2019-08-05'>
+                                    August 5, 2019</time>
                             </header>
                         </article>
                     </li>
@@ -955,7 +955,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/r/">R</a>
-                                <span style="float:right;">13</span>
+                                <span style="float:right;">15</span>
                             </header>
                         </article>
                     </li>
@@ -991,6 +991,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyverse/">tidyverse</a>
                                 <span style="float:right;">3</span>
                             </header>
                         </article>
@@ -1036,6 +1045,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/dplyr/">dplyr</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1116,7 +1134,79 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/dplyr/">dplyr</a>
+                                <a href="/categories/forcats/">forcats</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/ggplot2/">ggplot2</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/lubridate/">lubridate</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/pipes/">pipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/purrr/">purrr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/readr/">readr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/stringr/">stringr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tibbles/">tibbles</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyr/">tidyr</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1139,7 +1229,7 @@ s.setAttribute('data-timestamp', +new Date());
         
         <section class="blurb">
             <h2>About</h2>
-            <p>Statistics PhD Student, Data Science Fellow and Avid Knitter.</p>
+            <p>Data Scientist, Communicator, Artist, Adventurer.</p>
 
             <ul class="actions">
                 <li><a href="/about/" class="button">Learn More</a></li>

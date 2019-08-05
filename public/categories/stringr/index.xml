@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stringr on Rebecca Barter</title>
+    <link>/categories/stringr/</link>
+    <description>Recent content in Stringr on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Aug 2019 23:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/stringr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Transitioning into the tidyverse (part 2)</title>
+      <link>/blog/2019-08-05_base_r_to_tidyverse_pt2/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-08-05_base_r_to_tidyverse_pt2/</guid>
+      <description>Data shaping: tidyr Gathering and spreading Combining and separating variables  Replacing loops: purrr Loading data: readr Storing data: tibbles Dates, factors and strings: lubridate, forcats and stringr Handling dates and times: lubridate Handling factors: forcats Handling strings: stringr    If you’re new to the tidyverse, I recommend that you first read part one of this two-part series on transitioning into the tidyverse. Part 1 focuses on what I feel are the most important aspects and packages of the tidyverse: tidy thinking, piping, dplyr and ggplot2.</description>
+    </item>
+    
+  </channel>
+</rss>
