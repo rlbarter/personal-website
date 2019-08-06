@@ -1,0 +1,219 @@
+---
+title: "Learn to purrr"
+author: "Rebecca Barter"
+categories: [R, purrr, tidyverse]
+date: 2019-08-05T23:13:14-05:00
+type: "post" 
+description: "." 
+---
+
+When I started writing this blog post I thought of `purrr` both as a tidy tool for applying map functions and as the package with the cutest name ever. 
+
+To start with, here is a picture of a cat reading a map. Perhaps this cat is relevant to this post. Perhaps it is not. 
+
+```{r echo = FALSE}
+knitr::include_graphics("/img/purrr/cat_map.jpg")
+```
+
+If you're not sure about how cats and maps are related, think briefly on the Harry Potter quote: 
+
+> "It was on the corner of the street that he noticed the first sign of something peculiar - a cat reading a map"
+
+Feline wizidry musings aside, a "map" function is one that applies the same action/function to every element of an object (e.g. each entry of a list or a vector, or each of the columns of a data frame). If you're familiar with the base R `apply()` functions, then it turns out that you are already familiar with map functions, even if you didn't know it! For people who like to think about different styles of programming, the use of maps to iteratively apply functions is a key element of "functional programming".  
+
+While map functions are probably the most widely used feature of the purrr package, in this blog you will learn that there is actually a lot more to purrr than map functions. To get a quick snapshot of any tidyverse package, a nice place to start is the [cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf). 
+
+In this blog post, I'll give some examples of `purrr`'s most useful features, starting with the `map` functions. If after reading this short post, you're looking for a more in-depth resource for learning purrr, look no further than [Jenny Bryan's tutorial](https://jennybc.github.io/purrr-tutorial/). Jenny's page is fantastic. This blog post will be a lot shorter than Jenny's tutorial, and will get you going with the basics of purrr very quickly.
+
+
+# Map functions: beyond apply 
+
+The `apply()` functions are set of super useful base-R functions for iteratively performing an action across entries of a vector or list without having to write a for-loop. The most common apply functions are 
+
+-  `apply(matrix, margin, fun)` applies a function, `fun`, across each of the rows (if you set `margin = 1`) or each of the columns (if you set `margin = 2`) of a `matrix` (or array) and returns a vector.
+
+- `sapply(object, fun)` applies a function, `fun`, to each entry of an `object` (which could be a vector, a data frame or a list), and usually returns a vector, but sometimes it returns a matrix, and often it is difficult to guess what type of object it will return before you run your code.
+
+- `lapply(list, fun)` applies a function, `fun`, to each entry of a `list`, and returns a list. This one at least usually makes sense relative to the other apply functions.
+
+While there is nothing fundamentally wrong with the base R apply functions, the syntax is somewhat inconsistent across the different apply functions, and the expected type of the object they return is often ambiguous (at least it is for `sapply`...) 
+
+
+Each of `purrr`'s map functions can be applied to vectors, lists and data frames. It is useful to remember that a data frame is a special type of a list where each columns of the data frame corresponds to an entry of the list. Each entry of the data frame-list is a vector of the same length (although the vectors do not need to be of the same type). 
+
+One of the primary features of `purrr`'s map functions is that you need to specify the form of your output as a function suffix separated by an underscore. For example:
+
+- `map(object, fun)` is the primary mapping function and returns a list
+
+- `map_df(object, fun)` returns a data frame
+
+- `map_dbl(object, fun)` returns a numeric (double) vector
+
+- `map_chr(object, fun)` returns a character vector
+
+- `map_lgl(object, fun)` returns a logical vector
+
+Consistent with the way of the tidyverse, the first argument of each mapping function is always the data object that you want to map over and the second argument is the function that you want to apply to each element of the data object. Since the first argument is always the data, this means that map functions play nicely with pipes (`%>%`). 
+
+If you've never seen pipes before, they're really useful (originally from the `magrittr` package, but also ported with the `dplyr` package). Piping allows you to string together many functions by piping an object (which itself might be the output of a function) into the first argument of the next function. 
+
+
+## Simplest usage: repeated looping with map
+
+
+Fundamentally, maps are for iteration. Long ago, the wisdom was that the best way to iterate in R is not to use a for-loop (as in the example below)
+
+```{r}
+# initialize an empty list
+number_list <- list()
+# initialize an index
+i <- 1
+# start a for-loop
+for (number in c(1, 4, 7)) {
+  # enter the current number + 10 into the list 
+  number_list[[i]] <- number + 10
+  # increase the list index by 1
+  i <- i + 1
+}
+number_list
+```
+
+but to use an apply function, whose first argument is the thing you're looping over, and the second argument is the function you're applying at each iteration. 
+There are a few apply functions out there:
+
+- `lapply` is the apply function that iterates on the entries of a vector or list (or the columns of a data frame) and returns a list 
+
+- `sapply` is the apply function that iterates on the entries of a vector or list (or the columns of a data frame) and returns a vector, a matrix, or something else entirely
+
+
+
+```{r}
+lapply(c(1, 4, 7), function(number) {
+  return(number + 10)
+})
+sapply(c(1, 4, 7), function(number) {
+  return(number + 10)
+})
+```
+
+The map `purrr` equivalent of `lapply` is `map` and the `purrr` equivalent of `sapply` comes in a few forms: if we want our output to be numeric, then it is `map_dbl`, if we want it to be a character, then it is `map_chr`. 
+
+
+```{r}
+library(purrr)
+map(c(1, 4, 7), function(number) {
+  return(number + 10)
+})
+map_dbl(c(1, 4, 7), function(number) {
+  return(number + 10)
+})
+map_chr(c(1, 4, 7), function(number) {
+  return(number + 10)
+})
+```
+
+If you want to return a data frame, then you would use `map_df`
+
+```{r}
+map_df(c(1, 4, 7), function(number) {
+  data.frame(old_number = number, 
+             new_number = number + 10)
+})
+```
+
+
+The **input** to any `map` function is always either 
+
+- a **vector** (of any type), in which case the iteration is done over the entries of the vector
+
+- a **list**, in which case the iteration is performed over the elements of the list
+
+- a **data frame**, in which case the iteration is performed over the columns of the data frame (which, since a data frame is a special kind of list, is technically the same as the previous point)
+
+The **output** of each map function is specified by the term that follows the underscore in the funciton name. 
+
+
+## Applying map functions to CO2 emissions
+
+
+Let's start to play with some more interesting data on CO2 emissions by city. The data can be downloaded from here: https://doi.pangaea.de/10.1594/PANGAEA.884141. 
+
+```{r}
+library(tidyverse)
+co2_orig <- read_tsv("~/Downloads/SCRIPTS/DATA/D_FINAL.tsv")
+co2 <- co2_orig %>% select(city = `City name`,
+              country = Country,
+              region = Region,
+              population = `Population (CDP)`,
+              area = `City area (others) [km2]`,
+              year = `Year of emission`,
+              emissions = `Total emissions (CDP) [tCO2-eq]`)
+co2
+```
+
+
+For summarizing. You can just provide the function name if it is a simple function with one argument.
+
+```{r}
+co2 %>% map_chr(class)
+co2 %>% map_dbl(n_distinct)
+```
+
+If you want to do something a little more complicated, such as return a few different columns summaries as columns in a data frame, you can use `map_df()`:
+
+```{r, warning=FALSE}
+co2 %>% map_df(~data.frame(unqiue_entries = n_distinct(.),
+                           class = typeof(.)))
+```
+
+Note that we've lost the variable names! We can include them as a column in the data frame by providing a column name in the `.id` argument.
+
+```{r, warning=FALSE}
+co2 %>% map_df(~data.frame(unqiue_entries = n_distinct(.),
+                           class = typeof(.)),
+               .id = "variable")
+```
+
+
+`map_df()` is definitely one of the most powerful functions of `purrr` in my opinion, and is definitely the one that I use most.
+
+I like to think of simple usage of `map_df()` as a more general version of the `dplyr` function `summarise_all()`, (which lets us present one summary at a time), but can't return a general data frame with as many summary columns as you like. 
+
+As you'll see in the [list columns](#list-columns) section below, `map_df()` is even more powerful than you ever imagined. 
+
+```{r}
+co2 %>% summarise_all(class)
+```
+
+
+```{r}
+co2_list <- co2 %>% split(co2$country)
+
+map(co2_list, "city")
+
+map(co2_list, `[`, "city")
+map(co2_list, `[`, c("city", "emissions"))
+map(co2_list, magrittr::extract, "city")
+
+```
+
+## Maps with multiple input objects
+
+
+
+
+# Nested data frames
+
+
+# List columns {#list-columns}
+
+You can use purrr to do really fancy things like storing model objects in a tibble and using list columns.
+
+
+
+Now it's with this list stuff that I really started to get interested. 
+
+
+# dplyr for lists
+
+You can do all kinds of things to lists, just as you can dplyr data frames!

@@ -12,6 +12,17 @@
     
     
     <item>
+      <title>Learn to purrr</title>
+      <link>/blog/2019-08-06_purrr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-08-06_purrr/</guid>
+      <description>When I started writing this blog post I thought of purrr both as a tidy tool for applying map functions and as the package with the cutest name ever.
+To start with, here is a picture of a cat reading a map. Perhaps this cat is relevant to this post. Perhaps it is not.
+If you’re not sure about how cats and maps are related, think briefly on the Harry Potter quote:</description>
+    </item>
+    
+    <item>
       <title>Transitioning into the tidyverse (part 2)</title>
       <link>/blog/2019-08-05_base_r_to_tidyverse_pt2/</link>
       <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>

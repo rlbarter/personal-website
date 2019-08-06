@@ -43,7 +43,7 @@ description: "."
 <ul>
 <li><p>Regardless of whether you think the tidyverse or base R is “better”, it is always a good idea to keep up with what is current. It’s so easy to get left behind. What you learn today will most likely be out-of-date in a year, but next year’s iteration of what is current will almost certainly be built upon today’s iteration. If you make an effort keep up with things as they change, then you can take lots of little easy steps instead of finding yourself needing to take a big difficult jump in a few years.</p></li>
 <li><p>Code written in the tidyverse style is much easier to read, and is more consistent than base R (e.g. the first argument of almost every tidyverse function is the data frame on which it acts, which allows us to make heavy use of something called “piping”). Base R, on the other hand, has a somewhat inconsistent mish-mash of function and argument styles.</p></li>
-<li><p>The humans that make up the tidyverse community is amazing.</p></li>
+<li><p>The humans that make up the tidyverse community are amazing.</p></li>
 </ul>
 <p>Much of the initial efforts of the tidyverse were the brainchild of Hadley Wickham, but these days there are a huge number of people who contribute to, maintain, and develop the tidyverse. The tidyverse is open-source and collaborative (which means that you - yes <em>you</em> - could contribute to it if you wanted to), and is hosted on the tidyverse github: <a href="https://github.com/tidyverse" class="uri">https://github.com/tidyverse</a>.</p>
 <p>The goal of this post is to summarise the overall goals of the tidyverse, provide short tutorials on each of the packages that form the tidyverse (and how they play together), and to provide links to additional resources for learning them.</p>
@@ -56,7 +56,7 @@ description: "."
 <p>The tidyverse is not simply a set of functions that replace base R functions. The tidyverse represents a way of <em>thinking</em> about how you conduct your data analysis:</p>
 <ul>
 <li><p>Think of your data frame as the universe, and the columns of your data frame as the objects in your universe that you can explore, manipulate and model.</p></li>
-<li><p>When coding in <em>base R</em>, it is very common to define many modified versions of the same data frame (or data object). When coding in the <em>tidyverse</em>, the key is to <strong>minimize defining new data objects</strong>. Instead, focus on manipulating your current data frame and just printing the output of your manipulations (e.g. a summary or plot). Only create new data objects in your R environment if you will be using both the <em>original</em> data object and the <em>new</em> data object in your later analyses.</p></li>
+<li><p>When coding in <em>base R</em>, it is very common to define many intermediate objects and modified versions of the same data frame (or data object). When coding in the <em>tidyverse</em>, the key is to <strong>minimize defining new data objects</strong>. Instead, focus on manipulating your current data frame and just printing the output of your manipulations (e.g. a summary or plot). Only create new data objects in your R environment if you will be using both the <em>original</em> data object and the <em>new</em> data object in your later analyses.</p></li>
 </ul>
 <p>To load the tidyverse packages, you could install them all individually (once):</p>
 <pre class="r"><code># only ever run once to install the individual packages on your system
@@ -96,7 +96,7 @@ gapminder &lt;- gapminder_orig</code></pre>
 ## 4 Afghanistan 1967 11537966      Asia  34.020  836.1971
 ## 5 Afghanistan 1972 13079460      Asia  36.088  739.9811
 ## 6 Afghanistan 1977 14880372      Asia  38.438  786.1134</code></pre>
-<p>Now that you’ve loaded the tidyverse and our data, you’re are ready to learn about our first tidy analysis tool: the pipe.</p>
+<p>Now that you’ve loaded the tidyverse and the gapminder data, you’re are ready to learn about our first tidy analysis tool: the pipe.</p>
 </div>
 <div id="piping" class="section level1">
 <h1>Piping: %&gt;%</h1>
@@ -3842,9 +3842,12 @@ gapminder[continent_year_index, c(&quot;country&quot;, &quot;lifeExp&quot;)]</co
 <p><code>sample_n()</code> and <code>sample_frac()</code> for taking random samples of rows</p>
 <pre class="r"><code>gapminder %&gt;% 
   sample_n(2)</code></pre>
-<pre><code>##      country year      pop continent lifeExp  gdpPercap          gdp
-## 1 Mauritania 1957  1076852    Africa  42.338   846.1203    911146296
-## 2  Australia 1967 11872264   Oceania  71.100 14526.1246 172457986742</code></pre>
+<pre><code>##                    country year      pop continent lifeExp gdpPercap
+## 1             South Africa 1997 42835005    Africa  60.236  7479.188
+## 2 Central African Republic 1967  1733638    Africa  41.478  1136.057
+##            gdp
+## 1 320371065828
+## 2   1969510918</code></pre>
 <p><code>count()</code> for counting the number of rows with each value of a categorical variable</p>
 <pre class="r"><code>gapminder %&gt;% 
   count(continent)</code></pre>
@@ -3955,7 +3958,6 @@ gapminder %&gt;%
   group_by(continent, year) %&gt;%
   summarise(avg_lifeExp = mean(lifeExp)) %&gt;%
   ungroup() %&gt;%
-  # specify global aesthetic mappings
   ggplot() +
   # add a points layer on top
   geom_point(aes(x = year, y = avg_lifeExp)) +
@@ -3966,7 +3968,6 @@ gapminder %&gt;%
 <pre class="r"><code>gapminder %&gt;%
   group_by(continent, year) %&gt;%
   summarise(avg_lifeExp = mean(lifeExp)) %&gt;%
-  # specify global aesthetic mappings
   ggplot() +
   # add a points layer on top
   geom_point(aes(x = year, y = avg_lifeExp)) +
@@ -3996,9 +3997,9 @@ gapminder %&gt;%
   geom_point(aes(x = gdpPercap, 
                  y = lifeExp, 
                  col  = continent)) +
-  scale_colour_manual(values = c(&quot;orange&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;blue&quot;))</code></pre>
+  scale_colour_manual(values = c(&quot;orange&quot;, &quot;red4&quot;, &quot;purple&quot;, &quot;darkgreen&quot;, &quot;blue&quot;))</code></pre>
 <p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-51-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>These colours are atrocious though, so don’t use these. There are lots of types of scales that you can use for every type of aesthetic mapping (including x- and y-positions), and typically scales are specific to whether your variable using in the aesthetic mapping is discrete or continuous.</p>
+<p>There are lots of types of scales that you can use for every type of aesthetic mapping (including x- and y-positions), and typically scales are specific to whether your variable using in the aesthetic mapping is discrete or continuous.</p>
 <p>We could also add aesthetic mappings for other features such as shape, size, transparency (alpha) and more! For example, changing the size based on population:</p>
 <pre class="r"><code>gapminder %&gt;%
   ggplot() +
@@ -4078,6 +4079,6 @@ gapminder %&gt;%
 <p>In <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/">part two</a> of this post on the tidyverse, you will see some ggplot2 code (under the guise of learning about factors) that makes this plot:</p>
 <p><img src="/blog/2019-08-05_base_r_to_tidyverse_files/figure-html/unnamed-chunk-58-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>If you’d like to learn more about ggplot2, such as themes, scales and advanced geoms, check out my more detailed <a href="http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/">ggplot2 blog post</a>.</p>
-<p>If the tidyverse is new to you, I suggest that you stop here for now. Focus on incorporating piping, dplyr, and ggplot2 into every analysis that you do for the next few months (even if it would initially be quicker to use base R versions). When you feel comfortable with your new skills, move onto <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/">part two</a> of this blog post start to incorporate the remaining tidyverse packages (below) into your analytic workflow. Trying to learn everything at once is a sure-fire way to become discouraged. First get comfortable with the main ideas, then learn some more.</p>
+<p>If the tidyverse is new to you, I suggest that you stop here for now. Focus on incorporating piping, dplyr, and ggplot2 into every analysis that you do for the next few months (even if it would initially be quicker to use base R versions). When you feel comfortable with your new skills, move onto <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/">part two</a> of this blog post and start to incorporate the remaining tidyverse packages (below) into your analytic workflow. Trying to learn everything at once is a sure-fire way to become discouraged. First get comfortable with the main ideas, then learn some more.</p>
 </div>
 </div>
