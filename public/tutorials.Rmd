@@ -3,10 +3,14 @@ title: "Tutorials"
 date: "2017-01-15T21:49:57-07:00"
 ---
 
-I appear to have made a number of tutorials on a variety of (mostly R-related) topics. Below you will find descriptions of and links to these tutorials. Keep an eye on this page -- I'm always adding more!
+I  have made a number of tutorials on a variety of R- and statistics-related topics. The list below shows descriptions of and links to these tutorials. Keep an eye on this page -- I'm always adding more!
 
 
 ## R packages
+
+- The [tidyverse](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/): a two part summary of the tidyverse, aimed at helping practitioners transition from base R to the tidyverse. [Part 1](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/) focuses on tidy thinking, piping, dplyr and ggplot2, and [Part 2](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/) focuses on tidyr, purrr, readr, tibbles as well as lubridate, forcats and stringr
+
+- [recipes](http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/): an introduction to using the recipes R package for pre-processing data prior to machine learning
 
 - [scoped verbs](http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/): a summary of the usage of dplyr scoped verbs such as `mutate_if()`, `summarise_all()`, `rename_at()`
 
@@ -14,9 +18,9 @@ I appear to have made a number of tutorials on a variety of (mostly R-related) t
 
 - [ggplot2](http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/): ggplot2 basics prepared for a workshop at Joint Genome Institute. [(Jupyter notebook)](https://github.com/rlbarter/ggplot-jgi)
 
-- [interactive visualization](http://www.rebeccabarter.com/blog/2017-04-20-interactive/): a tutorial on interactive viz prepared for the SGSA student seminar series.
+- [interactive visualization](http://www.rebeccabarter.com/blog/2017-04-20-interactive/): a tutorial on interactive viz prepared for the SGSA student seminar series
 
-- [superheat](https://rlbarter.github.io/superheat/) I made a super cool R package ([blog post](../blog/2017-02-02-superheat-example/index.html), [github](https://github.com/rlbarter/superheat), [vignette](https://rlbarter.github.io/superheat/), [paper](https://arxiv.org/abs/1512.01524), [video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Superheat-Supervised-heatmaps-for-visualizing-complex-data/player)) for creating customizable, extendable, and beautiful heatmaps.
+- [superheat](https://rlbarter.github.io/superheat/) I made a super cool R package ([blog post](../blog/2017-02-02-superheat-example/index.html), [github](https://github.com/rlbarter/superheat), [vignette](https://rlbarter.github.io/superheat/), [paper](https://arxiv.org/abs/1512.01524), [video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Superheat-Supervised-heatmaps-for-visualizing-complex-data/player)) for creating customizable, extendable, and beautiful heatmaps
 
 
 ## Statistics
