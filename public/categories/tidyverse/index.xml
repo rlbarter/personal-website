@@ -6,10 +6,19 @@
     <description>Recent content in Tidyverse on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Aug 2019 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 19 Aug 2019 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/tidyverse/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Learn to purrr</title>
+      <link>/blog/2019-08-19_purrr/</link>
+      <pubDate>Mon, 19 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2019-08-19_purrr/</guid>
+      <description>Map functions: beyond apply Simplest usage: repeated looping with map The tilde-dot shorthand for functions Applying map functions in a slightly more interesting context Maps with multiple input objects List columns and Nested data frames Nesting the gapminder data  Advanced exercise  Additional purrr functionalities for lists Keep/Discard: select_if for lists Reduce Logical statements for lists  Answer to advanced exercise    “It was on the corner of the street that he noticed the first sign of something peculiar - a cat reading a map” - J.</description>
+    </item>
     
     <item>
       <title>Transitioning into the tidyverse (part 2)</title>

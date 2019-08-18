@@ -1,0 +1,1607 @@
+<div id="TOC">
+<ul>
+<li><a href="#map-functions-beyond-apply">Map functions: beyond apply</a><ul>
+<li><a href="#simplest-usage-repeated-looping-with-map">Simplest usage: repeated looping with map</a></li>
+<li><a href="#the-tilde-dot-shorthand-for-functions">The tilde-dot shorthand for functions</a></li>
+<li><a href="#applying-map-functions-in-a-slightly-more-interesting-context">Applying map functions in a slightly more interesting context</a></li>
+<li><a href="#maps-with-multiple-input-objects">Maps with multiple input objects</a></li>
+<li><a href="#list-columns-and-nested-data-frames">List columns and Nested data frames</a><ul>
+<li><a href="#nesting-the-gapminder-data">Nesting the gapminder data</a></li>
+</ul></li>
+<li><a href="#advanced-exercise">Advanced exercise</a></li>
+</ul></li>
+<li><a href="#additional-purrr-functionalities-for-lists">Additional purrr functionalities for lists</a><ul>
+<li><a href="#keepdiscard-select_if-for-lists">Keep/Discard: select_if for lists</a></li>
+<li><a href="#reduce">Reduce</a></li>
+<li><a href="#logical-statements-for-list-elements">Logical statements for list elements</a></li>
+</ul></li>
+</ul>
+</div>
+
+<blockquote>
+<p>“It was on the corner of the street that he noticed the first sign of something peculiar - a cat reading a map”
+- J.K. Rowling</p>
+</blockquote>
+<p><img src="/img/purrr/cat_map.jpg" style="display: block; margin: auto;" /></p>
+<p>Purrr is one of those packages that you keep hearing about, and you know you should probably learn it, but you just never seem to get around to it.</p>
+<p>At it’s core, purrr is all about iteration. Purrr introduces map functions (the tidyverse’s answer to base R’s apply functions) as well as some new functions for manipulating lists. To get a quick snapshot of any tidyverse package, a nice place to go from here is the <a href="https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf">cheatsheet</a>.</p>
+<p>Another useful resource for learning about purrr is <a href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s tutorial</a>. Jenny’s tutorial is fantastic. This post is a lot shorter and will get you up and running with purrr very quickly.</p>
+<p>While the workhorse of dplyr is the data frame, the workhorse of purrr is the list. If you aren’t familiar with lists, hopefully this will help you understand what they are:</p>
+<ul>
+<li><p>A <strong>vector</strong> is a way of storing many individual elements (a single number or a single character or string) of the same type together in a single object,</p></li>
+<li><p>A <strong>data frame</strong> is a way of storing many vectors of the same length but possibly of different types together in a single object</p></li>
+<li><p>A <strong>list</strong> is a way of storing many objects of any type (e.g. data frames, plots, vectors) together in a single object</p></li>
+</ul>
+<p>Here is an example of a list that has three elements: a single number, a vector and a data frame</p>
+<pre class="r"><code>my_first_list &lt;- list(my_number = 5,
+                      my_vector = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;),
+                      my_dataframe = data.frame(a = 1:3, b = c(&quot;q&quot;, &quot;b&quot;, &quot;z&quot;), c = c(&quot;bananas&quot;, &quot;are&quot;, &quot;so very great&quot;)))
+my_first_list</code></pre>
+<pre><code>## $my_number
+## [1] 5
+## 
+## $my_vector
+## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;
+## 
+## $my_dataframe
+##   a b             c
+## 1 1 q       bananas
+## 2 2 b           are
+## 3 3 z so very great</code></pre>
+<p>Note that a data frame is actually a special case of a list where each element of the list is a vector of the same length.</p>
+<div id="map-functions-beyond-apply" class="section level1">
+<h1>Map functions: beyond apply</h1>
+<p>A <strong>map function</strong> is one that applies the same action/function to every element of an object (e.g. each entry of a list or a vector, or each of the columns of a data frame).</p>
+<p>If you’re familiar with the base R <code>apply()</code> functions, then it turns out that you are already familiar with map functions, even if you didn’t know it!</p>
+<p>The <code>apply()</code> functions are set of super useful base-R functions for iteratively performing an action across entries of a vector or list without having to write a for-loop. The most common apply functions are</p>
+<p><code>apply(matrix, margin, fun)</code> applies a function, <code>fun</code>, across each of the rows (if you set <code>margin = 1</code>) or each of the columns (if you set <code>margin = 2</code>) of a <code>matrix</code> (or array) and returns a vector.</p>
+<p><code>sapply(object, fun)</code> applies a function, <code>fun</code>, to each entry of an <code>object</code> (which could be a vector, a data frame or a list), and usually returns a vector, but sometimes it returns a matrix, and often it is difficult to guess what type of object it will return before you run your code.</p>
+<p><code>lapply(list, fun)</code> applies a function, <code>fun</code>, to each entry of a <code>list</code>, and returns a list. This one at least usually makes sense relative to the other apply functions.</p>
+<p>While there is nothing fundamentally wrong with the base R apply functions, the syntax is somewhat inconsistent across the different apply functions, and the expected type of the object they return is often ambiguous (at least it is for <code>sapply</code>…). Each of <code>purrr</code>’s map functions can be applied to vectors, lists and data frames.
+It is useful to remember that a data frame is a special type of a list where each columns of the data frame corresponds to an entry of the list.</p>
+<p>One of the primary features of <code>purrr</code>’s map functions is that you need to specify the form of your output as a function suffix separated by an underscore. The first element is always the data object over which you want to iterate, and the second argument is always the function that you want to iteratively apply. For example:</p>
+<ul>
+<li><p><code>map(object, fun)</code> is the primary mapping function and returns a list</p></li>
+<li><p><code>map_df(object, fun)</code> returns a data frame</p></li>
+<li><p><code>map_dbl(object, fun)</code> returns a numeric (double) vector</p></li>
+<li><p><code>map_chr(object, fun)</code> returns a character vector</p></li>
+<li><p><code>map_lgl(object, fun)</code> returns a logical vector</p></li>
+</ul>
+<p>The <strong>input</strong> to any <code>map</code> function is always either</p>
+<ul>
+<li><p>a <strong>vector</strong> (of any type), in which case the iteration is done over the entries of the vector</p></li>
+<li><p>a <strong>list</strong>, in which case the iteration is performed over the elements of the list</p></li>
+<li><p>a <strong>data frame</strong>, in which case the iteration is performed over the columns of the data frame (which, since a data frame is a special kind of list, is technically the same as the previous point)</p></li>
+</ul>
+<p>The <strong>output</strong> of each map function is specified by the term that follows the underscore in the function name.</p>
+<p>Consistent with the way of the tidyverse, the first argument of each mapping function is always the data object that you want to map over and the second argument is the function that you want to apply to each element of the data object. Since the first argument is always the data, this means that map functions play nicely with pipes (<code>%&gt;%</code>).</p>
+<p>If you’ve never seen pipes before, they’re really useful (originally from the <code>magrittr</code> package, but also ported with the <code>dplyr</code> package and thus with the <code>tidyverse</code>). Piping allows you to string together many functions by piping an object (which itself might be the output of a function) into the first argument of the next function. If you’d like to learn more about pipes, check out my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">tidyverse blog posts</a>.</p>
+<p>Throughout this post I will demonstrate each of purrr’s functionalities using both a simple numeric example (to explain the concept) and the gapminder data (to show a more complex example).</p>
+<div id="simplest-usage-repeated-looping-with-map" class="section level2">
+<h2>Simplest usage: repeated looping with map</h2>
+<p>Fundamentally, maps are for iteration. In the example below I will iterate through the vector <code>c(1, 4, 7)</code> by adding 10 to each entry. This action on a single number, which we will call <code>.x</code> (for reasons that will become clear later), can be written as a function</p>
+<pre class="r"><code>addTen &lt;- function(.x) {
+  return(.x + 10)
+}</code></pre>
+<p>To iterate this action over all entries of a vector, a list or columns of a data frame, and return the values as a list, we can use the <code>map()</code> function. If we are iterating over a vector, <code>map()</code> returns a list where</p>
+<ul>
+<li><p>the first element of the list is the result of applying the function to the first element of the <code>.x</code> input,</p></li>
+<li><p>the second element of the list is the result of applying the function to the second element of the <code>.x</code> input,</p></li>
+<li><p>and so on</p></li>
+</ul>
+<p>The following code chunks show that no matter if the input object is a vector, a list, or a data frame, <code>map()</code> always returns a list.</p>
+<pre class="r"><code>library(tidyverse)
+map(.x = c(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>map(.x = list(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>map(.x = data.frame(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>## $X1
+## [1] 11
+## 
+## $X4
+## [1] 14
+## 
+## $X7
+## [1] 17</code></pre>
+<p>If we wanted to <code>map</code> to some other object type, we need to use a different function. For instance to map the input to a numeric (double) vector, you can use the <code>map_dbl()</code> (“map to a double”) function.</p>
+<pre class="r"><code>map_dbl(c(1, 4, 7), addTen)</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<p>To map to a character vector, you can use the <code>map_chr()</code> (“map to a character”) function.</p>
+<pre class="r"><code>map_chr(c(1, 4, 7), addTen)</code></pre>
+<pre><code>## [1] &quot;11.000000&quot; &quot;14.000000&quot; &quot;17.000000&quot;</code></pre>
+<p>Unsurprisingly, if you want to return a data frame, then you would use the <code>map_df()</code> function. However, you need to make sure that in each iteration you’re returning a data frame which has consistent column names. <code>map_df</code> will automatically bind the rows of each iteration.</p>
+<p>For this example, we wand to return a data frame with the original number and the number plus ten.</p>
+<pre class="r"><code>map_df(c(1, 4, 7), function(.x) {
+  return(data.frame(old_number = .x, 
+                    new_number = addTen(.x)))
+})</code></pre>
+<pre><code>##   old_number new_number
+## 1          1         11
+## 2          4         14
+## 3          7         17</code></pre>
+<p>Another function to be aware of is <code>modify()</code>, which is just like the map functions, but always returns an object the same type as the input object.</p>
+<pre class="r"><code>library(tidyverse)
+modify(.x = c(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<pre class="r"><code>modify(.x = list(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>modify(.x = data.frame(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>##   X1 X4 X7
+## 1 11 14 17</code></pre>
+<p>Modify also has a pretty useful sibling, <code>modify_if()</code>, that only applies the function to elements that satisfy a specific criteria. For instance, the following example only modifies the third entry since it is greater than 5.</p>
+<pre class="r"><code>modify_if(.x = list(1, 4, 7), 
+          .p = function(x) x &gt; 5,
+          .f = addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 17</code></pre>
+</div>
+<div id="the-tilde-dot-shorthand-for-functions" class="section level2">
+<h2>The tilde-dot shorthand for functions</h2>
+<p>To make the code more concise you can use the tilde-dot shorthand for anonymous functions (the functions that you create as arguments of other functions).</p>
+<p>The notation works by replacing</p>
+<pre class="r"><code>function(x) {
+  x + 10
+}</code></pre>
+<p>with</p>
+<pre class="r"><code>~{.x + 10}</code></pre>
+<p><code>~</code> indicates that you have started an anonymous function, and the argument of the anonymous function can be referred to using <code>.x</code> (or simply <code>.</code>). Unlike normal function arguments that can be anything that you like, the tilde-dot function argument is always <code>.x</code>.</p>
+<p>Thus, instead of defining the <code>addTen()</code> function separately, we could use the tilde-dot shorthand</p>
+<pre class="r"><code>map_dbl(c(1, 4, 7), ~{. + 10})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<p>or</p>
+<pre class="r"><code>map_dbl(c(1, 4, 7), ~{.x + 10})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<p>(i.e. you can use either <code>.</code> or <code>.x</code> as the argument).</p>
+</div>
+<div id="applying-map-functions-in-a-slightly-more-interesting-context" class="section level2">
+<h2>Applying map functions in a slightly more interesting context</h2>
+<p>Throughout this tutorial, we will use the gapminder dataset that can be loaded directly if you’re connected to the internet. Each function will first be demonstrated using a simple numeric example, and then will be demonstrated using a more complex practical example based on the gapminder dataset.</p>
+<p>My general workflow involves loading the original data and saving it as an object with a meaningful name and an <code>_orig</code> suffix. I then define a copy of the original dataset without the <code>_orig</code> suffix. Having an original copy of my data in my environment means that it is easy to check that my manipulations do what I expected. I will make direct data cleaning modifications to the <code>gapminder</code> data frame, but will never edit the <code>gapminder_orig</code> data frame.</p>
+<pre class="r"><code># to download the data directly:
+gapminder_orig &lt;- read.csv(&quot;https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv&quot;)
+# define a copy of the original dataset that we will clean and play with 
+gapminder &lt;- gapminder_orig</code></pre>
+<p>The gapminder dataset has 1704 rows containing information on population, life expectancy and GDP per capita by year and country.</p>
+<p>A “tidy” data frame is one where every row is a single observational unit (in this case, indexed by country and year), and every column corresponds to a variable that is measured for each observational unit (in this case, for each country and year, a measurement is made for population, continent, life expectancy and GDP). If you’d like to learn more about “tidy data”, I highly recommend reading <a href="vita.had.co.nz/papers/tidy-data.pdf">Hadley Wickham’s tidy data article</a>.</p>
+<pre class="r"><code>dim(gapminder)</code></pre>
+<pre><code>## [1] 1704    6</code></pre>
+<pre class="r"><code>head(gapminder)</code></pre>
+<pre><code>##       country year      pop continent lifeExp gdpPercap
+## 1 Afghanistan 1952  8425333      Asia  28.801  779.4453
+## 2 Afghanistan 1957  9240934      Asia  30.332  820.8530
+## 3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+## 4 Afghanistan 1967 11537966      Asia  34.020  836.1971
+## 5 Afghanistan 1972 13079460      Asia  36.088  739.9811
+## 6 Afghanistan 1977 14880372      Asia  38.438  786.1134</code></pre>
+<p>An example of simple usage of the <code>map_</code> functions is to summarize each column. For instance, you can identify the type of each column by applying the <code>class()</code> function to each column. Since the output of the <code>class()</code> function is a character, we will use the <code>map_chr()</code> function:</p>
+<pre class="r"><code># apply the class() function to each column
+gapminder %&gt;% map_chr(~class(.x))</code></pre>
+<pre><code>##   country      year       pop continent   lifeExp gdpPercap 
+##  &quot;factor&quot; &quot;integer&quot; &quot;numeric&quot;  &quot;factor&quot; &quot;numeric&quot; &quot;numeric&quot;</code></pre>
+<p>Note that when you’re applying a named function, you can just provide the name of the function, without needing to put in any arguments.</p>
+<pre class="r"><code># apply the class() function to each column
+gapminder %&gt;% map_chr(class)</code></pre>
+<pre><code>##   country      year       pop continent   lifeExp gdpPercap 
+##  &quot;factor&quot; &quot;integer&quot; &quot;numeric&quot;  &quot;factor&quot; &quot;numeric&quot; &quot;numeric&quot;</code></pre>
+<p>Similarly, if you wanted to identify the number of distinct values in each column, we could apply the <code>n_distinct()</code> function from the dplyr package to each column. Since the output of <code>n_distinct()</code> is a numeric (a double), we use the <code>map_dbl()</code> function so that the results of each iteration (the application of <code>n_distinct()</code> to each column) are concatenated into a numeric vector:</p>
+<pre class="r"><code># apply the n_distinct() function to each column
+gapminder %&gt;% map_dbl(n_distinct)</code></pre>
+<pre><code>##   country      year       pop continent   lifeExp gdpPercap 
+##       142        12      1704         5      1626      1704</code></pre>
+<p>If you want to do something a little more complicated, such return a few different summaries of each column in a data frame, you can use <code>map_df()</code>. When things are getting a little bit more complicated, you typically need to use an anonymous function, which is a temporary function (that you define as the function argument to the map) that you want to apply to each column.</p>
+<p>The code below defines a lambda function that calculates the number of distinct entries and the type of the current column (which is defined arbitrarily as <code>x</code>), and then combines them into a two-column data frame. Once it has iterated through each of the columns, the map function combines the data frames row-wise into a single data frame.</p>
+<pre class="r"><code>gapminder %&gt;% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))))</code></pre>
+<pre><code>##   n_distinct   class
+## 1        142  factor
+## 2         12 integer
+## 3       1704 numeric
+## 4          5  factor
+## 5       1626 numeric
+## 6       1704 numeric</code></pre>
+<p>Note that we’ve lost the variable names! The variable names correspond to the names of the objects over which we are iterating (a column name is like the name of the list element), and these are not automatically included as a column in the output data frame. You can tell <code>map_df()</code> to include them using the <code>.id</code> argument of <code>map_df()</code>. This will automatically take the name of the element being iterated over and include it in the column corresponding to whatever we set <code>.id</code> to.</p>
+<pre class="r"><code>gapminder %&gt;% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))),
+                     .id = &quot;variable&quot;)</code></pre>
+<pre><code>##    variable n_distinct   class
+## 1   country        142  factor
+## 2      year         12 integer
+## 3       pop       1704 numeric
+## 4 continent          5  factor
+## 5   lifeExp       1626 numeric
+## 6 gdpPercap       1704 numeric</code></pre>
+<p>If you’re having trouble thinking through these map actions, I recommend that you first figure out what the code would be to do what you want for a single element, and then paste it into the <code>map_df()</code> function (a nice trick I saw Hadley Wickham used a few years ago when he presented on purrr at RLadies SF).</p>
+<p>For instance, since the first element of the gapminder data frame is the first column, let’s define <code>.x</code> in our environment to be this first column.</p>
+<pre class="r"><code>.x &lt;- gapminder %&gt;% pluck(1)
+.x</code></pre>
+<pre><code>##    [1] Afghanistan              Afghanistan             
+##    [3] Afghanistan              Afghanistan             
+##    [5] Afghanistan              Afghanistan             
+##    [7] Afghanistan              Afghanistan             
+##    [9] Afghanistan              Afghanistan             
+##   [11] Afghanistan              Afghanistan             
+##   [13] Albania                  Albania                 
+##   [15] Albania                  Albania                 
+##   [17] Albania                  Albania                 
+##   [19] Albania                  Albania                 
+##   [21] Albania                  Albania                 
+##   [23] Albania                  Albania                 
+##   [25] Algeria                  Algeria                 
+##   [27] Algeria                  Algeria                 
+##   [29] Algeria                  Algeria                 
+##   [31] Algeria                  Algeria                 
+##   [33] Algeria                  Algeria                 
+##   [35] Algeria                  Algeria                 
+##   [37] Angola                   Angola                  
+##   [39] Angola                   Angola                  
+##   [41] Angola                   Angola                  
+##   [43] Angola                   Angola                  
+##   [45] Angola                   Angola                  
+##   [47] Angola                   Angola                  
+##   [49] Argentina                Argentina               
+##   [51] Argentina                Argentina               
+##   [53] Argentina                Argentina               
+##   [55] Argentina                Argentina               
+##   [57] Argentina                Argentina               
+##   [59] Argentina                Argentina               
+##   [61] Australia                Australia               
+##   [63] Australia                Australia               
+##   [65] Australia                Australia               
+##   [67] Australia                Australia               
+##   [69] Australia                Australia               
+##   [71] Australia                Australia               
+##   [73] Austria                  Austria                 
+##   [75] Austria                  Austria                 
+##   [77] Austria                  Austria                 
+##   [79] Austria                  Austria                 
+##   [81] Austria                  Austria                 
+##   [83] Austria                  Austria                 
+##   [85] Bahrain                  Bahrain                 
+##   [87] Bahrain                  Bahrain                 
+##   [89] Bahrain                  Bahrain                 
+##   [91] Bahrain                  Bahrain                 
+##   [93] Bahrain                  Bahrain                 
+##   [95] Bahrain                  Bahrain                 
+##   [97] Bangladesh               Bangladesh              
+##   [99] Bangladesh               Bangladesh              
+##  [101] Bangladesh               Bangladesh              
+##  [103] Bangladesh               Bangladesh              
+##  [105] Bangladesh               Bangladesh              
+##  [107] Bangladesh               Bangladesh              
+##  [109] Belgium                  Belgium                 
+##  [111] Belgium                  Belgium                 
+##  [113] Belgium                  Belgium                 
+##  [115] Belgium                  Belgium                 
+##  [117] Belgium                  Belgium                 
+##  [119] Belgium                  Belgium                 
+##  [121] Benin                    Benin                   
+##  [123] Benin                    Benin                   
+##  [125] Benin                    Benin                   
+##  [127] Benin                    Benin                   
+##  [129] Benin                    Benin                   
+##  [131] Benin                    Benin                   
+##  [133] Bolivia                  Bolivia                 
+##  [135] Bolivia                  Bolivia                 
+##  [137] Bolivia                  Bolivia                 
+##  [139] Bolivia                  Bolivia                 
+##  [141] Bolivia                  Bolivia                 
+##  [143] Bolivia                  Bolivia                 
+##  [145] Bosnia and Herzegovina   Bosnia and Herzegovina  
+##  [147] Bosnia and Herzegovina   Bosnia and Herzegovina  
+##  [149] Bosnia and Herzegovina   Bosnia and Herzegovina  
+##  [151] Bosnia and Herzegovina   Bosnia and Herzegovina  
+##  [153] Bosnia and Herzegovina   Bosnia and Herzegovina  
+##  [155] Bosnia and Herzegovina   Bosnia and Herzegovina  
+##  [157] Botswana                 Botswana                
+##  [159] Botswana                 Botswana                
+##  [161] Botswana                 Botswana                
+##  [163] Botswana                 Botswana                
+##  [165] Botswana                 Botswana                
+##  [167] Botswana                 Botswana                
+##  [169] Brazil                   Brazil                  
+##  [171] Brazil                   Brazil                  
+##  [173] Brazil                   Brazil                  
+##  [175] Brazil                   Brazil                  
+##  [177] Brazil                   Brazil                  
+##  [179] Brazil                   Brazil                  
+##  [181] Bulgaria                 Bulgaria                
+##  [183] Bulgaria                 Bulgaria                
+##  [185] Bulgaria                 Bulgaria                
+##  [187] Bulgaria                 Bulgaria                
+##  [189] Bulgaria                 Bulgaria                
+##  [191] Bulgaria                 Bulgaria                
+##  [193] Burkina Faso             Burkina Faso            
+##  [195] Burkina Faso             Burkina Faso            
+##  [197] Burkina Faso             Burkina Faso            
+##  [199] Burkina Faso             Burkina Faso            
+##  [201] Burkina Faso             Burkina Faso            
+##  [203] Burkina Faso             Burkina Faso            
+##  [205] Burundi                  Burundi                 
+##  [207] Burundi                  Burundi                 
+##  [209] Burundi                  Burundi                 
+##  [211] Burundi                  Burundi                 
+##  [213] Burundi                  Burundi                 
+##  [215] Burundi                  Burundi                 
+##  [217] Cambodia                 Cambodia                
+##  [219] Cambodia                 Cambodia                
+##  [221] Cambodia                 Cambodia                
+##  [223] Cambodia                 Cambodia                
+##  [225] Cambodia                 Cambodia                
+##  [227] Cambodia                 Cambodia                
+##  [229] Cameroon                 Cameroon                
+##  [231] Cameroon                 Cameroon                
+##  [233] Cameroon                 Cameroon                
+##  [235] Cameroon                 Cameroon                
+##  [237] Cameroon                 Cameroon                
+##  [239] Cameroon                 Cameroon                
+##  [241] Canada                   Canada                  
+##  [243] Canada                   Canada                  
+##  [245] Canada                   Canada                  
+##  [247] Canada                   Canada                  
+##  [249] Canada                   Canada                  
+##  [251] Canada                   Canada                  
+##  [253] Central African Republic Central African Republic
+##  [255] Central African Republic Central African Republic
+##  [257] Central African Republic Central African Republic
+##  [259] Central African Republic Central African Republic
+##  [261] Central African Republic Central African Republic
+##  [263] Central African Republic Central African Republic
+##  [265] Chad                     Chad                    
+##  [267] Chad                     Chad                    
+##  [269] Chad                     Chad                    
+##  [271] Chad                     Chad                    
+##  [273] Chad                     Chad                    
+##  [275] Chad                     Chad                    
+##  [277] Chile                    Chile                   
+##  [279] Chile                    Chile                   
+##  [281] Chile                    Chile                   
+##  [283] Chile                    Chile                   
+##  [285] Chile                    Chile                   
+##  [287] Chile                    Chile                   
+##  [289] China                    China                   
+##  [291] China                    China                   
+##  [293] China                    China                   
+##  [295] China                    China                   
+##  [297] China                    China                   
+##  [299] China                    China                   
+##  [301] Colombia                 Colombia                
+##  [303] Colombia                 Colombia                
+##  [305] Colombia                 Colombia                
+##  [307] Colombia                 Colombia                
+##  [309] Colombia                 Colombia                
+##  [311] Colombia                 Colombia                
+##  [313] Comoros                  Comoros                 
+##  [315] Comoros                  Comoros                 
+##  [317] Comoros                  Comoros                 
+##  [319] Comoros                  Comoros                 
+##  [321] Comoros                  Comoros                 
+##  [323] Comoros                  Comoros                 
+##  [325] Congo Dem. Rep.          Congo Dem. Rep.         
+##  [327] Congo Dem. Rep.          Congo Dem. Rep.         
+##  [329] Congo Dem. Rep.          Congo Dem. Rep.         
+##  [331] Congo Dem. Rep.          Congo Dem. Rep.         
+##  [333] Congo Dem. Rep.          Congo Dem. Rep.         
+##  [335] Congo Dem. Rep.          Congo Dem. Rep.         
+##  [337] Congo Rep.               Congo Rep.              
+##  [339] Congo Rep.               Congo Rep.              
+##  [341] Congo Rep.               Congo Rep.              
+##  [343] Congo Rep.               Congo Rep.              
+##  [345] Congo Rep.               Congo Rep.              
+##  [347] Congo Rep.               Congo Rep.              
+##  [349] Costa Rica               Costa Rica              
+##  [351] Costa Rica               Costa Rica              
+##  [353] Costa Rica               Costa Rica              
+##  [355] Costa Rica               Costa Rica              
+##  [357] Costa Rica               Costa Rica              
+##  [359] Costa Rica               Costa Rica              
+##  [361] Cote d&#39;Ivoire            Cote d&#39;Ivoire           
+##  [363] Cote d&#39;Ivoire            Cote d&#39;Ivoire           
+##  [365] Cote d&#39;Ivoire            Cote d&#39;Ivoire           
+##  [367] Cote d&#39;Ivoire            Cote d&#39;Ivoire           
+##  [369] Cote d&#39;Ivoire            Cote d&#39;Ivoire           
+##  [371] Cote d&#39;Ivoire            Cote d&#39;Ivoire           
+##  [373] Croatia                  Croatia                 
+##  [375] Croatia                  Croatia                 
+##  [377] Croatia                  Croatia                 
+##  [379] Croatia                  Croatia                 
+##  [381] Croatia                  Croatia                 
+##  [383] Croatia                  Croatia                 
+##  [385] Cuba                     Cuba                    
+##  [387] Cuba                     Cuba                    
+##  [389] Cuba                     Cuba                    
+##  [391] Cuba                     Cuba                    
+##  [393] Cuba                     Cuba                    
+##  [395] Cuba                     Cuba                    
+##  [397] Czech Republic           Czech Republic          
+##  [399] Czech Republic           Czech Republic          
+##  [401] Czech Republic           Czech Republic          
+##  [403] Czech Republic           Czech Republic          
+##  [405] Czech Republic           Czech Republic          
+##  [407] Czech Republic           Czech Republic          
+##  [409] Denmark                  Denmark                 
+##  [411] Denmark                  Denmark                 
+##  [413] Denmark                  Denmark                 
+##  [415] Denmark                  Denmark                 
+##  [417] Denmark                  Denmark                 
+##  [419] Denmark                  Denmark                 
+##  [421] Djibouti                 Djibouti                
+##  [423] Djibouti                 Djibouti                
+##  [425] Djibouti                 Djibouti                
+##  [427] Djibouti                 Djibouti                
+##  [429] Djibouti                 Djibouti                
+##  [431] Djibouti                 Djibouti                
+##  [433] Dominican Republic       Dominican Republic      
+##  [435] Dominican Republic       Dominican Republic      
+##  [437] Dominican Republic       Dominican Republic      
+##  [439] Dominican Republic       Dominican Republic      
+##  [441] Dominican Republic       Dominican Republic      
+##  [443] Dominican Republic       Dominican Republic      
+##  [445] Ecuador                  Ecuador                 
+##  [447] Ecuador                  Ecuador                 
+##  [449] Ecuador                  Ecuador                 
+##  [451] Ecuador                  Ecuador                 
+##  [453] Ecuador                  Ecuador                 
+##  [455] Ecuador                  Ecuador                 
+##  [457] Egypt                    Egypt                   
+##  [459] Egypt                    Egypt                   
+##  [461] Egypt                    Egypt                   
+##  [463] Egypt                    Egypt                   
+##  [465] Egypt                    Egypt                   
+##  [467] Egypt                    Egypt                   
+##  [469] El Salvador              El Salvador             
+##  [471] El Salvador              El Salvador             
+##  [473] El Salvador              El Salvador             
+##  [475] El Salvador              El Salvador             
+##  [477] El Salvador              El Salvador             
+##  [479] El Salvador              El Salvador             
+##  [481] Equatorial Guinea        Equatorial Guinea       
+##  [483] Equatorial Guinea        Equatorial Guinea       
+##  [485] Equatorial Guinea        Equatorial Guinea       
+##  [487] Equatorial Guinea        Equatorial Guinea       
+##  [489] Equatorial Guinea        Equatorial Guinea       
+##  [491] Equatorial Guinea        Equatorial Guinea       
+##  [493] Eritrea                  Eritrea                 
+##  [495] Eritrea                  Eritrea                 
+##  [497] Eritrea                  Eritrea                 
+##  [499] Eritrea                  Eritrea                 
+##  [501] Eritrea                  Eritrea                 
+##  [503] Eritrea                  Eritrea                 
+##  [505] Ethiopia                 Ethiopia                
+##  [507] Ethiopia                 Ethiopia                
+##  [509] Ethiopia                 Ethiopia                
+##  [511] Ethiopia                 Ethiopia                
+##  [513] Ethiopia                 Ethiopia                
+##  [515] Ethiopia                 Ethiopia                
+##  [517] Finland                  Finland                 
+##  [519] Finland                  Finland                 
+##  [521] Finland                  Finland                 
+##  [523] Finland                  Finland                 
+##  [525] Finland                  Finland                 
+##  [527] Finland                  Finland                 
+##  [529] France                   France                  
+##  [531] France                   France                  
+##  [533] France                   France                  
+##  [535] France                   France                  
+##  [537] France                   France                  
+##  [539] France                   France                  
+##  [541] Gabon                    Gabon                   
+##  [543] Gabon                    Gabon                   
+##  [545] Gabon                    Gabon                   
+##  [547] Gabon                    Gabon                   
+##  [549] Gabon                    Gabon                   
+##  [551] Gabon                    Gabon                   
+##  [553] Gambia                   Gambia                  
+##  [555] Gambia                   Gambia                  
+##  [557] Gambia                   Gambia                  
+##  [559] Gambia                   Gambia                  
+##  [561] Gambia                   Gambia                  
+##  [563] Gambia                   Gambia                  
+##  [565] Germany                  Germany                 
+##  [567] Germany                  Germany                 
+##  [569] Germany                  Germany                 
+##  [571] Germany                  Germany                 
+##  [573] Germany                  Germany                 
+##  [575] Germany                  Germany                 
+##  [577] Ghana                    Ghana                   
+##  [579] Ghana                    Ghana                   
+##  [581] Ghana                    Ghana                   
+##  [583] Ghana                    Ghana                   
+##  [585] Ghana                    Ghana                   
+##  [587] Ghana                    Ghana                   
+##  [589] Greece                   Greece                  
+##  [591] Greece                   Greece                  
+##  [593] Greece                   Greece                  
+##  [595] Greece                   Greece                  
+##  [597] Greece                   Greece                  
+##  [599] Greece                   Greece                  
+##  [601] Guatemala                Guatemala               
+##  [603] Guatemala                Guatemala               
+##  [605] Guatemala                Guatemala               
+##  [607] Guatemala                Guatemala               
+##  [609] Guatemala                Guatemala               
+##  [611] Guatemala                Guatemala               
+##  [613] Guinea                   Guinea                  
+##  [615] Guinea                   Guinea                  
+##  [617] Guinea                   Guinea                  
+##  [619] Guinea                   Guinea                  
+##  [621] Guinea                   Guinea                  
+##  [623] Guinea                   Guinea                  
+##  [625] Guinea-Bissau            Guinea-Bissau           
+##  [627] Guinea-Bissau            Guinea-Bissau           
+##  [629] Guinea-Bissau            Guinea-Bissau           
+##  [631] Guinea-Bissau            Guinea-Bissau           
+##  [633] Guinea-Bissau            Guinea-Bissau           
+##  [635] Guinea-Bissau            Guinea-Bissau           
+##  [637] Haiti                    Haiti                   
+##  [639] Haiti                    Haiti                   
+##  [641] Haiti                    Haiti                   
+##  [643] Haiti                    Haiti                   
+##  [645] Haiti                    Haiti                   
+##  [647] Haiti                    Haiti                   
+##  [649] Honduras                 Honduras                
+##  [651] Honduras                 Honduras                
+##  [653] Honduras                 Honduras                
+##  [655] Honduras                 Honduras                
+##  [657] Honduras                 Honduras                
+##  [659] Honduras                 Honduras                
+##  [661] Hong Kong China          Hong Kong China         
+##  [663] Hong Kong China          Hong Kong China         
+##  [665] Hong Kong China          Hong Kong China         
+##  [667] Hong Kong China          Hong Kong China         
+##  [669] Hong Kong China          Hong Kong China         
+##  [671] Hong Kong China          Hong Kong China         
+##  [673] Hungary                  Hungary                 
+##  [675] Hungary                  Hungary                 
+##  [677] Hungary                  Hungary                 
+##  [679] Hungary                  Hungary                 
+##  [681] Hungary                  Hungary                 
+##  [683] Hungary                  Hungary                 
+##  [685] Iceland                  Iceland                 
+##  [687] Iceland                  Iceland                 
+##  [689] Iceland                  Iceland                 
+##  [691] Iceland                  Iceland                 
+##  [693] Iceland                  Iceland                 
+##  [695] Iceland                  Iceland                 
+##  [697] India                    India                   
+##  [699] India                    India                   
+##  [701] India                    India                   
+##  [703] India                    India                   
+##  [705] India                    India                   
+##  [707] India                    India                   
+##  [709] Indonesia                Indonesia               
+##  [711] Indonesia                Indonesia               
+##  [713] Indonesia                Indonesia               
+##  [715] Indonesia                Indonesia               
+##  [717] Indonesia                Indonesia               
+##  [719] Indonesia                Indonesia               
+##  [721] Iran                     Iran                    
+##  [723] Iran                     Iran                    
+##  [725] Iran                     Iran                    
+##  [727] Iran                     Iran                    
+##  [729] Iran                     Iran                    
+##  [731] Iran                     Iran                    
+##  [733] Iraq                     Iraq                    
+##  [735] Iraq                     Iraq                    
+##  [737] Iraq                     Iraq                    
+##  [739] Iraq                     Iraq                    
+##  [741] Iraq                     Iraq                    
+##  [743] Iraq                     Iraq                    
+##  [745] Ireland                  Ireland                 
+##  [747] Ireland                  Ireland                 
+##  [749] Ireland                  Ireland                 
+##  [751] Ireland                  Ireland                 
+##  [753] Ireland                  Ireland                 
+##  [755] Ireland                  Ireland                 
+##  [757] Israel                   Israel                  
+##  [759] Israel                   Israel                  
+##  [761] Israel                   Israel                  
+##  [763] Israel                   Israel                  
+##  [765] Israel                   Israel                  
+##  [767] Israel                   Israel                  
+##  [769] Italy                    Italy                   
+##  [771] Italy                    Italy                   
+##  [773] Italy                    Italy                   
+##  [775] Italy                    Italy                   
+##  [777] Italy                    Italy                   
+##  [779] Italy                    Italy                   
+##  [781] Jamaica                  Jamaica                 
+##  [783] Jamaica                  Jamaica                 
+##  [785] Jamaica                  Jamaica                 
+##  [787] Jamaica                  Jamaica                 
+##  [789] Jamaica                  Jamaica                 
+##  [791] Jamaica                  Jamaica                 
+##  [793] Japan                    Japan                   
+##  [795] Japan                    Japan                   
+##  [797] Japan                    Japan                   
+##  [799] Japan                    Japan                   
+##  [801] Japan                    Japan                   
+##  [803] Japan                    Japan                   
+##  [805] Jordan                   Jordan                  
+##  [807] Jordan                   Jordan                  
+##  [809] Jordan                   Jordan                  
+##  [811] Jordan                   Jordan                  
+##  [813] Jordan                   Jordan                  
+##  [815] Jordan                   Jordan                  
+##  [817] Kenya                    Kenya                   
+##  [819] Kenya                    Kenya                   
+##  [821] Kenya                    Kenya                   
+##  [823] Kenya                    Kenya                   
+##  [825] Kenya                    Kenya                   
+##  [827] Kenya                    Kenya                   
+##  [829] Korea Dem. Rep.          Korea Dem. Rep.         
+##  [831] Korea Dem. Rep.          Korea Dem. Rep.         
+##  [833] Korea Dem. Rep.          Korea Dem. Rep.         
+##  [835] Korea Dem. Rep.          Korea Dem. Rep.         
+##  [837] Korea Dem. Rep.          Korea Dem. Rep.         
+##  [839] Korea Dem. Rep.          Korea Dem. Rep.         
+##  [841] Korea Rep.               Korea Rep.              
+##  [843] Korea Rep.               Korea Rep.              
+##  [845] Korea Rep.               Korea Rep.              
+##  [847] Korea Rep.               Korea Rep.              
+##  [849] Korea Rep.               Korea Rep.              
+##  [851] Korea Rep.               Korea Rep.              
+##  [853] Kuwait                   Kuwait                  
+##  [855] Kuwait                   Kuwait                  
+##  [857] Kuwait                   Kuwait                  
+##  [859] Kuwait                   Kuwait                  
+##  [861] Kuwait                   Kuwait                  
+##  [863] Kuwait                   Kuwait                  
+##  [865] Lebanon                  Lebanon                 
+##  [867] Lebanon                  Lebanon                 
+##  [869] Lebanon                  Lebanon                 
+##  [871] Lebanon                  Lebanon                 
+##  [873] Lebanon                  Lebanon                 
+##  [875] Lebanon                  Lebanon                 
+##  [877] Lesotho                  Lesotho                 
+##  [879] Lesotho                  Lesotho                 
+##  [881] Lesotho                  Lesotho                 
+##  [883] Lesotho                  Lesotho                 
+##  [885] Lesotho                  Lesotho                 
+##  [887] Lesotho                  Lesotho                 
+##  [889] Liberia                  Liberia                 
+##  [891] Liberia                  Liberia                 
+##  [893] Liberia                  Liberia                 
+##  [895] Liberia                  Liberia                 
+##  [897] Liberia                  Liberia                 
+##  [899] Liberia                  Liberia                 
+##  [901] Libya                    Libya                   
+##  [903] Libya                    Libya                   
+##  [905] Libya                    Libya                   
+##  [907] Libya                    Libya                   
+##  [909] Libya                    Libya                   
+##  [911] Libya                    Libya                   
+##  [913] Madagascar               Madagascar              
+##  [915] Madagascar               Madagascar              
+##  [917] Madagascar               Madagascar              
+##  [919] Madagascar               Madagascar              
+##  [921] Madagascar               Madagascar              
+##  [923] Madagascar               Madagascar              
+##  [925] Malawi                   Malawi                  
+##  [927] Malawi                   Malawi                  
+##  [929] Malawi                   Malawi                  
+##  [931] Malawi                   Malawi                  
+##  [933] Malawi                   Malawi                  
+##  [935] Malawi                   Malawi                  
+##  [937] Malaysia                 Malaysia                
+##  [939] Malaysia                 Malaysia                
+##  [941] Malaysia                 Malaysia                
+##  [943] Malaysia                 Malaysia                
+##  [945] Malaysia                 Malaysia                
+##  [947] Malaysia                 Malaysia                
+##  [949] Mali                     Mali                    
+##  [951] Mali                     Mali                    
+##  [953] Mali                     Mali                    
+##  [955] Mali                     Mali                    
+##  [957] Mali                     Mali                    
+##  [959] Mali                     Mali                    
+##  [961] Mauritania               Mauritania              
+##  [963] Mauritania               Mauritania              
+##  [965] Mauritania               Mauritania              
+##  [967] Mauritania               Mauritania              
+##  [969] Mauritania               Mauritania              
+##  [971] Mauritania               Mauritania              
+##  [973] Mauritius                Mauritius               
+##  [975] Mauritius                Mauritius               
+##  [977] Mauritius                Mauritius               
+##  [979] Mauritius                Mauritius               
+##  [981] Mauritius                Mauritius               
+##  [983] Mauritius                Mauritius               
+##  [985] Mexico                   Mexico                  
+##  [987] Mexico                   Mexico                  
+##  [989] Mexico                   Mexico                  
+##  [991] Mexico                   Mexico                  
+##  [993] Mexico                   Mexico                  
+##  [995] Mexico                   Mexico                  
+##  [997] Mongolia                 Mongolia                
+##  [999] Mongolia                 Mongolia                
+## [1001] Mongolia                 Mongolia                
+## [1003] Mongolia                 Mongolia                
+## [1005] Mongolia                 Mongolia                
+## [1007] Mongolia                 Mongolia                
+## [1009] Montenegro               Montenegro              
+## [1011] Montenegro               Montenegro              
+## [1013] Montenegro               Montenegro              
+## [1015] Montenegro               Montenegro              
+## [1017] Montenegro               Montenegro              
+## [1019] Montenegro               Montenegro              
+## [1021] Morocco                  Morocco                 
+## [1023] Morocco                  Morocco                 
+## [1025] Morocco                  Morocco                 
+## [1027] Morocco                  Morocco                 
+## [1029] Morocco                  Morocco                 
+## [1031] Morocco                  Morocco                 
+## [1033] Mozambique               Mozambique              
+## [1035] Mozambique               Mozambique              
+## [1037] Mozambique               Mozambique              
+## [1039] Mozambique               Mozambique              
+## [1041] Mozambique               Mozambique              
+## [1043] Mozambique               Mozambique              
+## [1045] Myanmar                  Myanmar                 
+## [1047] Myanmar                  Myanmar                 
+## [1049] Myanmar                  Myanmar                 
+## [1051] Myanmar                  Myanmar                 
+## [1053] Myanmar                  Myanmar                 
+## [1055] Myanmar                  Myanmar                 
+## [1057] Namibia                  Namibia                 
+## [1059] Namibia                  Namibia                 
+## [1061] Namibia                  Namibia                 
+## [1063] Namibia                  Namibia                 
+## [1065] Namibia                  Namibia                 
+## [1067] Namibia                  Namibia                 
+## [1069] Nepal                    Nepal                   
+## [1071] Nepal                    Nepal                   
+## [1073] Nepal                    Nepal                   
+## [1075] Nepal                    Nepal                   
+## [1077] Nepal                    Nepal                   
+## [1079] Nepal                    Nepal                   
+## [1081] Netherlands              Netherlands             
+## [1083] Netherlands              Netherlands             
+## [1085] Netherlands              Netherlands             
+## [1087] Netherlands              Netherlands             
+## [1089] Netherlands              Netherlands             
+## [1091] Netherlands              Netherlands             
+## [1093] New Zealand              New Zealand             
+## [1095] New Zealand              New Zealand             
+## [1097] New Zealand              New Zealand             
+## [1099] New Zealand              New Zealand             
+## [1101] New Zealand              New Zealand             
+## [1103] New Zealand              New Zealand             
+## [1105] Nicaragua                Nicaragua               
+## [1107] Nicaragua                Nicaragua               
+## [1109] Nicaragua                Nicaragua               
+## [1111] Nicaragua                Nicaragua               
+## [1113] Nicaragua                Nicaragua               
+## [1115] Nicaragua                Nicaragua               
+## [1117] Niger                    Niger                   
+## [1119] Niger                    Niger                   
+## [1121] Niger                    Niger                   
+## [1123] Niger                    Niger                   
+## [1125] Niger                    Niger                   
+## [1127] Niger                    Niger                   
+## [1129] Nigeria                  Nigeria                 
+## [1131] Nigeria                  Nigeria                 
+## [1133] Nigeria                  Nigeria                 
+## [1135] Nigeria                  Nigeria                 
+## [1137] Nigeria                  Nigeria                 
+## [1139] Nigeria                  Nigeria                 
+## [1141] Norway                   Norway                  
+## [1143] Norway                   Norway                  
+## [1145] Norway                   Norway                  
+## [1147] Norway                   Norway                  
+## [1149] Norway                   Norway                  
+## [1151] Norway                   Norway                  
+## [1153] Oman                     Oman                    
+## [1155] Oman                     Oman                    
+## [1157] Oman                     Oman                    
+## [1159] Oman                     Oman                    
+## [1161] Oman                     Oman                    
+## [1163] Oman                     Oman                    
+## [1165] Pakistan                 Pakistan                
+## [1167] Pakistan                 Pakistan                
+## [1169] Pakistan                 Pakistan                
+## [1171] Pakistan                 Pakistan                
+## [1173] Pakistan                 Pakistan                
+## [1175] Pakistan                 Pakistan                
+## [1177] Panama                   Panama                  
+## [1179] Panama                   Panama                  
+## [1181] Panama                   Panama                  
+## [1183] Panama                   Panama                  
+## [1185] Panama                   Panama                  
+## [1187] Panama                   Panama                  
+## [1189] Paraguay                 Paraguay                
+## [1191] Paraguay                 Paraguay                
+## [1193] Paraguay                 Paraguay                
+## [1195] Paraguay                 Paraguay                
+## [1197] Paraguay                 Paraguay                
+## [1199] Paraguay                 Paraguay                
+## [1201] Peru                     Peru                    
+## [1203] Peru                     Peru                    
+## [1205] Peru                     Peru                    
+## [1207] Peru                     Peru                    
+## [1209] Peru                     Peru                    
+## [1211] Peru                     Peru                    
+## [1213] Philippines              Philippines             
+## [1215] Philippines              Philippines             
+## [1217] Philippines              Philippines             
+## [1219] Philippines              Philippines             
+## [1221] Philippines              Philippines             
+## [1223] Philippines              Philippines             
+## [1225] Poland                   Poland                  
+## [1227] Poland                   Poland                  
+## [1229] Poland                   Poland                  
+## [1231] Poland                   Poland                  
+## [1233] Poland                   Poland                  
+## [1235] Poland                   Poland                  
+## [1237] Portugal                 Portugal                
+## [1239] Portugal                 Portugal                
+## [1241] Portugal                 Portugal                
+## [1243] Portugal                 Portugal                
+## [1245] Portugal                 Portugal                
+## [1247] Portugal                 Portugal                
+## [1249] Puerto Rico              Puerto Rico             
+## [1251] Puerto Rico              Puerto Rico             
+## [1253] Puerto Rico              Puerto Rico             
+## [1255] Puerto Rico              Puerto Rico             
+## [1257] Puerto Rico              Puerto Rico             
+## [1259] Puerto Rico              Puerto Rico             
+## [1261] Reunion                  Reunion                 
+## [1263] Reunion                  Reunion                 
+## [1265] Reunion                  Reunion                 
+## [1267] Reunion                  Reunion                 
+## [1269] Reunion                  Reunion                 
+## [1271] Reunion                  Reunion                 
+## [1273] Romania                  Romania                 
+## [1275] Romania                  Romania                 
+## [1277] Romania                  Romania                 
+## [1279] Romania                  Romania                 
+## [1281] Romania                  Romania                 
+## [1283] Romania                  Romania                 
+## [1285] Rwanda                   Rwanda                  
+## [1287] Rwanda                   Rwanda                  
+## [1289] Rwanda                   Rwanda                  
+## [1291] Rwanda                   Rwanda                  
+## [1293] Rwanda                   Rwanda                  
+## [1295] Rwanda                   Rwanda                  
+## [1297] Sao Tome and Principe    Sao Tome and Principe   
+## [1299] Sao Tome and Principe    Sao Tome and Principe   
+## [1301] Sao Tome and Principe    Sao Tome and Principe   
+## [1303] Sao Tome and Principe    Sao Tome and Principe   
+## [1305] Sao Tome and Principe    Sao Tome and Principe   
+## [1307] Sao Tome and Principe    Sao Tome and Principe   
+## [1309] Saudi Arabia             Saudi Arabia            
+## [1311] Saudi Arabia             Saudi Arabia            
+## [1313] Saudi Arabia             Saudi Arabia            
+## [1315] Saudi Arabia             Saudi Arabia            
+## [1317] Saudi Arabia             Saudi Arabia            
+## [1319] Saudi Arabia             Saudi Arabia            
+## [1321] Senegal                  Senegal                 
+## [1323] Senegal                  Senegal                 
+## [1325] Senegal                  Senegal                 
+## [1327] Senegal                  Senegal                 
+## [1329] Senegal                  Senegal                 
+## [1331] Senegal                  Senegal                 
+## [1333] Serbia                   Serbia                  
+## [1335] Serbia                   Serbia                  
+## [1337] Serbia                   Serbia                  
+## [1339] Serbia                   Serbia                  
+## [1341] Serbia                   Serbia                  
+## [1343] Serbia                   Serbia                  
+## [1345] Sierra Leone             Sierra Leone            
+## [1347] Sierra Leone             Sierra Leone            
+## [1349] Sierra Leone             Sierra Leone            
+## [1351] Sierra Leone             Sierra Leone            
+## [1353] Sierra Leone             Sierra Leone            
+## [1355] Sierra Leone             Sierra Leone            
+## [1357] Singapore                Singapore               
+## [1359] Singapore                Singapore               
+## [1361] Singapore                Singapore               
+## [1363] Singapore                Singapore               
+## [1365] Singapore                Singapore               
+## [1367] Singapore                Singapore               
+## [1369] Slovak Republic          Slovak Republic         
+## [1371] Slovak Republic          Slovak Republic         
+## [1373] Slovak Republic          Slovak Republic         
+## [1375] Slovak Republic          Slovak Republic         
+## [1377] Slovak Republic          Slovak Republic         
+## [1379] Slovak Republic          Slovak Republic         
+## [1381] Slovenia                 Slovenia                
+## [1383] Slovenia                 Slovenia                
+## [1385] Slovenia                 Slovenia                
+## [1387] Slovenia                 Slovenia                
+## [1389] Slovenia                 Slovenia                
+## [1391] Slovenia                 Slovenia                
+## [1393] Somalia                  Somalia                 
+## [1395] Somalia                  Somalia                 
+## [1397] Somalia                  Somalia                 
+## [1399] Somalia                  Somalia                 
+## [1401] Somalia                  Somalia                 
+## [1403] Somalia                  Somalia                 
+## [1405] South Africa             South Africa            
+## [1407] South Africa             South Africa            
+## [1409] South Africa             South Africa            
+## [1411] South Africa             South Africa            
+## [1413] South Africa             South Africa            
+## [1415] South Africa             South Africa            
+## [1417] Spain                    Spain                   
+## [1419] Spain                    Spain                   
+## [1421] Spain                    Spain                   
+## [1423] Spain                    Spain                   
+## [1425] Spain                    Spain                   
+## [1427] Spain                    Spain                   
+## [1429] Sri Lanka                Sri Lanka               
+## [1431] Sri Lanka                Sri Lanka               
+## [1433] Sri Lanka                Sri Lanka               
+## [1435] Sri Lanka                Sri Lanka               
+## [1437] Sri Lanka                Sri Lanka               
+## [1439] Sri Lanka                Sri Lanka               
+## [1441] Sudan                    Sudan                   
+## [1443] Sudan                    Sudan                   
+## [1445] Sudan                    Sudan                   
+## [1447] Sudan                    Sudan                   
+## [1449] Sudan                    Sudan                   
+## [1451] Sudan                    Sudan                   
+## [1453] Swaziland                Swaziland               
+## [1455] Swaziland                Swaziland               
+## [1457] Swaziland                Swaziland               
+## [1459] Swaziland                Swaziland               
+## [1461] Swaziland                Swaziland               
+## [1463] Swaziland                Swaziland               
+## [1465] Sweden                   Sweden                  
+## [1467] Sweden                   Sweden                  
+## [1469] Sweden                   Sweden                  
+## [1471] Sweden                   Sweden                  
+## [1473] Sweden                   Sweden                  
+## [1475] Sweden                   Sweden                  
+## [1477] Switzerland              Switzerland             
+## [1479] Switzerland              Switzerland             
+## [1481] Switzerland              Switzerland             
+## [1483] Switzerland              Switzerland             
+## [1485] Switzerland              Switzerland             
+## [1487] Switzerland              Switzerland             
+## [1489] Syria                    Syria                   
+## [1491] Syria                    Syria                   
+## [1493] Syria                    Syria                   
+## [1495] Syria                    Syria                   
+## [1497] Syria                    Syria                   
+## [1499] Syria                    Syria                   
+## [1501] Taiwan                   Taiwan                  
+## [1503] Taiwan                   Taiwan                  
+## [1505] Taiwan                   Taiwan                  
+## [1507] Taiwan                   Taiwan                  
+## [1509] Taiwan                   Taiwan                  
+## [1511] Taiwan                   Taiwan                  
+## [1513] Tanzania                 Tanzania                
+## [1515] Tanzania                 Tanzania                
+## [1517] Tanzania                 Tanzania                
+## [1519] Tanzania                 Tanzania                
+## [1521] Tanzania                 Tanzania                
+## [1523] Tanzania                 Tanzania                
+## [1525] Thailand                 Thailand                
+## [1527] Thailand                 Thailand                
+## [1529] Thailand                 Thailand                
+## [1531] Thailand                 Thailand                
+## [1533] Thailand                 Thailand                
+## [1535] Thailand                 Thailand                
+## [1537] Togo                     Togo                    
+## [1539] Togo                     Togo                    
+## [1541] Togo                     Togo                    
+## [1543] Togo                     Togo                    
+## [1545] Togo                     Togo                    
+## [1547] Togo                     Togo                    
+## [1549] Trinidad and Tobago      Trinidad and Tobago     
+## [1551] Trinidad and Tobago      Trinidad and Tobago     
+## [1553] Trinidad and Tobago      Trinidad and Tobago     
+## [1555] Trinidad and Tobago      Trinidad and Tobago     
+## [1557] Trinidad and Tobago      Trinidad and Tobago     
+## [1559] Trinidad and Tobago      Trinidad and Tobago     
+## [1561] Tunisia                  Tunisia                 
+## [1563] Tunisia                  Tunisia                 
+## [1565] Tunisia                  Tunisia                 
+## [1567] Tunisia                  Tunisia                 
+## [1569] Tunisia                  Tunisia                 
+## [1571] Tunisia                  Tunisia                 
+## [1573] Turkey                   Turkey                  
+## [1575] Turkey                   Turkey                  
+## [1577] Turkey                   Turkey                  
+## [1579] Turkey                   Turkey                  
+## [1581] Turkey                   Turkey                  
+## [1583] Turkey                   Turkey                  
+## [1585] Uganda                   Uganda                  
+## [1587] Uganda                   Uganda                  
+## [1589] Uganda                   Uganda                  
+## [1591] Uganda                   Uganda                  
+## [1593] Uganda                   Uganda                  
+## [1595] Uganda                   Uganda                  
+## [1597] United Kingdom           United Kingdom          
+## [1599] United Kingdom           United Kingdom          
+## [1601] United Kingdom           United Kingdom          
+## [1603] United Kingdom           United Kingdom          
+## [1605] United Kingdom           United Kingdom          
+## [1607] United Kingdom           United Kingdom          
+## [1609] United States            United States           
+## [1611] United States            United States           
+## [1613] United States            United States           
+## [1615] United States            United States           
+## [1617] United States            United States           
+## [1619] United States            United States           
+## [1621] Uruguay                  Uruguay                 
+## [1623] Uruguay                  Uruguay                 
+## [1625] Uruguay                  Uruguay                 
+## [1627] Uruguay                  Uruguay                 
+## [1629] Uruguay                  Uruguay                 
+## [1631] Uruguay                  Uruguay                 
+## [1633] Venezuela                Venezuela               
+## [1635] Venezuela                Venezuela               
+## [1637] Venezuela                Venezuela               
+## [1639] Venezuela                Venezuela               
+## [1641] Venezuela                Venezuela               
+## [1643] Venezuela                Venezuela               
+## [1645] Vietnam                  Vietnam                 
+## [1647] Vietnam                  Vietnam                 
+## [1649] Vietnam                  Vietnam                 
+## [1651] Vietnam                  Vietnam                 
+## [1653] Vietnam                  Vietnam                 
+## [1655] Vietnam                  Vietnam                 
+## [1657] West Bank and Gaza       West Bank and Gaza      
+## [1659] West Bank and Gaza       West Bank and Gaza      
+## [1661] West Bank and Gaza       West Bank and Gaza      
+## [1663] West Bank and Gaza       West Bank and Gaza      
+## [1665] West Bank and Gaza       West Bank and Gaza      
+## [1667] West Bank and Gaza       West Bank and Gaza      
+## [1669] Yemen Rep.               Yemen Rep.              
+## [1671] Yemen Rep.               Yemen Rep.              
+## [1673] Yemen Rep.               Yemen Rep.              
+## [1675] Yemen Rep.               Yemen Rep.              
+## [1677] Yemen Rep.               Yemen Rep.              
+## [1679] Yemen Rep.               Yemen Rep.              
+## [1681] Zambia                   Zambia                  
+## [1683] Zambia                   Zambia                  
+## [1685] Zambia                   Zambia                  
+## [1687] Zambia                   Zambia                  
+## [1689] Zambia                   Zambia                  
+## [1691] Zambia                   Zambia                  
+## [1693] Zimbabwe                 Zimbabwe                
+## [1695] Zimbabwe                 Zimbabwe                
+## [1697] Zimbabwe                 Zimbabwe                
+## [1699] Zimbabwe                 Zimbabwe                
+## [1701] Zimbabwe                 Zimbabwe                
+## [1703] Zimbabwe                 Zimbabwe                
+## 142 Levels: Afghanistan Albania Algeria Angola Argentina ... Zimbabwe</code></pre>
+<p>Then, we want to create a data frame for this column that tells us the number of distinct entries, and the class of the column.</p>
+<pre class="r"><code>data.frame(n_distinct = n_distinct(.x),
+           class = class(.x))</code></pre>
+<pre><code>##   n_distinct  class
+## 1        142 factor</code></pre>
+<p>Since this has done what we want for the first column, we can paste this code into the map function using the tilde-dot shorthand.</p>
+<pre class="r"><code>gapminder %&gt;% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))),
+                     .id = &quot;variable&quot;)</code></pre>
+<pre><code>##    variable n_distinct   class
+## 1   country        142  factor
+## 2      year         12 integer
+## 3       pop       1704 numeric
+## 4 continent          5  factor
+## 5   lifeExp       1626 numeric
+## 6 gdpPercap       1704 numeric</code></pre>
+<p><code>map_df()</code> is definitely one of the most powerful functions of <code>purrr</code> in my opinion, and is probably the one that I use most.</p>
+</div>
+<div id="maps-with-multiple-input-objects" class="section level2">
+<h2>Maps with multiple input objects</h2>
+<p>After gaining a basic understanding of purrr’s map functions, you can start to do some fancier stuff. For instance, what if you want to perform a map that iterates through two objects. For instance, let’s use map functions to create a <em>list of plots</em> that compare life expectancy and GDP per capita for each continent/year combination.</p>
+<p>The map function will be <code>map2()</code> (named because it iterated over <em>two</em> things), and has the form</p>
+<pre class="r"><code>map2(.x = object1, # the first object to iterate over
+     .y = object2, # the second object to iterate over
+     .f = plotFunction(.x, .y))</code></pre>
+<p>First, you meed to define a vector (or list) of continents and a paired vector (or list) of years that you want to iterate through. Note that</p>
+<ul>
+<li><p>the first iteration will correspond to the first continent in the continent vector and the first year in the year vector,</p></li>
+<li><p>the second iteration will correspond to the second continent in the continent vector and the second year in the year vector.</p></li>
+</ul>
+<p>This might seem obvious, but it is a natural instinct to assume that it will automatically perform the action on <em>all</em> combinations that can be made from the two vectors. For instance if you have a continent vector <code>c(&quot;Americas&quot;, &quot;Asia&quot;)</code> and a year vector <code>c(1952, 2007)</code>, then you might assume that it will iterate over the Americas for 1952 and for 2007, and then Asia for 1952 and 2007. It won’t though. The iteration will actually be first the Americas for 1952 only, and then Asia for 2007 only.</p>
+<p>First, let’s get our vectors of continents and years, starting by obtaining all distinct combinations of continents and years that appear in the data.</p>
+<pre class="r"><code>continent_year &lt;- gapminder %&gt;% distinct(continent, year)
+continent_year</code></pre>
+<pre><code>##    continent year
+## 1       Asia 1952
+## 2       Asia 1957
+## 3       Asia 1962
+## 4       Asia 1967
+## 5       Asia 1972
+## 6       Asia 1977
+## 7       Asia 1982
+## 8       Asia 1987
+## 9       Asia 1992
+## 10      Asia 1997
+## 11      Asia 2002
+## 12      Asia 2007
+## 13    Europe 1952
+## 14    Europe 1957
+## 15    Europe 1962
+## 16    Europe 1967
+## 17    Europe 1972
+## 18    Europe 1977
+## 19    Europe 1982
+## 20    Europe 1987
+## 21    Europe 1992
+## 22    Europe 1997
+## 23    Europe 2002
+## 24    Europe 2007
+## 25    Africa 1952
+## 26    Africa 1957
+## 27    Africa 1962
+## 28    Africa 1967
+## 29    Africa 1972
+## 30    Africa 1977
+## 31    Africa 1982
+## 32    Africa 1987
+## 33    Africa 1992
+## 34    Africa 1997
+## 35    Africa 2002
+## 36    Africa 2007
+## 37  Americas 1952
+## 38  Americas 1957
+## 39  Americas 1962
+## 40  Americas 1967
+## 41  Americas 1972
+## 42  Americas 1977
+## 43  Americas 1982
+## 44  Americas 1987
+## 45  Americas 1992
+## 46  Americas 1997
+## 47  Americas 2002
+## 48  Americas 2007
+## 49   Oceania 1952
+## 50   Oceania 1957
+## 51   Oceania 1962
+## 52   Oceania 1967
+## 53   Oceania 1972
+## 54   Oceania 1977
+## 55   Oceania 1982
+## 56   Oceania 1987
+## 57   Oceania 1992
+## 58   Oceania 1997
+## 59   Oceania 2002
+## 60   Oceania 2007</code></pre>
+<p>Then extracting the continent and year pairs as separate vectors</p>
+<pre class="r"><code># extract the continent and year pairs as separate vectors
+continents &lt;- continent_year %&gt;% pull(continent) %&gt;% as.character
+years &lt;- continent_year %&gt;% pull(year)</code></pre>
+<p>Just like the anonymous argument in <code>map</code> is <code>.x</code>, in <code>map2</code> the two anonymous arguments are <code>.x</code> for the first object being iterated over, and <code>.y</code> for the second object being iterated over.</p>
+<p>So to figure out what the function inside <code>map2()</code> will look like, we will write the code for the first iteration (the first continent and the first year, which happen to be Asia in 1952).</p>
+<pre class="r"><code># try to figure out the code for the first example
+.x &lt;- continents[1]
+.y &lt;- years[1]
+# make a scatterplot of GDP vs life expectancy in all Asian countries for 1952
+gapminder %&gt;% 
+  filter(continent == .x,
+         year == .y) %&gt;%
+  ggplot() +
+  geom_point(aes(x = gdpPercap, y = lifeExp)) +
+  ggtitle(glue::glue(.x, &quot; &quot;, .y))</code></pre>
+<p><img src="2019-08-13_purrr_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>This seems to have worked. So we can copy-and-paste the code into the <code>map2</code> function</p>
+<pre class="r"><code>plot_list &lt;- map2(.x = continents, 
+                  .y = years, 
+                  .f = ~{
+                    gapminder %&gt;% 
+                      filter(continent == .x,
+                             year == .y) %&gt;%
+                      ggplot() +
+                      geom_point(aes(x = gdpPercap, y = lifeExp)) +
+                      ggtitle(glue::glue(.x, &quot; &quot;, .y))
+                  })</code></pre>
+<p>And we can look at a few of the entries of the list to see that they make sense</p>
+<pre class="r"><code>plot_list[[1]]</code></pre>
+<p><img src="2019-08-13_purrr_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<pre class="r"><code>plot_list[[22]]</code></pre>
+<p><img src="2019-08-13_purrr_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<p><code>pmap()</code> allows you to iterate over an arbitrary number of objects.</p>
+</div>
+<div id="list-columns-and-nested-data-frames" class="section level2">
+<h2>List columns and Nested data frames</h2>
+<p>Some crazy stuff starts happening when we learn that tibble columns can be lists (as opposed to vectors, which is what they usually are). This is where the difference between tibbles and data frames becomes real.</p>
+<p>For instance, a tibble can be “nested” where the tibble is essentially split into separate data frames based on a grouping variable, and these separate data frames are stored as entries of a list (that is then stored in the <code>data</code> column of the data frame).</p>
+<p>Below I nest the gapminder data by continent.</p>
+<pre class="r"><code>gapminder_nested &lt;- gapminder %&gt;% 
+  group_by(continent) %&gt;% 
+  nest()
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent data        
+##   &lt;fct&gt;     &lt;list&gt;      
+## 1 Asia      &lt;tibble [5]&gt;
+## 2 Europe    &lt;tibble [5]&gt;
+## 3 Africa    &lt;tibble [5]&gt;
+## 4 Americas  &lt;tibble [5]&gt;
+## 5 Oceania   &lt;tibble [5]&gt;</code></pre>
+<p>The first entry in the <code>data</code> column corresponds to the entire gapminder dataset for Asia.</p>
+<pre class="r"><code>gapminder_nested$data[[1]]</code></pre>
+<pre><code>## # A tibble: 396 x 5
+##    country      year      pop lifeExp gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952  8425333    28.8      779.
+##  2 Afghanistan  1957  9240934    30.3      821.
+##  3 Afghanistan  1962 10267083    32.0      853.
+##  4 Afghanistan  1967 11537966    34.0      836.
+##  5 Afghanistan  1972 13079460    36.1      740.
+##  6 Afghanistan  1977 14880372    38.4      786.
+##  7 Afghanistan  1982 12881816    39.9      978.
+##  8 Afghanistan  1987 13867957    40.8      852.
+##  9 Afghanistan  1992 16317921    41.7      649.
+## 10 Afghanistan  1997 22227415    41.8      635.
+## # … with 386 more rows</code></pre>
+<p>Using dplyr functions, this can be written as</p>
+<pre class="r"><code>gapminder_nested %&gt;% 
+  # extract the first entry from the data column
+  pluck(data, 1)</code></pre>
+<pre><code>## Warning in (function (..., list = character(), package = NULL, lib.loc = NULL, : data set &#39;list(c(3, 4, 1, 2, 5), list(list(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 64, 64, 64, 64, 64, 64, 
+## 64, 64, 64, 64, 64, 64, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 73, 73, 73, 73, 73, 73, 73, 73, 73, 73, 73, 73, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 
+## 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 128, 128, 128, 128, 128, 128, 128, 128, 128, 
+## 128, 128, 128, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140), c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 
+## 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 
+## 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 
+## 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 
+## 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 
+## 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007), c(8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12881816, 13867957, 16317921, 22227415, 25268405, 31889923, 120447, 138655, 171863, 202182, 230800, 297410, 377967, 454612, 529491, 598561, 656397, 708573, 46886859, 51365468, 56839289, 62821884, 70759295, 80428306, 93074406, 103764241, 113704579, 123315288, 135656790, 150448339, 4693836, 5322536, 6083619, 6960067, 7450606, 6978607, 7272485, 8371791, 10150094, 11782962, 12926707, 14131858, 
+## 556263527.999989, 637408000, 665770000, 754550000, 862030000, 943455000, 1000281000, 1084035000, 1164970000, 1230075000, 1280400000, 1318683096, 2125900, 2736300, 3305200, 3722800, 4115700, 4583700, 5264500, 5584510, 5829696, 6495918, 6762476, 6980412, 3.72e+08, 4.09e+08, 4.54e+08, 5.06e+08, 5.67e+08, 6.34e+08, 7.08e+08, 7.88e+08, 8.72e+08, 9.59e+08, 1034172547, 1110396331, 82052000, 90124000, 99028000, 109343000, 121282000, 136725000, 153343000, 169276000, 184816000, 199278000, 211060000, 223547000, 
+## 17272000, 19792000, 22874000, 26538000, 30614000, 35480679, 43072751, 51889696, 60397973, 63327987, 66907826, 69453570, 5441766, 6248643, 7240260, 8519282, 10061506, 11882916, 14173318, 16543189, 17861905, 20775703, 24001816, 27499638, 1620914, 1944401, 2310904, 2693585, 3095893, 3495918, 3858421, 4203148, 4936550, 5531387, 6029529, 6426679, 86459025, 91563009, 95831757, 100825279, 107188273, 113872473, 118454974, 122091325, 124329269, 125956499, 127065841, 127467972, 607914, 746559, 933559, 1255058, 
+## 1613551, 1937652, 2347031, 2820042, 3867409, 4526235, 5307470, 6053193, 8865488, 9411381, 10917494, 12617009, 14781241, 16325320, 17647518, 19067554, 20711375, 21585105, 22215365, 23301725, 20947571, 22611552, 26420307, 30131000, 33505000, 36436000, 39326000, 41622000, 43805450, 46173816, 47969150, 49044790, 160000, 212846, 358266, 575003, 841934, 1140357, 1497494, 1891487, 1418095, 1765345, 2111561, 2505559, 1439529, 1647412, 1886848, 2186894, 2680018, 3115787, 3086876, 3089353, 3219994, 3430388, 
+## 3677780, 3921278, 6748378, 7739235, 8906385, 10154878, 11441462, 12845381, 14441916, 16331785, 18319502, 20476091, 22662365, 24821286, 800663, 882134, 1010280, 1149500, 1320500, 1528000, 1756032, 2015133, 2312802, 2494803, 2674234, 2874127, 20092996, 21731844, 23634436, 25870271, 28466390, 31528087, 34680442, 38028578, 40546538, 43247867, 45598081, 47761980, 9182536, 9682338, 10332057, 11261690, 12412593, 13933198, 15796314, 17917180, 20326209, 23001113, 25873917, 28901790, 507833, 561977, 628164, 
+## 714775, 829050, 1004533, 1301048, 1593882, 1915208, 2283635, 2713462, 3204897, 41346560, 46679944, 53100671, 60641899, 69325921, 78152686, 91462088, 105186881, 120065004, 135564834, 153403524, 169270617, 22438691, 26072194, 30325264, 35356600, 40850141, 46850962, 53456774, 60017788, 67185766, 75012988, 82995088, 91077287, 4005677, 4419650, 4943029, 5618198, 6472756, 8128505, 11254672, 14619745, 16945857, 21229759, 24501530, 27601038, 1127000, 1445929, 1750200, 1977600, 2152400, 2325300, 2651869, 
+## 2794552, 3235865, 3802309, 4197776, 4553009, 7982342, 9128546, 10421936, 11737396, 13016733, 14116836, 15410151, 16495304, 17587060, 18698655, 19576783, 20378239, 3661549, 4149908, 4834621, 5680812, 6701172, 7932503, 9410494, 11242847, 13219062, 15081016, 17155814, 19314747, 8550362, 10164215, 11918938, 13648692, 15226039, 16785196, 18501390, 19757799, 20686918, 21628605, 22454239, 23174294, 21289402, 25041917, 29263397, 34024249, 39276153, 44148285, 48827160, 52910342, 56667095, 60216677, 62806748, 
+## 65068149, 26246839, 28998543, 33796140, 39463910, 44655014, 50533506, 56142181, 62826491, 69940728, 76048996, 80908147, 85262356, 1030585, 1070439, 1133134, 1142636, 1089572, 1261091, 1425876, 1691210, 2104779, 2826046, 3389578, 4018332, 4963829, 5498090, 6120081, 6740785, 7407075, 8403990, 9657618, 11219340, 13367997, 15826497, 18701257, 22211743), c(28.801, 30.332, 31.997, 34.02, 36.088, 38.438, 39.854, 40.822, 41.674, 41.763, 42.129, 43.828, 50.939, 53.832, 56.923, 59.923, 63.3, 65.593, 69.052, 
+## 70.75, 72.601, 73.925, 74.795, 75.635, 37.484, 39.348, 41.216, 43.453, 45.252, 46.923, 50.009, 52.819</code></pre>
+<pre><code>## [1] &quot;list(c(3, 4, 1, 2, 5), list(list(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 64, 64, 64, 64, 64, 64, \n64, 64, 64, 64, 64, 64, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 67, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 68, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 73, 73, 73, 73, 73, 73, 73, 73, 73, 73, 73, 73, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, \n97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 114, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 128, 128, 128, 128, 128, 128, 128, 128, 128, \n128, 128, 128, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 139, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140), c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, \n1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, \n1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, \n1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, \n1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, \n1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007), c(8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12881816, 13867957, 16317921, 22227415, 25268405, 31889923, 120447, 138655, 171863, 202182, 230800, 297410, 377967, 454612, 529491, 598561, 656397, 708573, 46886859, 51365468, 56839289, 62821884, 70759295, 80428306, 93074406, 103764241, 113704579, 123315288, 135656790, 150448339, 4693836, 5322536, 6083619, 6960067, 7450606, 6978607, 7272485, 8371791, 10150094, 11782962, 12926707, 14131858, \n556263527.999989, 637408000, 665770000, 754550000, 862030000, 943455000, 1000281000, 1084035000, 1164970000, 1230075000, 1280400000, 1318683096, 2125900, 2736300, 3305200, 3722800, 4115700, 4583700, 5264500, 5584510, 5829696, 6495918, 6762476, 6980412, 3.72e+08, 4.09e+08, 4.54e+08, 5.06e+08, 5.67e+08, 6.34e+08, 7.08e+08, 7.88e+08, 8.72e+08, 9.59e+08, 1034172547, 1110396331, 82052000, 90124000, 99028000, 109343000, 121282000, 136725000, 153343000, 169276000, 184816000, 199278000, 211060000, 223547000, \n17272000, 19792000, 22874000, 26538000, 30614000, 35480679, 43072751, 51889696, 60397973, 63327987, 66907826, 69453570, 5441766, 6248643, 7240260, 8519282, 10061506, 11882916, 14173318, 16543189, 17861905, 20775703, 24001816, 27499638, 1620914, 1944401, 2310904, 2693585, 3095893, 3495918, 3858421, 4203148, 4936550, 5531387, 6029529, 6426679, 86459025, 91563009, 95831757, 100825279, 107188273, 113872473, 118454974, 122091325, 124329269, 125956499, 127065841, 127467972, 607914, 746559, 933559, 1255058, \n1613551, 1937652, 2347031, 2820042, 3867409, 4526235, 5307470, 6053193, 8865488, 9411381, 10917494, 12617009, 14781241, 16325320, 17647518, 19067554, 20711375, 21585105, 22215365, 23301725, 20947571, 22611552, 26420307, 30131000, 33505000, 36436000, 39326000, 41622000, 43805450, 46173816, 47969150, 49044790, 160000, 212846, 358266, 575003, 841934, 1140357, 1497494, 1891487, 1418095, 1765345, 2111561, 2505559, 1439529, 1647412, 1886848, 2186894, 2680018, 3115787, 3086876, 3089353, 3219994, 3430388, \n3677780, 3921278, 6748378, 7739235, 8906385, 10154878, 11441462, 12845381, 14441916, 16331785, 18319502, 20476091, 22662365, 24821286, 800663, 882134, 1010280, 1149500, 1320500, 1528000, 1756032, 2015133, 2312802, 2494803, 2674234, 2874127, 20092996, 21731844, 23634436, 25870271, 28466390, 31528087, 34680442, 38028578, 40546538, 43247867, 45598081, 47761980, 9182536, 9682338, 10332057, 11261690, 12412593, 13933198, 15796314, 17917180, 20326209, 23001113, 25873917, 28901790, 507833, 561977, 628164, \n714775, 829050, 1004533, 1301048, 1593882, 1915208, 2283635, 2713462, 3204897, 41346560, 46679944, 53100671, 60641899, 69325921, 78152686, 91462088, 105186881, 120065004, 135564834, 153403524, 169270617, 22438691, 26072194, 30325264, 35356600, 40850141, 46850962, 53456774, 60017788, 67185766, 75012988, 82995088, 91077287, 4005677, 4419650, 4943029, 5618198, 6472756, 8128505, 11254672, 14619745, 16945857, 21229759, 24501530, 27601038, 1127000, 1445929, 1750200, 1977600, 2152400, 2325300, 2651869, \n2794552, 3235865, 3802309, 4197776, 4553009, 7982342, 9128546, 10421936, 11737396, 13016733, 14116836, 15410151, 16495304, 17587060, 18698655, 19576783, 20378239, 3661549, 4149908, 4834621, 5680812, 6701172, 7932503, 9410494, 11242847, 13219062, 15081016, 17155814, 19314747, 8550362, 10164215, 11918938, 13648692, 15226039, 16785196, 18501390, 19757799, 20686918, 21628605, 22454239, 23174294, 21289402, 25041917, 29263397, 34024249, 39276153, 44148285, 48827160, 52910342, 56667095, 60216677, 62806748, \n65068149, 26246839, 28998543, 33796140, 39463910, 44655014, 50533506, 56142181, 62826491, 69940728, 76048996, 80908147, 85262356, 1030585, 1070439, 1133134, 1142636, 1089572, 1261091, 1425876, 1691210, 2104779, 2826046, 3389578, 4018332, 4963829, 5498090, 6120081, 6740785, 7407075, 8403990, 9657618, 11219340, 13367997, 15826497, 18701257, 22211743), c(28.801, 30.332, 31.997, 34.02, 36.088, 38.438, 39.854, 40.822, 41.674, 41.763, 42.129, 43.828, 50.939, 53.832, 56.923, 59.923, 63.3, 65.593, 69.052, \n70.75, 72.601, 73.925, 74.795, 75.635, 37.484, 39.348, 41.216, 43.453, 45.252, 46.923, 50.009, 52.819, 56.018, 59.412, 62.013, 64.062, 39.417, 41.366, 43.415, 45.415, 40.317, 31.22, 50.957, 53.914, 55.803, 56.534, 56.752, 59.723, 44, 50.54896, 44.50136, 58.38112, 63.11888, 63.96736, 65.525, 67.274, 68.69, 70.426, 72.028, 72.961, 60.96, 64.75, 67.65, 70, 72, 73.6, 75.45, 76.2, 77.601, 80, 81.495, 82.208, 37.373, 40.249, 43.605, 47.193, 50.651, 54.208, 56.596, 58.553, 60.223, 61.765, 62.879, 64.698, \n37.468, 39.918, 42.518, 45.964, 49.203, 52.702, 56.159, 60.137, 62.681, 66.041, 68.588, 70.65, 44.869, 47.181, 49.325, 52.469, 55.234, 57.702, 59.62, 63.04, 65.742, 68.042, 69.451, 70.964, 45.32, 48.437, 51.457, 54.459, 56.95, 60.413, 62.038, 65.044, 59.461, 58.811, 57.046, 59.545, 65.39, 67.84, 69.39, 70.75, 71.63, 73.06, 74.45, 75.6, 76.93, 78.269, 79.696, 80.745, 63.03, 65.5, 68.73, 71.43, 73.42, 75.38, 77.11, 78.67, 79.36, 80.69, 82, 82.603, 43.158, 45.669, 48.126, 51.629, 56.528, 61.134, 63.739, \n65.869, 68.015, 69.772, 71.263, 72.535, 50.056, 54.081, 56.656, 59.942, 63.983, 67.159, 69.1, 70.647, 69.978, 67.727, 66.662, 67.297, 47.453, 52.681, 55.292, 57.716, 62.612, 64.766, 67.123, 69.81, 72.244, 74.647, 77.045, 78.623, 55.565, 58.033, 60.47, 64.624, 67.712, 69.343, 71.309, 74.174, 75.19, 76.156, 76.904, 77.588, 55.928, 59.489, 62.094, 63.87, 65.421, 66.099, 66.983, 67.926, 69.292, 70.265, 71.028, 71.993, 48.463, 52.102, 55.737, 59.371, 63.01, 65.256, 68, 69.5, 70.693, 71.938, 73.044, 74.241, \n42.244, 45.248, 48.251, 51.253, 53.754, 55.491, 57.489, 60.222, 61.271, 63.625, 65.033, 66.803, 36.319, 41.905, 45.108, 49.379, 53.07, 56.059, 58.056, 58.339, 59.32, 60.328, 59.908, 62.069, 36.157, 37.686, 39.393, 41.472, 43.971, 46.748, 49.594, 52.537, 55.727, 59.426, 61.34, 63.785, 37.578, 40.08, 43.165, 46.988, 52.143, 57.367, 62.728, 67.734, 71.197, 72.499, 74.193, 75.64, 43.436, 45.557, 47.67, 49.8, 51.929, 54.043, 56.158, 58.245, 60.838, 61.818, 63.61, 65.483, 47.752, 51.334, 54.757, 56.393, \n58.065, 60.06, 62.082, 64.151, 66.458, 68.564, 70.303, 71.688, 39.875, 42.868, 45.914, 49.901, 53.886, 58.69, 63.012, 66.295, 68.768, 70.533, 71.626, 72.777, 60.396, 63.179, 65.798, 67.946, 69.521, 70.795, 71.76, 73.56, 75.788, 77.158, 78.77, 79.972, 57.593, 61.456, 62.192, 64.266, 65.042, 65.949, 68.757, 69.011, 70.379, 70.457, 70.815, 72.396, 45.883, 48.284, 50.305, 53.655, 57.296, 61.195, 64.59, 66.974, 69.249, 71.527, 73.053, 74.143, 58.5, 62.4, 65.2, 67.5, 69.39, 70.59, 72.16, 73.4, 74.26, 75.25, \n76.99, 78.4, 50.848, 53.63, 56.061, 58.285, 60.405, 62.494, 64.597, 66.084, 67.298, 67.521, 68.564, 70.616, 40.412, 42.887, 45.363, 47.838, 50.254, 55.764, 58.816, 62.82, 67.662, 70.672, 73.017, 74.249, 43.16, 45.671, 48.127, 51.631, 56.532, 60.765, 64.406, 67.046, 69.718, 71.096, 72.37, 73.422, 32.548, 33.97, 35.18, 36.984, 39.848, 44.175, 49.113, 52.922, 55.599, 58.02, 60.308, 62.698), c(779.4453145, 820.8530296, 853.10071, 836.1971382, 739.9811058, 786.11336, 978.0114388, 852.3959448, 649.3413952, \n635.341351, 726.7340548, 974.5803384, 9867.084765, 11635.79945, 12753.27514, 14804.6727, 18268.65839, 19340.10196, 19211.14731, 18524.02406, 19035.57917, 20292.01679, 23403.55927, 29796.04834, 684.2441716, 661.6374577, 686.3415538, 721.1860862, 630.2336265, 659.8772322, 676.9818656, 751.9794035, 837.8101643, 972.7700352, 1136.39043, 1391.253792, 368.4692856, 434.0383364, 496.9136476, 523.4323142, 421.6240257, 524.9721832, 624.4754784, 683.8955732, 682.3031755, 734.28517, 896.2260153, 1713.778686, \n400.448610699994, 575.9870009, 487.6740183, 612.7056934, 676.9000921, 741.2374699, 962.4213805, 1378.904018, 1655.784158, 2289.234136, 3119.280896, 4959.114854, 3054.421209, 3629.076457, 4692.648272, 6197.962814, 8315.928145, 11186.14125, 14560.53051, 20038.47269, 24757.60301, 28377.63219, 30209.01516, 39724.97867, 546.5657493, 590.061996, 658.3471509, 700.7706107, 724.032527, 813.337323, 855.7235377, 976.5126756, 1164.406809, 1458.817442, 1746.769454, 2452.210407, 749.6816546, 858.9002707, 849.2897701, \n762.4317721, 1111.107907, 1382.702056, 1516.872988, 1748.356961, 2383.140898, 3119.335603, 2873.91287, 3540.651564, 3035.326002, 3290.257643, 4187.329802, 5906.731805, 9613.818607, 11888.59508, 7608.334602, 6642.881371, 7235.653188, 8263.590301, 9240.761975, 11605.71449, 4129.766056, 6229.333562, 8341.737815, 8931.459811, 9576.037596, 14688.23507, 14517.90711, 11643.57268, 3745.640687, 3076.239795, 4390.717312, 4471.061906, 4086.522128, 5385.278451, 7105.630706, 8393.741404, 12786.93223, 13306.61921, \n15367.0292, 17122.47986, 18051.52254, 20896.60924, 21905.59514, 25523.2771, 3216.956347, 4317.694365, 6576.649461, 9847.788607, 14778.78636, 16610.37701, 19384.10571, 22375.94189, 26824.89511, 28816.58499, 28604.5919, 31656.06806, 1546.907807, 1886.080591, 2348.009158, 2741.796252, 2110.856309, 2852.351568, 4161.415959, 4448.679912, 3431.593647, 3645.379572, 3844.917194, 4519.461171, 1088.277758, 1571.134655, 1621.693598, 2143.540609, 3701.621503, 4106.301249, 4106.525293, 4106.492315, 3726.063507, \n1690.756814, 1646.758151, 1593.06548, 1030.592226, 1487.593537, 1536.344387, 2029.228142, 3030.87665, 4657.22102, 5622.942464, 8533.088805, 12104.27872, 15993.52796, 19233.98818, 23348.13973, 108382.3529, 113523.1329, 95458.11176, 80894.88326, 109347.867, 59265.47714, 31354.03573, 28118.42998, 34932.91959, 40300.61996, 35110.10566, 47306.98978, 4834.804067, 6089.786934, 5714.560611, 6006.983042, 7486.384341, 8659.696836, 7640.519521, 5377.091329, 6890.806854, 8754.96385, 9313.93883, 10461.05868, \n1831.132894, 1810.066992, 2036.884944, 2277.742396, 2849.09478, 3827.921571, 4920.355951, 5249.802653, 7277.912802, 10132.90964, 10206.97794, 12451.6558, 786.5668575, 912.6626085, 1056.353958, 1226.04113, 1421.741975, 1647.511665, 2000.603139, 2338.008304, 1785.402016, 1902.2521, 2140.739323, 3095.772271, 331, 350, 388, 349, 357, 371, 424, 385, 347, 415, 611, 944, 545.8657229, 597.9363558, 652.3968593, 676.4422254, 674.7881296, 694.1124398, 718.3730947, 775.6324501, 897.7403604, 1010.892138, 1057.206311, \n1091.359778, 1828.230307, 2242.746551, 2924.638113, 4720.942687, 10618.03855, 11848.34392, 12954.79101, 18115.22313, 18616.70691, 19702.05581, 19774.83687, 22316.19287, 684.5971438, 747.0835292, 803.3427418, 942.4082588, 1049.938981, 1175.921193, 1443.429832, 1704.686583, 1971.829464, 2049.350521, 2092.712441, 2605.94758, 1272.880995, 1547.944844, 1649.552153, 1814.12743, 1989.37407, 2373.204287, 2603.273765, 2189.634995, 2279.324017, 2536.534925, 2650.921068, 3190.481016, 6459.554823, 8157.591248, \n11626.41975, 16903.04886, 24837.42865, 34167.7626, 33693.17525, 21198.26136, 24841.61777, 20586.69019, 19014.54118, 21654.83194, 2315.138227, 2843.104409, 3674.735572, 4977.41854, 8597.756202, 11210.08948, 15169.16112, 18861.53081, 24769.8912, 33519.4766, 36023.1054, 47143.17964, 1083.53203, 1072.546602, 1074.47196, 1135.514326, 1213.39553, 1348.775651, 1648.079789, 1876.766827, 2153.739222, 2664.477257, 3015.378833, 3970.095407, 1643.485354, 2117.234893, 2193.037133, 1881.923632, 2571.423014, 3195.484582, \n3761.837715, 3116.774285, 3340.542768, 4014.238972, 4090.925331, 4184.548089, 1206.947913, 1507.86129, 1822.879028, 2643.858681, 4062.523897, 5596.519826, 7426.354774, 11054.56175, 15215.6579, 20206.82098, 23235.42329, 28718.27684, 757.7974177, 793.5774148, 1002.199172, 1295.46066, 1524.358936, 1961.224635, 2393.219781, 2982.653773, 4616.896545, 5852.625497, 5913.187529, 7458.396327, 605.0664917, 676.2854478, 772.0491602, 637.1232887, 699.5016441, 713.5371196, 707.2357863, 820.7994449, 989.0231487, \n1385.896769, 1764.456677, 2441.576404, 1515.592329, 1827.067742, 2198.956312, 2649.715007, 3133.409277, 3682.831494, 4336.032082, 5107.197384, 6017.654756, 7110.667619, 4515.487575, 3025.349798, 781.7175761, 804.8304547, 825.6232006, 862.4421463, 1265.047031, 1829.765177, 1977.55701, 1971.741538, 1879.496673, 2117.484526, 2234.820827, 2280.769906)), list(c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 13, 13, 13, 13, 13, 13, \n13, 13, 13, 13, 13, 13, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, \n63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 63, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 107, 107, 107, 107, 107, 107, 107, 107, 107, 107, 107, 107, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 115, 115, 115, 115, 115, \n115, 115, 115, 115, 115, 115, 115, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 119, 119, 119, 119, 119, 119, 119, 119, 119, 119, 119, 119, 123, 123, 123, 123, 123, 123, 123, 123, 123, 123, 123, 123, 124, 124, 124, 124, 124, 124, 124, 124, 124, 124, 124, 124, 132, 132, 132, 132, 132, 132, 132, 132, 132, 132, 132, 132, 134, 134, 134, 134, 134, 134, 134, 134, 134, 134, 134, 134), c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, \n1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, \n1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, \n1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, \n1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, \n1982, 1987, 1992, 1997, 2002, 2007), c(1282697, 1476505, 1728137, 1984060, 2263554, 2509048, 2780097, 3075321, 3326498, 3428038, 3508512, 3600523, 6927772, 6965860, 7129864, 7376998, 7544201, 7568430, 7574613, 7578903, 7914969, 8069876, 8148312, 8199783, 8730405, 8989111, 9218400, 9556500, 9709100, 9821800, 9856303, 9870200, 10045622, 10199787, 10311970, 10392226, 2791000, 3076000, 3349000, 3585000, 3819000, 4086000, 4172693, 4338977, 4256013, 3607000, 4165416, 4552198, 7274900, 7651254, 8012946, \n8310226, 8576200, 8797022, 8892098, 8971958, 8658506, 8066057, 7661799, 7322858, 3882229, 3991242, 4076557, 4174366, 4225310, 4318673, 4413368, 4484310, 4494013, 4444595, 4481020, 4493312, 9125183, 9513758, 9620282, 9835109, 9862158, 10161915, 10303704, 10311597, 10315702, 10300707, 10256295, 10228744, 4334000, 4487831, 4646899, 4838800, 4991596, 5088419, 5117810, 5127024, 5171393, 5283663, 5374693, 5468120, 4090500, 4324000, 4491443, 4605744, 4639657, 4738902, 4826933, 4931729, 5041039, 5134406, \n5193039, 5238460, 42459667, 44310863, 47124000, 49569000, 51732000, 53165019, 54433565, 55630100, 57374179, 58623428, 59925035, 61083916, 69145952, 71019069, 73739117, 76368453, 78717088, 78160773, 78335266, 77718298, 80597764, 82011073, 82350671, 82400996, 7733250, 8096218, 8448233, 8716441, 8888628, 9308479, 9786480, 9974490, 10325429, 10502372, 10603863, 10706290, 9504000, 9839000, 10063000, 10223422, 10394091, 10637171, 10705535, 10612740, 10348684, 10244684, 10083313, 9956108, 147962, 165110, \n182053, 198676, 209275, 221823, 233997, 244676, 259012, 271192, 288030, 301931, 2952156, 2878220, 2830000, 2900100, 3024400, 3271900, 3480000, 3539900, 3557761, 3667233, 3879155, 4109086, 47666000, 49182000, 50843200, 52667100, 54365564, 56059245, 56535636, 56729703, 56840847, 57479469, 57926999, 58147733, 413834, 442829, 474528, 501035, 527678, 560073, 562548, 569473, 621621, 692651, 720230, 684736, 10381988, 11026383, 11805689, 12596822, 13329874, 13852989, 14310401, 14665278, 15174244, 15604464, \n16122830, 16570613, 3327728, 3491938, 3638919, 3786019, 3933004, 4043205, 4114787, 4186147, 4286357, 4405672, 4535591, 4627926, 25730551, 28235346, 30329617, 31785378, 33039545, 34621254, 36227381, 37740710, 38370697, 38654957, 38625976, 38518241, 8526050, 8817650, 9019800, 9103000, 8970450, 9662600, 9859650, 9915289, 9927680, 10156415, 10433867, 10642836, 16630000, 17829327, 18680721, 19284814, 20662648, 21658597, 22356726, 22686371, 22797027, 22562458, 22404337, 22276056, 6860147, 7271135, 7616060, \n7971222, 8313288, 8686367, 9032824, 9230783, 9826397, 10336594, 10111559, 10150265, 3558137, 3844277, 4237384, 4442238, 4593433, 4827803, 5048043, 5199318, 5302888, 5383010, 5410052, 5447502, 1489518, 1533070, 1582962, 1646912, 1694510, 1746919, 1861252, 1945870, 1999210, 2011612, 2011497, 2009245, 28549870, 29841614, 31158061, 32850275, 34513161, 36439000, 37983310, 38880702, 39549438, 39855442, 40152517, 40448191, 7124673, 7363802, 7561588, 7867931, 8122293, 8251648, 8325260, 8421403, 8718867, \n8897619, 8954175, 9031088, 4815000, 5126000, 5666000, 6063000, 6401400, 6316424, 6468126, 6649942, 6995447, 7193761, 7361757, 7554661, 22235677, 25670939, 29788695, 33411317, 37492953, 42404033, 47328791, 52881328, 58179144, 63047647, 67308928, 71158647, 50430000, 51430000, 53292000, 54959000, 56079000, 56179000, 56339704, 56981620, 57866349, 58808266, 59912431, 60776238), c(55.23, 59.28, 64.82, 66.22, 67.69, 68.93, 70.42, 72, 71.581, 72.95, 75.651, 76.423, 66.8, 67.48, 69.54, 70.14, 70.63, 72.17, \n73.18, 74.94, 76.04, 77.51, 78.98, 79.829, 68, 69.24, 70.25, 70.94, 71.44, 72.8, 73.93, 75.35, 76.46, 77.53, 78.32, 79.441, 53.82, 58.45, 61.93, 64.79, 67.45, 69.86, 70.69, 71.14, 72.178, 73.244, 74.09, 74.852, 59.6, 66.61, 69.51, 70.42, 70.9, 70.81, 71.08, 71.34, 71.19, 70.32, 72.14, 73.005, 61.21, 64.77, 67.13, 68.5, 69.61, 70.64, 70.46, 71.52, 72.527, 73.68, 74.876, 75.748, 66.87, 69.03, 69.9, 70.38, 70.29, 70.71, 70.96, 71.58, 72.4, 74.01, 75.51, 76.486, 70.78, 71.81, 72.35, 72.96, 73.47, 74.69, \n74.63, 74.8, 75.33, 76.11, 77.18, 78.332, 66.55, 67.49, 68.75, 69.83, 70.87, 72.52, 74.55, 74.83, 75.7, 77.13, 78.37, 79.313, 67.41, 68.93, 70.51, 71.55, 72.38, 73.83, 74.89, 76.34, 77.46, 78.64, 79.59, 80.657, 67.5, 69.1, 70.3, 70.8, 71, 72.5, 73.8, 74.847, 76.07, 77.34, 78.67, 79.406, 65.86, 67.86, 69.51, 71, 72.34, 73.68, 75.24, 76.67, 77.03, 77.869, 78.256, 79.483, 64.03, 66.41, 67.96, 69.5, 69.76, 69.95, 69.39, 69.58, 69.17, 71.04, 72.59, 73.338, 72.49, 73.47, 73.68, 73.73, 74.46, 76.11, 76.99, \n77.23, 78.77, 78.95, 80.5, 81.757, 66.91, 68.9, 70.29, 71.08, 71.28, 72.03, 73.1, 74.36, 75.467, 76.122, 77.783, 78.885, 65.94, 67.81, 69.24, 71.06, 72.19, 73.48, 74.98, 76.42, 77.44, 78.82, 80.24, 80.546, 59.164, 61.448, 63.728, 67.178, 70.636, 73.066, 74.101, 74.865, 75.435, 75.445, 73.981, 74.543, 72.13, 72.99, 73.23, 73.82, 73.75, 75.24, 76.05, 76.83, 77.42, 78.03, 78.53, 79.762, 72.67, 73.44, 73.47, 74.08, 74.34, 75.37, 75.97, 75.89, 77.32, 78.32, 79.05, 80.196, 61.31, 65.77, 67.64, 69.61, 70.85, \n70.67, 71.32, 70.98, 70.99, 72.75, 74.67, 75.563, 59.82, 61.51, 64.39, 66.6, 69.26, 70.41, 72.77, 74.06, 74.86, 75.97, 77.29, 78.098, 61.05, 64.1, 66.8, 66.8, 69.21, 69.46, 69.66, 69.53, 69.36, 69.72, 71.322, 72.476, 57.996, 61.685, 64.531, 66.914, 68.7, 70.3, 70.162, 71.218, 71.659, 72.232, 73.213, 74.002, 64.36, 67.45, 70.33, 70.98, 70.35, 70.45, 70.8, 71.08, 71.38, 72.71, 73.8, 74.663, 65.57, 67.85, 69.15, 69.18, 69.82, 70.97, 71.063, 72.25, 73.64, 75.13, 76.66, 77.926, 64.94, 66.66, 69.69, 71.44, \n73.06, 74.39, 76.3, 76.9, 77.57, 78.77, 79.78, 80.941, 71.86, 72.49, 73.37, 74.16, 74.72, 75.44, 76.42, 77.19, 78.16, 79.39, 80.04, 80.884, 69.62, 70.56, 71.32, 72.77, 73.78, 75.39, 76.21, 77.41, 78.03, 79.37, 80.62, 81.701, 43.585, 48.079, 52.098, 54.336, 57.005, 59.507, 61.036, 63.108, 66.146, 68.835, 70.845, 71.777, 69.18, 70.42, 70.76, 71.36, 72.01, 72.76, 74.04, 75.007, 76.42, 77.218, 78.471, 79.425), c(1601.056136, 1942.284244, 2312.888958, 2760.196931, 3313.422188, 3533.00391, 3630.880722, \n3738.932735, 2497.437901, 3193.054604, 4604.211737, 5937.029526, 6137.076492, 8842.59803, 10750.72111, 12834.6024, 16661.6256, 19749.4223, 21597.08362, 23687.82607, 27042.01868, 29095.92066, 32417.60769, 36126.4927, 8343.105127, 9714.960623, 10991.20676, 13149.04119, 16672.14356, 19117.97448, 20979.84589, 22525.56308, 25575.57069, 27561.19663, 30485.88375, 33692.60508, 973.5331948, 1353.989176, 1709.683679, 2172.352423, 2860.16975, 3528.481305, 4126.613157, 4314.114757, 2546.781445, 4766.355904, \n6018.975239, 7446.298803, 2444.286648, 3008.670727, 4254.337839, 5577.0028, 6597.494398, 7612.240438, 8224.191647, 8239.854824, 6302.623438, 5970.38876, 7696.777725, 10680.79282, 3119.23652, 4338.231617, 5477.890018, 6960.297861, 9164.090127, 11305.38517, 13221.82184, 13822.58394, 8447.794873, 9875.604515, 11628.38895, 14619.22272, 6876.14025, 8256.343918, 10136.86713, 11399.44489, 13108.4536, 14800.16062, 15377.22855, 16310.4434, 14297.02122, 16048.51424, 17596.21022, 22833.30851, 9692.385245, 11099.65935, \n13583.31351, 15937.21123, 18866.20721, 20422.9015, 21688.04048, 25116.17581, 26406.73985, 29804.34567, 32166.50006, 35278.41874, 6424.519071, 7545.415386, 9371.842561, 10921.63626, 14358.8759, 15605.42283, 18533.15761, 21141.01223, 20647.16499, 23723.9502, 28204.59057, 33207.0844, 7029.809327, 8662.834898, 10560.48553, 12999.91766, 16107.19171, 18292.63514, 20293.89746, 22066.44214, 24703.79615, 25889.78487, 28926.03234, 30470.0167, 7144.114393, 10187.82665, 12902.46291, 14745.62561, 18016.18027, \n20512.92123, 22031.53274, 24639.18566, 26505.30317, 27788.88416, 30035.80198, 32170.37442, 3530.690067, 4916.299889, 6017.190733, 8513.097016, 12724.82957, 14195.52428, 15268.42089, 16120.52839, 17541.49634, 18747.69814, 22514.2548, 27538.41188, 5263.673816, 6040.180011, 7550.359877, 9326.64467, 10168.65611, 11674.83737, 12545.99066, 12986.47998, 10535.62855, 11712.7768, 14843.93556, 18008.94444, 7267.688428, 9244.001412, 10350.15906, 13319.89568, 15798.06362, 19654.96247, 23269.6075, 26923.20628, \n25144.39201, 28061.09966, 31163.20196, 36180.78919, 5210.280328, 5599.077872, 6631.597314, 7655.568963, 9530.772896, 11150.98113, 12618.32141, 13872.86652, 17558.81555, 24521.94713, 34077.04939, 40675.99635, 4931.404155, 6248.656232, 8243.58234, 10022.40131, 12269.27378, 14255.98475, 16537.4835, 19207.23482, 22013.64486, 24675.02446, 27968.09817, 28569.7197, 2647.585601, 3682.259903, 4649.593785, 5907.850937, 7778.414017, 9595.929905, 11222.58762, 11732.51017, 7003.339037, 6465.613349, 6557.194282, \n9253.896111, 8941.571858, 11276.19344, 12790.84956, 15363.25136, 18794.74567, 21209.0592, 21399.46046, 23651.32361, 26790.94961, 30246.13063, 33724.75778, 36797.93332, 10095.42172, 11653.97304, 13450.40151, 16361.87647, 18965.05551, 23311.34939, 26298.63531, 31540.9748, 33965.66115, 41283.16433, 44683.97525, 49357.19017, 4029.329699, 4734.253019, 5338.752143, 6557.152776, 8006.506993, 9508.141454, 8451.531004, 9082.351172, 7738.881247, 10159.58368, 12002.23908, 15389.92468, 3068.319867, 3774.571743, \n4727.954889, 6361.517993, 9022.247417, 10172.48572, 11753.84291, 13039.30876, 16207.26663, 17641.03156, 19970.90787, 20509.64777, 3144.613186, 3943.370225, 4734.997586, 6470.866545, 8011.414402, 9356.39724, 9605.314053, 9696.273295, 6598.409903, 7346.547557, 7885.360081, 10808.47561, 3581.459448, 4981.090891, 6289.629157, 7991.707066, 10522.06749, 12980.66956, 15181.0927, 15870.87851, 9325.068238, 7914.320304, 7236.075251, 9786.534714, 5074.659104, 6093.26298, 7481.107598, 8412.902397, 9674.167626, \n10922.66404, 11348.54585, 12037.26758, 9498.467723, 12126.23065, 13638.77837, 18678.31435, 4215.041741, 5862.276629, 7402.303395, 9405.489397, 12383.4862, 15277.03017, 17866.72175, 18678.53492, 14214.71681, 17161.10735, 20660.01936, 25768.25759, 3834.034742, 4564.80241, 5693.843879, 7993.512294, 10638.75131, 13236.92117, 13926.16997, 15764.98313, 18603.06452, 20445.29896, 24835.47166, 28821.0637, 8527.844662, 9911.878226, 12329.44192, 15258.29697, 17832.02464, 18855.72521, 20667.38125, 23586.92927, \n23880.01683, 25266.59499, 29341.63093, 33859.74835, 14734.23275, 17909.48973, 20431.0927, 22966.14432, 27195.11304, 26982.29052, 28397.71512, 30281.70459, 31871.5303, 32135.32301, 34480.95771, 37506.41907, 1969.10098, 2218.754257, 2322.869908, 2826.356387, 3450.69638, 4269.122326, 4241.356344, 5089.043686, 5678.348271, 6601.429915, 6508.085718, 8458.276384, 9979.508487, 11283.17795, 12477.17707, 14142.85089, 15895.11641, 17428.74846, 18232.42452, 21664.78767, 22705.09254, 26074.53136, 29478.99919, \n33203.26128)), list(c(3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 28, 28, 28, 28, 28, 28, \n28, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, \n52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 78, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 82, 82, 82, 82, 82, 82, \n82, 82, 82, 82, 82, 82, 86, 86, 86, 86, 86, 86, 86, 86, 86, 86, 86, 86, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, 111, \n113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 117, 117, 117, 117, 117, 117, 117, 117, 117, 117, 117, 117, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 121, 121, 121, 121, 121, 121, 121, 121, 121, 121, 121, 121, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 131, 131, 131, 131, 131, 131, 131, 131, 131, 131, 131, 131, 133, 133, 133, 133, 133, \n133, 133, 133, 133, 133, 133, 133, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 141, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142), c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, \n2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007), c(9279525, 10270856, 11000948, 12760499, 14760787, 17152804, 20033753, 23254956, 26298373, 29072015, 31287142, 33333216, 4232095, \n4561361, 4826015, 5247469, 5894858, 6162675, 7016384, 7874230, 8735988, 9875024, 10866106, 12420476, 1738315, 1925173, 2151895, 2427334, 2761407, 3168267, 3641603, 4243788, 4981671, 6066080, 7026113, 8078314, 442308, 474639, 512764, 553541, 619351, 781472, 970347, 1151184, 1342614, 1536536, 1630347, 1639131, 4469979, 4713416, 4919632, 5127935, 5433886, 5889574, 6634596, 7586551, 8878303, 10352843, 12251209, 14326203, 2445618, 2667518, 2961915, 3330989, 3529983, 3834415, 4580410, 5126023, 5809236, \n6121610, 7021078, 8390505, 5009067, 5359923, 5793633, 6335506, 7021028, 7959865, 9250831, 10780667, 12467171, 14195809, 15929988, 17696293, 1291695, 1392284, 1523478, 1733638, 1927260, 2167533, 2476971, 2840009, 3265124, 3696513, 4048013, 4369038, 2682462, 2894855, 3150417, 3495967, 3899068, 4388260, 4875118, 5498955, 6429417, 7562011, 8835739, 10238807, 153936, 170928, 191689, 217378, 250027, 304739, 348643, 395114, 454429, 527982, 614382, 710960, 14100005, 15577932, 17486434, 19941073, 23007669, \n26480870, 30646495, 35481645, 41672143, 47798986, 55379852, 64606759, 854885, 940458, 1047924, 1179760, 1340458, 1536769, 1774735, 2064095, 2409073, 2800947, 3328795, 3800610, 2977019, 3300000, 3832408, 4744870, 6071696, 7459574, 9025951, 10761098, 12772596, 14625967, 16252726, 18013409, 63149, 71851, 89898, 127617, 178848, 228694, 305991, 311025, 384156, 417908, 447416, 496374, 22223309, 25009741, 28173309, 31681188, 34807417, 38783863, 45681811, 52799062, 59402198, 66134291, 73312559, 80264543, \n216964, 232922, 249220, 259864, 277603, 192675, 285483, 341244, 387838, 439971, 495627, 551201, 1438760, 1542611, 1666618, 1820319, 2260187, 2512642, 2637297, 2915959, 3668440, 4058319, 4414865, 4906585, 20860941, 22815614, 25145372, 27860297, 30770372, 34617799, 38111756, 42999530, 52088559, 59861301, 67946797, 76511887, 420702, 434904, 455661, 489004, 537977, 706367, 753874, 880397, 985739, 1126189, 1299304, 1454867, 284320, 323150, 374020, 439593, 517101, 608274, 715523, 848406, 1025384, 1235767, \n1457766, 1688359, 5581001, 6391288, 7355248, 8490213, 9354120, 10538093, 11400338, 14168101, 16278738, 18418288, 20550751, 22873338, 2664249, 2876726, 3140003, 3451418, 3811387, 4227026, 4710497, 5650262, 6990574, 8048834, 8807818, 9947814, 580653, 601095, 627820, 601287, 625361, 745228, 825987, 927524, 1050938, 1193708, 1332459, 1472041, 6464046, 7454779, 8678557, 10191512, 12044785, 14500404, 17661452, 21198082, 25020539, 28263827, 31386842, 35610177, 748747, 813338, 893143, 996380, 1116779, 1251524, \n1411807, 1599200, 1803195, 1982823, 2046772, 2012649, 863308, 975950, 1112796, 1279406, 1482628, 1703617, 1956875, 2269414, 1912974, 2200725, 2814651, 3193942, 1019729, 1201578, 1441863, 1759224, 2183877, 2721783, 3344074, 3799845, 4364501, 4759670, 5368585, 6036914, 4762912, 5181679, 5703324, 6334556, 7082430, 8007166, 9171477, 10568642, 12210395, 14165114, 16473477, 19167654, 2917802, 3221238, 3628608, 4147252, 4730997, 5637246, 6502825, 7824747, 10014249, 10419991, 11824495, 13327079, 3838168, \n4241884, 4690372, 5212416, 5828158, 6491649, 6998256, 7634008, 8416215, 9384984, 10580176, 12031795, 1022556, 1076852, 1146757, 1230542, 1332786, 1456688, 1622136, 1841240, 2119465, 2444741, 2828858, 3270065, 516556, 609816, 701016, 789309, 851334, 913025, 992040, 1042663, 1096202, 1149818, 1200206, 1250882, 9939217, 11406350, 13056604, 14770296, 16660670, 18396941, 20198730, 22987397, 25798239, 28529501, 31167783, 33757175, 6446316, 7038035, 7788944, 8680909, 9809596, 11127868, 12587223, 12891952, \n13160731, 16603334, 18473780, 19951656, 485831, 548080, 621392, 706640, 821782, 977026, 1099010, 1278184, 1554253, 1774766, 1972153, 2055080, 3379468, 3692184, 4076008, 4534062, 5060262, 5682086, 6437188, 7332638, 8392818, 9666252, 11140655, 12894865, 33119096, 37173340, 41871351, 47287752, 53740085, 62209173, 73039376, 81551520, 93364244, 106207839, 119901274, 135031164, 257700, 308700, 358900, 414024, 461633, 492095, 517810, 562035, 622191, 684810, 743981, 798094, 2534927, 2822082, 3051242, 3451079, \n3992121, 4657072, 5507565, 6349365, 7290203, 7212583, 7852401, 8860588, 60011, 61325, 65345, 70787, 76595, 86796, 98593, 110812, 125911, 145608, 170372, 199579, 2755589, 3054547, 3430243, 3965841, 4588696, 5260855, 6147783, 7171347, 8307920, 9535314, 10870037, 12267493, 2143249, 2295678, 2467895, 2662190, 2879013, 3140897, 3464522, 3868905, 4260884, 4578212, 5359092, 6144562, 2526994, 2780415, 3080153, 3428839, 3840161, 4353666, 5828892, 6921858, 6099799, 6633514, 7753310, 9118773, 14264935, 16151549, \n18356657, 20997321, 23935810, 27129932, 31140029, 35933379, 39964159, 42835005, 44433622, 43997828, 8504667, 9753392, 11183227, 12716129, 14597019, 17104986, 20367053, 24725960, 28227588, 32160729, 37090298, 42292929, 290243, 326741, 370006, 420690, 480105, 551425, 649901, 779348, 962344, 1054486, 1130269, 1133066, 8322925, 9452826, 10863958, 12607312, 14706593, 17129565, 19844382, 23040630, 26605473, 30686889, 34593779, 38139640, 1219113, 1357445, 1528098, 1735550, 2056351, 2308582, 2644765, 3154264, \n3747553, 4320890, 4977378, 5701579, 3647735, 3950849, 4286552, 4786986, 5303507, 6005061, 6734098, 7724976, 8523077, 9231669, 9770575, 10276158, 5824797, 6675501, 7688797, 8900294, 10190285, 11457758, 12939400, 15283050, 18252190, 21210254, 24739869, 29170398, 2672000, 3016000, 3421000, 3900000, 4506497, 5216550, 6100407, 7272406, 8381163, 9417789, 10595811, 11746035, 3080907, 3646340, 4277736, 4995432, 5861135, 6642107, 7636524, 9216418, 10704340, 11404948, 11926563, 12311143), c(43.077, 45.685, \n48.303, 51.407, 54.518, 58.014, 61.368, 65.799, 67.744, 69.152, 70.994, 72.301, 30.015, 31.999, 34, 35.985, 37.928, 39.483, 39.942, 39.906, 40.647, 40.963, 41.003, 42.731, 38.223, 40.358, 42.618, 44.885, 47.014, 49.19, 50.904, 52.337, 53.919, 54.777, 54.406, 56.728, 47.622, 49.618, 51.52, 53.298, 56.024, 59.319, 61.484, 63.622, 62.745, 52.556, 46.634, 50.728, 31.975, 34.906, 37.814, 40.697, 43.591, 46.137, 48.122, 49.557, 50.26, 50.324, 50.65, 52.295, 39.031, 40.533, 42.045, 43.548, 44.057, 45.91, \n47.471, 48.211, 44.736, 45.326, 47.36, 49.58, 38.523, 40.428, 42.643, 44.799, 47.049, 49.355, 52.961, 54.985, 54.314, 52.199, 49.856, 50.43, 35.463, 37.464, 39.475, 41.478, 43.457, 46.775, 48.295, 50.485, 49.396, 46.066, 43.308, 44.741, 38.092, 39.881, 41.716, 43.601, 45.569, 47.383, 49.517, 51.051, 51.724, 51.573, 50.525, 50.651, 40.715, 42.46, 44.467, 46.472, 48.944, 50.939, 52.933, 54.926, 57.939, 60.66, 62.974, 65.152, 39.143, 40.652, 42.122, 44.056, 45.989, 47.804, 47.784, 47.412, 45.548, 42.587, \n44.966, 46.462, 42.111, 45.053, 48.435, 52.04, 54.907, 55.625, 56.695, 57.47, 56.433, 52.962, 52.97, 55.322, 40.477, 42.469, 44.93, 47.35, 49.801, 52.374, 53.983, 54.655, 52.044, 47.991, 46.832, 48.328, 34.812, 37.328, 39.693, 42.074, 44.366, 46.519, 48.812, 50.04, 51.604, 53.157, 53.373, 54.791, 41.893, 44.444, 46.992, 49.293, 51.137, 53.319, 56.006, 59.797, 63.674, 67.217, 69.806, 71.338, 34.482, 35.983, 37.485, 38.987, 40.516, 42.024, 43.662, 45.664, 47.545, 48.245, 49.348, 51.579, 35.928, 38.047, \n40.158, 42.189, 44.142, 44.535, 43.89, 46.453, 49.991, 53.378, 55.24, 58.04, 34.078, 36.667, 40.059, 42.115, 43.515, 44.51, 44.916, 46.684, 48.091, 49.402, 50.725, 52.947, 37.003, 38.999, 40.489, 44.598, 48.69, 52.79, 56.564, 60.19, 61.366, 60.461, 56.761, 56.735, 30, 32.065, 33.896, 35.857, 38.308, 41.842, 45.58, 49.265, 52.644, 55.861, 58.041, 59.448, 43.149, 44.779, 46.452, 48.072, 49.875, 51.756, 53.744, 55.729, 57.501, 58.556, 58.453, 60.022, 33.609, 34.558, 35.753, 37.197, 38.842, 40.762, 42.891, \n45.552, 48.576, 51.455, 53.676, 56.007, 32.5, 33.489, 34.488, 35.492, 36.486, 37.465, 39.327, 41.245, 43.266, 44.873, 45.504, 46.388, 42.27, 44.686, 47.949, 50.654, 53.559, 56.155, 58.766, 59.339, 59.285, 54.407, 50.992, 54.11, 42.138, 45.047, 47.747, 48.492, 49.767, 52.208, 55.078, 57.18, 59.685, 55.558, 44.593, 42.592, 38.48, 39.486, 40.502, 41.536, 42.614, 43.764, 44.852, 46.027, 40.802, 42.221, 43.753, 45.678, 42.723, 45.289, 47.808, 50.227, 52.773, 57.442, 62.155, 66.234, 68.755, 71.555, 72.737, \n73.952, 36.681, 38.865, 40.848, 42.881, 44.851, 46.881, 48.969, 49.35, 52.214, 54.978, 57.286, 59.443, 36.256, 37.207, 38.41, 39.487, 41.766, 43.767, 45.642, 47.457, 49.42, 47.495, 45.009, 48.303, 33.685, 35.307, 36.936, 38.487, 39.977, 41.714, 43.916, 46.364, 48.388, 49.903, 51.818, 54.467, 40.543, 42.338, 44.248, 46.289, 48.437, 50.852, 53.599, 56.145, 58.333, 60.43, 62.247, 64.164, 50.986, 58.089, 60.246, 61.557, 62.944, 64.93, 66.711, 68.74, 69.745, 70.736, 71.954, 72.801, 42.873, 45.423, 47.924, \n50.335, 52.862, 55.73, 59.65, 62.677, 65.393, 67.66, 69.615, 71.164, 31.286, 33.779, 36.161, 38.113, 40.328, 42.495, 42.795, 42.861, 44.284, 46.344, 44.026, 42.082, 41.725, 45.226, 48.386, 51.159, 53.867, 56.437, 58.968, 60.835, 61.999, 58.909, 51.479, 52.906, 37.444, 38.598, 39.487, 40.118, 40.546, 41.291, 42.598, 44.555, 47.391, 51.313, 54.496, 56.867, 36.324, 37.802, 39.36, 41.04, 42.821, 44.514, 45.826, 46.886, 47.472, 47.464, 46.608, 46.859, 52.724, 55.09, 57.666, 60.542, 64.274, 67.064, 69.885, \n71.913, 73.615, 74.772, 75.744, 76.442, 40, 41.5, 43, 44.1, 44.6, 45, 46.218, 44.02, 23.599, 36.087, 43.413, 46.242, 46.471, 48.945, 51.893, 54.425, 56.48, 58.55, 60.351, 61.728, 62.742, 63.306, 64.337, 65.528, 37.278, 39.329, 41.454, 43.563, 45.815, 48.879, 52.379, 55.769, 58.196, 60.187, 61.6, 63.062, 30.331, 31.57, 32.767, 34.113, 35.4, 36.788, 38.445, 40.006, 38.333, 39.897, 41.012, 42.568, 32.978, 34.977, 36.981, 38.977, 40.973, 41.974, 42.955, 44.501, 39.658, 43.795, 45.936, 48.159, 45.009, \n47.985, 49.951, 51.927, 53.696, 55.527, 58.161, 60.834, 61.888, 60.236, 53.365, 49.339, 38.635, 39.624, 40.87, 42.858, 45.083, 47.8, 50.338, 51.744, 53.556, 55.373, 56.369, 58.556, 41.407, 43.424, 44.992, 46.633, 49.552, 52.537, 55.561, 57.678, 58.474, 54.289, 43.869, 39.613, 41.215, 42.974, 44.246, 45.757, 47.62, 49.919, 50.608, 51.535, 50.44, 48.466, 49.651, 52.517, 38.596, 41.208, 43.922, 46.769, 49.759, 52.887, 55.471, 56.941, 58.061, 58.39, 57.561, 58.42, 44.6, 47.1, 49.579, 52.053, 55.602, \n59.837, 64.048, 66.894, 70.001, 71.973, 73.042, 73.923, 39.978, 42.571, 45.344, 48.051, 51.016, 50.35, 49.849, 51.509, 48.825, 44.578, 47.813, 51.542, 42.038, 44.077, 46.023, 47.768, 50.107, 51.386, 51.821, 50.821, 46.1, 40.238, 39.193, 42.384, 48.451, 50.469, 52.358, 53.995, 55.635, 57.674, 60.363, 62.351, 60.377, 46.809, 39.989, 43.487), c(2449.008185, 3013.976023, 2550.81688, 3246.991771, 4182.663766, 4910.416756, 5745.160213, 5681.358539, 5023.216647, 4797.295051, 5288.040382, 6223.367465, 3520.610273, \n3827.940465, 4269.276742, 5522.776375, 5473.288005, 3008.647355, 2756.953672, 2430.208311, 2627.845685, 2277.140884, 2773.287312, 4797.231267, 1062.7522, 959.6010805, 949.4990641, 1035.831411, 1085.796879, 1029.161251, 1277.897616, 1225.85601, 1191.207681, 1232.975292, 1372.877931, 1441.284873, 851.2411407, 918.2325349, 983.6539764, 1214.709294, 2263.611114, 3214.857818, 4551.14215, 6205.88385, 7954.111645, 8647.142313, 11003.60508, 12569.85177, 543.2552413, 617.1834648, 722.5120206, 794.8265597, \n854.7359763, 743.3870368, 807.1985855, 912.0631417, 931.7527731, 946.2949618, 1037.645221, 1217.032994, 339.2964587, 379.5646281, 355.2032273, 412.9775136, 464.0995039, 556.1032651, 559.603231, 621.8188189, 631.6998778, 463.1151478, 446.4035126, 430.0706916, 1172.667655, 1313.048099, 1399.607441, 1508.453148, 1684.146528, 1783.432873, 2367.983282, 2602.664206, 1793.163278, 1694.337469, 1934.011449, 2042.09524, 1071.310713, 1190.844328, 1193.068753, 1136.056615, 1070.013275, 1109.374338, 956.7529907, \n844.8763504, 747.9055252, 740.5063317, 738.6906068, 706.016537, 1178.665927, 1308.495577, 1389.817618, 1196.810565, 1104.103987, 1133.98495, 797.9081006, 952.386129, 1058.0643, 1004.961353, 1156.18186, 1704.063724, 1102.990936, 1211.148548, 1406.648278, 1876.029643, 1937.577675, 1172.603047, 1267.100083, 1315.980812, 1246.90737, 1173.618235, 1075.811558, 986.1478792, 780.5423257, 905.8602303, 896.3146335, 861.5932424, 904.8960685, 795.757282, 673.7478181, 672.774812, 457.7191807, 312.188423, 241.1658765, \n277.5518587, 2125.621418, 2315.056572, 2464.783157, 2677.939642, 3213.152683, 3259.178978, 4879.507522, 4201.194937, 4016.239529, 3484.164376, 3484.06197, 3632.557798, 1388.594732, 1500.895925, 1728.869428, 2052.050473, 2378.201111, 2517.736547, 2602.710169, 2156.956069, 1648.073791, 1786.265407, 1648.800823, 1544.750112, 2669.529475, 2864.969076, 3020.989263, 3020.050513, 3694.212352, 3081.761022, 2879.468067, 2880.102568, 2377.156192, 1895.016984, 1908.260867, 2082.481567, 1418.822445, 1458.915272, \n1693.335853, 1814.880728, 2024.008147, 2785.493582, 3503.729636, 3885.46071, 3794.755195, 4173.181797, 4754.604414, 5581.180998, 375.6431231, 426.0964081, 582.8419714, 915.5960025, 672.4122571, 958.5668124, 927.8253427, 966.8968149, 1132.055034, 2814.480755, 7703.4959, 12154.08975, 328.9405571, 344.1618859, 380.9958433, 468.7949699, 514.3242082, 505.7538077, 524.8758493, 521.1341333, 582.8585102, 913.47079, 765.3500015, 641.3695236, 362.1462796, 378.9041632, 419.4564161, 516.1186438, 566.2439442, \n556.8083834, 577.8607471, 573.7413142, 421.3534653, 515.8894013, 530.0535319, 690.8055759, 4293.476475, 4976.198099, 6631.459222, 8358.761987, 11401.94841, 21745.57328, 15113.36194, 11864.40844, 13522.15752, 14722.84188, 12521.71392, 13206.48452, 485.2306591, 520.9267111, 599.650276, 734.7829124, 756.0868363, 884.7552507, 835.8096108, 611.6588611, 665.6244126, 653.7301704, 660.5855997, 752.7497265, 911.2989371, 1043.561537, 1190.041118, 1125.69716, 1178.223708, 993.2239571, 876.032569, 847.0061135, \n925.060154, 1005.245812, 1111.984578, 1327.60891, 510.1964923, 576.2670245, 686.3736739, 708.7595409, 741.6662307, 874.6858643, 857.2503577, 805.5724718, 794.3484384, 869.4497668, 945.5835837, 942.6542111, 299.850319, 431.7904566, 522.0343725, 715.5806402, 820.2245876, 764.7259628, 838.1239671, 736.4153921, 745.5398706, 796.6644681, 575.7047176, 579.231743, 853.540919, 944.4383152, 896.9663732, 1056.736457, 1222.359968, 1267.613204, 1348.225791, 1361.936856, 1341.921721, 1360.485021, 1287.514732, \n1463.249282, 298.8462121, 335.9971151, 411.8006266, 498.6390265, 496.5815922, 745.3695408, 797.2631074, 773.9932141, 977.4862725, 1186.147994, 1275.184575, 1569.331442, 575.5729961, 620.9699901, 634.1951625, 713.6036483, 803.0054535, 640.3224383, 572.1995694, 506.1138573, 636.6229191, 609.1739508, 531.4823679, 414.5073415, 2387.54806, 3448.284395, 6757.030816, 18772.75169, 21011.49721, 21951.21176, 17364.27538, 11770.5898, 9640.138501, 9467.446056, 9534.677467, 12057.49928, 1443.011715, 1589.20275, \n1643.38711, 1634.047282, 1748.562982, 1544.228586, 1302.878658, 1155.441948, 1040.67619, 986.2958956, 894.6370822, 1044.770126, 369.1650802, 416.3698064, 427.9010856, 495.5147806, 584.6219709, 663.2236766, 632.8039209, 635.5173634, 563.2000145, 692.2758103, 665.4231186, 759.3499101, 452.3369807, 490.3821867, 496.1743428, 545.0098873, 581.3688761, 686.3952693, 618.0140641, 684.1715576, 739.014375, 790.2579846, 951.4097518, 1042.581557, 743.1159097, 846.1202613, 1055.896036, 1421.145193, 1586.851781, \n1497.492223, 1481.150189, 1421.603576, 1361.369784, 1483.136136, 1579.019543, 1803.151496, 1967.955707, 2034.037981, 2529.067487, 2475.387562, 2575.484158, 3710.982963, 3688.037739, 4783.586903, 6058.253846, 7425.705295, 9021.815894, 10956.99112, 1688.20357, 1642.002314, 1566.353493, 1711.04477, 1930.194975, 2370.619976, 2702.620356, 2755.046991, 2948.047252, 2982.101858, 3258.495584, 3820.17523, 468.5260381, 495.5868333, 556.6863539, 566.6691539, 724.9178037, 502.3197334, 462.2114149, 389.8761846, \n410.8968239, 472.3460771, 633.6179466, 823.6856205, 2423.780443, 2621.448058, 3173.215595, 3793.694753, 3746.080948, 3876.485958, 4191.100511, 3693.731337, 3804.537999, 3899.52426, 4072.324751, 4811.060429, 761.879376, 835.5234025, 997.7661127, 1054.384891, 954.2092363, 808.8970728, 909.7221354, 668.3000228, 581.182725, 580.3052092, 601.0745012, 619.6768924, 1077.281856, 1100.592563, 1150.927478, 1014.514104, 1698.388838, 1981.951806, 1576.97375, 1385.029563, 1619.848217, 1624.941275, 1615.286395, \n2013.977305, 2718.885295, 2769.451844, 3173.72334, 4021.175739, 5047.658563, 4319.804067, 5267.219353, 5303.377488, 6101.255823, 6071.941411, 6316.1652, 7670.122558, 493.3238752, 540.2893983, 597.4730727, 510.9637142, 590.5806638, 670.0806011, 881.5706467, 847.991217, 737.0685949, 589.9445051, 785.6537648, 863.0884639, 879.5835855, 860.7369026, 1071.551119, 1384.840593, 1532.985254, 1737.561657, 1890.218117, 1516.525457, 1428.777814, 1339.076036, 1353.09239, 1598.435089, 1450.356983, 1567.653006, \n1654.988723, 1612.404632, 1597.712056, 1561.769116, 1518.479984, 1441.72072, 1367.899369, 1392.368347, 1519.635262, 1712.472136, 879.7877358, 1004.484437, 1116.639877, 1206.043465, 1353.759762, 1348.285159, 1465.010784, 1294.447788, 1068.696278, 574.6481576, 699.489713, 862.5407561, 1135.749842, 1258.147413, 1369.488336, 1284.73318, 1254.576127, 1450.992513, 1176.807031, 1093.244963, 926.9602964, 930.5964284, 882.0818218, 926.1410683, 4725.295531, 5487.104219, 5768.729717, 7114.477971, 7765.962636, \n8028.651439, 8568.266228, 7825.823398, 7225.069258, 7479.188244, 7710.946444, 9269.657808, 1615.991129, 1770.337074, 1959.593767, 1687.997641, 1659.652775, 2202.988423, 1895.544073, 1507.819159, 1492.197043, 1632.210764, 1993.398314, 2602.394995, 1148.376626, 1244.708364, 1856.182125, 2613.101665, 3364.836625, 3781.410618, 3895.384018, 3984.839812, 3553.0224, 3876.76846, 4128.116943, 4513.480643, 716.6500721, 698.5356073, 722.0038073, 848.2186575, 915.9850592, 962.4922932, 874.2426069, 831.8220794, \n825.682454, 789.1862231, 899.0742111, 1107.482182, 859.8086567, 925.9083202, 1067.53481, 1477.59676, 1649.660188, 1532.776998, 1344.577953, 1202.201361, 1034.298904, 982.2869243, 886.2205765, 882.9699438, 1468.475631, 1395.232468, 1660.30321, 1932.360167, 2753.285994, 3120.876811, 3560.233174, 3810.419296, 4332.720164, 4876.798614, 5722.895655, 7092.923025, 734.753484, 774.3710692, 767.2717398, 908.9185217, 950.735869, 843.7331372, 682.2662268, 617.7244065, 644.1707969, 816.559081, 927.7210018, 1056.380121, \n1147.388831, 1311.956766, 1452.725766, 1777.077318, 1773.498265, 1588.688299, 1408.678565, 1213.315116, 1210.884633, 1071.353818, 1071.613938, 1271.211593, 406.8841148, 518.7642681, 527.2721818, 569.7950712, 799.3621758, 685.5876821, 788.8550411, 706.1573059, 693.4207856, 792.4499603, 672.0386227, 469.7092981)), list(c(5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, \n24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 51, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 66, 66, 66, 66, 66, 66, \n66, 66, 66, 66, 66, 66, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 130, 130, 130, 130, 130, 130, 130, 130, 130, 130, 130, 130, 135, 135, 135, 135, 135, 135, 135, 135, 135, 135, 135, 135, 136, 136, 136, 136, 136, 136, 136, \n136, 136, 136, 136, 136, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137), c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, \n1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, \n1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, \n1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007), c(17876956, 19610538, 21283783, 22934225, 24779799, 26983828, 29341374, 31620918, 33958947, 36203463, 38331121, 40301927, \n2883315, 3211738, 3593918, 4040665, 4565872, 5079716, 5642224, 6156369, 6893451, 7693188, 8445134, 9119152, 56602560, 65551171, 76039390, 88049823, 100840058, 114313951, 128962939, 142938076, 155975974, 168546719, 179914212, 190010647, 14785584, 17010154, 18985849, 20819767, 22284500, 23796400, 25201900, 26549700, 28523502, 30305843, 31902268, 33390141, 6377619, 7048426, 7961258, 8858908, 9717524, 10599793, 11487112, 12463354, 13572994, 14599929, 15497046, 16284741, 12350771, 14485993, 17009885, \n19764027, 22542890, 25094412, 27764644, 30964245, 34202721, 37657830, 41008227, 44227550, 926317, 1112300, 1345187, 1588717, 1834796, 2108457, 2424367, 2799811, 3173216, 3518107, 3834934, 4133884, 6007797, 6640752, 7254373, 8139332, 8831348, 9537988, 9789224, 10239839, 10723260, 10983007, 11226999, 11416987, 2491346, 2923186, 3453434, 4049146, 4671329, 5302800, 5968349, 6655297, 7351181, 7992357, 8650322, 9319622, 3548753, 4058385, 4681707, 5432424, 6298651, 7278866, 8365850, 9545158, 10748394, 11911819, \n12921234, 13755680, 2042865, 2355805, 2747687, 3232927, 3790903, 4282586, 4474873, 4842194, 5274649, 5783439, 6353681, 6939688, 3146381, 3640876, 4208858, 4690773, 5149581, 5703430, 6395630, 7326406, 8486949, 9803875, 11178650, 12572928, 3201488, 3507701, 3880130, 4318137, 4698301, 4908554, 5198399, 5756203, 6326682, 6913545, 7607651, 8502814, 1517453, 1770390, 2090162, 2500689, 2965146, 3055235, 3669448, 4372203, 5077347, 5867957, 6677328, 7483763, 1426095, 1535090, 1665128, 1861096, 1997616, 2156814, \n2298309, 2326606, 2378618, 2531311, 2664659, 2780132, 30144317, 35015548, 41121485, 47995559, 55984294, 63759976, 71640904, 80122492, 88111030, 95895146, 102479927, 108700891, 1165790, 1358828, 1590597, 1865490, 2182908, 2554598, 2979423, 3344353, 4017939, 4609572, 5146848, 5675356, 940080, 1063506, 1215725, 1405486, 1616384, 1839782, 2036305, 2253639, 2484997, 2734531, 2990875, 3242173, 1555876, 1770902, 2009813, 2287985, 2614104, 2984494, 3366439, 3886512, 4483945, 5154123, 5884491, 6667147, 8025700, \n9146100, 10516500, 12132200, 13954700, 15990099, 18125129, 20195924, 22430449, 24748122, 26769436, 28674757, 2227000, 2260000, 2448046, 2648961, 2847132, 3080828, 3279001, 3444468, 3585176, 3759430, 3859606, 3942491, 662850, 764900, 887498, 960155, 975199, 1039009, 1116479, 1191336, 1183669, 1138101, 1101832, 1056608, 157553000, 171984000, 186538000, 198712000, 209896000, 220239000, 232187835, 242803533, 256894189, 272911760, 287675526, 301139947, 2252965, 2424959, 2598466, 2748579, 2829526, 2873520, \n2953997, 3045153, 3149262, 3262838, 3363085, 3447496, 5439568, 6702668, 8143375, 9709552, 11515649, 13503563, 15620766, 17910182, 20265563, 22374398, 24287670, 26084662), c(62.485, 64.399, 65.142, 65.634, 67.065, 68.481, 69.942, 70.774, 71.868, 73.275, 74.34, 75.32, 40.414, 41.89, 43.428, 45.032, 46.714, 50.023, 53.859, 57.251, 59.957, 62.05, 63.883, 65.554, 50.917, 53.285, 55.665, 57.632, 59.504, 61.489, 63.336, 65.205, 67.057, 69.388, 71.006, 72.39, 68.75, 69.96, 71.3, 72.13, 72.88, 74.21, 75.76, \n76.86, 77.95, 78.61, 79.77, 80.653, 54.745, 56.074, 57.924, 60.523, 63.441, 67.052, 70.565, 72.492, 74.126, 75.816, 77.86, 78.553, 50.643, 55.118, 57.863, 59.963, 61.623, 63.837, 66.653, 67.768, 68.421, 70.313, 71.682, 72.889, 57.206, 60.026, 62.842, 65.424, 67.849, 70.75, 73.45, 74.752, 75.713, 77.26, 78.123, 78.782, 59.421, 62.325, 65.246, 68.29, 70.723, 72.649, 73.717, 74.174, 74.414, 76.151, 77.158, 78.273, 45.928, 49.828, 53.459, 56.751, 59.631, 61.788, 63.727, 66.046, 68.457, 69.957, 70.847, \n72.235, 48.357, 51.356, 54.64, 56.678, 58.796, 61.31, 64.342, 67.231, 69.613, 72.312, 74.173, 74.994, 45.262, 48.57, 52.307, 55.855, 58.207, 56.696, 56.604, 63.154, 66.798, 69.535, 70.734, 71.878, 42.023, 44.142, 46.954, 50.016, 53.738, 56.029, 58.137, 60.782, 63.373, 66.322, 68.978, 70.259, 37.579, 40.696, 43.59, 46.243, 48.042, 49.923, 51.461, 53.636, 55.089, 56.671, 58.137, 60.916, 41.912, 44.665, 48.041, 50.924, 53.884, 57.402, 60.909, 64.492, 66.399, 67.659, 68.565, 70.198, 58.53, 62.61, 65.61, \n67.51, 69, 70.11, 71.21, 71.77, 71.766, 72.262, 72.047, 72.567, 50.789, 55.19, 58.299, 60.11, 62.361, 65.032, 67.405, 69.498, 71.455, 73.67, 74.902, 76.195, 42.314, 45.432, 48.632, 51.884, 55.151, 57.47, 59.298, 62.008, 65.843, 68.426, 70.836, 72.899, 55.191, 59.201, 61.817, 64.071, 66.216, 68.681, 70.472, 71.523, 72.462, 73.738, 74.712, 75.537, 62.649, 63.196, 64.361, 64.951, 65.815, 66.353, 66.874, 67.378, 68.225, 69.4, 70.755, 71.752, 43.902, 46.263, 49.096, 51.445, 55.448, 58.447, 61.406, 64.134, \n66.458, 68.386, 69.906, 71.421, 64.28, 68.54, 69.62, 71.1, 72.16, 73.44, 73.75, 74.63, 73.911, 74.917, 77.778, 78.746, 59.1, 61.8, 64.9, 65.4, 65.9, 68.3, 68.832, 69.582, 69.862, 69.465, 68.976, 69.819, 68.44, 69.49, 70.21, 70.76, 71.34, 73.38, 74.65, 75.02, 76.09, 76.81, 77.31, 78.242, 66.071, 67.044, 68.253, 68.468, 68.673, 69.481, 70.805, 71.918, 72.752, 74.223, 75.307, 76.384, 55.088, 57.907, 60.77, 63.479, 65.712, 67.456, 68.557, 70.19, 71.15, 72.146, 72.766, 73.747), c(5911.315053, 6856.856212, \n7133.166023, 8052.953021, 9443.038526, 10079.02674, 8997.897412, 9139.671389, 9308.41871, 10967.28195, 8797.640716, 12779.37964, 2677.326347, 2127.686326, 2180.972546, 2586.886053, 2980.331339, 3548.097832, 3156.510452, 2753.69149, 2961.699694, 3326.143191, 3413.26269, 3822.137084, 2108.944355, 2487.365989, 3336.585802, 3429.864357, 4985.711467, 6660.118654, 7030.835878, 7807.095818, 6950.283021, 7957.980824, 8131.212843, 9065.800825, 11367.16112, 12489.95006, 13462.48555, 16076.58803, 18970.57086, \n22090.88306, 22898.79214, 26626.51503, 26342.88426, 28954.92589, 33328.96507, 36319.23501, 3939.978789, 4315.622723, 4519.094331, 5106.654313, 5494.024437, 4756.763836, 5095.665738, 5547.063754, 7596.125964, 10118.05318, 10778.78385, 13171.63885, 2144.115096, 2323.805581, 2492.351109, 2678.729839, 3264.660041, 3815.80787, 4397.575659, 4903.2191, 5444.648617, 6117.361746, 5755.259962, 7006.580419, 2627.009471, 2990.010802, 3460.937025, 4161.727834, 5118.146939, 5926.876967, 5262.734751, 5629.915318, \n6160.416317, 6677.045314, 7723.447195, 9645.06142, 5586.53878, 6092.174359, 5180.75591, 5690.268015, 5305.445256, 6380.494966, 7316.918107, 7532.924763, 5592.843963, 5431.990415, 6340.646683, 8948.102923, 1397.717137, 1544.402995, 1662.137359, 1653.723003, 2189.874499, 2681.9889, 2861.092386, 2899.842175, 3044.214214, 3614.101285, 4563.808154, 6025.374752, 3522.110717, 3780.546651, 4086.114078, 4579.074215, 5280.99471, 6679.62326, 7213.791267, 6481.776993, 7103.702595, 7429.455877, 5773.044512, 6873.262326, \n3048.3029, 3421.523218, 3776.803627, 4358.595393, 4520.246008, 5138.922374, 4098.344175, 4140.442097, 4444.2317, 5154.825496, 5351.568666, 5728.353514, 2428.237769, 2617.155967, 2750.364446, 3242.531147, 4031.408271, 4879.992748, 4820.49479, 4246.485974, 4439.45084, 4684.313807, 4858.347495, 5186.050003, 1840.366939, 1726.887882, 1796.589032, 1452.057666, 1654.456946, 1874.298931, 2011.159549, 1823.015995, 1456.309517, 1341.726931, 1270.364932, 1201.637154, 2194.926204, 2220.487682, 2291.156835, \n2538.269358, 2529.842345, 3203.208066, 3121.760794, 3023.096699, 3081.694603, 3160.454906, 3099.72866, 3548.330846, 2898.530881, 4756.525781, 5246.107524, 6124.703451, 7433.889293, 6650.195573, 6068.05135, 6351.237495, 7404.923685, 7121.924704, 6994.774861, 7320.880262, 3478.125529, 4131.546641, 4581.609385, 5754.733883, 6809.40669, 7674.929108, 9611.147541, 8688.156003, 9472.384295, 9767.29753, 10742.44053, 11977.57496, 3112.363948, 3457.415947, 3634.364406, 4643.393534, 4688.593267, 5486.371089, \n3470.338156, 2955.984375, 2170.151724, 2253.023004, 2474.548819, 2749.320965, 2480.380334, 2961.800905, 3536.540301, 4421.009084, 5364.249663, 5351.912144, 7009.601598, 7034.779161, 6618.74305, 7113.692252, 7356.031934, 9809.185636, 1952.308701, 2046.154706, 2148.027146, 2299.376311, 2523.337977, 3248.373311, 4258.503604, 3998.875695, 4196.411078, 4247.400261, 3783.674243, 4172.838464, 3758.523437, 4245.256698, 4957.037982, 5788.09333, 5937.827283, 6281.290855, 6434.501797, 6360.943444, 4446.380924, \n5838.347657, 5909.020073, 7408.905561, 3081.959785, 3907.156189, 5108.34463, 6929.277714, 9123.041742, 9770.524921, 10330.98915, 12281.34191, 14641.58711, 16999.4333, 18855.60618, 19328.70901, 3023.271928, 4100.3934, 4997.523971, 5621.368472, 6619.551419, 7899.554209, 9119.528607, 7388.597823, 7370.990932, 8792.573126, 11460.60023, 18008.50924, 13990.48208, 14847.12712, 16173.14586, 19530.36557, 21806.03594, 24072.63213, 25009.55914, 29884.35041, 32003.93224, 35767.43303, 39097.09955, 42951.65309, \n5716.766744, 6150.772969, 5603.357717, 5444.61962, 5703.408898, 6504.339663, 6920.223051, 7452.398969, 8137.004775, 9230.240708, 7727.002004, 10611.46299, 7689.799761, 9802.466526, 8422.974165, 9541.474188, 10505.25966, 13143.95095, 11152.41011, 9883.584648, 10733.92631, 10165.49518, 8605.047831, 11415.80569)), list(c(6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 92, 92, 92, 92, 92, 92, 92, 92, 92, 92, 92, 92), c(1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 1952, 1957, 1962, 1967, \n1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007), c(8691212, 9712569, 10794968, 11872264, 13177000, 14074100, 15184200, 16257249, 17481977, 18565243, 19546792, 20434176, 1994794, 2229407, 2488550, 2728150, 2929100, 3164900, 3210650, 3317166, 3437674, 3676187, 3908037, 4115771), c(69.12, 70.33, 70.93, 71.1, 71.93, 73.49, 74.74, 76.32, 77.56, 78.83, 80.37, 81.235, 69.39, 70.26, 71.24, 71.52, 71.89, 72.22, 73.84, 74.32, 76.33, 77.55, 79.11, 80.204), c(10039.59564, 10949.64959, 12217.22686, 14526.12465, \n16788.62948, 18334.19751, 19477.00928, 21888.88903, 23424.76683, 26997.93657, 30687.75473, 34435.36744, 10556.57566, 12247.39532, 13175.678, 14463.91893, 16046.03728, 16233.7177, 17632.4104, 19007.19129, 18363.32494, 21050.41377, 23189.80135, 25185.00911))))&quot;</code></pre>
+<p>Whereas the 5th entry in the <code>data</code> column corresponds to the entire gapminder dataset for Oceania.</p>
+<pre class="r"><code>gapminder_nested %&gt;% pluck(&quot;data&quot;, 5)</code></pre>
+<pre><code>## # A tibble: 24 x 5
+##    country    year      pop lifeExp gdpPercap
+##    &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Australia  1952  8691212    69.1    10040.
+##  2 Australia  1957  9712569    70.3    10950.
+##  3 Australia  1962 10794968    70.9    12217.
+##  4 Australia  1967 11872264    71.1    14526.
+##  5 Australia  1972 13177000    71.9    16789.
+##  6 Australia  1977 14074100    73.5    18334.
+##  7 Australia  1982 15184200    74.7    19477.
+##  8 Australia  1987 16257249    76.3    21889.
+##  9 Australia  1992 17481977    77.6    23425.
+## 10 Australia  1997 18565243    78.8    26998.
+## # … with 14 more rows</code></pre>
+<p>You might be asking at this point <em>why</em> you would ever want to nest your data frame. It just doesn’t seem like that useful a thing to do… until you realise that you now have the power to use dplyr manipulations on more complex objects that can be stored in a list.</p>
+<p>However, since actions such as <code>mutate()</code> are applied directly to the entire column (which is usually a vector, so is fine), we run into issues when we try to mutate a list. For instance, since columns are usually vectors, normal vectorized functions work just fine on them</p>
+<pre class="r"><code>tibble(vec_col = 1:10) %&gt;%
+  mutate(sum = sum(vec_col))</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    vec_col   sum
+##      &lt;int&gt; &lt;int&gt;
+##  1       1    55
+##  2       2    55
+##  3       3    55
+##  4       4    55
+##  5       5    55
+##  6       6    55
+##  7       7    55
+##  8       8    55
+##  9       9    55
+## 10      10    55</code></pre>
+<p>but when the column is a list, vectorized functions don’t know what to do with them, and we get an error that says <code>Error in sum(x) : invalid 'type' (list) of argument</code></p>
+<pre class="r"><code>list_col_tibble &lt;- tibble(list_col = list(c(1, 5, 7), 5, c(10, 10, 11))) 
+list_col_tibble</code></pre>
+<pre><code>## # A tibble: 3 x 1
+##   list_col 
+##   &lt;list&gt;   
+## 1 &lt;dbl [3]&gt;
+## 2 &lt;dbl [1]&gt;
+## 3 &lt;dbl [3]&gt;</code></pre>
+<pre class="r"><code>list_col_tibble %&gt;% 
+  mutate(sum = sum(list_col))</code></pre>
+<p>To apply mutate functions to a list-column, you need to wrap it in a map function.</p>
+<pre class="r"><code>list_col_tibble %&gt;%
+  mutate(sum = map(list_col, sum))</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   list_col  sum      
+##   &lt;list&gt;    &lt;list&gt;   
+## 1 &lt;dbl [3]&gt; &lt;dbl [1]&gt;
+## 2 &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+## 3 &lt;dbl [3]&gt; &lt;dbl [1]&gt;</code></pre>
+<p>Since <code>map()</code> returns a list itself, the output of the function we’re applying to each list element <code>sum</code> is stored in its own list element. The <code>sum</code> column is thus itself a list</p>
+<pre class="r"><code>list_col_tibble %&gt;%
+  mutate(sum = map(list_col, sum)) %&gt;% 
+  pull(sum)</code></pre>
+<pre><code>## [[1]]
+## [1] 13
+## 
+## [[2]]
+## [1] 5
+## 
+## [[3]]
+## [1] 31</code></pre>
+<p>What could we do if we wanted it to be a vector? We could use the <code>map_dbl()</code> function instead!</p>
+<pre class="r"><code>list_col_tibble %&gt;%
+  mutate(sum = map_dbl(list_col, sum))</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   list_col    sum
+##   &lt;list&gt;    &lt;dbl&gt;
+## 1 &lt;dbl [3]&gt;    13
+## 2 &lt;dbl [1]&gt;     5
+## 3 &lt;dbl [3]&gt;    31</code></pre>
+<div id="nesting-the-gapminder-data" class="section level3">
+<h3>Nesting the gapminder data</h3>
+<p>Let’s return to the nested gapminder dataset. I want to calculate the average life expectancy within each continent and add it as a new column using <code>mutate()</code>. Based on the example above, can you explain why the following code doesn’t work?</p>
+<pre class="r"><code>gapminder_nested %&gt;% 
+  mutate(avg_lifeExp = mean(data$lifeExp))</code></pre>
+<pre><code>## Warning in mean.default(data$lifeExp): argument is not numeric or logical:
+## returning NA</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent data         avg_lifeExp
+##   &lt;fct&gt;     &lt;list&gt;             &lt;dbl&gt;
+## 1 Asia      &lt;tibble [5]&gt;          NA
+## 2 Europe    &lt;tibble [5]&gt;          NA
+## 3 Africa    &lt;tibble [5]&gt;          NA
+## 4 Americas  &lt;tibble [5]&gt;          NA
+## 5 Oceania   &lt;tibble [5]&gt;          NA</code></pre>
+<p>This code is trying to extract the <code>lifeExp</code> entry from the <em>list</em> of data frames, rather from each individual data frame itself. To do this, we need to again use a map function.</p>
+<p>Think of an individual data frame as <code>.x</code>. The following code defines <code>.x</code> to be the first entry of the <code>data</code> column (this is the data frame for Asia).</p>
+<pre class="r"><code># the first entry of the &quot;data&quot; column
+.x &lt;- gapminder_nested %&gt;% pluck(&quot;data&quot;, 1)
+.x</code></pre>
+<pre><code>## # A tibble: 396 x 5
+##    country      year      pop lifeExp gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952  8425333    28.8      779.
+##  2 Afghanistan  1957  9240934    30.3      821.
+##  3 Afghanistan  1962 10267083    32.0      853.
+##  4 Afghanistan  1967 11537966    34.0      836.
+##  5 Afghanistan  1972 13079460    36.1      740.
+##  6 Afghanistan  1977 14880372    38.4      786.
+##  7 Afghanistan  1982 12881816    39.9      978.
+##  8 Afghanistan  1987 13867957    40.8      852.
+##  9 Afghanistan  1992 16317921    41.7      649.
+## 10 Afghanistan  1997 22227415    41.8      635.
+## # … with 386 more rows</code></pre>
+<p>Then to calculate the average life expectancy for Asia, we would write</p>
+<pre class="r"><code>mean(.x$lifeExp)</code></pre>
+<pre><code>## [1] 60.0649</code></pre>
+<p>So copy-pasting this into the <code>map_dbl()</code> function, we get what we wanted!</p>
+<pre class="r"><code>gapminder_nested %&gt;% 
+  mutate(avg_lifeExp = map_dbl(data, ~{mean(.x$lifeExp)}))</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent data         avg_lifeExp
+##   &lt;fct&gt;     &lt;list&gt;             &lt;dbl&gt;
+## 1 Asia      &lt;tibble [5]&gt;        60.1
+## 2 Europe    &lt;tibble [5]&gt;        71.9
+## 3 Africa    &lt;tibble [5]&gt;        48.9
+## 4 Americas  &lt;tibble [5]&gt;        64.7
+## 5 Oceania   &lt;tibble [5]&gt;        74.3</code></pre>
+<p>I hear what you’re saying… this is something that we could have done a lot more easily using standard dplyr commands. Well keep your pants on, because the next example will knock your socks off! (I recognize that that sentence made no sense, but I kind of like it, so it’s staying).</p>
+<p>We’re about to fit a model separately for each continent, and evaluate it, all within a single tibble!</p>
+<p>First, let’s use what we’ve just learned to fit a linear model for each continent and store it as a list-column. If the data frame for a single continent is <code>.x</code>, then the model we want to fit is <code>lm(lifeExp ~ pop + gdpPercap + year, data = .x)</code> (check for yourself that this does what you expect). So we can copy-past this command into the <code>map()</code> function within the <code>mutate()</code></p>
+<pre class="r"><code># fit a model separately for each continent
+gapminder_nested &lt;- gapminder_nested %&gt;% 
+  mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + gdpPercap + year, data = .x)))
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent data         lm_obj
+##   &lt;fct&gt;     &lt;list&gt;       &lt;list&gt;
+## 1 Asia      &lt;tibble [5]&gt; &lt;lm&gt;  
+## 2 Europe    &lt;tibble [5]&gt; &lt;lm&gt;  
+## 3 Africa    &lt;tibble [5]&gt; &lt;lm&gt;  
+## 4 Americas  &lt;tibble [5]&gt; &lt;lm&gt;  
+## 5 Oceania   &lt;tibble [5]&gt; &lt;lm&gt;</code></pre>
+<p>Where the first linear model (for Asia) is</p>
+<pre class="r"><code>gapminder_nested %&gt;% pluck(&quot;lm_obj&quot;, 1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lifeExp ~ pop + gdpPercap + year, data = .x)
+## 
+## Coefficients:
+## (Intercept)          pop    gdpPercap         year  
+##  -7.833e+02    4.228e-11    2.510e-04    4.251e-01</code></pre>
+<p>We can then predict the response for the training data stored in the <code>data</code> column.</p>
+<p>When things get a little more complicated I like to have more meaningful function arguments, so I’m going to use a full anonymous function rather than the tilde-dot shorthand. Now since we need to iterate over both the <code>data</code> column and the <code>lm_obj</code> column, we will use the <code>map2()</code> function to do our mutation.</p>
+<pre class="r"><code># fit a model separately for each continent
+gapminder_nested &lt;- gapminder_nested %&gt;% 
+  mutate(pred = map2(lm_obj, data, function(.lm, .data) predict(.lm, .data)))
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 4
+##   continent data         lm_obj pred       
+##   &lt;fct&gt;     &lt;list&gt;       &lt;list&gt; &lt;list&gt;     
+## 1 Asia      &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [396]&gt;
+## 2 Europe    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [360]&gt;
+## 3 Africa    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [624]&gt;
+## 4 Americas  &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [300]&gt;
+## 5 Oceania   &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [24]&gt;</code></pre>
+<p>And we can then calculate the correlation between the predicted response and the true response, this time using the <code>map2()_dbl</code> function since we want the output the be a vector rather than a list of single elements.</p>
+<pre class="r"><code># fit a model separately for each continent
+gapminder_nested &lt;- gapminder_nested %&gt;% 
+  mutate(cor = map2_dbl(pred, data, function(.pred, .data) cor(.pred, .data$lifeExp)))
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 5
+##   continent data         lm_obj pred          cor
+##   &lt;fct&gt;     &lt;list&gt;       &lt;list&gt; &lt;list&gt;      &lt;dbl&gt;
+## 1 Asia      &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [396]&gt; 0.723
+## 2 Europe    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [360]&gt; 0.834
+## 3 Africa    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [624]&gt; 0.645
+## 4 Americas  &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [300]&gt; 0.779
+## 5 Oceania   &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [24]&gt;  0.987</code></pre>
+<p>Holy guacamole, that is so awesome!</p>
+</div>
+</div>
+<div id="advanced-exercise" class="section level2">
+<h2>Advanced exercise</h2>
+<p>The goal of this exercise is to fit a separate linear model for each continent without splitting up the data. Using <code>group_by()</code>, <code>nest()</code> and several mutate statements including <code>broom::tidy()</code>, create the following data frame</p>
+<pre><code>## # A tibble: 20 x 6
+##    continent term         estimate std.error statistic  p.value
+##    &lt;fct&gt;     &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Asia      (Intercept) -7.83e+ 2   4.83e+1  -16.2    1.22e-45
+##  2 Asia      pop          4.23e-11   2.04e-9    0.0207 9.83e- 1
+##  3 Asia      year         4.25e- 1   2.44e-2   17.4    1.13e-50
+##  4 Asia      gdpPercap    2.51e- 4   3.01e-5    8.34   1.31e-15
+##  5 Europe    (Intercept) -1.61e+ 2   2.28e+1   -7.09   7.44e-12
+##  6 Europe    pop         -8.18e- 9   7.80e-9   -1.05   2.95e- 1
+##  7 Europe    year         1.16e- 1   1.16e-2    9.96   8.88e-21
+##  8 Europe    gdpPercap    3.25e- 4   2.15e-5   15.2    2.21e-40
+##  9 Africa    (Intercept) -4.70e+ 2   3.39e+1  -13.9    2.17e-38
+## 10 Africa    pop         -3.68e- 9   1.89e-8   -0.195  8.45e- 1
+## 11 Africa    year         2.61e- 1   1.71e-2   15.2    1.07e-44
+## 12 Africa    gdpPercap    1.12e- 3   1.01e-4   11.1    2.46e-26
+## 13 Americas  (Intercept) -5.33e+ 2   4.10e+1  -13.0    6.40e-31
+## 14 Americas  pop         -2.15e- 8   8.62e-9   -2.49   1.32e- 2
+## 15 Americas  year         3.00e- 1   2.08e-2   14.4    3.79e-36
+## 16 Americas  gdpPercap    6.75e- 4   7.15e-5    9.44   1.13e-18
+## 17 Oceania   (Intercept) -2.10e+ 2   5.12e+1   -4.10   5.61e- 4
+## 18 Oceania   pop          8.37e- 9   3.34e-8    0.251  8.05e- 1
+## 19 Oceania   year         1.42e- 1   2.65e-2    5.34   3.19e- 5
+## 20 Oceania   gdpPercap    2.03e- 4   8.47e-5    2.39   2.66e- 2</code></pre>
+<p>If you want to stop here, you will already know more than most purrr users. The remainder of this blog post involves little-used features of purrr for manipulating lists.</p>
+</div>
+</div>
+<div id="additional-purrr-functionalities-for-lists" class="section level1">
+<h1>Additional purrr functionalities for lists</h1>
+<p>To demonstrate how to use purrr to manipulate lists, we will split the gapminder dataset into a list containing data frames (as opposed to a data frame containing a list-column). To make sure it’s easy to follow, we will only keep 5 rows from each continent.</p>
+<pre class="r"><code>gapminder_list &lt;- gapminder %&gt;% split(gapminder$continent) %&gt;%
+  map(~sample_n(., 5))
+gapminder_list</code></pre>
+<pre><code>## $Africa
+##        country year      pop continent lifeExp gdpPercap
+## 1        Benin 1957  1925173    Africa  40.358  959.6011
+## 2 Sierra Leone 1972  2879013    Africa  35.400 1353.7598
+## 3      Lesotho 1952   748747    Africa  42.138  298.8462
+## 4     Ethiopia 2007 76511887    Africa  52.947  690.8056
+## 5      Reunion 1967   414024    Africa  60.542 4021.1757
+## 
+## $Americas
+##      country year     pop continent lifeExp gdpPercap
+## 1 Costa Rica 1972 1834796  Americas  67.849  5118.147
+## 2       Peru 1957 9146100  Americas  46.263  4245.257
+## 3   Honduras 1957 1770390  Americas  44.665  2220.488
+## 4   Paraguay 1992 4483945  Americas  68.225  4196.411
+## 5    Jamaica 2002 2664659  Americas  72.047  6994.775
+## 
+## $Asia
+##       country year      pop continent lifeExp gdpPercap
+## 1      Taiwan 1972 15226039      Asia  69.390  4062.524
+## 2      Jordan 2007  6053193      Asia  72.535  4519.461
+## 3   Singapore 1952  1127000      Asia  60.396  2315.138
+## 4 Philippines 1952 22438691      Asia  47.752  1272.881
+## 5       Syria 1982  9410494      Asia  64.590  3761.838
+## 
+## $Europe
+##          country year      pop continent lifeExp gdpPercap
+## 1        Germany 2007 82400996    Europe  79.406 32170.374
+## 2       Portugal 1972  8970450    Europe  69.260  9022.247
+## 3         Turkey 1982 47328791    Europe  61.036  4241.356
+## 4 United Kingdom 1967 54959000    Europe  71.360 14142.851
+## 5         Greece 1957  8096218    Europe  67.860  4916.300
+## 
+## $Oceania
+##       country year      pop continent lifeExp gdpPercap
+## 1   Australia 1982 15184200   Oceania   74.74  19477.01
+## 2   Australia 1972 13177000   Oceania   71.93  16788.63
+## 3   Australia 1952  8691212   Oceania   69.12  10039.60
+## 4 New Zealand 1997  3676187   Oceania   77.55  21050.41
+## 5 New Zealand 1992  3437674   Oceania   76.33  18363.32</code></pre>
+<div id="keepdiscard-select_if-for-lists" class="section level2">
+<h2>Keep/Discard: select_if for lists</h2>
+<p><code>keep()</code> selects elements of a list that satisfy a given condition, much like <code>select_if()</code> selects columns of a data frame that satisfy a given condition.</p>
+<p>The following code only keeps the gapminder continent data frames (the elements of the list) that have an average life expectancy of at least 70.</p>
+<pre class="r"><code>gapminder_list %&gt;%
+  keep(~{mean(.x$lifeExp) &gt; 70})</code></pre>
+<pre><code>## $Oceania
+##       country year      pop continent lifeExp gdpPercap
+## 1   Australia 1982 15184200   Oceania   74.74  19477.01
+## 2   Australia 1972 13177000   Oceania   71.93  16788.63
+## 3   Australia 1952  8691212   Oceania   69.12  10039.60
+## 4 New Zealand 1997  3676187   Oceania   77.55  21050.41
+## 5 New Zealand 1992  3437674   Oceania   76.33  18363.32</code></pre>
+<p><code>discard()</code> does the opposite of <code>keep()</code>: it discards any elements that satisfy your logical condition.</p>
+</div>
+<div id="reduce" class="section level2">
+<h2>Reduce</h2>
+<p><code>reduce()</code> is designed to combine (reduces) all of the elements of a list into a single object by iteratively applying a binary function (a function that takes two inputs).</p>
+<p>For instance, applying a reduce function to add up all of the elements of the vector <code>c(1, 2, 3)</code> is like doing <code>sum(sum(1, 2), 3)</code>: first it applies <code>sum</code> to <code>1</code> and <code>2</code>, then it applies <code>sum</code> again to the output of <code>sum(1, 2)</code> and <code>3</code>.</p>
+<pre class="r"><code>reduce(c(1, 2, 3), sum)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p><code>accumulate()</code> also returns the intermediate values.</p>
+<pre class="r"><code>accumulate(c(1, 2, 3), sum)</code></pre>
+<pre><code>## [1] 1 3 6</code></pre>
+<p>An example of when <code>reduce()</code> might come in handy is when you want to perform many <code>left_join()</code>s in a row, or to do repeated <code>rbinds()</code> (e.g. to bind the rows of the list back together into a single data frame)</p>
+<pre class="r"><code>gapminder_list %&gt;%
+  reduce(rbind)</code></pre>
+<pre><code>##           country year      pop continent lifeExp  gdpPercap
+## 1           Benin 1957  1925173    Africa  40.358   959.6011
+## 2    Sierra Leone 1972  2879013    Africa  35.400  1353.7598
+## 3         Lesotho 1952   748747    Africa  42.138   298.8462
+## 4        Ethiopia 2007 76511887    Africa  52.947   690.8056
+## 5         Reunion 1967   414024    Africa  60.542  4021.1757
+## 6      Costa Rica 1972  1834796  Americas  67.849  5118.1469
+## 7            Peru 1957  9146100  Americas  46.263  4245.2567
+## 8        Honduras 1957  1770390  Americas  44.665  2220.4877
+## 9        Paraguay 1992  4483945  Americas  68.225  4196.4111
+## 10        Jamaica 2002  2664659  Americas  72.047  6994.7749
+## 11         Taiwan 1972 15226039      Asia  69.390  4062.5239
+## 12         Jordan 2007  6053193      Asia  72.535  4519.4612
+## 13      Singapore 1952  1127000      Asia  60.396  2315.1382
+## 14    Philippines 1952 22438691      Asia  47.752  1272.8810
+## 15          Syria 1982  9410494      Asia  64.590  3761.8377
+## 16        Germany 2007 82400996    Europe  79.406 32170.3744
+## 17       Portugal 1972  8970450    Europe  69.260  9022.2474
+## 18         Turkey 1982 47328791    Europe  61.036  4241.3563
+## 19 United Kingdom 1967 54959000    Europe  71.360 14142.8509
+## 20         Greece 1957  8096218    Europe  67.860  4916.2999
+## 21      Australia 1982 15184200   Oceania  74.740 19477.0093
+## 22      Australia 1972 13177000   Oceania  71.930 16788.6295
+## 23      Australia 1952  8691212   Oceania  69.120 10039.5956
+## 24    New Zealand 1997  3676187   Oceania  77.550 21050.4138
+## 25    New Zealand 1992  3437674   Oceania  76.330 18363.3249</code></pre>
+</div>
+<div id="logical-statements-for-list-elements" class="section level2">
+<h2>Logical statements for list elements</h2>
+<p>Asking logical questions of a list can be done using <code>every()</code> and <code>some()</code>. For instance to ask whether <em>every</em> continent has average life expectancy greater than 70, you can use <code>every()</code></p>
+<pre class="r"><code>gapminder_list %&gt;% every(~{mean(.x$life) &gt; 70})</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>To ask whether <em>some</em> continents have average life expectancy greater than 70, you can use <code>some()</code></p>
+<pre class="r"><code>gapminder_list %&gt;% some(~{mean(.x$life) &gt; 70})</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>An equivalent of <code>%in%</code> for lists is <code>has_element()</code>.</p>
+<pre class="r"><code>list(1, c(2, 5, 1), &quot;a&quot;) %&gt;% has_element(&quot;a&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Most of these functions also work on vectors.</p>
+<p>Now go forth and purrr!</p>
+</div>
+</div>

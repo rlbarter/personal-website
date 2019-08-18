@@ -1,0 +1,85 @@
+	city name	lat	lon	population (others)	population (others) source year	population (others) source	area [km2] (others)	area [km2] (others) source year	area [km2] (others) source	GDP-PPP [$BN] (others)	GDP-PPP year (others)	GDP-PPP/cap [$USD] (others)	GDP-PPP [$BN] (others) source	nGDP [$BN] (others)	nGDP/cap [$USD] (others)	nGDP [$BN] (others) source
+1	Beijing	39.9166666667	116.383333333	18766000		wikipedia, urban values	1368		(urban), from wikipedia	0	2015		[21] Redefining Global Cities Report and online dataset 2015. GDP (Millions PPP$). Brookings Institution. Retrieved 26/09/2017 at https://www.brookings.edu/research/redefining-global-cities/#cancel	206.2	10952.3556594	"[3] The Most Dynamic Cities of 2025. Foreign Policy. Retrieved 24/08/2012. http://foreignpolicy.com/2012/08/07/the-most-dynamic-cities-of-2025/, [19]
+[19] Global Cities of the Future. Dynamic map. McKinsey&CompacKinsey Global Institute City Scope v2.0 Last updated June 2012. Retrieved 27/09/2017. Available at: http://www.mckinsey.com/tools/Wrappers/Redesign/InteractiveWrapper.aspx?sc_itemid={C84CB74F-A3B1-47B1-8265-6252F6D85B68}"
+2	Tianjin	39.1333333333	117.183333333	12784000		wikipedia, urban values	174.9		(urban), from wikipedia	0.00364	2014		[1] Berube A., J. L. Trujillo, T. Ran, J. Parilla (Thursday, January 22, 2015), Brookings/Global Metro Monitor Report. Available online at https://www.brookings.edu/wp-content/uploads/2015/01/bmpp_gmm_final.pdf and the 2014 Global Metro Monitor Map, available at https://www.brookings.edu/research/global-metro-monitor/. The data retrieved 27/09/2017.	128.8	11614.0667268	[3], [19]
+3	Shijiazhuang	38.0666666667	114.483333333	4303700		wikipedia, urban values	15848		(urban), from wikipedia	0.00126813755136	2014		[1]	18	6289.3081761	[19]
+4	Tangshan	39.6230555556	118.176111111	3187171		wikipedia, urban values	3874		(urban), from wikipedia	0.001501608	2014		[1]	33.6	11067.1936759	[19]
+5	Handan	36.6	114.483333333	941427		wikipedia, urban values	142		(urban), from wikipedia		2008			9	6642.06642066	[19]
+6	Baoding	38.8666666667	115.466666667	1157891		wikipedia, urban values	326		(urban), from wikipedia		2008			9	7020.28081123	[19]
+7	Zhangjiakou	40.7666666667	114.883333333	4345485	2010	(pref.-level city), from wikipedia	36861.56		(city), from wikipedia		2008			6	6024.09638554	[19]
+8	Taiyuan, Shanxi	37.8694444444	112.560277778	3212500		wikipedia, urban values	1460		(urban), from wikipedia	0.000974897781548	2014		[1]	24	7003.20980449	[19]
+9	Datong	40.0833333333	113.3	1737517		wikipedia, urban values	2080		(urban), from wikipedia		2008			4	2301.49597238	[19]
+10	Hohhot	40.8166666667	111.65	1980774		wikipedia, urban values	2065.1		(urban), from wikipedia	0.00152	2014		[1]	20	10095.911156	[19]
+11	Baotou	40.65	109.833333333	2070801		wikipedia, urban values	2662		(urban), from wikipedia	0.001596385	2014		[1]	31	14783.0233667	[19]
+12	Shenyang	41.8	123.4	6255921		wikipedia, urban values	3464		(urban), from wikipedia	0.00204	2014		[1]	64.3	10511.6887363	[3], [19]
+13	Dalian	38.9208333333	121.639166667	6690432	2010	(sub-provincial city), from wikipedia	13237		(city), from wikipedia	0.00229926470118	2014		[1]	54	13803.6809816	[19]
+14	Anshan	41.1166666667	122.983333333	1529850		wikipedia, urban values	624		(urban), from wikipedia	0.00134474582128	2014		[1]	20	13157.8947368	[19]
+15	Fushun	41.8666666667	123.9	1410000		wikipedia, urban values	1416		(urban), from wikipedia		2008			10	7524.45447705	[19]
+16	Benxi	41.3	123.766666667	1011377		wikipedia, urban values	907		(urban), from wikipedia		2008			9	8226.69104205	[19]
+17	Dandong	40.1166666667	124.383333333	865576		wikipedia, urban values	830		(urban), from wikipedia		2008					
+18	Jinzhou	41.1166666667	121.133333333	1091799		wikipedia, urban values	535		(urban), from wikipedia		2008					
+19	Fuxin	41.0166666667	121.65	669317		wikipedia, urban values	459		(urban), from wikipedia		2008					
+20	Liaoyang	41.2666666667	123.183333333	527850		wikipedia, urban values	210		(urban), from wikipedia		2008					
+21	Changchun	43.8869444444	125.324722222	4193073		wikipedia, urban values	4738		(urban), from wikipedia	0.00118104	2014		[1]	35	8955.9877175	[19]
+22	Jilin	43.8666666667	126.55	1975121		wikipedia, urban values	3663.9		(urban), from wikipedia		2008			15	7591.09311741	[19]
+23	Haerbin	45.75	126.633333333	5282083		wikipedia, urban values	4640.4		(urban), from wikipedia	0.00156	2014		[1]	38.8	6599.76186426	[3], [19]
+24	Qiqihaer	47.35	123.916666667	1481637		wikipedia, urban values	4039.3		(urban), from wikipedia		2008			7	4504.5045045	[19]
+25	Jixi	45.3	130.966666667	862959		wikipedia, urban values	2208.5		(urban), from wikipedia		2008					
+26	Hegang	47.35	130.3	664471		wikipedia, urban values	11849		(urban), from wikipedia		2008					
+27	Daqing	46.5833333333	125.0	1649825		wikipedia, urban values	5107		(urban), from wikipedia	0.002103472	2014		[1]	39	22272.9868646	[19]
+28	Heilongjiang	47.7333333333	128.9	1148126	2010	(pref.-level city), from wikipedia	39017		(city), from wikipedia		2008					
+29	Jiamusi	46.8	130.316666667	881711		wikipedia, urban values	882.5		(urban), from wikipedia		2008					
+30	Mudanjiang	44.55	129.633333333	965154		wikipedia, urban values	2495		(urban), from wikipedia		2008			4	4145.07772021	[19]
+31	Shanghai	31.2286111111	121.474722222	23019196	2010	(municipality), from wikipedia	6341		(city), from wikipedia	0.00235133671793	2014	15288.7139108	[1]	250.7	11234.5955635	[3], [19]
+32	Nanjing, Jiangsu	32.05	118.766666667	8335000	2017	(sub-provincial city), from wikipedia	6587.02		(city), from wikipedia	0.00155322211	2014		[1]	68.5	9559.02874686	[3], [19]
+33	Wuxi	31.5666666667	120.3	3542319		wikipedia, urban values			(urban), from wikipedia	0	2015		[21]	47	13269.3393563	[3], [19]
+34	Xuzhou	34.2666666667	117.216666667	3053778		wikipedia, urban values	3037		(urban), from wikipedia	0.001231656	2014		[1]	22.4	7334.64309103	[3], [19]
+35	Changzhou	31.7833333333	119.966666667	3290918		wikipedia, urban values	1872.1		(urban), from wikipedia	0.0014242956244	2014		[1]	34	10331.2063203	[19]
+36	Suzhou	31.3	120.6	10465994	2010	(pref.-level city), from wikipedia	8488.42		(city), from wikipedia	0.00148958612877	2014		[1]	52.7	12935.6897398	[3], [19]
+37	Hangzhou	30.25	120.166666667	7970000		wikipedia, urban values	8000		(urban), from wikipedia	0.003188562052	2014		[1]	70.5	11294.4569048	[3], [19]
+38	Ningbo	29.8666666667	121.55	3491597		wikipedia, urban values	2461.8		(urban), from wikipedia	0.00126332700063	2014		[1]	45	12886.5979381	[3], [19]
+39	Hefei	31.8666666667	117.283333333	5670000		wikipedia, urban values	838.5		(urban), from wikipedia	0.00132	2014		[1]	31.2	9307.87589499	[3], [19]
+40	Huainan	32.6166666667	116.983333333	1666826		wikipedia, urban values	1492.3		(urban), from wikipedia		2008			6	3731.34328358	[19]
+41	Huaibei	33.58	116.47	1113321		wikipedia, urban values	748.4		(urban), from wikipedia		2008			5	4492.36298293	[19]
+42	Fuzhou	26.0761111111	119.306388889	4468076		wikipedia, urban values			(urban), from wikipedia	0.00163083987001	2014		[1]	23.4	8068.96551724	[3]
+43	Xiamen	24.4798361111	118.089419444	3531347	2010	(sub-provincial city), from wikipedia	1699.39		(city), from wikipedia	0.00105	2014		[1]	30	8496.17672048	[19]
+44	Nanchang	28.6833333333	115.883333333	2357839		wikipedia, urban values	617		(urban), from wikipedia	0.00075	2014		[1]	5	2631.57894737	[19]
+45	Jinan, Shandong	36.6666666667	116.983333333	4693700		wikipedia, urban values	3304		(urban), from wikipedia	0.00176	2014		[1]	43.2	9963.099631	[3], [19]
+46	Qingdao	36.0666666667	120.383333333	6188100		wikipedia, urban values	3239		(urban), from wikipedia	0.00253942811037	2014		[1]	48.1	12933.5842969	[19]
+47	Zibo	36.7833333333	118.05	3129228		wikipedia, urban values	2972		(urban), from wikipedia	0	2015		[21]	33	10546.5004794	[19]
+48	Zhaozhuang	34.8666666667	117.55	2125481		wikipedia, urban values	3069		(urban), from wikipedia		2008			11	5174.03574788	[19]
+49	Yantai	37.535	121.389166667	2227733		wikipedia, urban values			(urban), from wikipedia	0.00117650039474	2014		[1]	27	12118.491921	[19]
+50	Weifang	36.7166666667	119.1	2044028		wikipedia, urban values	2646.1		(urban), from wikipedia		2008			12	5870.84148728	[19]
+51	Taian	36.2	117.083333333	1735425		wikipedia, urban values	2086.8		(urban), from wikipedia		2008					
+52	Linyi	35.05	118.35	2303648		wikipedia, urban values	2293.3		(urban), from wikipedia		2008					
+53	Zhengzhou	34.7666666667	113.65	6406000		wikipedia, urban values	1024		(urban), from wikipedia	0.001333451	2014		[1]	26	6111.89468735	[19]
+54	Kaifeng	34.8	114.3	826961		wikipedia, urban values	546.4		(urban), from wikipedia		2008					
+55	Luoyang	34.6697222222	112.442222222	1926079		wikipedia, urban values	810.4		(urban), from wikipedia		2008			12	6230.52959502	[19]
+56	Pingdingshan	33.7333333333	113.3	979130		wikipedia, urban values	384		(urban), from wikipedia		2008			7	6769.82591876	[19]
+57	Anyang	36.1	114.333333333	950301		wikipedia, urban values	543.5		(urban), from wikipedia		2008			6	5231.0374891	[19]
+58	Xinxiang	35.3	113.866666667	1047020		wikipedia, urban values	346		(urban), from wikipedia		2008			5	4775.54918816	[19]
+59	Jiaozhuo	35.2430555556	113.223055556	865413		wikipedia, urban values	413.8		(urban), from wikipedia		2008			4	4624.27745665	[19]
+60	Wuhan	30.5833333333	114.283333333	10607700		(sub-provincial city), from wikipedia	8494.41		(city), from wikipedia	0.00095	2014		[1]	82.2	8400.61318344	[3], [19]
+61	Huangshi	30.2166666667	115.083333333	691963		wikipedia, urban values	233.8		(urban), from wikipedia		2008			6	7843.1372549	[19]
+62	Xiangyang	32.017	112.133	2199689		wikipedia, urban values	3672.9		(urban), from wikipedia		2008					
+63	Jingzhou	30.3333333333	112.216666667	1154086		wikipedia, urban values	1562.2		(urban), from wikipedia		2008			4	3466.20450607	[19]
+64	Changsha, Hunan	28.1961111111	112.972222222	5288800		wikipedia, urban values	1917		(urban), from wikipedia	0.00083	2014		[1]	40.3	13025.210084	[3], [19]
+65	Zhuzhou	27.85	113.133333333	2416000		wikipedia, urban values			(urban), from wikipedia		2008			9	8530.8056872	[19]
+66	Xiangtan	27.85	112.9	684600		wikipedia, urban values	280		(urban), from wikipedia		2008					
+67	Hengyang	26.9	112.6	1135166		wikipedia, urban values	722		(urban), from wikipedia		2008			6	5286.34361233	[19]
+68	Guangzhou	23.1333333333	113.266666667	11547491		wikipedia, urban values	3843.43		(urban), from wikipedia	0.00198	2014		[1]	146.1	13196.6398699	[3], [19]
+69	Shenzhen	22.55	114.1	12528300	2017	(sub-provincial city), from wikipedia	2050		(city), from wikipedia	0	2015		[21]	141.5	13605.7692308	
+70	Shantou	23.35	116.666666667	5389328		(pref.-level city), from wikipedia	2248.39		(city), from wikipedia	0.0006	2014		[1]	18	3376.47720878	[19]
+71	Zhanjiang	21.2	110.4	1611868		wikipedia, urban values	1360		(urban), from wikipedia		2008			12	8207.93433653	[19]
+72	Nanning	22.8166666667	108.316666667	4037000		wikipedia, urban values			(urban), from wikipedia	0.00101732512932	2014		[1]	20	5819.02822229	[19]
+73	Liuzhou	24.3166666667	109.383333333	1436599		wikipedia, urban values			(urban), from wikipedia		2008			6	4376.36761488	[19]
+74	Haikou	20.0427777778	110.341666667	2046189	2010	(pref.-level city), from wikipedia	2237		(city), from wikipedia		2008			9	4398.82697947	[19]
+75	Chongqing	29.5583333333	106.566666667	8165500		wikipedia, urban values	472.8		(urban), from wikipedia	0.00088	2014		[1]	88.6	5645.82935067	[3], [19]
+76	Chengdou	30.6586111111	104.064722222	10152632		wikipedia, urban values	3679.9		(urban), from wikipedia	0.00108	2014		[1]	57.8	7528.98267552	[3], [19]
+77	Guiyang	26.65	106.633333333	3483100		wikipedia, urban values	2403.4		(urban), from wikipedia		2008			13	4280.54000659	[19]
+78	Kunming	25.0666666667	102.683333333	4575000		wikipedia, urban values	4615		(urban), from wikipedia	0.000610821812854	2014		[1]	21	5923.83638928	[19]
+79	Xi'an, Shaanxi	34.2666666667	108.9	8705600	2015	(sub-provincial city), from wikipedia	9983		(city), from wikipedia	0	2015		[21]	40.6	6246.15384615	
+80	Lanzhou	36.0333333333	103.8	2177130		wikipedia, urban values	1088		(urban), from wikipedia		2008			14	5327.24505327	[19]
+81	Xining	36.6333333333	101.766666667	1198304		wikipedia, urban values	343		(urban), from wikipedia		2008			7	5843.07178631	[19]
+82	Yinchuan	38.4666666667	106.266666667	1290170		wikipedia, urban values	2045		(urban), from wikipedia		2008			9	6976.74418605	[19]
+83	Ürümqi (Wulumqi)	43.825	87.6	3519600	2017	(pref.-level city), from wikipedia	14577		(city), from wikipedia		2008			20	6602.83922086	[19]

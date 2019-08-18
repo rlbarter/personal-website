@@ -1,0 +1,653 @@
+---
+title: "Learn to purrr"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, purrr, tidyverse]
+date: 2019-08-19T23:13:14-05:00
+type: "post" 
+description: "Purrr is the tidyverse's answer to apply functions for iteration. It's one of those packages that you might have heard of, but seemed too complicated to sit down and learn. Starting with map functions, and taking you on a journey that will harness the power of the list, this post will have you purrring in no time." 
+---
+
+
+> "It was on the corner of the street that he noticed the first sign of something peculiar - a cat reading a map"
+- J.K. Rowling
+
+
+```{r echo = FALSE, fig.align = "center"}
+knitr::include_graphics("/img/purrr/cat_map.jpg")
+```
+
+
+
+Purrr is one of those tidyverse packages that you keep hearing about, and you know you should probably learn it, but you just never seem to get around to it. 
+
+At it's core, purrr is all about iteration. Purrr introduces map functions (the tidyverse's answer to base R's apply functions, but more in line with functional programming practices) as well as some new functions for manipulating lists. To get a quick snapshot of any tidyverse package, a nice place to go is the [cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf). I find these particularly useful after I've already got the basics of a package down, because I inevitably realise that there are a bunch of functionalities I knew nothing about.
+
+Another useful resource for learning about purrr is [Jenny Bryan's tutorial](https://jennybc.github.io/purrr-tutorial/). Jenny's tutorial is fantastic, but is a lot longer than mine. This post is a lot shorter and my goal is to get you up and running with purrr very quickly.
+
+While the workhorse of dplyr is the data frame, the workhorse of purrr is the list. If you aren't familiar with lists, hopefully this will help you understand what they are:
+
+- A **vector** is a way of storing many individual elements (a single number or a single character or string) of the same type together in a single object,
+
+- A **data frame** is a way of storing many vectors of the same length but possibly of different types together in a single object
+
+- A **list** is a way of storing many objects of any type (e.g. data frames, plots, vectors) together in a single object
+
+Here is an example of a list that has three elements: a single number, a vector and a data frame
+
+```{r}
+my_first_list <- list(my_number = 5,
+                      my_vector = c("a", "b", "c"),
+                      my_dataframe = data.frame(a = 1:3, b = c("q", "b", "z"), c = c("bananas", "are", "so very great")))
+my_first_list
+```
+
+Note that a data frame is actually a special case of a list where each element of the list is a vector of the same length.
+
+
+# Map functions: beyond apply 
+
+
+A **map function** is one that applies the same action/function to every element of an object (e.g. each entry of a list or a vector, or each of the columns of a data frame). 
+
+If you're familiar with the base R `apply()` functions, then it turns out that you are already familiar with map functions, even if you didn't know it!
+
+
+The `apply()` functions are set of super useful base-R functions for iteratively performing an action across entries of a vector or list without having to write a for-loop. While there is nothing fundamentally wrong with the base R apply functions, the syntax is somewhat inconsistent across the different apply functions, and the expected type of the object they return is often ambiguous (at least it is for `sapply`...). 
+
+The naming convention of the map functions are such that the type of the **output** is specified by the term that follows the underscore in the function name. 
+
+- `map(.x, .f)` is the main mapping function and returns a list
+
+- `map_df(.x, .f)` returns a data frame
+
+- `map_dbl(.x, .f)` returns a numeric (double) vector
+
+- `map_chr(.x, .f)` returns a character vector
+
+- `map_lgl(.x, .f)` returns a logical vector
+
+Consistent with the way of the tidyverse, the first argument of each mapping function is always the data object that you want to map over, and the second argument is always the *function* that you want to iteratively apply to each element of the input object. 
+
+The **input** `object` to any `map` function is always either 
+
+- a *vector* (of any type), in which case the iteration is done over the entries of the vector,
+
+- a *list*, in which case the iteration is performed over the elements of the list, 
+
+- a *data frame*, in which case the iteration is performed over the columns of the data frame (which, since a data frame is a special kind of list, is technically the same as the previous point).
+
+Since the first argument is always the data, this means that map functions play nicely with pipes (`%>%`). If you've never seen pipes before, they're really useful (originally from the `magrittr` package, but also ported with the `dplyr` package and thus with the `tidyverse`). Piping allows you to string together many functions by piping an object (which itself might be the output of a function) into the first argument of the next function. If you'd like to learn more about pipes, check out my [tidyverse blog posts](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/).
+
+
+Throughout this post I will demonstrate each of purrr's functionalities using both a simple numeric example (to explain the concept) and the gapminder data (to show a more complex example).
+
+
+
+## Simplest usage: repeated looping with map
+
+Fundamentally, maps are for iteration. In the example below I will iterate through the vector `c(1, 4, 7)` by adding 10 to each entry. This function applied to a single number, which we will call `.x`, can be defined as
+
+```{r}
+addTen <- function(.x) {
+  return(.x + 10)
+}
+```
+
+The `map()` function below iterates `addTen()` across all entries of the vector, `.x = c(1, 4, 7)`, and returns the output as a list 
+
+```{r, message=FALSE}
+library(tidyverse)
+map(.x = c(1, 4, 7), 
+    .f = addTen)
+```
+
+Fortunately, you don't actually need to specify the argument names 
+
+```{r, message=FALSE}
+map(c(1, 4, 7), addTen)
+```
+
+Note that
+
+- the first element of the output is the result of applying the function to the first element of the input (`1`), 
+
+- the second element of the output is the result of applying the function to the second element of the input (`4`),
+
+- and the third element of the output is the result of applying the function to the third element of the input (`7`).
+
+The following code chunks show that no matter if the input object is a vector, a list, or a data frame, `map()` always returns a list.
+
+
+```{r}
+map(list(1, 4, 7), addTen)
+```
+
+```{r}
+map(data.frame(a = 1, b = 4, c = 7), addTen)
+```
+
+If we wanted the output of `map` to be some other object type, we need to use a different function. For instance to map the input to a numeric (double) vector, you can use the `map_dbl()` ("map to a double") function.
+
+
+```{r}
+map_dbl(c(1, 4, 7), addTen)
+```
+
+To map to a character vector, you can use the `map_chr()` ("map to a character") function.
+
+```{r}
+map_chr(c(1, 4, 7), addTen)
+```
+
+If you want to return a data frame, then you would use the `map_df()` function. However, you need to make sure that in each iteration you're returning a data frame which has consistent column names. `map_df` will automatically bind the rows of each iteration. 
+
+For this example, I want to return a data frame whose columns correspond to the original number and the number plus ten.
+
+```{r}
+map_df(c(1, 4, 7), function(.x) {
+  return(data.frame(old_number = .x, 
+                    new_number = addTen(.x)))
+})
+```
+
+
+Note that in this case, I defined an "anonymous" function as our output for each iteration. An anonymous function is a temporary function (that you define as the function argument to the map). Here I used the argument name `.x`, but I could have used anything. 
+
+Another function to be aware of is `modify()`, which is just like the map functions, but always returns an object the same type as the input object.
+
+```{r, message=FALSE}
+library(tidyverse)
+modify(c(1, 4, 7), addTen)
+```
+
+```{r}
+modify(list(1, 4, 7), addTen)
+```
+
+```{r}
+modify(data.frame(1, 4, 7), addTen)
+```
+
+
+Modify also has a pretty useful sibling, `modify_if()`, that only applies the function to elements that satisfy a specific criteria (specified by a "predicate function", the second argument called `.p`). For instance, the following example only modifies the third entry since it is greater than 5.
+
+```{r}
+modify_if(.x = list(1, 4, 7), 
+          .p = function(x) x > 5,
+          .f = addTen)
+```
+
+## The tilde-dot shorthand for functions
+
+
+To make the code more concise you can use the tilde-dot shorthand for anonymous functions (the functions that you create as arguments of other functions).
+
+The notation works by replacing
+
+```{r eval = FALSE}
+function(x) {
+  x + 10
+}
+```
+
+with 
+
+```{r eval = FALSE}
+~{.x + 10}
+```
+
+`~` indicates that you have started an anonymous function, and the argument of the anonymous function can be referred to using `.x` (or simply `.`). Unlike normal function arguments that can be anything that you like, the tilde-dot function argument is always `.x`.
+
+
+Thus, instead of defining the `addTen()` function separately, we could use the tilde-dot shorthand
+
+```{r}
+map_dbl(c(1, 4, 7), ~{.x + 10})
+```
+
+
+## Applying map functions in a slightly more interesting context
+
+Throughout this tutorial, we will use the gapminder dataset that can be loaded directly if you're connected to the internet. Each function will first be demonstrated using a simple numeric example, and then will be demonstrated using a more complex practical example based on the gapminder dataset.
+
+My general workflow involves loading the original data and saving it as an object with a meaningful name and an `_orig` suffix. I then define a copy of the original dataset without the `_orig` suffix. Having an original copy of my data in my environment means that it is easy to check that my manipulations do what I expected. I will make direct data cleaning modifications to the `gapminder` data frame, but will never edit the `gapminder_orig` data frame. 
+
+```{r message=FALSE, warning=FALSE}
+# to download the data directly:
+gapminder_orig <- read.csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv")
+# define a copy of the original dataset that we will clean and play with 
+gapminder <- gapminder_orig
+```
+
+The gapminder dataset has 1704 rows containing information on population, life expectancy and GDP per capita by year and country. 
+
+A "tidy" data frame is one where every row is a single observational unit (in this case, indexed by country and year), and every column corresponds to a variable that is measured for each observational unit (in this case, for each country and year, a measurement is made for population, continent, life expectancy and GDP). If you'd like to learn more about "tidy data", I highly recommend reading [Hadley Wickham's tidy data article](vita.had.co.nz/papers/tidy-data.pdf). 
+
+```{r}
+dim(gapminder)
+head(gapminder)
+```
+
+Since `gapminder` is a data frame, the `map_` functions will iterate over each column. An example of simple usage of the `map_` functions is to summarize each column. For instance, you can identify the type of each column by applying the `class()` function to each column. Since the output of the `class()` function is a character, we will use the `map_chr()` function:
+
+```{r}
+# apply the class() function to each column
+gapminder %>% map_chr(class)
+```
+
+I frequently do this to get a quick snapshot of each column type of a new dataset directly in the console.  As a habit, I usually pipe in the data using `%>%`, rather than provide it as an argument. Remember that the pipe places the object to the left of the pipe in the first argument of the function to the right.
+
+Similarly, if you wanted to identify the number of distinct values in each column, you could apply the `n_distinct()` function from the dplyr package to each column. Since the output of `n_distinct()` is a numeric (a double), you might want to use the `map_dbl()` function so that the results of each iteration (the application of `n_distinct()` to each column) are concatenated into a numeric vector:
+
+```{r}
+# apply the n_distinct() function to each column
+gapminder %>% map_dbl(n_distinct)
+```
+
+If you want to do something a little more complicated, such return a few different summaries of each column in a data frame, you can use `map_df()`. When things are getting a little bit more complicated, you typically need to define an anonymous function that you want to apply to each column. Using the tilde-dot notation, the anonymous function below calculates the number of distinct entries and the type of the current column (which is accessible as `.x`), and then combines them into a two-column data frame. Once it has iterated through each of the columns, the `map_df` function combines the data frames row-wise into a single data frame.
+
+```{r, warning=FALSE}
+gapminder %>% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))))
+```
+
+Note that we've lost the variable names! The variable names correspond to the names of the objects over which we are iterating (in this case, the column names), and these are not automatically included as a column in the output data frame. You can tell `map_df()` to include them using the `.id` argument of `map_df()`. This will automatically take the name of the element being iterated over and include it in the column corresponding to whatever you set `.id` to.
+
+```{r, warning=FALSE}
+gapminder %>% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))),
+                     .id = "variable")
+```
+
+
+If you're having trouble thinking through these map actions, I recommend that you first figure out what the code would be to do what you want for a single element, and then paste it into the `map_df()` function (a nice trick I saw Hadley Wickham used a few years ago when he presented on purrr at RLadies SF).
+
+For instance, since the first element of the gapminder data frame is the first column, let's define `.x` in our environment to be this first column.
+
+```{r}
+# take the first element of the gapminder data
+.x <- gapminder %>% pluck(1)
+# look at the first 6 rows
+head(.x)
+```
+
+
+Then, you can create a data frame for this column that contains the number of distinct entries, and the class of the column. 
+
+```{r}
+data.frame(n_distinct = n_distinct(.x),
+           class = class(.x))
+```
+
+Since this has done what was expected want for the first column, you can paste this code into the map function using the tilde-dot shorthand.
+
+```{r, warning = FALSE, message = FALSE}
+gapminder %>% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))),
+                     .id = "variable")
+
+```
+
+
+`map_df()` is definitely one of the most powerful functions of `purrr` in my opinion, and is probably the one that I use most. 
+
+
+## Maps with multiple input objects
+
+After gaining a basic understanding of purrr's map functions, you can start to do some fancier stuff. For instance, what if you want to perform a map that iterates through two objects. The code below uses map functions to create a *list of plots* that compare life expectancy and GDP per capita for each continent/year combination.
+
+The map function that maps over two objects instead of 1 is called `map2()`. The first two arguments are the two objects you want to iterate over, and the third is the function (with two arguments, one for each object).
+
+```{r eval = FALSE}
+map2(.x = object1, # the first object to iterate over
+     .y = object2, # the second object to iterate over
+     .f = plotFunction(.x, .y))
+```
+
+First, you need to define a vector (or list) of continents and a paired vector (or list) of years that you want to iterate through. Note that in our continent/year example
+
+- the *first iteration* will correspond to the *first continent* in the continent vector and the *first year* in the year vector,
+
+- the *second iteration* will correspond to the *second continent* in the continent vector and the *second year* in the year vector.
+
+This might seem obvious, but it is a natural instinct to incorrectly assume that `map2()` will automatically perform the action on *all* combinations that can be made from the two vectors. For instance if you have a continent vector `.x = c("Americas", "Asia")` and a year vector `.y = c(1952, 2007)`, then you might assume that `map2` will iterate over the Americas for 1952 and for 2007, and then Asia for 1952 and 2007. It won't though. The iteration will actually be first the Americas for 1952 only, and then Asia for 2007 only. 
+
+First, let's get our vectors of continents and years, starting by obtaining all distinct combinations of continents and years that appear in the data.
+
+```{r}
+continent_year <- gapminder %>% distinct(continent, year)
+continent_year
+```
+
+Then extracting the continent and year pairs as separate vectors
+
+```{r}
+# extract the continent and year pairs as separate vectors
+continents <- continent_year %>% pull(continent) %>% as.character
+years <- continent_year %>% pull(year)
+```
+
+If you want to use tilde-dot short-hand, the anonymous arguments will be `.x` for the first object being iterated over, and `.y` for the second object being iterated over. 
+
+Before jumping straight into the map function, it's a good idea to first figure out what the code will be for just first iteration (the first continent and the first year, which happen to be Asia in 1952). 
+
+```{r}
+# try to figure out the code for the first example
+.x <- continents[1]
+.y <- years[1]
+# make a scatterplot of GDP vs life expectancy in all Asian countries for 1952
+gapminder %>% 
+  filter(continent == .x,
+         year == .y) %>%
+  ggplot() +
+  geom_point(aes(x = gdpPercap, y = lifeExp)) +
+  ggtitle(glue::glue(.x, " ", .y))
+```
+
+This seems to have worked. So you can then copy-and-paste the code into the `map2` function
+
+```{r}
+plot_list <- map2(.x = continents, 
+                  .y = years, 
+                  .f = ~{
+                    gapminder %>% 
+                      filter(continent == .x,
+                             year == .y) %>%
+                      ggplot() +
+                      geom_point(aes(x = gdpPercap, y = lifeExp)) +
+                      ggtitle(glue::glue(.x, " ", .y))
+                  })
+```
+
+And you can look at a few of the entries of the list to see that they make sense
+
+```{r}
+plot_list[[1]]
+plot_list[[22]]
+```
+
+`pmap()` allows you to iterate over an arbitrary number of objects (i.e. more than two).
+
+
+
+## List columns and Nested data frames
+
+Tibbles are tidyverse data frames. Some crazy stuff starts happening when you learn that tibble columns can be lists (as opposed to vectors, which is what they usually are). This is where the difference between tibbles and data frames becomes real. 
+
+For instance, a tibble can be "nested" where the tibble is essentially split into separate data frames based on a grouping variable, and these separate data frames are stored as entries of a list (that is then stored in the `data` column of the data frame).
+
+Below I nest the gapminder data by continent.
+
+```{r}
+gapminder_nested <- gapminder %>% 
+  group_by(continent) %>% 
+  nest()
+gapminder_nested
+```
+
+The first column is the variable that we grouped by, `continent`, and the second column is the rest of the data frame corresponding to that group (as if you had filtered the data frame to the specific continent). To see this, the code below shows that the first entry in the `data` column corresponds to the entire gapminder dataset for Asia.
+
+```{r}
+gapminder_nested$data[[1]]
+```
+
+Using dplyr `pluck()` function, this can be written as 
+
+```{r}
+gapminder_nested %>% 
+  # extract the first entry from the data column
+  pluck("data", 1)
+```
+
+Similarly, the 5th entry in the `data` column corresponds to the entire gapminder dataset for Oceania.
+
+```{r}
+gapminder_nested %>% pluck("data", 5)
+```
+
+You might be asking at this point *why* you would ever want to nest your data frame? It just doesn't seem like that useful a thing to do... until you realise that you now have the power to use dplyr manipulations on more complex objects that can be stored in a list. 
+
+However, since actions such as `mutate()` are applied directly to the entire column (which is usually a vector, so is fine), we run into issues when we try to mutate a list. For instance, since columns are usually vectors, normal vectorized functions work just fine on them
+
+
+```{r}
+tibble(vec_col = 1:10) %>%
+  mutate(vec_sum = sum(vec_col))
+```
+
+but when the column is a list, vectorized functions don't know what to do with them, and we get an error that says `Error in sum(x) : invalid 'type' (list) of argument`. Try 
+
+```{r eval = FALSE}
+tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %>%
+  mutate(list_sum = sum(list_col))
+```
+
+To apply mutate functions to a list-column, you need to wrap the function you want to apply in a map function.
+
+```{r}
+tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %>%
+  mutate(list_sum = map(list_col, sum))
+```
+
+Since `map()` returns a list itself, the `list_sum` column is thus itself a list
+
+```{r}
+tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %>%
+  mutate(list_sum = map(list_col, sum)) %>% 
+  pull(list_sum)
+```
+
+
+What could we do if we wanted it to be a vector? We could use the `map_dbl()` function instead!
+
+```{r}
+tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %>%
+  mutate(list_sum = map_dbl(list_col, sum))
+```
+
+### Nesting the gapminder data
+
+Let's return to the nested gapminder dataset. I want to calculate the average life expectancy within each continent and add it as a new column using `mutate()`. Based on the example above, can you explain why the following code doesn't work?
+
+```{r}
+gapminder_nested %>% 
+  mutate(avg_lifeExp = mean(data$lifeExp))
+```
+
+
+I was hoping that this code would extract the `lifeExp` column from each data frame. But I'm applying the mutate to the `data` column, which itself doesn't have an entry called `lifeExp` since it's a *list* of data frames. How could I get access to the `lifeExp` column of the data frames stored in the `data` list? Using a `map` function of course!
+
+Think of an individual data frame as `.x`. Again, I will first figure out the code for calculating the mean life expectancy for the first entry of the column. The following code defines `.x` to be the first entry of the `data` column (this is the data frame for Asia).
+
+```{r}
+# the first entry of the "data" column
+.x <- gapminder_nested %>% pluck("data", 1)
+.x
+```
+
+Then to calculate the average life expectancy for Asia, I could write 
+
+```{r}
+mean(.x$lifeExp)
+```
+
+So copy-pasting this into the tilde-dot anonymous function argument of the `map_dbl()` function within `mutate()`, I get what I wanted! 
+
+```{r}
+gapminder_nested %>% 
+  mutate(avg_lifeExp = map_dbl(data, ~{mean(.x$lifeExp)}))
+```
+
+This code iterates through the data frames stored in the `data` column, returns the average life expectancy for each data frame, and concatonates the results into a numeric vector (which is then stored as a column called `avg_lifeExp`).
+
+I hear what you're saying... this is something that we could have done a lot more easily using standard dplyr commands (such as `summarise()`). True, but hopefully it helped you understand why you need to wrap mutate functions inside map functions when applying them to list columns. 
+
+
+Even if this example was less than inspiring, I promise the next example will knock your socks off!
+
+The next exampe will demonstrate how to fit a model separately for each continent, and evaluate it, all within a single tibble. First, I will fit a linear model for each continent and store it as a list-column. If the data frame for a single continent is `.x`, then the model I want to fit is `lm(lifeExp ~ pop + gdpPercap + year, data = .x)` (check for yourself that this does what you expect). So I can copy-past this command into the `map()` function within the `mutate()`
+
+
+```{r}
+# fit a model separately for each continent
+gapminder_nested <- gapminder_nested %>% 
+  mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + gdpPercap + year, data = .x)))
+gapminder_nested
+```
+
+Where the first linear model (for Asia) is
+
+```{r}
+gapminder_nested %>% pluck("lm_obj", 1)
+```
+
+I can then predict the response for the data stored in the `data` column using the corresponding linear model. So I have two objects I want to iterate over: the data and the linear model object. This means I want to use `map2()`. When things get a little more complicated I like to have multiple function arguments, so I'm going to use a full anonymous function rather than the tilde-dot shorthand. 
+
+```{r}
+# fit a model separately for each continent
+gapminder_nested <- gapminder_nested %>% 
+  mutate(pred = map2(lm_obj, data, function(.lm, .data) predict(.lm, .data)))
+gapminder_nested
+```
+
+And I can then calculate the correlation between the predicted response and the true response, this time using the `map2()_dbl` function since I want the output the be a numeric vector rather than a list of single elements.
+
+```{r}
+# fit a model separately for each continent
+gapminder_nested <- gapminder_nested %>% 
+  mutate(cor = map2_dbl(pred, data, function(.pred, .data) cor(.pred, .data$lifeExp)))
+gapminder_nested
+```
+
+Holy guacamole, that is so awesome!
+
+
+
+## Advanced exercise
+
+The goal of this exercise is to fit a separate linear model for each continent without splitting up the data. Create the following data frame that has the continent, each term in the model for the continent, its linear model coefficient estimate, and standard error.
+
+```{r, echo = FALSE}
+gapminder %>% 
+  group_by(continent) %>% 
+  nest() %>%
+  mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + year + gdpPercap, data = .))) %>%
+  mutate(lm_tidy = map(lm_obj, broom::tidy)) %>%
+  transmute(continent, lm_tidy) %>%
+  unnest()
+```
+
+Hint: starting from the `gapminder` dataset, use `group_by()` and `nest()` to nest by continent, use a mutate together with `map` to fit a linear model for each continent, use another mutate with `broom::tidy()` to get a data frame of model coefficients for each model, and a `transmute` to get just the columns you want, followed by an `unnest()` to re-expand the nested tibble. 
+
+The solution code is at the end of this post.
+
+If you want to stop here, you will already know more than most purrr users. The remainder of this blog post involves little-used features of purrr for manipulating lists.
+
+
+
+# Additional purrr functionalities for lists
+
+
+To demonstrate how to use purrr to manipulate lists, we will split the gapminder dataset into a *list of data frames* (which is kind of like the converse of a data frame containing a list-column). To make sure it's easy to follow, we will only keep 5 rows from each continent.
+
+```{r}
+set.seed(23489)
+gapminder_list <- gapminder %>% split(gapminder$continent) %>%
+  map(~sample_n(., 5))
+gapminder_list
+```
+
+## Keep/Discard: select_if for lists
+
+`keep()` only keeps elements of a list that satisfy a given condition, much like `select_if()` selects columns of a data frame that satisfy a given condition.
+
+The following code only keeps the gapminder continent data frames (the elements of the list) that have an average (among the sample of 5 rows) life expectancy of at least 70.
+
+
+```{r}
+gapminder_list %>%
+  keep(~{mean(.x$lifeExp) > 70})
+```
+
+`discard()` does the opposite of `keep()`: it discards any elements that satisfy your logical condition.
+
+
+## Reduce
+
+
+`reduce()` is designed to combine (reduces) all of the elements of a list into a single object by iteratively applying a binary function (a function that takes two inputs). 
+
+For instance, applying a reduce function to add up all of the elements of the vector `c(1, 2, 3)` is like doing `sum(sum(1, 2), 3)`: first it applies `sum` to `1` and `2`, then it applies `sum` again to the output of `sum(1, 2)` and `3`.
+
+```{r}
+reduce(c(1, 2, 3), sum)
+```
+
+`accumulate()` also returns the intermediate values. 
+
+```{r}
+accumulate(c(1, 2, 3), sum)
+```
+
+An example of when `reduce()` might come in handy is when you want to perform many `left_join()`s in a row, or to do repeated `rbinds()` (e.g. to bind the rows of the list back together into a single data frame)
+
+```{r}
+gapminder_list %>%
+  reduce(rbind)
+```
+
+
+
+## Logical statements for lists
+
+Asking logical questions of a list can be done using `every()` and `some()`. For instance to ask whether *every* continent has average life expectancy greater than 70, you can use `every()`
+
+```{r}
+gapminder_list %>% every(~{mean(.x$life) > 70})
+```
+
+To ask whether *some* continents have average life expectancy greater than 70, you can use `some()`
+
+```{r}
+gapminder_list %>% some(~{mean(.x$life) > 70})
+```
+
+An equivalent of `%in%` for lists is `has_element()`.
+
+```{r}
+list(1, c(2, 5, 1), "a") %>% has_element("a")
+```
+
+Most of these functions also work on vectors.
+
+Now go forth and purrr!
+
+
+
+# Answer to advanced exercise
+
+
+The following code produces the table from the exercise above
+
+```{r}
+gapminder %>% 
+  group_by(continent) %>% 
+  nest() %>%
+  mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + year + gdpPercap, data = .))) %>%
+  mutate(lm_tidy = map(lm_obj, broom::tidy)) %>%
+  transmute(continent, lm_tidy) %>%
+  unnest()
+```
+
+

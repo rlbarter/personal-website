@@ -1,0 +1,49 @@
+	city name	full city name	city_type	lat	lon	pop	pop_yr	country	region	most recent emissions	most recent emissions year	protocol	nGDP	GDP	GDP year	GDP unit
+0	Aguascalientes	Municipality of Aguascalientes	Municipality	21.8897	-102.295	934424	2012.0	Mexico	Latin America & Caribbean	3839803.0	2010.0	Community	9736522.00867773	8321480.0	2013.0	USD
+1	Balikpapan	City of Balikpapan	Municipality	-1.23793	116.852853	762492	2016.0	Indonesia	Southeast Asia	481003.0	2015.0	Community - GPC	6066.0765323921	69874824.44	2015.0	IDR
+2	Bandung	City of Bandung	Municipality	-6.91746	107.619123	2483977	2014.0	Indonesia	Southeast Asia	2660.98238	2013.0	Community	4586959387.01624	40890012000000.0	2013.0	IDR
+3	Barranquilla	Municipality of Barranquilla	Municipality	10.987778	-74.788889	1148506	2005.0	Colombia	Latin America & Caribbean	3023515.0	2013.0	Community - GPC	11917850.612672301	19035100000.0	2013.0	COP
+4	Betim	Municipality of Betim	Municipality	-19.0	-44.0	422354	2016.0	Brazil	Latin America & Caribbean	1716901.0	2013.0	Community - GPC	12559713.9208131	25314346.0	2014.0	BRL
+5	Bhubaneswar	Bhubaneswar Municipal Corporation	Municipality	20.27	85.84	837737	2011.0	India	South Asia	528002.28	2005.0	Community	1643773814.71304			
+7	Cochin	Cochin Municipal Corporation	Municipality	9.931233	76.26730400000001	601574	2011.0	India	South Asia	269372.0	2008.0	Community	61713.0773732933	2310171.0	2006.0	INR
+8	Coimbatore	Coimbatore City Municipal Corporation	Municipality	11.0	76.9558	1850000	2016.0	India	South Asia	5316666.0	2015.0	Community - GPC	3472009067.7435102	2984399650.0	2015.0	USD
+9	Dehradun	Dehradun Municipal Corporation	Municipality	30.318	78.029	447808	2001.0	India	South Asia	1316744.0	2008.0	Community	878670829.17314			
+10	Gandhinagar	Gandhinagar Municipal Corporation	Municipality	23.22	72.68	208299	2011.0	India	South Asia	5424749.0	2011.0	Community	408715911.832607			
+11	Gwalior	Gwalior Municipal Corporation	Municipality	26.218290000000003	78.18283100000001	1069276		India	South Asia	1195239.0	2013.0	Community - GPC	161957904.755634	8470000000.0	2014.0	INR
+12	Hat Yai	Hat Yai City Municipality	Municipality	7.016210000000001	100.47288	159614	2016.0	Thailand	Southeast Asia	477723.0	2013.0	Community - GPC	5179.0625430476	144209.0	2014.0	THB
+13	Hue	Hue City	Municipality	16.450001	107.58333600000002	354544	2014.0	Vietnam	Southeast Asia	1040337.0	2011.0	Community	930583326.4475869	797724000.0	2014.0	USD
+14	Hyderabad	Greater Hyderabad Municipal Corporation	Independent municipality	17.366	78.476	6731790	2011.0	India	South Asia	2196031.0	2010.0	Community	13208847320.9935			
+15	Indore	Indore Municipal Corporation	Municipality	22.723481	75.860184	2197447	2011.0	India	South Asia	1145839.0	2007.0	Community	4311742035.76986			
+16	Izmir	Izmir Metropolitan Municipality	Municipality	38.418420000000005	27.14283	4113072	2014.0	Turkey	North Africa, Middle East, West Asia	50287659.0	2015.0	Community - GPC	67970752229.2977	127429459000.0	2014.0	TRY
+17	Jaipur	Jaipur Municipal Corporation	Municipality	26.926	75.8235	3073350	2011.0	India	South Asia	7610894.0	2010.0	Community	6030403639.14729			
+18	Jerusalem	Jerusalem Municipality	Municipality	31.7833	35.2167	890428	2013.0	Israel	North Africa, Middle East, West Asia	2353555.0	2007.0	Community	34515477857.5964			
+19	Khelang Nakhon	Kalangnakorn Town Municipality	Municipality	18.2919	99.5047	60129	2017.0	Thailand	Southeast Asia	162378.0	2015.0	Community - GPC	3140.2840929768	87440.0	2014.0	THB
+20	Kota	Kota Municipal Corporation	Municipality	25.18	75.83	1001365	2011.0	India	South Asia	1099038.0	2010.0	Community	1964838088.76787			
+21	Lampang	Lampang City Municipality	Municipality	18.315	99.5027	58074		Thailand	Southeast Asia	120403.31000000001	2013.0	Community	3159.7468742519	2708.63	2014.0	USD
+22	León de los Aldamas	Municipality of León de los Aldamas	Municipality	21.13	-101.69	1436733	2010.0	Mexico	Latin America & Caribbean	94311876.215	2012.0	Community	2066.3028532575	1766.0	2013.0	USD
+23	Malang	City of Malang	Municipality	-7.969633999999999	112.633156	881794		Indonesia	Southeast Asia	775422.0	2017.0	Community - GPC	60147601659.0434	51827980000.0	2017.0	USD
+6	Naga	City of Naga	Special municipality / Federal district	13.62178	123.194824	196003	2015.0	Philippines	Southeast Asia	243527.0	2014.0	Community	568720837.96945			
+24	Nagpur	Nagpur Municipal Corporation	Municipality	21.15	79.09	2405421	2011.0	India	South Asia	1534552.31	2007.0	Community	4719820245.686729			
+25	Pasig	City Government of Pasig	Municipality	14.5763768	121.0851097	772695	2016.0	Philippines	Southeast Asia	659168.0	2010.0	Community - GPC	2242046029.3710003			
+26	Phuket	Phuket City Municipality	Municipality	7.88875	98.39779	72380	2015.0	Thailand	Southeast Asia	480265.0	2013.0	Community	8999.6577244651	250592.0	2014.0	THB
+27	Pimpri-Chinchwad	Pimpri Chinchwad Municipal Corporation	Municipality	18.6298	73.7997	1729320	2011.0	India	South Asia	3185501.0	2012.0	Community - GPC	3393202082.82499			
+28	Probolinggo	City of Probolinggo	Municipality	-7.777007000000001	113.20218700000001	224229	2016.0	Indonesia	Southeast Asia	235623.0	2010.0	Community - GPC	959293089.9586099			
+29	Pune	Pune Municipal Corporation	Municipality	18.5203	73.8567	3115431	2011.0	India	South Asia	4661066.0	2011.0	Community	6112973283.1966	0.0	2013.0	USD
+30	Quezon	City of Quezon City	Special municipality / Federal district	14.676039999999999	121.0437	3066600	2012.0	Philippines	Southeast Asia	713312132.0	2010.0	Community - GPC	21295015128.5694	18140000000.0	2012.0	USD
+31	Rajkot	Rajkot Municipal Corporation	Municipality	22.3039	70.80216	1432734	2011.0	India	South Asia	2019912.0	2015.0	Community - GPC	2688919161.61351	2311286995.0	2015.0	USD
+32	Rosario	Municipality of Rosario	Municipality	-32.9442	-60.6505	948312	2010.0	Argentina	Latin America & Caribbean	3687016.0	2014.0	Community - GPC	14624258765.4375	101706000000.0	2014.0	ARS
+33	San Carlos (Negros Occidental)	City of San Carlos	Municipality	10.0	123.0	129981	2010.0	Philippines	Southeast Asia	88330.0	2015.0	Community - GPC	377151896.859268			
+34	San Jerónimo de Montería	City of San Jerónimo de Montería	Municipality	8.0	-75.0	441301	2015.0	Colombia	Latin America & Caribbean	1166.0	2014.0	Community	4682.7902617345	3989.0	2012.0	USD
+35	Santa Rosa	City of Santa Rosa, Laguna	Municipality	14.2843	121.088893	284670	2014.0	Philippines	Southeast Asia	1358351.0	2010.0	Community - GPC	825996341.6109099			
+36	Seberang	SEBERANG PERAI MUNICIPAL COUNCIL	Municipality	5.377294	100.40014599999999	1016000	2016.0	Malaysia	Southeast Asia	8131.48208	2016.0	Community - GPC	12286098341.4965			
+37	Semarang	City of Semarang	Municipality	-6.96667	109.417	1500000	2010.0	Indonesia	Southeast Asia	1770297.41	2010.0	Community	6417277136.0435705			
+38	Sendai	Sendai City	Municipality	38.2681	140.87	1073242	2014.0	Japan	East Asia	6573042.0	2011.0	Community	56716427749.0233			
+39	Shimla	Shimla Municipal Corporation	Municipality	31.10482	77.17340300000001	169758	2011.0	India	South Asia	218896.0	2013.0	Community - GPC	333092313.265448	0.0	2015.0	INR
+40	Surat	Surat Municipal Corporation	Municipality	21.178283999999998	72.80769599999999	4466826	2011.0	India	South Asia	16255462.0	2011.0	Community	8764626146.00931			
+41	Thane	Thane Municipal Corporation	Municipality	19.1724	72.957	1886941	2011.0	India	South Asia	4077107.0	2013.0	Community	3702479663.3173			
+42	Toluca de Lerdo	Municipality of Toluca de Lerdo	Municipality	19.282610000000002	-99.655665	819661	2011.0	Mexico	Latin America & Caribbean	4378317.0	2010.0	Community	291739497.97917	249340000.0	2013.0	USD
+43	Tuxtla Gutiérrez	City of Tuxtla Gutiérrez	Municipality	16.0	-93.0	553374	2010.0	Mexico	Latin America & Caribbean	1708489.0	2010.0	Community - GPC	50426.9704767397	43345.0	2015.0	USD
+44	Ubon Ratchathani	Ubonratchathani Municipality	Municipality	15.2283	104.8596	79944	2017.0	Thailand	Southeast Asia	421443.0	2015.0	Community - GPC	5927.8150221885	180000.0	2016.0	THB
+45	Valledupar	Municipality of Valledupar	Municipality	10.4742	-73.2436	453212	2015.0	Colombia	Latin America & Caribbean	1114495.0	2013.0	Community - GPC	2615263845.57329	6163680000000.0	2015.0	COP
+46	Windhoek	City of Windhoek	Municipality	-22.5609	17.065755	325858		Namibia	Africa	2829997.0	2016.0	Community - GPC	3608.9530010291996	36000.0	2015.0	NAD
+47	Wonju	Wonju City	Municipality	37.342218599999995	127.9201621	326321	2012.0	South Korea	East Asia	1928493.0	2012.0	Community	5905759903.30363	5551490000000.0	2011.0	KRW

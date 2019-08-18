@@ -1,0 +1,49 @@
+	city name	population (others)	area [km2] (others)	population (others) source	population (others) source year	area [km2] (others) source	area [km2] (others) source year	GDP-PPP [$BN] (others)	GDP-PPP/cap [$USD] (others)	GDP-PPP [$BN] (others) source	GDP-PPP year (others)	nGDP [$BN] (others)	nGDP/cap [$USD] (others)	nGDP [$BN] (others) source	nGDP [$BN] (others) source year
+0	Aguascalientes	934424	385.0	Wikipedia	2012	Wikipedia	2012								
+2	Balikpapan	736806	503.3	Wikipedia	2015	Wikipedia	2015					7.0	12544802.867383512	[3], [19]	
+3	Bandung	2575478	167.67	Wikipedia	2015	Wikipedia	2015	21.0		[2]	2008.0	10.0	4175365.344467641	[3], [19]	
+4	Barranquilla	1228271	161.0	Wikipedia	2017	Wikipedia	2017					0.011917850612672299		Carbonn. But according to 2014 source (http://www.investincolombia.com.co/regional-information/barranquilla.html), we assume reported carbonn units are USD and not COP (and scale to $BN)	
+5	Betim	408448	342.85	Wikipedia	2012	Wikipedia	2012					0.012559713920813101		Carbonn. But according to source (http://www.betim.mg.gov.br/ARQUIVOS_ANEXO/Ingles;;20070320.pdf), we assume reported carbonn units are USD and not BRL (and scale to $BN)	
+6	Bhubaneswar	837456	422.0	Wikipedia	2011	Wikipedia	2011					1.64377381471304		carbonn, scaled to $BN USD	
+8	Cochin	601574	94.88	Wikipedia	2011	Wikipedia	2011					7.0	3455083.9091806514	[3], [19]	
+9	Coimbatore	1601438	246.75	Wikipedia	2011	Wikipedia	2011					5.0	2415458.9371980675	[3], [19]	
+10	Dehradun	578420	300.0	Wikipedia	2011	Wikipedia	2011					0.8786708291731401		carbonn, scaled to $BN USD	
+11	Gandhinagar	292167	177.0	Wikipedia	2011	Wikipedia	2011					0.40871591183260697		carbonn, scaled to $BN USD	
+12	Gwalior	1069276	289.0	Wikipedia	2011	Wikipedia	2011								
+13	Hat Yai	158218	21.0	Wikipedia	2012	Wikipedia	2012								
+14	Hue	354124	70.67	Wikipedia	2015	Wikipedia	2015					0.930583326447587		carbonn, scaled to $BN USD	
+15	Hyderabad	6809970	650.0	Wikipedia	2011	Wikipedia	2011	58.0		[2]	2008.0	16.0	2127659.574468085	[3], [19]	
+16	Indore	1994397	389.8	Wikipedia	2011	Wikipedia	2011					4.0	1913875.5980861243	[3], [19]	
+17	Izmir	4273677	7340.0	Wikipedia	2017	Wikipedia	2017	80.061	19885.991058122207	[1]	2014.0	45.0	15833919.774806473	[3], [19]	
+18	Jaipur	3046189	484.64	Wikipedia	2011	Wikipedia	2011	24.0		[2]	2008.0	6.0	2008032.1285140563	[3], [19]	
+19	Jerusalem	882652	125.156	Wikipedia	2016	Wikipedia	2016					34.515477857596395		Carbonn. Assume reported value is in USD since this gives a value consistent with external ref (https://en.wikipedia.org/wiki/Economy_of_Israel) and scale to $BN	
+20	Khelang Nakhon	60100	17.5	Wikipedia	2017	Wikipedia	2017								
+21	Kota	1001694	527.0	Wikipedia	2011	Wikipedia	2011					1.96483808876787		carbonn, scaled to $BN USD	
+22	Lampang	58074	22.17	Wikipedia	2010	Wikipedia	2010								
+23	León de los Aldamas	1436733	1219.67	Wikipedia	2010	Wikipedia	2010								
+24	Malang	887443	145.28	Wikipedia	2016	Wikipedia	2016					60.1476016590434		carbonn, scaled to $BN USD	
+25	Naga	115750	101.97	Wikipedia	2015	Wikipedia	2015								
+26	Nagpur	2497870	227.36	Wikipedia	2011	Wikipedia	2011					4.71982024568673		carbonn, scaled to $BN USD	
+27	Pasig	755300	31.46	Wikipedia	2015	Wikipedia	2015								
+28	Phuket	75573	12.0	Wikipedia	2007	Wikipedia	2007								
+29	Pimpri-Chinchwad	1729320	171.51	Wikipedia	2011	Wikipedia	2011					3.3932020828249896		carbonn, scaled to $BN USD	
+30	Probolinggo	223159	56.67	Wikipedia	2014	Wikipedia	2014								
+31	Pune	3124458	243.84	Wikipedia	2011	Wikipedia	2011	48.0		[2]	2008.0	19.0	3875178.4621660206	[3], [19]	
+32	Quezon	2936116	165.33	Wikipedia	2015	Wikipedia	2015					21.2950151285694		carbonn, scaled to $BN USD	
+33	Rajkot	1442975	170.0	Wikipedia	2016	Wikipedia	2016					2.68891916161351		carbonn, scaled to $BN USD	
+34	Rosario	1193605	178.69	Wikipedia	2010	Wikipedia	2010					15.0	11857707.509881424	[3], [19]	
+35	San Carlos (Negros Occidental)	132536	451.5	Wikipedia	2015	Wikipedia	2015								
+36	San Jerónimo de Montería	460223	3141.0	Wikipedia	2018	Wikipedia	2018								
+37	Santa Rosa	353767	54.84	Wikipedia	2015	Wikipedia	2015								
+38	Seberang	818197	751.0	Wikipedia	2010	Wikipedia	2010								
+39	Semarang	1555984	373.78	Wikipedia	2010	Wikipedia	2010					9.0	5784061.696658098	[3], [19]	
+40	Sendai	1086012	786.3	Wikipedia	2017	Wikipedia	2017	75.317	33765.35461310858	[1]	2014.0	52.09355		[24]	2012.0
+41	Shimla	169578	35.34	Wikipedia	2011	Wikipedia	2011					0.33309231326544797		carbonn, scaled to $BN USD	
+42	Surat	4467797	326.515	Wikipedia	2011	Wikipedia	2011	36.0		[2]	2008.0	14.0	3206596.42693541	[3], [19]	
+43	Thane	1886941	147.0	Wikipedia	2011	Wikipedia	2011					3.7024796633173		carbonn, scaled to $BN USD	
+44	Toluca de Lerdo	873536	452.37	Wikipedia	2015	Wikipedia	2015					12.0	6500541.711809318	[3], [19]	
+45	Tuxtla Gutiérrez	598710	412.4	Wikipedia	2015	Wikipedia	2015								
+46	Ubon Ratchathani	76271	29.0	Wikipedia	2017	Wikipedia	2017								
+47	Valledupar	423260	4977.66	Wikipedia	2005	Wikipedia	2005					2.6152638455732897		Carbonn. But according to source (https://colombiareports.com/cesar), we assume reported carbonn units are USD and not COP (and scale to $BN)	
+48	Windhoek	325858	5133.0	Wikipedia	2011	Wikipedia	2011								
+49	Wonju	310854	867.63	Wikipedia	2010	Wikipedia	2010					5.90575990330363		Carbonn. But according to source for GDP/cap of Gangwon Province that contains Wonju (https://en.wikipedia.org/wiki/List_of_South_Korean_regions_by_GDP) and the population of Wonju (https://en.wikipedia.org/wiki/Wonju), we assume reported carbonn units are USD and not KRW (and scale to $BN)	

@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2019-08-05T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2019-08-05T23:13:14-05:00" />
-<meta itemprop="wordCount" content="4397">
+<meta itemprop="wordCount" content="4391">
 
 
 
@@ -310,11 +310,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/"><p>Transitioning into the tidyverse (part 2)</p></a>
+                        <a href="/blog/2019-08-19_purrr/"><p>Learn to purrr</p></a>
                     </li>
                 
                     <li>
-                        <a href="/blog/2019-08-05_base_r_to_tidyverse/"><p>Transitioning into the tidyverse (part 1)</p></a>
+                        <a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/"><p>Transitioning into the tidyverse (part 2)</p></a>
                     </li>
                 
             </ul>
@@ -694,7 +694,7 @@ map(c(1, 4, 7), function(number) {
   return(number + 10)
 })</code></pre>
 <pre><code>## [1] &quot;11.000000&quot; &quot;14.000000&quot; &quot;17.000000&quot;</code></pre>
-<p>If you want to return a data frame, then you would use <code>map_df</code> (but you need to make sure that what you’re returning in each iteration is a data frame which has the same column names in each iteration).</p>
+<p>If you want to return a data frame, then you would use <code>map_df</code> (but you need to make sure that in each iteration you’re returning a data frame which has consistent column names).</p>
 <pre class="r"><code>map_df(c(1, 4, 7), function(number) {
   return(data.frame(old_number = number, 
                     new_number = number + 10))
@@ -1010,6 +1010,9 @@ gapminder_life_exp_diff  </code></pre>
     
 
     
+        <li><a href="/blog/2019-08-19_purrr/"
+                class="button big next">Learn to purrr</a></li>
+    
 </ul>
 
 
@@ -1129,13 +1132,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/">Transitioning into the tidyverse (part 2)</a></h3>
+                                <h3><a href="/blog/2019-08-19_purrr/">Learn to purrr</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2019-08-05'>
-                                    August 5, 2019</time>
+                                    '2019-08-19'>
+                                    August 19, 2019</time>
                             </header>
                         </article>
                     </li>
@@ -1143,7 +1146,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2019-08-05_base_r_to_tidyverse/">Transitioning into the tidyverse (part 1)</a></h3>
+                                <h3><a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/">Transitioning into the tidyverse (part 2)</a></h3>
                                 
                                     
                                 
@@ -1188,7 +1191,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/r/">R</a>
-                                <span style="float:right;">15</span>
+                                <span style="float:right;">16</span>
                             </header>
                         </article>
                     </li>
@@ -1214,6 +1217,15 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
+                                <a href="/categories/tidyverse/">tidyverse</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
                                 <a href="/categories/causal-inference/">Causal Inference</a>
                                 <span style="float:right;">3</span>
                             </header>
@@ -1224,15 +1236,6 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/workflow/">Workflow</a>
-                                <span style="float:right;">3</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/tidyverse/">tidyverse</a>
                                 <span style="float:right;">3</span>
                             </header>
                         </article>
@@ -1287,6 +1290,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/purrr/">purrr</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1395,15 +1407,6 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/pipes/">pipes</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/purrr/">purrr</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>

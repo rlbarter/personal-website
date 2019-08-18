@@ -9,7 +9,7 @@ August 2016 - Present **Data Science Fellow**,
 *Berkeley Institute of Data Science, University of
 California, Berkeley*
 
-August 2014 - May 2016 **Graduate Student Researcher (GSR)**,
+August 2014 - Present **Graduate Student Researcher (GSR)**,
 *Department of Statistics, University of
 California, Berkeley*
 
@@ -93,6 +93,19 @@ Tutorial)
 - MATH 1005 Statistics
 
 ### Workshops
+
+
+Aug 23 2019, *Transitioning into the tidyverse*, **Department of Mathematics and Statistics**, The University of Sydney
+
+- A 1 hour seminar-workshop on transitioning into the tidyverse. Aimed at people familiar with base R who want to familiarize themselves with the tidyverse, as well as those who have a little experience with the tidyverse and want a big picture of how it all fits together.
+
+- [content](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/)
+
+Aug 21 2019, *Learn to purrr*, **R Ladies Sydney**
+
+- A 2-hour workshop on the purrr R package for the R Ladies Sydney meetup. 
+
+- [content](http://www.rebeccabarter.com/blog/2019-08-16_purrr/)
 
 
 Feb 12 2019, *Interactivity and Shiny*, [**Environment and Society: Data Science for the 21st Century**](http://ds421.berkeley.edu/), UC Berkeley

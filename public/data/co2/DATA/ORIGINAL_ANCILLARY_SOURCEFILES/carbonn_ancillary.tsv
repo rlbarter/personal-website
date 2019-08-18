@@ -1,0 +1,74 @@
+	city name	population (others)	population (others) source year	population (others) source	area [km2] (others)	area [km2] (others) source year	area [km2] (others) source	GDP-PPP [$BN] (others)	GDP-PPP/cap [$USD] (others)	GDP-PPP [$BN] (others) source	GDP-PPP year (others)	nGDP [$BN] (others)	nGDP/cap [$USD] (others)	nGDP [$BN] (others) source year	nGDP [$BN] (others) source	Household_size	Household_source	Year_Household size
+0	Aguascalientes	934424	2012	Wikipedia	385.0	2012	Wikipedia											
+1	Balikpapan	736806	2015	Wikipedia	503.3	2015	Wikipedia					7.0	12544802.867383512		[3], [19]			
+2	Bandung	2575478	2015	Wikipedia	167.67	2015	Wikipedia	21.0		[2]	2008.0	10.0	4175365.344467641		[3], [19]			
+3	Barranquilla	1228271	2017	Wikipedia	161.0	2017	Wikipedia					0.011917850612672299			Carbonn. But according to 2014 source (http://www.investincolombia.com.co/regional-information/barranquilla.html), we assume reported carbonn units are USD and not COP (and scale to $BN)			
+4	Betim	408448	2012	Wikipedia	342.85	2012	Wikipedia					0.012559713920813101			Carbonn. But according to source (http://www.betim.mg.gov.br/ARQUIVOS_ANEXO/Ingles;;20070320.pdf), we assume reported carbonn units are USD and not BRL (and scale to $BN)			
+5	Bhubaneswar	837456	2011	Wikipedia	422.0	2011	Wikipedia					1.64377381471304			carbonn, scaled to $BN USD			
+6	Cochin	601574	2011	Wikipedia	94.88	2011	Wikipedia					7.0	3455083.9091806514		[3], [19]			
+7	Coimbatore	1601438	2011	Wikipedia	246.75	2011	Wikipedia					5.0	2415458.9371980675		[3], [19]			
+8	Dehradun	578420	2011	Wikipedia	300.0	2011	Wikipedia					0.8786708291731401			carbonn, scaled to $BN USD			
+9	Gandhinagar	292167	2011	Wikipedia	177.0	2011	Wikipedia					0.40871591183260697			carbonn, scaled to $BN USD			
+10	Gwalior	1069276	2011	Wikipedia	289.0	2011	Wikipedia											
+11	Hat Yai	158218	2012	Wikipedia	21.0	2012	Wikipedia											
+12	Hue	354124	2015	Wikipedia	70.67	2015	Wikipedia					0.930583326447587			carbonn, scaled to $BN USD			
+13	Hyderabad	6809970	2011	Wikipedia	650.0	2011	Wikipedia	58.0		[2]	2008.0	16.0	2127659.574468085		[3], [19]			
+14	Indore	1994397	2011	Wikipedia	389.8	2011	Wikipedia					4.0	1913875.5980861243		[3], [19]			
+15	Izmir	4273677	2017	Wikipedia	7340.0	2017	Wikipedia	80.061	19885.991058122207	[1]	2014.0	45.0	15833919.774806473		[3], [19]			
+16	Jaipur	3046189	2011	Wikipedia	484.64	2011	Wikipedia	24.0		[2]	2008.0	6.0	2008032.1285140563		[3], [19]			
+17	Jerusalem	882652	2016	Wikipedia	125.156	2016	Wikipedia					34.515477857596395			Carbonn. Assume reported value is in USD since this gives a value consistent with external ref (https://en.wikipedia.org/wiki/Economy_of_Israel) and scale to $BN			
+18	Khelang Nakhon	60100	2017	Wikipedia	17.5	2017	Wikipedia											
+19	Kota	1001694	2011	Wikipedia	527.0	2011	Wikipedia					1.96483808876787			carbonn, scaled to $BN USD			
+20	Lampang	58074	2010	Wikipedia	22.17	2010	Wikipedia											
+21	León de los Aldamas	1436733	2010	Wikipedia	1219.67	2010	Wikipedia											
+22	Malang	887443	2016	Wikipedia	145.28	2016	Wikipedia					60.1476016590434			carbonn, scaled to $BN USD			
+23	Naga	115750	2015	Wikipedia	101.97	2015	Wikipedia											
+24	Nagpur	2497870	2011	Wikipedia	227.36	2011	Wikipedia					4.71982024568673			carbonn, scaled to $BN USD			
+25	Pasig	755300	2015	Wikipedia	31.46	2015	Wikipedia											
+26	Phuket	75573	2007	Wikipedia	12.0	2007	Wikipedia											
+27	Pimpri-Chinchwad	1729320	2011	Wikipedia	171.51	2011	Wikipedia					3.3932020828249896			carbonn, scaled to $BN USD			
+28	Probolinggo	223159	2014	Wikipedia	56.67	2014	Wikipedia											
+29	Pune	3124458	2011	Wikipedia	243.84	2011	Wikipedia	48.0		[2]	2008.0	19.0	3875178.4621660206		[3], [19]			
+30	Quezon	2936116	2015	Wikipedia	165.33	2015	Wikipedia					21.2950151285694			carbonn, scaled to $BN USD			
+31	Rajkot	1442975	2016	Wikipedia	170.0	2016	Wikipedia					2.68891916161351			carbonn, scaled to $BN USD			
+32	Rosario	1193605	2010	Wikipedia	178.69	2010	Wikipedia					15.0	11857707.509881424		[3], [19]			
+33	San Carlos (Negros Occidental)	132536	2015	Wikipedia	451.5	2015	Wikipedia											
+34	San Jerónimo de Montería	460223	2018	Wikipedia	3141.0	2018	Wikipedia											
+35	Santa Rosa	353767	2015	Wikipedia	54.84	2015	Wikipedia											
+36	Seberang	818197	2010	Wikipedia	751.0	2010	Wikipedia											
+37	Semarang	1555984	2010	Wikipedia	373.78	2010	Wikipedia					9.0	5784061.696658098		[3], [19]			
+38	Sendai	1086012	2017	Wikipedia	786.3	2017	Wikipedia	75.317	33765.35461310858	[1]	2014.0	52.09355		2012.0	[24]			
+39	Shimla	169578	2011	Wikipedia	35.34	2011	Wikipedia					0.33309231326544797			carbonn, scaled to $BN USD			
+40	Surat	4467797	2011	Wikipedia	326.515	2011	Wikipedia	36.0		[2]	2008.0	14.0	3206596.42693541		[3], [19]			
+41	Thane	1886941	2011	Wikipedia	147.0	2011	Wikipedia					3.7024796633173			carbonn, scaled to $BN USD			
+42	Toluca de Lerdo	873536	2015	Wikipedia	452.37	2015	Wikipedia					12.0	6500541.711809318		[3], [19]			
+43	Tuxtla Gutiérrez	598710	2015	Wikipedia	412.4	2015	Wikipedia											
+44	Ubon Ratchathani	76271	2017	Wikipedia	29.0	2017	Wikipedia											
+45	Valledupar	423260	2005	Wikipedia	4977.66	2005	Wikipedia					2.6152638455732897			Carbonn. But according to source (https://colombiareports.com/cesar), we assume reported carbonn units are USD and not COP (and scale to $BN)			
+46	Windhoek	325858	2011	Wikipedia	5133.0	2011	Wikipedia											
+47	Wonju	310854	2010	Wikipedia	867.63	2010	Wikipedia					5.90575990330363			Carbonn. But according to source for GDP/cap of Gangwon Province that contains Wonju (https://en.wikipedia.org/wiki/List_of_South_Korean_regions_by_GDP) and the population of Wonju (https://en.wikipedia.org/wiki/Wonju), we assume reported carbonn units are USD and not KRW (and scale to $BN)			
+48	Ahmedabad	5633927	2011	Wikipedia	464.165	2011	Wikipedia	49.0		[2]	2008.0	12.0	1954.3973941368079	2010.0	[3], [19]	4.7	https://data.gov.in/catalog/normal-households-household-size-india-and-states	2011
+49	Bangalore	12339447	2017	Wikipedia	709.0	2017	Wikipedia	45.313	5051.0	[1]	2014.0	29.0	3550.8754744704297	2010.0	[3], [19]	4.0	https://data.gov.in/catalog/normal-households-household-size-india-and-states	2011
+50	Barcelona	1604555	2015	Wikipedia	101.4	2015	Wikipedia	171.032	36157.0	[1]	2014.0	195.0	36011.08033240997	2010.0	[3], [19]	2.4	http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en	2014
+51	Bristol	454200	2017	Wikipedia	110.0	2017	Wikipedia	47.659	42326.0	[1]	2014.0	34.55597	41853.70810658921	2013.0	[24]	2.3	http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en	2013
+52	Brussels	1175173	2017	Wikipedia	161.38	2017	Wikipedia	254.327	46298.0	[1]	2014.0					2.1	http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en	2014
+53	Buffalo City	755200	2011	Wikipedia	2536.0	2011	Wikipedia									3.4	http://www.statssa.gov.za/publications/Report-03-01-32/Report-03-01-322007.pdf	2007
+54	Ekurhuleni	3178470	2011	Wikipedia	1975.0	2011	Wikipedia									3.2	http://www.statssa.gov.za/publications/Report-03-01-27/Report-03-01-272007.pdf	2007
+55	Fort Collins	143986	2010	Wikipedia	147.77	2010	Wikipedia									2.48	https://www.census.gov/quickfacts/fact/table/fortcollinscitycolorado,chicagocityillinois,austellcitygeorgia,US#viewtop	2012-2016
+56	Graz	280200	2016	Wikipedia	127.56	2016	Wikipedia					135.28783	52806.99706861624	2013.0	[24]	2.0	http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en	2013
+57	Gävle	75451	2016	Wikipedia	42.45	2016	Wikipedia									2.12	manual calculation was performed based on http://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__BE__BE0101__BE0101S/HushallT03/?rxid=5b1086fd-d703-4c03-8791-3c76c740804f	2017
+58	Istanbul	15029231	2017	Wikipedia	5343.0	2017	Wikipedia	348.721	24867.0	[1]	2014.0	188.2	17182.507075687026	2010.0	[3], [19]	3.5	http://www.turkstat.gov.tr/PreHaberBultenleri.do?id=24646	2016
+59	Kyoto	1475183	2015	Wikipedia	827.83	2015	Wikipedia									2.05	http://www.city.yokohama.lg.jp/ex/stat/jinko/city/new-e.html	2018
+60	Lyon	1354476	2014	Wikipedia	533.68	2014	Wikipedia					87.80433	45554.70757187743	2012.0	[24]	2.2	http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en	2012
+61	Msunduzi	618536	2011	Wikipedia	634.0	2011	Wikipedia									4.5	http://www.statssa.gov.za/publications/Report-03-01-35/Report-03-01-352007.pdf	2007
+62	Nantes	612782	2013	Wikipedia	537.7	2013	Wikipedia	32.014	36011.0	[1]	2014.0	32.9961	37081.602654007984	2012.0	[24]	2.1	http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en	2012
+63	Nelson Mandela	1152115	2011	Wikipedia	1959.0	2011	Wikipedia									3.8	http://www.statssa.gov.za/publications/Report-03-01-32/Report-03-01-322007.pdf	2007
+64	Osaka	8864228	2012	Wikipedia	1899.28	2012	Wikipedia											
+65	Sao Paulo	12106920	2017	Wikipedia	1521.11	2017	Wikipedia	430.51	20650.0	[1]	2014.0	437.0	22200.7722007722	2010.0	[3], [19]			
+66	Sapporo	1947097	2016	Wikipedia	1121.12	2016	Wikipedia	80.464	32446.0	[1]	2014.0	67.19166	30484.214748024857	2012.0	[24]	2.08	http://www.city.yokohama.lg.jp/ex/stat/jinko/city/new-e.html	2018
+67	Singapore	5607300	2015	Wikipedia	719.9	2015	Wikipedia	365.928	66864.0	[1]	2014.0	222.7	43786.86590640975	2010.0	[3], [19]	3.35	https://data.gov.sg/dataset/resident-households-by-household-size-annual?resource_id=b9a2acc8-8ed7-4b98-a1af-0c7ff1a7f0e4	2016
+68	Umeå	84761	2016	Wikipedia	32.2	2016	Wikipedia									2.09	manual calculation was performed based on http://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__BE__BE0101__BE0101S/HushallT03/?rxid=5b1086fd-d703-4c03-8791-3c76c740804f	2017
+69	Uppsala	149245	2015	Wikipedia	48.77	2015	Wikipedia									2.18	manual calculation was performed based on http://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__BE__BE0101__BE0101S/HushallT03/?rxid=5b1086fd-d703-4c03-8791-3c76c740804f	2017
+70	Växjö	66275	2017	Wikipedia	30.28	2017	Wikipedia									2.21	manual calculation was performed based on http://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__BE__BE0101__BE0101S/HushallT03/?rxid=5b1086fd-d703-4c03-8791-3c76c740804f	2017
+71	eThekwini	3442361	2011	Wikipedia	2291.0	2011	Wikipedia									4.1	http://www.statssa.gov.za/publications/Report-03-01-35/Report-03-01-352007.pdf	2007
+72	Örebro	147423	2017	Wikipedia	49.27	2017	Wikipedia									2.13	manual calculation was performed based on http://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__BE__BE0101__BE0101S/HushallT03/?rxid=5b1086fd-d703-4c03-8791-3c76c740804f	2017

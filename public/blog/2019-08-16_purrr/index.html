@@ -1,0 +1,1855 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Learn to purrr</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="Purrr is the tidyverse&#39;s answer to apply functions for iteration. It&#39;s one of those packages that you might have heard of, but seemed too complicated to sit down and learn. Starting with map functions, and taking you on a journey that will harness the power of the list, this post will have you purrring in no time.">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learn to purrr"/>
+<meta name="twitter:description" content="Purrr is the tidyverse&#39;s answer to apply functions for iteration. It&#39;s one of those packages that you might have heard of, but seemed too complicated to sit down and learn. Starting with map functions, and taking you on a journey that will harness the power of the list, this post will have you purrring in no time."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="Learn to purrr" />
+<meta property="og:description" content="Purrr is the tidyverse&#39;s answer to apply functions for iteration. It&#39;s one of those packages that you might have heard of, but seemed too complicated to sit down and learn. Starting with map functions, and taking you on a journey that will harness the power of the list, this post will have you purrring in no time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2019-08-16_purrr/" />
+
+
+
+<meta property="article:published_time" content="2019-08-16T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2019-08-16T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Learn to purrr">
+<meta itemprop="description" content="Purrr is the tidyverse&#39;s answer to apply functions for iteration. It&#39;s one of those packages that you might have heard of, but seemed too complicated to sit down and learn. Starting with map functions, and taking you on a journey that will harness the power of the list, this post will have you purrring in no time.">
+
+
+<meta itemprop="datePublished" content="2019-08-16T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2019-08-16T23:13:14-05:00" />
+<meta itemprop="wordCount" content="7009">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="/css/github-gist.css" rel="stylesheet" id="theme-stylesheet">
+          <script src="/js/highlight.pack.js"></script>
+          <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/useful_resources">
+                        Useful resources
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/useful_resources">
+                            <h3>
+                                
+                                Useful resources
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2019-08-16_purrr/"><p>Learn to purrr</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/"><p>Transitioning into the tidyverse (part 2)</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-08-16_purrr%2f&text=Learn%20to%20purrr&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-08-16_purrr%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-08-16_purrr%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-08-16_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-08-16_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-08-16_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-08-16_purrr%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2019-08-16_purrr/">Learn to purrr</a></h1>
+            
+        
+        
+            <p>Purrr is the tidyverse&#39;s answer to apply functions for iteration. It&#39;s one of those packages that you might have heard of, but seemed too complicated to sit down and learn. Starting with map functions, and taking you on a journey that will harness the power of the list, this post will have you purrring in no time.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2019-08-16'>
+            August 16, 2019</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2019-08-16_purrr%2f&text=Learn%20to%20purrr&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2019-08-16_purrr%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2019-08-16_purrr%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2019-08-16_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2019-08-16_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2019-08-16_purrr%2f&title=Learn%20to%20purrr" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2019-08-16_purrr%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <div id="TOC">
+<ul>
+<li><a href="#map-functions-beyond-apply">Map functions: beyond apply</a><ul>
+<li><a href="#simplest-usage-repeated-looping-with-map">Simplest usage: repeated looping with map</a></li>
+<li><a href="#the-tilde-dot-shorthand-for-functions">The tilde-dot shorthand for functions</a></li>
+<li><a href="#applying-map-functions-in-a-slightly-more-interesting-context">Applying map functions in a slightly more interesting context</a></li>
+<li><a href="#maps-with-multiple-input-objects">Maps with multiple input objects</a></li>
+<li><a href="#list-columns-and-nested-data-frames">List columns and Nested data frames</a><ul>
+<li><a href="#nesting-the-gapminder-data">Nesting the gapminder data</a></li>
+</ul></li>
+<li><a href="#advanced-exercise">Advanced exercise</a></li>
+</ul></li>
+<li><a href="#additional-purrr-functionalities-for-lists">Additional purrr functionalities for lists</a><ul>
+<li><a href="#keepdiscard-select_if-for-lists">Keep/Discard: select_if for lists</a></li>
+<li><a href="#reduce">Reduce</a></li>
+<li><a href="#logical-statements-for-lists">Logical statements for lists</a></li>
+</ul></li>
+<li><a href="#answer-to-advanced-exercise">Answer to advanced exercise</a></li>
+</ul>
+</div>
+
+<blockquote>
+<p>“It was on the corner of the street that he noticed the first sign of something peculiar - a cat reading a map”
+- J.K. Rowling</p>
+</blockquote>
+<p><img src="/img/purrr/cat_map.jpg" style="display: block; margin: auto;" /></p>
+<p>Purrr is one of those tidyverse packages that you keep hearing about, and you know you should probably learn it, but you just never seem to get around to it.</p>
+<p>At it’s core, purrr is all about iteration. Purrr introduces map functions (the tidyverse’s answer to base R’s apply functions, but more in line with functional programming practices) as well as some new functions for manipulating lists. To get a quick snapshot of any tidyverse package, a nice place to go is the <a href="https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf">cheatsheet</a>. I find these particularly useful after I’ve already got the basics of a package down, because I inevitably realise that there are a bunch of functionalities I knew nothing about.</p>
+<p>Another useful resource for learning about purrr is <a href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s tutorial</a>. Jenny’s tutorial is fantastic, but is a lot longer than mine. This post is a lot shorter and my goal is to get you up and running with purrr very quickly.</p>
+<p>While the workhorse of dplyr is the data frame, the workhorse of purrr is the list. If you aren’t familiar with lists, hopefully this will help you understand what they are:</p>
+<ul>
+<li><p>A <strong>vector</strong> is a way of storing many individual elements (a single number or a single character or string) of the same type together in a single object,</p></li>
+<li><p>A <strong>data frame</strong> is a way of storing many vectors of the same length but possibly of different types together in a single object</p></li>
+<li><p>A <strong>list</strong> is a way of storing many objects of any type (e.g. data frames, plots, vectors) together in a single object</p></li>
+</ul>
+<p>Here is an example of a list that has three elements: a single number, a vector and a data frame</p>
+<pre class="r"><code>my_first_list &lt;- list(my_number = 5,
+                      my_vector = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;),
+                      my_dataframe = data.frame(a = 1:3, b = c(&quot;q&quot;, &quot;b&quot;, &quot;z&quot;), c = c(&quot;bananas&quot;, &quot;are&quot;, &quot;so very great&quot;)))
+my_first_list</code></pre>
+<pre><code>## $my_number
+## [1] 5
+## 
+## $my_vector
+## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;
+## 
+## $my_dataframe
+##   a b             c
+## 1 1 q       bananas
+## 2 2 b           are
+## 3 3 z so very great</code></pre>
+<p>Note that a data frame is actually a special case of a list where each element of the list is a vector of the same length.</p>
+<div id="map-functions-beyond-apply" class="section level1">
+<h1>Map functions: beyond apply</h1>
+<p>A <strong>map function</strong> is one that applies the same action/function to every element of an object (e.g. each entry of a list or a vector, or each of the columns of a data frame).</p>
+<p>If you’re familiar with the base R <code>apply()</code> functions, then it turns out that you are already familiar with map functions, even if you didn’t know it!</p>
+<p>The <code>apply()</code> functions are set of super useful base-R functions for iteratively performing an action across entries of a vector or list without having to write a for-loop. While there is nothing fundamentally wrong with the base R apply functions, the syntax is somewhat inconsistent across the different apply functions, and the expected type of the object they return is often ambiguous (at least it is for <code>sapply</code>…).</p>
+<p>The naming convention of the map functions are such that the type of the <strong>output</strong> is specified by the term that follows the underscore in the function name.</p>
+<ul>
+<li><p><code>map(.x, .f)</code> is the main mapping function and returns a list</p></li>
+<li><p><code>map_df(.x, .f)</code> returns a data frame</p></li>
+<li><p><code>map_dbl(.x, .f)</code> returns a numeric (double) vector</p></li>
+<li><p><code>map_chr(.x, .f)</code> returns a character vector</p></li>
+<li><p><code>map_lgl(.x, .f)</code> returns a logical vector</p></li>
+</ul>
+<p>Consistent with the way of the tidyverse, the first argument of each mapping function is always the data object that you want to map over, and the second argument is always the <em>function</em> that you want to iteratively apply to each element of the input object.</p>
+<p>The <strong>input</strong> <code>object</code> to any <code>map</code> function is always either</p>
+<ul>
+<li><p>a <em>vector</em> (of any type), in which case the iteration is done over the entries of the vector,</p></li>
+<li><p>a <em>list</em>, in which case the iteration is performed over the elements of the list,</p></li>
+<li><p>a <em>data frame</em>, in which case the iteration is performed over the columns of the data frame (which, since a data frame is a special kind of list, is technically the same as the previous point).</p></li>
+</ul>
+<p>Since the first argument is always the data, this means that map functions play nicely with pipes (<code>%&gt;%</code>). If you’ve never seen pipes before, they’re really useful (originally from the <code>magrittr</code> package, but also ported with the <code>dplyr</code> package and thus with the <code>tidyverse</code>). Piping allows you to string together many functions by piping an object (which itself might be the output of a function) into the first argument of the next function. If you’d like to learn more about pipes, check out my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">tidyverse blog posts</a>.</p>
+<p>Throughout this post I will demonstrate each of purrr’s functionalities using both a simple numeric example (to explain the concept) and the gapminder data (to show a more complex example).</p>
+<div id="simplest-usage-repeated-looping-with-map" class="section level2">
+<h2>Simplest usage: repeated looping with map</h2>
+<p>Fundamentally, maps are for iteration. In the example below I will iterate through the vector <code>c(1, 4, 7)</code> by adding 10 to each entry. This function applied to a single number, which we will call <code>.x</code>, can be defined as</p>
+<pre class="r"><code>addTen &lt;- function(.x) {
+  return(.x + 10)
+}</code></pre>
+<p>The <code>map()</code> function below iterates <code>addTen()</code> across all entries of the vector, <code>.x = c(1, 4, 7)</code>, and returns the output as a list</p>
+<pre class="r"><code>library(tidyverse)
+map(.x = c(1, 4, 7), 
+    .f = addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<p>Fortunately, you don’t actually need to specify the argument names</p>
+<pre class="r"><code>map(c(1, 4, 7), addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<p>Note that</p>
+<ul>
+<li><p>the first element of the output is the result of applying the function to the first element of the input (<code>1</code>),</p></li>
+<li><p>the second element of the output is the result of applying the function to the second element of the input (<code>4</code>),</p></li>
+<li><p>and the third element of the output is the result of applying the function to the third element of the input (<code>7</code>).</p></li>
+</ul>
+<p>The following code chunks show that no matter if the input object is a vector, a list, or a data frame, <code>map()</code> always returns a list.</p>
+<pre class="r"><code>map(list(1, 4, 7), addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>map(data.frame(a = 1, b = 4, c = 7), addTen)</code></pre>
+<pre><code>## $a
+## [1] 11
+## 
+## $b
+## [1] 14
+## 
+## $c
+## [1] 17</code></pre>
+<p>If we wanted the output of <code>map</code> to be some other object type, we need to use a different function. For instance to map the input to a numeric (double) vector, you can use the <code>map_dbl()</code> (“map to a double”) function.</p>
+<pre class="r"><code>map_dbl(c(1, 4, 7), addTen)</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<p>To map to a character vector, you can use the <code>map_chr()</code> (“map to a character”) function.</p>
+<pre class="r"><code>map_chr(c(1, 4, 7), addTen)</code></pre>
+<pre><code>## [1] &quot;11.000000&quot; &quot;14.000000&quot; &quot;17.000000&quot;</code></pre>
+<p>If you want to return a data frame, then you would use the <code>map_df()</code> function. However, you need to make sure that in each iteration you’re returning a data frame which has consistent column names. <code>map_df</code> will automatically bind the rows of each iteration.</p>
+<p>For this example, I want to return a data frame whose columns correspond to the original number and the number plus ten.</p>
+<pre class="r"><code>map_df(c(1, 4, 7), function(.x) {
+  return(data.frame(old_number = .x, 
+                    new_number = addTen(.x)))
+})</code></pre>
+<pre><code>##   old_number new_number
+## 1          1         11
+## 2          4         14
+## 3          7         17</code></pre>
+<p>Note that in this case, I defined an “anonymous” function as our output for each iteration. An anonymous function is a temporary function (that you define as the function argument to the map). Here I used the argument name <code>.x</code>, but I could have used anything.</p>
+<p>Another function to be aware of is <code>modify()</code>, which is just like the map functions, but always returns an object the same type as the input object.</p>
+<pre class="r"><code>library(tidyverse)
+modify(c(1, 4, 7), addTen)</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+<pre class="r"><code>modify(list(1, 4, 7), addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 14
+## 
+## [[3]]
+## [1] 17</code></pre>
+<pre class="r"><code>modify(data.frame(1, 4, 7), addTen)</code></pre>
+<pre><code>##   X1 X4 X7
+## 1 11 14 17</code></pre>
+<p>Modify also has a pretty useful sibling, <code>modify_if()</code>, that only applies the function to elements that satisfy a specific criteria (specified by a “predicate function”, the second argument called <code>.p</code>). For instance, the following example only modifies the third entry since it is greater than 5.</p>
+<pre class="r"><code>modify_if(.x = list(1, 4, 7), 
+          .p = function(x) x &gt; 5,
+          .f = addTen)</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 17</code></pre>
+</div>
+<div id="the-tilde-dot-shorthand-for-functions" class="section level2">
+<h2>The tilde-dot shorthand for functions</h2>
+<p>To make the code more concise you can use the tilde-dot shorthand for anonymous functions (the functions that you create as arguments of other functions).</p>
+<p>The notation works by replacing</p>
+<pre class="r"><code>function(x) {
+  x + 10
+}</code></pre>
+<p>with</p>
+<pre class="r"><code>~{.x + 10}</code></pre>
+<p><code>~</code> indicates that you have started an anonymous function, and the argument of the anonymous function can be referred to using <code>.x</code> (or simply <code>.</code>). Unlike normal function arguments that can be anything that you like, the tilde-dot function argument is always <code>.x</code>.</p>
+<p>Thus, instead of defining the <code>addTen()</code> function separately, we could use the tilde-dot shorthand</p>
+<pre class="r"><code>map_dbl(c(1, 4, 7), ~{.x + 10})</code></pre>
+<pre><code>## [1] 11 14 17</code></pre>
+</div>
+<div id="applying-map-functions-in-a-slightly-more-interesting-context" class="section level2">
+<h2>Applying map functions in a slightly more interesting context</h2>
+<p>Throughout this tutorial, we will use the gapminder dataset that can be loaded directly if you’re connected to the internet. Each function will first be demonstrated using a simple numeric example, and then will be demonstrated using a more complex practical example based on the gapminder dataset.</p>
+<p>My general workflow involves loading the original data and saving it as an object with a meaningful name and an <code>_orig</code> suffix. I then define a copy of the original dataset without the <code>_orig</code> suffix. Having an original copy of my data in my environment means that it is easy to check that my manipulations do what I expected. I will make direct data cleaning modifications to the <code>gapminder</code> data frame, but will never edit the <code>gapminder_orig</code> data frame.</p>
+<pre class="r"><code># to download the data directly:
+gapminder_orig &lt;- read.csv(&quot;https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv&quot;)
+# define a copy of the original dataset that we will clean and play with 
+gapminder &lt;- gapminder_orig</code></pre>
+<p>The gapminder dataset has 1704 rows containing information on population, life expectancy and GDP per capita by year and country.</p>
+<p>A “tidy” data frame is one where every row is a single observational unit (in this case, indexed by country and year), and every column corresponds to a variable that is measured for each observational unit (in this case, for each country and year, a measurement is made for population, continent, life expectancy and GDP). If you’d like to learn more about “tidy data”, I highly recommend reading <a href="vita.had.co.nz/papers/tidy-data.pdf">Hadley Wickham’s tidy data article</a>.</p>
+<pre class="r"><code>dim(gapminder)</code></pre>
+<pre><code>## [1] 1704    6</code></pre>
+<pre class="r"><code>head(gapminder)</code></pre>
+<pre><code>##       country year      pop continent lifeExp gdpPercap
+## 1 Afghanistan 1952  8425333      Asia  28.801  779.4453
+## 2 Afghanistan 1957  9240934      Asia  30.332  820.8530
+## 3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+## 4 Afghanistan 1967 11537966      Asia  34.020  836.1971
+## 5 Afghanistan 1972 13079460      Asia  36.088  739.9811
+## 6 Afghanistan 1977 14880372      Asia  38.438  786.1134</code></pre>
+<p>Since <code>gapminder</code> is a data frame, the <code>map_</code> functions will iterate over each column. An example of simple usage of the <code>map_</code> functions is to summarize each column. For instance, you can identify the type of each column by applying the <code>class()</code> function to each column. Since the output of the <code>class()</code> function is a character, we will use the <code>map_chr()</code> function:</p>
+<pre class="r"><code># apply the class() function to each column
+gapminder %&gt;% map_chr(class)</code></pre>
+<pre><code>##   country      year       pop continent   lifeExp gdpPercap 
+##  &quot;factor&quot; &quot;integer&quot; &quot;numeric&quot;  &quot;factor&quot; &quot;numeric&quot; &quot;numeric&quot;</code></pre>
+<p>I frequently do this to get a quick snapshot of each column type of a new dataset directly in the console. As a habit, I usually pipe in the data using <code>%&gt;%</code>, rather than provide it as an argument. Remember that the pipe places the object to the left of the pipe in the first argument of the function to the right.</p>
+<p>Similarly, if you wanted to identify the number of distinct values in each column, you could apply the <code>n_distinct()</code> function from the dplyr package to each column. Since the output of <code>n_distinct()</code> is a numeric (a double), you might want to use the <code>map_dbl()</code> function so that the results of each iteration (the application of <code>n_distinct()</code> to each column) are concatenated into a numeric vector:</p>
+<pre class="r"><code># apply the n_distinct() function to each column
+gapminder %&gt;% map_dbl(n_distinct)</code></pre>
+<pre><code>##   country      year       pop continent   lifeExp gdpPercap 
+##       142        12      1704         5      1626      1704</code></pre>
+<p>If you want to do something a little more complicated, such return a few different summaries of each column in a data frame, you can use <code>map_df()</code>. When things are getting a little bit more complicated, you typically need to define an anonymous function that you want to apply to each column. Using the tilde-dot notation, the anonymous function below calculates the number of distinct entries and the type of the current column (which is accessible as <code>.x</code>), and then combines them into a two-column data frame. Once it has iterated through each of the columns, the <code>map_df</code> function combines the data frames row-wise into a single data frame.</p>
+<pre class="r"><code>gapminder %&gt;% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))))</code></pre>
+<pre><code>##   n_distinct   class
+## 1        142  factor
+## 2         12 integer
+## 3       1704 numeric
+## 4          5  factor
+## 5       1626 numeric
+## 6       1704 numeric</code></pre>
+<p>Note that we’ve lost the variable names! The variable names correspond to the names of the objects over which we are iterating (in this case, the column names), and these are not automatically included as a column in the output data frame. You can tell <code>map_df()</code> to include them using the <code>.id</code> argument of <code>map_df()</code>. This will automatically take the name of the element being iterated over and include it in the column corresponding to whatever you set <code>.id</code> to.</p>
+<pre class="r"><code>gapminder %&gt;% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))),
+                     .id = &quot;variable&quot;)</code></pre>
+<pre><code>##    variable n_distinct   class
+## 1   country        142  factor
+## 2      year         12 integer
+## 3       pop       1704 numeric
+## 4 continent          5  factor
+## 5   lifeExp       1626 numeric
+## 6 gdpPercap       1704 numeric</code></pre>
+<p>If you’re having trouble thinking through these map actions, I recommend that you first figure out what the code would be to do what you want for a single element, and then paste it into the <code>map_df()</code> function (a nice trick I saw Hadley Wickham used a few years ago when he presented on purrr at RLadies SF).</p>
+<p>For instance, since the first element of the gapminder data frame is the first column, let’s define <code>.x</code> in our environment to be this first column.</p>
+<pre class="r"><code># take the first element of the gapminder data
+.x &lt;- gapminder %&gt;% pluck(1)
+# look at the first 6 rows
+head(.x)</code></pre>
+<pre><code>## [1] Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan
+## 142 Levels: Afghanistan Albania Algeria Angola Argentina ... Zimbabwe</code></pre>
+<p>Then, you can create a data frame for this column that contains the number of distinct entries, and the class of the column.</p>
+<pre class="r"><code>data.frame(n_distinct = n_distinct(.x),
+           class = class(.x))</code></pre>
+<pre><code>##   n_distinct  class
+## 1        142 factor</code></pre>
+<p>Since this has done what was expected want for the first column, you can paste this code into the map function using the tilde-dot shorthand.</p>
+<pre class="r"><code>gapminder %&gt;% map_df(~(data.frame(n_distinct = n_distinct(.x),
+                                  class = class(.x))),
+                     .id = &quot;variable&quot;)</code></pre>
+<pre><code>##    variable n_distinct   class
+## 1   country        142  factor
+## 2      year         12 integer
+## 3       pop       1704 numeric
+## 4 continent          5  factor
+## 5   lifeExp       1626 numeric
+## 6 gdpPercap       1704 numeric</code></pre>
+<p><code>map_df()</code> is definitely one of the most powerful functions of <code>purrr</code> in my opinion, and is probably the one that I use most.</p>
+</div>
+<div id="maps-with-multiple-input-objects" class="section level2">
+<h2>Maps with multiple input objects</h2>
+<p>After gaining a basic understanding of purrr’s map functions, you can start to do some fancier stuff. For instance, what if you want to perform a map that iterates through two objects. The code below uses map functions to create a <em>list of plots</em> that compare life expectancy and GDP per capita for each continent/year combination.</p>
+<p>The map function that maps over two objects instead of 1 is called <code>map2()</code>. The first two arguments are the two objects you want to iterate over, and the third is the function (with two arguments, one for each object).</p>
+<pre class="r"><code>map2(.x = object1, # the first object to iterate over
+     .y = object2, # the second object to iterate over
+     .f = plotFunction(.x, .y))</code></pre>
+<p>First, you need to define a vector (or list) of continents and a paired vector (or list) of years that you want to iterate through. Note that in our continent/year example</p>
+<ul>
+<li><p>the <em>first iteration</em> will correspond to the <em>first continent</em> in the continent vector and the <em>first year</em> in the year vector,</p></li>
+<li><p>the <em>second iteration</em> will correspond to the <em>second continent</em> in the continent vector and the <em>second year</em> in the year vector.</p></li>
+</ul>
+<p>This might seem obvious, but it is a natural instinct to incorrectly assume that <code>map2()</code> will automatically perform the action on <em>all</em> combinations that can be made from the two vectors. For instance if you have a continent vector <code>.x = c(&quot;Americas&quot;, &quot;Asia&quot;)</code> and a year vector <code>.y = c(1952, 2007)</code>, then you might assume that <code>map2</code> will iterate over the Americas for 1952 and for 2007, and then Asia for 1952 and 2007. It won’t though. The iteration will actually be first the Americas for 1952 only, and then Asia for 2007 only.</p>
+<p>First, let’s get our vectors of continents and years, starting by obtaining all distinct combinations of continents and years that appear in the data.</p>
+<pre class="r"><code>continent_year &lt;- gapminder %&gt;% distinct(continent, year)
+continent_year</code></pre>
+<pre><code>##    continent year
+## 1       Asia 1952
+## 2       Asia 1957
+## 3       Asia 1962
+## 4       Asia 1967
+## 5       Asia 1972
+## 6       Asia 1977
+## 7       Asia 1982
+## 8       Asia 1987
+## 9       Asia 1992
+## 10      Asia 1997
+## 11      Asia 2002
+## 12      Asia 2007
+## 13    Europe 1952
+## 14    Europe 1957
+## 15    Europe 1962
+## 16    Europe 1967
+## 17    Europe 1972
+## 18    Europe 1977
+## 19    Europe 1982
+## 20    Europe 1987
+## 21    Europe 1992
+## 22    Europe 1997
+## 23    Europe 2002
+## 24    Europe 2007
+## 25    Africa 1952
+## 26    Africa 1957
+## 27    Africa 1962
+## 28    Africa 1967
+## 29    Africa 1972
+## 30    Africa 1977
+## 31    Africa 1982
+## 32    Africa 1987
+## 33    Africa 1992
+## 34    Africa 1997
+## 35    Africa 2002
+## 36    Africa 2007
+## 37  Americas 1952
+## 38  Americas 1957
+## 39  Americas 1962
+## 40  Americas 1967
+## 41  Americas 1972
+## 42  Americas 1977
+## 43  Americas 1982
+## 44  Americas 1987
+## 45  Americas 1992
+## 46  Americas 1997
+## 47  Americas 2002
+## 48  Americas 2007
+## 49   Oceania 1952
+## 50   Oceania 1957
+## 51   Oceania 1962
+## 52   Oceania 1967
+## 53   Oceania 1972
+## 54   Oceania 1977
+## 55   Oceania 1982
+## 56   Oceania 1987
+## 57   Oceania 1992
+## 58   Oceania 1997
+## 59   Oceania 2002
+## 60   Oceania 2007</code></pre>
+<p>Then extracting the continent and year pairs as separate vectors</p>
+<pre class="r"><code># extract the continent and year pairs as separate vectors
+continents &lt;- continent_year %&gt;% pull(continent) %&gt;% as.character
+years &lt;- continent_year %&gt;% pull(year)</code></pre>
+<p>If you want to use tilde-dot short-hand, the anonymous arguments will be <code>.x</code> for the first object being iterated over, and <code>.y</code> for the second object being iterated over.</p>
+<p>Before jumping straight into the map function, it’s a good idea to first figure out what the code will be for just first iteration (the first continent and the first year, which happen to be Asia in 1952).</p>
+<pre class="r"><code># try to figure out the code for the first example
+.x &lt;- continents[1]
+.y &lt;- years[1]
+# make a scatterplot of GDP vs life expectancy in all Asian countries for 1952
+gapminder %&gt;% 
+  filter(continent == .x,
+         year == .y) %&gt;%
+  ggplot() +
+  geom_point(aes(x = gdpPercap, y = lifeExp)) +
+  ggtitle(glue::glue(.x, &quot; &quot;, .y))</code></pre>
+<p><img src="/blog/2019-08-16_purrr_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>This seems to have worked. So you can then copy-and-paste the code into the <code>map2</code> function</p>
+<pre class="r"><code>plot_list &lt;- map2(.x = continents, 
+                  .y = years, 
+                  .f = ~{
+                    gapminder %&gt;% 
+                      filter(continent == .x,
+                             year == .y) %&gt;%
+                      ggplot() +
+                      geom_point(aes(x = gdpPercap, y = lifeExp)) +
+                      ggtitle(glue::glue(.x, &quot; &quot;, .y))
+                  })</code></pre>
+<p>And you can look at a few of the entries of the list to see that they make sense</p>
+<pre class="r"><code>plot_list[[1]]</code></pre>
+<p><img src="/blog/2019-08-16_purrr_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<pre class="r"><code>plot_list[[22]]</code></pre>
+<p><img src="/blog/2019-08-16_purrr_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
+<p><code>pmap()</code> allows you to iterate over an arbitrary number of objects (i.e. more than two).</p>
+</div>
+<div id="list-columns-and-nested-data-frames" class="section level2">
+<h2>List columns and Nested data frames</h2>
+<p>Tibbles are tidyverse data frames. Some crazy stuff starts happening when you learn that tibble columns can be lists (as opposed to vectors, which is what they usually are). This is where the difference between tibbles and data frames becomes real.</p>
+<p>For instance, a tibble can be “nested” where the tibble is essentially split into separate data frames based on a grouping variable, and these separate data frames are stored as entries of a list (that is then stored in the <code>data</code> column of the data frame).</p>
+<p>Below I nest the gapminder data by continent.</p>
+<pre class="r"><code>gapminder_nested &lt;- gapminder %&gt;% 
+  group_by(continent) %&gt;% 
+  nest()
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent data        
+##   &lt;fct&gt;     &lt;list&gt;      
+## 1 Asia      &lt;tibble [5]&gt;
+## 2 Europe    &lt;tibble [5]&gt;
+## 3 Africa    &lt;tibble [5]&gt;
+## 4 Americas  &lt;tibble [5]&gt;
+## 5 Oceania   &lt;tibble [5]&gt;</code></pre>
+<p>The first column is the variable that we grouped by, <code>continent</code>, and the second column is the rest of the data frame corresponding to that group (as if you had filtered the data frame to the specific continent). To see this, the code below shows that the first entry in the <code>data</code> column corresponds to the entire gapminder dataset for Asia.</p>
+<pre class="r"><code>gapminder_nested$data[[1]]</code></pre>
+<pre><code>## # A tibble: 396 x 5
+##    country      year      pop lifeExp gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952  8425333    28.8      779.
+##  2 Afghanistan  1957  9240934    30.3      821.
+##  3 Afghanistan  1962 10267083    32.0      853.
+##  4 Afghanistan  1967 11537966    34.0      836.
+##  5 Afghanistan  1972 13079460    36.1      740.
+##  6 Afghanistan  1977 14880372    38.4      786.
+##  7 Afghanistan  1982 12881816    39.9      978.
+##  8 Afghanistan  1987 13867957    40.8      852.
+##  9 Afghanistan  1992 16317921    41.7      649.
+## 10 Afghanistan  1997 22227415    41.8      635.
+## # … with 386 more rows</code></pre>
+<p>Using dplyr <code>pluck()</code> function, this can be written as</p>
+<pre class="r"><code>gapminder_nested %&gt;% 
+  # extract the first entry from the data column
+  pluck(&quot;data&quot;, 1)</code></pre>
+<pre><code>## # A tibble: 396 x 5
+##    country      year      pop lifeExp gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952  8425333    28.8      779.
+##  2 Afghanistan  1957  9240934    30.3      821.
+##  3 Afghanistan  1962 10267083    32.0      853.
+##  4 Afghanistan  1967 11537966    34.0      836.
+##  5 Afghanistan  1972 13079460    36.1      740.
+##  6 Afghanistan  1977 14880372    38.4      786.
+##  7 Afghanistan  1982 12881816    39.9      978.
+##  8 Afghanistan  1987 13867957    40.8      852.
+##  9 Afghanistan  1992 16317921    41.7      649.
+## 10 Afghanistan  1997 22227415    41.8      635.
+## # … with 386 more rows</code></pre>
+<p>Similarly, the 5th entry in the <code>data</code> column corresponds to the entire gapminder dataset for Oceania.</p>
+<pre class="r"><code>gapminder_nested %&gt;% pluck(&quot;data&quot;, 5)</code></pre>
+<pre><code>## # A tibble: 24 x 5
+##    country    year      pop lifeExp gdpPercap
+##    &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Australia  1952  8691212    69.1    10040.
+##  2 Australia  1957  9712569    70.3    10950.
+##  3 Australia  1962 10794968    70.9    12217.
+##  4 Australia  1967 11872264    71.1    14526.
+##  5 Australia  1972 13177000    71.9    16789.
+##  6 Australia  1977 14074100    73.5    18334.
+##  7 Australia  1982 15184200    74.7    19477.
+##  8 Australia  1987 16257249    76.3    21889.
+##  9 Australia  1992 17481977    77.6    23425.
+## 10 Australia  1997 18565243    78.8    26998.
+## # … with 14 more rows</code></pre>
+<p>You might be asking at this point <em>why</em> you would ever want to nest your data frame? It just doesn’t seem like that useful a thing to do… until you realise that you now have the power to use dplyr manipulations on more complex objects that can be stored in a list.</p>
+<p>However, since actions such as <code>mutate()</code> are applied directly to the entire column (which is usually a vector, so is fine), we run into issues when we try to mutate a list. For instance, since columns are usually vectors, normal vectorized functions work just fine on them</p>
+<pre class="r"><code>tibble(vec_col = 1:10) %&gt;%
+  mutate(vec_sum = sum(vec_col))</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    vec_col vec_sum
+##      &lt;int&gt;   &lt;int&gt;
+##  1       1      55
+##  2       2      55
+##  3       3      55
+##  4       4      55
+##  5       5      55
+##  6       6      55
+##  7       7      55
+##  8       8      55
+##  9       9      55
+## 10      10      55</code></pre>
+<p>but when the column is a list, vectorized functions don’t know what to do with them, and we get an error that says <code>Error in sum(x) : invalid 'type' (list) of argument</code>. Try</p>
+<pre class="r"><code>tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %&gt;%
+  mutate(list_sum = sum(list_col))</code></pre>
+<p>To apply mutate functions to a list-column, you need to wrap the function you want to apply in a map function.</p>
+<pre class="r"><code>tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %&gt;%
+  mutate(list_sum = map(list_col, sum))</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   list_col  list_sum 
+##   &lt;list&gt;    &lt;list&gt;   
+## 1 &lt;dbl [3]&gt; &lt;dbl [1]&gt;
+## 2 &lt;dbl [1]&gt; &lt;dbl [1]&gt;
+## 3 &lt;dbl [3]&gt; &lt;dbl [1]&gt;</code></pre>
+<p>Since <code>map()</code> returns a list itself, the <code>list_sum</code> column is thus itself a list</p>
+<pre class="r"><code>tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %&gt;%
+  mutate(list_sum = map(list_col, sum)) %&gt;% 
+  pull(list_sum)</code></pre>
+<pre><code>## [[1]]
+## [1] 13
+## 
+## [[2]]
+## [1] 5
+## 
+## [[3]]
+## [1] 31</code></pre>
+<p>What could we do if we wanted it to be a vector? We could use the <code>map_dbl()</code> function instead!</p>
+<pre class="r"><code>tibble(list_col = list(c(1, 5, 7), 
+                       5, 
+                       c(10, 10, 11))) %&gt;%
+  mutate(list_sum = map_dbl(list_col, sum))</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   list_col  list_sum
+##   &lt;list&gt;       &lt;dbl&gt;
+## 1 &lt;dbl [3]&gt;       13
+## 2 &lt;dbl [1]&gt;        5
+## 3 &lt;dbl [3]&gt;       31</code></pre>
+<div id="nesting-the-gapminder-data" class="section level3">
+<h3>Nesting the gapminder data</h3>
+<p>Let’s return to the nested gapminder dataset. I want to calculate the average life expectancy within each continent and add it as a new column using <code>mutate()</code>. Based on the example above, can you explain why the following code doesn’t work?</p>
+<pre class="r"><code>gapminder_nested %&gt;% 
+  mutate(avg_lifeExp = mean(data$lifeExp))</code></pre>
+<pre><code>## Warning in mean.default(data$lifeExp): argument is not numeric or logical:
+## returning NA</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent data         avg_lifeExp
+##   &lt;fct&gt;     &lt;list&gt;             &lt;dbl&gt;
+## 1 Asia      &lt;tibble [5]&gt;          NA
+## 2 Europe    &lt;tibble [5]&gt;          NA
+## 3 Africa    &lt;tibble [5]&gt;          NA
+## 4 Americas  &lt;tibble [5]&gt;          NA
+## 5 Oceania   &lt;tibble [5]&gt;          NA</code></pre>
+<p>I was hoping that this code would extract the <code>lifeExp</code> column from each data frame. But I’m applying the mutate to the <code>data</code> column, which itself doesn’t have an entry called <code>lifeExp</code> since it’s a <em>list</em> of data frames. How could I get access to the <code>lifeExp</code> column of the data frames stored in the <code>data</code> list? Using a <code>map</code> function of course!</p>
+<p>Think of an individual data frame as <code>.x</code>. Again, I will first figure out the code for calculating the mean life expectancy for the first entry of the column. The following code defines <code>.x</code> to be the first entry of the <code>data</code> column (this is the data frame for Asia).</p>
+<pre class="r"><code># the first entry of the &quot;data&quot; column
+.x &lt;- gapminder_nested %&gt;% pluck(&quot;data&quot;, 1)
+.x</code></pre>
+<pre><code>## # A tibble: 396 x 5
+##    country      year      pop lifeExp gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952  8425333    28.8      779.
+##  2 Afghanistan  1957  9240934    30.3      821.
+##  3 Afghanistan  1962 10267083    32.0      853.
+##  4 Afghanistan  1967 11537966    34.0      836.
+##  5 Afghanistan  1972 13079460    36.1      740.
+##  6 Afghanistan  1977 14880372    38.4      786.
+##  7 Afghanistan  1982 12881816    39.9      978.
+##  8 Afghanistan  1987 13867957    40.8      852.
+##  9 Afghanistan  1992 16317921    41.7      649.
+## 10 Afghanistan  1997 22227415    41.8      635.
+## # … with 386 more rows</code></pre>
+<p>Then to calculate the average life expectancy for Asia, I could write</p>
+<pre class="r"><code>mean(.x$lifeExp)</code></pre>
+<pre><code>## [1] 60.0649</code></pre>
+<p>So copy-pasting this into the tilde-dot anonymous function argument of the <code>map_dbl()</code> function within <code>mutate()</code>, I get what I wanted!</p>
+<pre class="r"><code>gapminder_nested %&gt;% 
+  mutate(avg_lifeExp = map_dbl(data, ~{mean(.x$lifeExp)}))</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent data         avg_lifeExp
+##   &lt;fct&gt;     &lt;list&gt;             &lt;dbl&gt;
+## 1 Asia      &lt;tibble [5]&gt;        60.1
+## 2 Europe    &lt;tibble [5]&gt;        71.9
+## 3 Africa    &lt;tibble [5]&gt;        48.9
+## 4 Americas  &lt;tibble [5]&gt;        64.7
+## 5 Oceania   &lt;tibble [5]&gt;        74.3</code></pre>
+<p>This code iterates through the data frames stored in the <code>data</code> column, returns the average life expectancy for each data frame, and concatonates the results into a numeric vector (which is then stored as a column called <code>avg_lifeExp</code>).</p>
+<p>I hear what you’re saying… this is something that we could have done a lot more easily using standard dplyr commands (such as <code>summarise()</code>). True, but hopefully it helped you understand why you need to wrap mutate functions inside map functions when applying them to list columns.</p>
+<p>Even if this example was less than inspiring, I promise the next example will knock your socks off!</p>
+<p>The next exampe will demonstrate how to fit a model separately for each continent, and evaluate it, all within a single tibble. First, I will fit a linear model for each continent and store it as a list-column. If the data frame for a single continent is <code>.x</code>, then the model I want to fit is <code>lm(lifeExp ~ pop + gdpPercap + year, data = .x)</code> (check for yourself that this does what you expect). So I can copy-past this command into the <code>map()</code> function within the <code>mutate()</code></p>
+<pre class="r"><code># fit a model separately for each continent
+gapminder_nested &lt;- gapminder_nested %&gt;% 
+  mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + gdpPercap + year, data = .x)))
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent data         lm_obj
+##   &lt;fct&gt;     &lt;list&gt;       &lt;list&gt;
+## 1 Asia      &lt;tibble [5]&gt; &lt;lm&gt;  
+## 2 Europe    &lt;tibble [5]&gt; &lt;lm&gt;  
+## 3 Africa    &lt;tibble [5]&gt; &lt;lm&gt;  
+## 4 Americas  &lt;tibble [5]&gt; &lt;lm&gt;  
+## 5 Oceania   &lt;tibble [5]&gt; &lt;lm&gt;</code></pre>
+<p>Where the first linear model (for Asia) is</p>
+<pre class="r"><code>gapminder_nested %&gt;% pluck(&quot;lm_obj&quot;, 1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lifeExp ~ pop + gdpPercap + year, data = .x)
+## 
+## Coefficients:
+## (Intercept)          pop    gdpPercap         year  
+##  -7.833e+02    4.228e-11    2.510e-04    4.251e-01</code></pre>
+<p>I can then predict the response for the data stored in the <code>data</code> column using the corresponding linear model. So I have two objects I want to iterate over: the data and the linear model object. This means I want to use <code>map2()</code>. When things get a little more complicated I like to have multiple function arguments, so I’m going to use a full anonymous function rather than the tilde-dot shorthand.</p>
+<pre class="r"><code># fit a model separately for each continent
+gapminder_nested &lt;- gapminder_nested %&gt;% 
+  mutate(pred = map2(lm_obj, data, function(.lm, .data) predict(.lm, .data)))
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 4
+##   continent data         lm_obj pred       
+##   &lt;fct&gt;     &lt;list&gt;       &lt;list&gt; &lt;list&gt;     
+## 1 Asia      &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [396]&gt;
+## 2 Europe    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [360]&gt;
+## 3 Africa    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [624]&gt;
+## 4 Americas  &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [300]&gt;
+## 5 Oceania   &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [24]&gt;</code></pre>
+<p>And I can then calculate the correlation between the predicted response and the true response, this time using the <code>map2()_dbl</code> function since I want the output the be a numeric vector rather than a list of single elements.</p>
+<pre class="r"><code># fit a model separately for each continent
+gapminder_nested &lt;- gapminder_nested %&gt;% 
+  mutate(cor = map2_dbl(pred, data, function(.pred, .data) cor(.pred, .data$lifeExp)))
+gapminder_nested</code></pre>
+<pre><code>## # A tibble: 5 x 5
+##   continent data         lm_obj pred          cor
+##   &lt;fct&gt;     &lt;list&gt;       &lt;list&gt; &lt;list&gt;      &lt;dbl&gt;
+## 1 Asia      &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [396]&gt; 0.723
+## 2 Europe    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [360]&gt; 0.834
+## 3 Africa    &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [624]&gt; 0.645
+## 4 Americas  &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [300]&gt; 0.779
+## 5 Oceania   &lt;tibble [5]&gt; &lt;lm&gt;   &lt;dbl [24]&gt;  0.987</code></pre>
+<p>Holy guacamole, that is so awesome!</p>
+</div>
+</div>
+<div id="advanced-exercise" class="section level2">
+<h2>Advanced exercise</h2>
+<p>The goal of this exercise is to fit a separate linear model for each continent without splitting up the data. Create the following data frame that has the continent, each term in the model for the continent, its linear model coefficient estimate, and standard error.</p>
+<pre><code>## # A tibble: 20 x 6
+##    continent term         estimate std.error statistic  p.value
+##    &lt;fct&gt;     &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Asia      (Intercept) -7.83e+ 2   4.83e+1  -16.2    1.22e-45
+##  2 Asia      pop          4.23e-11   2.04e-9    0.0207 9.83e- 1
+##  3 Asia      year         4.25e- 1   2.44e-2   17.4    1.13e-50
+##  4 Asia      gdpPercap    2.51e- 4   3.01e-5    8.34   1.31e-15
+##  5 Europe    (Intercept) -1.61e+ 2   2.28e+1   -7.09   7.44e-12
+##  6 Europe    pop         -8.18e- 9   7.80e-9   -1.05   2.95e- 1
+##  7 Europe    year         1.16e- 1   1.16e-2    9.96   8.88e-21
+##  8 Europe    gdpPercap    3.25e- 4   2.15e-5   15.2    2.21e-40
+##  9 Africa    (Intercept) -4.70e+ 2   3.39e+1  -13.9    2.17e-38
+## 10 Africa    pop         -3.68e- 9   1.89e-8   -0.195  8.45e- 1
+## 11 Africa    year         2.61e- 1   1.71e-2   15.2    1.07e-44
+## 12 Africa    gdpPercap    1.12e- 3   1.01e-4   11.1    2.46e-26
+## 13 Americas  (Intercept) -5.33e+ 2   4.10e+1  -13.0    6.40e-31
+## 14 Americas  pop         -2.15e- 8   8.62e-9   -2.49   1.32e- 2
+## 15 Americas  year         3.00e- 1   2.08e-2   14.4    3.79e-36
+## 16 Americas  gdpPercap    6.75e- 4   7.15e-5    9.44   1.13e-18
+## 17 Oceania   (Intercept) -2.10e+ 2   5.12e+1   -4.10   5.61e- 4
+## 18 Oceania   pop          8.37e- 9   3.34e-8    0.251  8.05e- 1
+## 19 Oceania   year         1.42e- 1   2.65e-2    5.34   3.19e- 5
+## 20 Oceania   gdpPercap    2.03e- 4   8.47e-5    2.39   2.66e- 2</code></pre>
+<p>Hint: starting from the <code>gapminder</code> dataset, use <code>group_by()</code> and <code>nest()</code> to nest by continent, use a mutate together with <code>map</code> to fit a linear model for each continent, use another mutate with <code>broom::tidy()</code> to get a data frame of model coefficients for each model, and a <code>transmute</code> to get just the columns you want, followed by an <code>unnest()</code> to re-expand the nested tibble.</p>
+<p>The solution code is at the end of this post.</p>
+<p>If you want to stop here, you will already know more than most purrr users. The remainder of this blog post involves little-used features of purrr for manipulating lists.</p>
+</div>
+</div>
+<div id="additional-purrr-functionalities-for-lists" class="section level1">
+<h1>Additional purrr functionalities for lists</h1>
+<p>To demonstrate how to use purrr to manipulate lists, we will split the gapminder dataset into a <em>list of data frames</em> (which is kind of like the converse of a data frame containing a list-column). To make sure it’s easy to follow, we will only keep 5 rows from each continent.</p>
+<pre class="r"><code>set.seed(23489)
+gapminder_list &lt;- gapminder %&gt;% split(gapminder$continent) %&gt;%
+  map(~sample_n(., 5))
+gapminder_list</code></pre>
+<pre><code>## $Africa
+##        country year      pop continent lifeExp gdpPercap
+## 1    Swaziland 1992   962344    Africa  58.474 3553.0224
+## 2     Botswana 1957   474639    Africa  49.618  918.2325
+## 3     Cameroon 1962  5793633    Africa  42.643 1399.6074
+## 4        Kenya 1972 12044785    Africa  53.559 1222.3600
+## 5 South Africa 1962 18356657    Africa  49.951 5768.7297
+## 
+## $Americas
+##     country year      pop continent lifeExp gdpPercap
+## 1 Guatemala 1957  3640876  Americas  44.142  2617.156
+## 2    Panama 1962  1215725  Americas  61.817  3536.540
+## 3      Peru 1952  8025700  Americas  43.902  3758.523
+## 4    Brazil 1957 65551171  Americas  53.285  2487.366
+## 5  Honduras 1962  2090162  Americas  48.041  2291.157
+## 
+## $Asia
+##              country year      pop continent lifeExp gdpPercap
+## 1 West Bank and Gaza 1972  1089572      Asia  56.532 3133.4093
+## 2           Thailand 1982 48827160      Asia  64.597 2393.2198
+## 3           Cambodia 2007 14131858      Asia  59.723 1713.7787
+## 4           Cambodia 1952  4693836      Asia  39.417  368.4693
+## 5            Lebanon 2002  3677780      Asia  71.028 9313.9388
+## 
+## $Europe
+##       country year      pop continent lifeExp gdpPercap
+## 1     Hungary 1972 10394091    Europe  69.760  10168.66
+## 2      Serbia 1997 10336594    Europe  72.232   7914.32
+## 3     Croatia 2007  4493312    Europe  75.748  14619.22
+## 4 Switzerland 1957  5126000    Europe  70.560  17909.49
+## 5     Denmark 1972  4991596    Europe  73.470  18866.21
+## 
+## $Oceania
+##       country year      pop continent lifeExp gdpPercap
+## 1 New Zealand 2002  3908037   Oceania   79.11  23189.80
+## 2   Australia 1982 15184200   Oceania   74.74  19477.01
+## 3   Australia 1997 18565243   Oceania   78.83  26997.94
+## 4 New Zealand 1987  3317166   Oceania   74.32  19007.19
+## 5   Australia 1962 10794968   Oceania   70.93  12217.23</code></pre>
+<div id="keepdiscard-select_if-for-lists" class="section level2">
+<h2>Keep/Discard: select_if for lists</h2>
+<p><code>keep()</code> only keeps elements of a list that satisfy a given condition, much like <code>select_if()</code> selects columns of a data frame that satisfy a given condition.</p>
+<p>The following code only keeps the gapminder continent data frames (the elements of the list) that have an average (among the sample of 5 rows) life expectancy of at least 70.</p>
+<pre class="r"><code>gapminder_list %&gt;%
+  keep(~{mean(.x$lifeExp) &gt; 70})</code></pre>
+<pre><code>## $Europe
+##       country year      pop continent lifeExp gdpPercap
+## 1     Hungary 1972 10394091    Europe  69.760  10168.66
+## 2      Serbia 1997 10336594    Europe  72.232   7914.32
+## 3     Croatia 2007  4493312    Europe  75.748  14619.22
+## 4 Switzerland 1957  5126000    Europe  70.560  17909.49
+## 5     Denmark 1972  4991596    Europe  73.470  18866.21
+## 
+## $Oceania
+##       country year      pop continent lifeExp gdpPercap
+## 1 New Zealand 2002  3908037   Oceania   79.11  23189.80
+## 2   Australia 1982 15184200   Oceania   74.74  19477.01
+## 3   Australia 1997 18565243   Oceania   78.83  26997.94
+## 4 New Zealand 1987  3317166   Oceania   74.32  19007.19
+## 5   Australia 1962 10794968   Oceania   70.93  12217.23</code></pre>
+<p><code>discard()</code> does the opposite of <code>keep()</code>: it discards any elements that satisfy your logical condition.</p>
+</div>
+<div id="reduce" class="section level2">
+<h2>Reduce</h2>
+<p><code>reduce()</code> is designed to combine (reduces) all of the elements of a list into a single object by iteratively applying a binary function (a function that takes two inputs).</p>
+<p>For instance, applying a reduce function to add up all of the elements of the vector <code>c(1, 2, 3)</code> is like doing <code>sum(sum(1, 2), 3)</code>: first it applies <code>sum</code> to <code>1</code> and <code>2</code>, then it applies <code>sum</code> again to the output of <code>sum(1, 2)</code> and <code>3</code>.</p>
+<pre class="r"><code>reduce(c(1, 2, 3), sum)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p><code>accumulate()</code> also returns the intermediate values.</p>
+<pre class="r"><code>accumulate(c(1, 2, 3), sum)</code></pre>
+<pre><code>## [1] 1 3 6</code></pre>
+<p>An example of when <code>reduce()</code> might come in handy is when you want to perform many <code>left_join()</code>s in a row, or to do repeated <code>rbinds()</code> (e.g. to bind the rows of the list back together into a single data frame)</p>
+<pre class="r"><code>gapminder_list %&gt;%
+  reduce(rbind)</code></pre>
+<pre><code>##               country year      pop continent lifeExp  gdpPercap
+## 1           Swaziland 1992   962344    Africa  58.474  3553.0224
+## 2            Botswana 1957   474639    Africa  49.618   918.2325
+## 3            Cameroon 1962  5793633    Africa  42.643  1399.6074
+## 4               Kenya 1972 12044785    Africa  53.559  1222.3600
+## 5        South Africa 1962 18356657    Africa  49.951  5768.7297
+## 6           Guatemala 1957  3640876  Americas  44.142  2617.1560
+## 7              Panama 1962  1215725  Americas  61.817  3536.5403
+## 8                Peru 1952  8025700  Americas  43.902  3758.5234
+## 9              Brazil 1957 65551171  Americas  53.285  2487.3660
+## 10           Honduras 1962  2090162  Americas  48.041  2291.1568
+## 11 West Bank and Gaza 1972  1089572      Asia  56.532  3133.4093
+## 12           Thailand 1982 48827160      Asia  64.597  2393.2198
+## 13           Cambodia 2007 14131858      Asia  59.723  1713.7787
+## 14           Cambodia 1952  4693836      Asia  39.417   368.4693
+## 15            Lebanon 2002  3677780      Asia  71.028  9313.9388
+## 16            Hungary 1972 10394091    Europe  69.760 10168.6561
+## 17             Serbia 1997 10336594    Europe  72.232  7914.3203
+## 18            Croatia 2007  4493312    Europe  75.748 14619.2227
+## 19        Switzerland 1957  5126000    Europe  70.560 17909.4897
+## 20            Denmark 1972  4991596    Europe  73.470 18866.2072
+## 21        New Zealand 2002  3908037   Oceania  79.110 23189.8014
+## 22          Australia 1982 15184200   Oceania  74.740 19477.0093
+## 23          Australia 1997 18565243   Oceania  78.830 26997.9366
+## 24        New Zealand 1987  3317166   Oceania  74.320 19007.1913
+## 25          Australia 1962 10794968   Oceania  70.930 12217.2269</code></pre>
+</div>
+<div id="logical-statements-for-lists" class="section level2">
+<h2>Logical statements for lists</h2>
+<p>Asking logical questions of a list can be done using <code>every()</code> and <code>some()</code>. For instance to ask whether <em>every</em> continent has average life expectancy greater than 70, you can use <code>every()</code></p>
+<pre class="r"><code>gapminder_list %&gt;% every(~{mean(.x$life) &gt; 70})</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>To ask whether <em>some</em> continents have average life expectancy greater than 70, you can use <code>some()</code></p>
+<pre class="r"><code>gapminder_list %&gt;% some(~{mean(.x$life) &gt; 70})</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>An equivalent of <code>%in%</code> for lists is <code>has_element()</code>.</p>
+<pre class="r"><code>list(1, c(2, 5, 1), &quot;a&quot;) %&gt;% has_element(&quot;a&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Most of these functions also work on vectors.</p>
+<p>Now go forth and purrr!</p>
+</div>
+</div>
+<div id="answer-to-advanced-exercise" class="section level1">
+<h1>Answer to advanced exercise</h1>
+<p>The following code produces the table from the exercise above</p>
+<pre class="r"><code>gapminder %&gt;% 
+  group_by(continent) %&gt;% 
+  nest() %&gt;%
+  mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + year + gdpPercap, data = .))) %&gt;%
+  mutate(lm_tidy = map(lm_obj, broom::tidy)) %&gt;%
+  transmute(continent, lm_tidy) %&gt;%
+  unnest()</code></pre>
+<pre><code>## # A tibble: 20 x 6
+##    continent term         estimate std.error statistic  p.value
+##    &lt;fct&gt;     &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Asia      (Intercept) -7.83e+ 2   4.83e+1  -16.2    1.22e-45
+##  2 Asia      pop          4.23e-11   2.04e-9    0.0207 9.83e- 1
+##  3 Asia      year         4.25e- 1   2.44e-2   17.4    1.13e-50
+##  4 Asia      gdpPercap    2.51e- 4   3.01e-5    8.34   1.31e-15
+##  5 Europe    (Intercept) -1.61e+ 2   2.28e+1   -7.09   7.44e-12
+##  6 Europe    pop         -8.18e- 9   7.80e-9   -1.05   2.95e- 1
+##  7 Europe    year         1.16e- 1   1.16e-2    9.96   8.88e-21
+##  8 Europe    gdpPercap    3.25e- 4   2.15e-5   15.2    2.21e-40
+##  9 Africa    (Intercept) -4.70e+ 2   3.39e+1  -13.9    2.17e-38
+## 10 Africa    pop         -3.68e- 9   1.89e-8   -0.195  8.45e- 1
+## 11 Africa    year         2.61e- 1   1.71e-2   15.2    1.07e-44
+## 12 Africa    gdpPercap    1.12e- 3   1.01e-4   11.1    2.46e-26
+## 13 Americas  (Intercept) -5.33e+ 2   4.10e+1  -13.0    6.40e-31
+## 14 Americas  pop         -2.15e- 8   8.62e-9   -2.49   1.32e- 2
+## 15 Americas  year         3.00e- 1   2.08e-2   14.4    3.79e-36
+## 16 Americas  gdpPercap    6.75e- 4   7.15e-5    9.44   1.13e-18
+## 17 Oceania   (Intercept) -2.10e+ 2   5.12e+1   -4.10   5.61e- 4
+## 18 Oceania   pop          8.37e- 9   3.34e-8    0.251  8.05e- 1
+## 19 Oceania   year         1.42e- 1   2.65e-2    5.34   3.19e- 5
+## 20 Oceania   gdpPercap    2.03e- 4   8.47e-5    2.39   2.66e- 2</code></pre>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesr'>R</a></li>
+    
+        <li><a href='/categoriespurrr'>purrr</a></li>
+    
+        <li><a href='/categoriestidyverse'>tidyverse</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/"
+                class="button big previous">Transitioning into the tidyverse (part 2)</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-08-16_purrr/">Learn to purrr</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-08-16'>
+                                    August 16, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2019-08-05_base_r_to_tidyverse_pt2/">Transitioning into the tidyverse (part 2)</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2019-08-05'>
+                                    August 5, 2019</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">16</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyverse/">tidyverse</a>
+                                <span style="float:right;">4</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">Machine Learning</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/purrr/">purrr</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/data-science/">Data Science</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/reproducibility/">Reproducibility</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/forcats/">forcats</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/ggplot2/">ggplot2</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/lubridate/">lubridate</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/pipes/">pipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/readr/">readr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/stringr/">stringr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tibbles/">tibbles</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyr/">tidyr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Data Scientist, Communicator, Artist, Adventurer.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

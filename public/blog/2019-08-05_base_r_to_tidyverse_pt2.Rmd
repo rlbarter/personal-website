@@ -222,7 +222,7 @@ map_chr(c(1, 4, 7), function(number) {
 })
 ```
 
-If you want to return a data frame, then you would use `map_df` (but you need to make sure that what you're returning in each iteration is a data frame which has the same column names in each iteration).
+If you want to return a data frame, then you would use `map_df` (but you need to make sure that in each iteration you're returning a data frame which has consistent column names).
 
 ```{r}
 map_df(c(1, 4, 7), function(number) {

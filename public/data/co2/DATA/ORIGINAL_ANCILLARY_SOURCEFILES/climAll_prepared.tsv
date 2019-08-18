@@ -1,0 +1,344 @@
+	city name	lat	lon	CDD_23C	HDD_15.5C	coord source
+0	Buenos Aires	-34.603	 -58.381667	0	300	https://en.wikipedia.org/wiki/Buenos_Aires
+1	Adelaide	-34.929	 138.601	60	528	https://en.wikipedia.org/wiki/Adelaide
+2	Sydney	-33.865	 151.209444	32	108	https://en.wikipedia.org/wiki/Sydney
+3	Melbourne	-37.814	 144.963056	62	1176	https://en.wikipedia.org/wiki/Melbourne
+4	Canberra	-35.306999999999995	 149.124417	30	1484	https://en.wikipedia.org/wiki/Canberra
+5	La Paz	-16.5	 -68.15	61	0	https://en.wikipedia.org/wiki/La_Paz
+6	Salvador	-12.975	 -38.476667	184	0	https://en.wikipedia.org/wiki/Salvador,_Bahia
+7	Rio de Janeiro	-22.908	 -43.196389	4	0	https://en.wikipedia.org/wiki/Rio_de_Janeiro
+8	Recife	-8.05	 -34.9	521	0	https://en.wikipedia.org/wiki/Recife
+9	Porto Alegre	-30.033	 -51.23	0	41	https://en.wikipedia.org/wiki/Porto_Alegre
+10	Florianópolis	-27.572	 -48.6256	1	7	https://en.wikipedia.org/wiki/Florian%C3%B3polis
+11	Curitiba	-25.416999999999998	 -49.25	3	0	https://en.wikipedia.org/wiki/Curitiba
+12	Belo Horizonte	-19.917	 -43.933333	10	0	https://en.wikipedia.org/wiki/Belo_Horizonte
+13	Goiânia	-16.667	 -49.25	61	0	https://en.wikipedia.org/wiki/Goi%C3%A2nia
+14	Palmas	-10.184	 -48.333611	339	0	https://en.wikipedia.org/wiki/Palmas,_Tocantins
+15	Sorocaba	-23.502	 -47.458056	4	0	https://en.wikipedia.org/wiki/Sorocaba
+16	Brasília	-15.79	 -47.88	79	0	https://en.wikipedia.org/wiki/Bras%C3%ADlia
+17	Guaratinguetá	-22.816999999999997	 -45.227778	4	0	https://en.wikipedia.org/wiki/Guaratinguet%C3%A1
+18	Windsor, ON	42.283	 -83	34	1889	https://en.wikipedia.org/wiki/Windsor,_Ontario
+19	Ajax, ON	43.858000000000004	 -79.036389	18	1834	https://en.wikipedia.org/wiki/Ajax,_Ontario
+20	Calgary	51.05	 -114.066667	0	1793	https://en.wikipedia.org/wiki/Calgary
+21	Winnipeg	49.898999999999994	 -97.139167	0	1442	https://en.wikipedia.org/wiki/Winnipeg
+22	Toronto	43.7	 -79.4	18	1834	https://en.wikipedia.org/wiki/Toronto
+23	Edmonton	53.533	 -113.5	0	2020	https://en.wikipedia.org/wiki/Edmonton
+24	Hamilton, ON	43.25	 -79.866667	18	1834	https://en.wikipedia.org/wiki/Hamilton,_Ontario
+25	London, ON	42.983999999999995	 -81.2497	3	2430	https://en.wikipedia.org/wiki/London,_Ontario
+26	Montreal	45.5	 -73.566667	14	1579	https://en.wikipedia.org/wiki/Montreal
+27	North Vancouver	49.317	 -123.066667	0	1553	https://en.wikipedia.org/wiki/North_Vancouver_(city)
+28	Peterborough, ON	44.3	 -78.316667	34	1425	https://en.wikipedia.org/wiki/Peterborough,_Ontario
+29	Vancouver	49.25	 -123.1	0	1553	https://en.wikipedia.org/wiki/Vancouver
+30	Santiago	-33.45	 -70.666667	0	227	https://en.wikipedia.org/wiki/Santiago
+31	Bogotá	4.711	 -74.072222	1335	0	https://en.wikipedia.org/wiki/Bogotá
+32	Santiago de Cali	3.4210000000000003	 -76.522222	1333	0	https://en.wikipedia.org/wiki/Cali
+33	Aerøskøbing	54.883	 10.333333	0	2335	https://en.wikipedia.org/wiki/Ærø
+34	Hoeje-Taastrup Kommune	55.648	 12.27	0	2536	https://en.wikipedia.org/wiki/Høje-Taastrup_Municipality
+35	Aarhus	56.167	 10.25	0	2582	https://en.wikipedia.org/wiki/Aarhus_Municipality
+36	Gladsaxe Kommune	55.733000000000004	 12.483333	0	2481	https://en.wikipedia.org/wiki/Gladsaxe_Municipality
+37	Copenhagen	55.676	 12.568333	0	2481	https://en.wikipedia.org/wiki/Copenhagen
+38	Hjørring	57.467	 9.983333	0	2394	https://en.wikipedia.org/wiki/Hjørring_Municipality
+39	Quito	-0.217	 -78.516667	1032	0	https://en.wikipedia.org/wiki/Quito_Canton
+40	Santiago de Guayaquil	-2.1830000000000003	 -79.883333	883	0	https://en.wikipedia.org/wiki/Guayaquil
+41	Addis Ababa	9.03	 38.74	0	73	https://en.wikipedia.org/wiki/Addis_Ababa
+42	Turku	60.45	 22.266667	1	3678	https://en.wikipedia.org/wiki/Turku
+43	Lahti	60.983000000000004	 25.65	6	3763	https://en.wikipedia.org/wiki/Lahti
+44	Helsinki	60.17100000000001	 24.9375	0	3399	https://en.wikipedia.org/wiki/Helsinki
+45	Nice	43.703	 7.2663	26	811	https://en.wikipedia.org/wiki/Métropole_Nice_Côte_d'Azur
+46	Paris	48.857	 2.3508	7	1940	https://en.wikipedia.org/wiki/Paris
+47	Nancy	48.693999999999996	 6.1846	6	2280	https://en.wikipedia.org/wiki/Nancy,_France
+48	Hamburg	53.565	 10.001389	12	2327	https://en.wikipedia.org/wiki/Hamburg
+49	Magdeburg	52.133	 11.616667	16	2362	https://en.wikipedia.org/wiki/Magdeburg
+50	Heidelberg	49.417	 8.716667	13	2335	https://en.wikipedia.org/wiki/Heidelberg
+51	Athens	37.984	 23.727806	165	495	https://en.wikipedia.org/wiki/Athens
+52	Hong Kong	22.3	 114.2	709	146	https://en.wikipedia.org/wiki/Hong_Kong
+53	Reykjavík	64.133	 -21.933333	0	3121	https://en.wikipedia.org/wiki/Reykjav%C3%ADk
+54	Jakarta	-6.2	 106.816667	1265	0	https://en.wikipedia.org/wiki/Jakarta
+55	Bogor	-6.597	 106.7972	647	0	https://en.wikipedia.org/wiki/Bogor
+56	Dublin	53.35	 -6.260278	0	2020	https://en.wikipedia.org/wiki/Dublin
+57	Bologna	44.507	 11.351389	77	1680	https://en.wikipedia.org/wiki/Bologna
+58	Ferrara	44.833	 11.616667	79	1724	https://en.wikipedia.org/wiki/Ferrara
+59	Genova	44.407	 8.933983	44	942	https://it.wikipedia.org/wiki/Genova
+60	Milano	45.467	 9.183333	0	2650	https://en.wikipedia.org/wiki/Milan
+61	Piacenza	45.048	 9.700556	51	1909	https://en.wikipedia.org/wiki/Piacenza
+62	Ravenna	44.417	 12.2	97	1672	https://en.wikipedia.org/wiki/Ravenna
+63	Roma	41.9	 12.5	84	1457	https://en.wikipedia.org/wiki/Rome
+64	Torino	45.067	 7.7	0	3144	https://en.wikipedia.org/wiki/Turin
+65	Udine	46.067	 13.233333	69	1605	https://en.wikipedia.org/wiki/Udine
+66	Venezia	45.438	 12.335833	5	2402	https://en.wikipedia.org/wiki/Venice
+67	Hiroshima	34.385	 132.455278	139	1543	https://en.wikipedia.org/wiki/Hiroshima
+68	Yokohama	35.444	 139.638056	170	1534	https://en.wikipedia.org/wiki/Yokohama
+69	Tokyo	35.683	 139.683333	124	1873	https://en.wikipedia.org/wiki/Tokyo
+70	Nagoya	35.183	 136.9	71	2006	https://en.wikipedia.org/wiki/Nagoya
+71	Okayama	34.65	 133.916667	226	1564	https://en.wikipedia.org/wiki/Okayama
+72	Amman	31.95	 35.932778	313	764	https://en.wikipedia.org/wiki/Amman
+73	Vilnius	54.683	 25.283333	8	3273	https://en.wikipedia.org/wiki/Vilnius
+74	Mexico City	19.433	 -99.133333	2547	5	https://en.wikipedia.org/wiki/Mexico_City
+75	San Luis Potosí	22.151	 -100.976111	2387	31	https://en.wikipedia.org/wiki/San_Luis_Potosí_City
+76	Rotterdam	51.917	 4.5	3	1995	https://en.wikipedia.org/wiki/Rotterdam
+77	Amsterdam	52.367	 4.9	0	1950	https://en.wikipedia.org/wiki/Amsterdam
+78	Auckland	-36.841	 174.74	0	376	https://en.wikipedia.org/wiki/Auckland
+79	Wellington	-41.288999999999994	 174.777222	0	1204	https://en.wikipedia.org/wiki/Wellington
+80	Lagos	6.455	 3.384082	899	0	https://en.wikipedia.org/wiki/Lagos
+81	Oslo	59.95	 10.75	0	3941	https://en.wikipedia.org/wiki/Oslo
+82	Lima	-12.043	 -77.028333	229	0	https://en.wikipedia.org/wiki/Lima
+83	Batangas	13.83	 121	1085	0	https://en.wikipedia.org/wiki/Batangas
+84	Makati	14.55	 121.03	1037	0	https://en.wikipedia.org/wiki/Makati
+85	Warsaw	52.233000000000004	 21.016667	12	2798	https://en.wikipedia.org/wiki/Warsaw
+86	Torres Vedras	39.083	 -9.266667	73	464	https://en.wikipedia.org/wiki/Torres_Vedras
+87	Faro	37.033	 -7.916667	125	153	https://en.wikipedia.org/wiki/Faro,_Portugal
+88	Lisbon	38.714	 -9.139444	73	464	https://en.wikipedia.org/wiki/Lisbon
+89	Águeda	40.574	 -8.448056	42	1341	https://en.wikipedia.org/wiki/Águeda
+90	Cascais	38.7	 -9.416667	73	464	https://en.wikipedia.org/wiki/Cascais
+91	Moita	38.65	 -8.983333	73	464	https://en.wikipedia.org/wiki/Moita
+92	Barreiro	38.667	 -9.066667	73	464	https://en.wikipedia.org/wiki/Barreiro,_Portugal
+93	Santarém	39.233000000000004	 -8.683333	73	464	https://en.wikipedia.org/wiki/Santarém,_Portugal
+94	Porto	41.162	 -8.621953	114	1483	https://en.wikipedia.org/wiki/Porto
+95	Ljubljana	46.056000000000004	 14.508333	25	2313	https://en.wikipedia.org/wiki/Ljubljana
+96	Johannesburg	-26.204	 28.045556	37	606	https://en.wikipedia.org/wiki/Johannesburg
+97	Pretoria Tshwane	-25.666999999999998	 28.333333	92	392	https://en.wikipedia.org/wiki/City_of_Tshwane_Metropolitan_Municipality
+98	Cape Town	-33.925	 18.423889	27	520	https://en.wikipedia.org/wiki/Cape_Town
+99	Durban	-29.883000000000003	 31.05	73	194	https://en.wikipedia.org/wiki/Durban
+100	Seoul	37.567	 126.966667	103	2416	https://en.wikipedia.org/wiki/Seoul
+101	Suwon	37.266999999999996	 127.016667	103	2416	https://en.wikipedia.org/wiki/Suwon
+102	Incheon	37.483000000000004	 126.633333	103	2416	https://en.wikipedia.org/wiki/Incheon
+103	Zaragoza	41.65	 -0.883333	34	1889	https://en.wikipedia.org/wiki/Zaragoza
+104	Madrid	40.383	 -3.716667	42	1341	https://en.wikipedia.org/wiki/Madrid
+105	Stockholm	59.32899999999999	 18.068611	0	3172	https://en.wikipedia.org/wiki/Stockholm
+106	Zürich	47.367	 8.55	0	3107	https://en.wikipedia.org/wiki/Z%C3%BCrich
+107	Lausanne	46.52	 6.6335	0	3343	https://en.wikipedia.org/wiki/Lausanne
+108	Basel	47.567	 7.6	1	2862	https://en.wikipedia.org/wiki/Basel
+109	Taipei City	25.033	 121.633333	310	302	https://en.wikipedia.org/wiki/Taipei
+110	Taoyuan	24.991	 121.314328	310	302	https://en.wikipedia.org/wiki/Taoyuan,_Taiwan
+111	Yilan	24.750999999999998	 121.759167	310	302	https://en.wikipedia.org/wiki/Yilan_County,_Taiwan
+112	Kaohsiung	22.633000000000003	 120.266667	924	0	https://en.wikipedia.org/wiki/Kaohsiung
+113	New Taipei	25.011	 121.445833	310	302	https://en.wikipedia.org/wiki/New_Taipei_City
+114	Pingtung	22.675	 120.491414	456	18	https://en.wikipedia.org/wiki/Pingtung_County
+115	Bornova	38.47	 27.221111	283	692	https://en.wikipedia.org/wiki/Bornova
+116	Kadiovacik	38.343	 26.553367	128	336	https://www.google.com/maps/place/Kad%C4%B1ovac%C4%B1k/@38.342632,26.553367,859m/data=!3m1!1e3!4m5!3m4!1s0x0:0x8bab83075b7d3554!8m2!3d38.342711!4d26.5531169?hl=en-US
+117	Cardiff	51.483000000000004	 -3.183333	0	1957	https://en.wikipedia.org/wiki/Cardiff
+118	Bournemouth	50.72	 -1.88	0	1793	https://en.wikipedia.org/wiki/Bournemouth
+119	Greater London	51.507	 -0.1275	0	1957	https://en.wikipedia.org/wiki/London
+120	Manchester	53.467	 -2.233333	0	2020	https://en.wikipedia.org/wiki/Manchester
+121	Birmingham	52.483000000000004	 -1.893611	0	2041	https://en.wikipedia.org/wiki/Birmingham
+122	Leicester	52.633	 -1.133333	0	2041	https://en.wikipedia.org/wiki/Leicester
+123	Boston	42.358000000000004	 -71.063611	34	1889	https://en.wikipedia.org/wiki/Boston
+124	Boulder	40.027	 -105.251945	48	627	https://en.wikipedia.org/wiki/Boulder,_Colorado
+125	Burlington	44.476000000000006	 -73.211944	34	1425	https://en.wikipedia.org/wiki/Burlington,_Vermont
+126	Indianapolis	39.791	 -86.148	48	627	https://en.wikipedia.org/wiki/Indianapolis
+127	Knoxville	35.973	 -83.942222	247	493	https://en.wikipedia.org/wiki/Knoxville,_Tennessee
+128	Chicago	41.836999999999996	 -87.684722	34	1889	https://en.wikipedia.org/wiki/Chicago
+129	Cleveland	41.482	 -81.669722	114	1483	https://en.wikipedia.org/wiki/Cleveland
+130	Columbus	39.983000000000004	 -82.983333	48	627	https://en.wikipedia.org/wiki/Columbus,_Ohio
+131	Dallas	32.775999999999996	 -96.796667	681	988	https://en.wikipedia.org/wiki/Dallas
+132	Denver	39.762	 -104.881105	48	627	https://en.wikipedia.org/wiki/Denver
+133	Detroit	42.331	 -83.045833	34	1889	https://en.wikipedia.org/wiki/Detroit
+134	District of Columbia	38.905	 -77.016389	73	464	https://en.wikipedia.org/wiki/Washington,_D.C.
+135	Flagstaff	35.199	 -111.631111	320	844	https://en.wikipedia.org/wiki/Flagstaff,_Arizona
+136	Hayward	37.669000000000004	 -122.080796	135	186	https://en.wikipedia.org/wiki/Hayward,_California
+137	Hermosa Beach, CA	33.866	 -118.399722	528	1154	https://en.wikipedia.org/wiki/Hermosa_Beach,_California
+138	Lakewood	39.705	 -105.081389	48	627	https://en.wikipedia.org/wiki/Lakewood,_Colorado
+139	Lancaster, PA	40.04	 -76.304444	48	627	https://en.wikipedia.org/wiki/Lancaster,_Pennsylvania
+140	Las Vegas	36.175	 -115.136389	247	493	https://en.wikipedia.org/wiki/Las_Vegas
+141	Los Altos Hills	37.371	 -122.1375	135	186	https://en.wikipedia.org/wiki/Los_Altos_Hills,_California
+142	Los Angeles	34.05	 -118.25	528	1154	https://en.wikipedia.org/wiki/Los_Angeles
+143	University City, MO	38.664	 -90.327778	73	464	https://en.wikipedia.org/wiki/University_City,_Missouri
+144	Minneapolis	44.983000000000004	 -93.266667	27	1428	https://en.wikipedia.org/wiki/Minneapolis
+145	Nashville and Davidson	36.155	 -86.761944	247	493	https://en.wikipedia.org/wiki/Nashville-Davidson_(balance),_Tennessee
+146	New Orleans	29.95	 -90.066667	1634	281	https://en.wikipedia.org/wiki/New_Orleans
+147	New York City	40.713	 -74.0059	42	1341	https://en.wikipedia.org/wiki/New_York_City
+148	Oakland	37.804	 -122.270833	135	186	https://en.wikipedia.org/wiki/Oakland,_California
+149	Palo Alto	37.429	 -122.138056	135	186	https://en.wikipedia.org/wiki/Palo_Alto,_California
+150	Philadelphia	39.95	 -75.166667	48	627	https://en.wikipedia.org/wiki/Philadelphia
+151	Piedmont, CA	37.817	 -122.233333	135	186	https://en.wikipedia.org/wiki/Piedmont,_California
+152	West Hollywood	34.088	 -118.372222	528	1154	https://en.wikipedia.org/wiki/West_Hollywood,_California
+153	Pittsburgh	40.44	 -79.976389	42	1341	https://en.wikipedia.org/wiki/Pittsburgh
+154	Reno	39.527	 -119.821944	48	627	https://en.wikipedia.org/wiki/Reno,_Nevada
+155	Richmond, VA	37.533	 -77.466667	135	186	https://en.wikipedia.org/wiki/Richmond,_Virginia
+156	San Francisco	37.783	 -122.416667	135	186	https://en.wikipedia.org/wiki/San_Francisco
+157	Santa Monica	34.022	 -118.481389	528	1154	https://en.wikipedia.org/wiki/Santa_Monica,_California
+158	Savannah	32.016999999999996	 -81.116667	993	678	https://en.wikipedia.org/wiki/Savannah,_Georgia
+159	Seattle	47.61	 -122.333056	7	1690	https://en.wikipedia.org/wiki/Seattle
+160	Somerville, MA	42.388000000000005	 -71.1	3	2430	https://en.wikipedia.org/wiki/Somerville,_Massachusetts
+161	St Louis	38.626999999999995	 -90.197778	73	464	https://en.wikipedia.org/wiki/St._Louis
+162	Tucson	32.222	 -110.926389	993	678	https://en.wikipedia.org/wiki/Tucson,_Arizona
+163	San Antonio	29.416999999999998	 -98.5	1820	210	https://en.wikipedia.org/wiki/San_antonio
+164	Austin	30.267	 -97.733333	1634	281	https://en.wikipedia.org/wiki/Austin,_Texas
+165	Roanoke	37.266999999999996	 -79.933333	135	186	https://en.wikipedia.org/wiki/Roanoke,_Virginia
+166	Brisbane, CA	37.681	 -122.419167	135	186	https://en.wikipedia.org/wiki/Brisbane,_California
+167	Portland, OR	45.52	 -122.681944	14	1579	https://en.wikipedia.org/wiki/Portland,_Oregon
+168	Lake Forest, IL	42.235	 -87.850833	34	1889	https://en.wikipedia.org/wiki/Lake_Forest,_Illinois
+169	Emeryville, CA	37.830999999999996	 -122.285278	135	186	https://en.wikipedia.org/wiki/Emeryville,_California
+170	Iowa	41.66	 -91.5342	34	1889	https://en.wikipedia.org/wiki/Iowa_City,_Iowa
+171	Aspen and Pitkin County	39.195	 -106.837002	73	464	https://en.wikipedia.org/wiki/Aspen,_Colorado
+172	Davis, CA	38.554	 -121.738056	126	310	https://en.wikipedia.org/wiki/Davis,_California
+173	Houston	29.763	 -95.383056	1634	281	https://en.wikipedia.org/wiki/Houston
+174	Abington	40.1	 -75.099722	48	627	https://en.wikipedia.org/wiki/Abington_Township,_Montgomery_County,_Pennsylvania
+175	Albany	42.653	 -73.757222	3	2430	https://en.wikipedia.org/wiki/Albany,_New_York
+176	Arlington, VA	38.881	 -77.1372613	73	464	https://www.google.fr/maps/place/Arlington,+VA,+USA/@38.8808084,-77.1372613,13z/data=!3m1!4b1!4m5!3m4!1s0x89b7b69d7ba7a70f:0xf8cf6fc845f6b093!8m2!3d38.8799697!4d-77.1067698
+177	Yonkers	40.941	 -73.864444	114	1483	https://en.wikipedia.org/wiki/Yonkers,_New_York
+178	Atlanta	33.755	 -84.39	528	1154	https://en.wikipedia.org/wiki/Atlanta
+179	Baltimore	39.283	 -76.616667	73	464	https://en.wikipedia.org/wiki/Baltimore
+180	San Diego	32.715	 -117.1625	681	988	https://en.wikipedia.org/wiki/San_Diego
+181	Benicia	38.063	 -122.156111	126	310	https://en.wikipedia.org/wiki/Benicia,_California
+182	Blacksburg	37.23	 -80.417778	135	186	https://en.wikipedia.org/wiki/Blacksburg,_Virginia
+183	Durham	35.989000000000004	 -78.907222	247	493	https://en.wikipedia.org/wiki/Durham,_North_Carolina
+184	Eugene	44.052	 -123.086667	34	1425	https://en.wikipedia.org/wiki/Eugene,_Oregon
+185	Alton, IL	38.900999999999996	 -90.159722	73	464	https://en.wikipedia.org/wiki/Alton,_Illinois
+186	Caracas	10.481	 -66.903611	1785	0	https://en.wikipedia.org/wiki/Caracas
+187	Aguascalientes	21.8897	-102.295	2385	24	
+188	Ahmedabad	23.03	72.58	1510	0	
+189	Anshan	41.1166666667	122.983333333	86	3427	
+190	Anyang	36.1	114.333333333	241	2072	
+191	Balikpapan	-1.23793	116.852853	1339	0	
+192	Bandung	-6.91746	107.619123	355	0	
+193	Bangalore	12.970289999999999	77.596152	342	0	
+194	Baoding	38.8666666667	115.466666667	268	2399	
+195	Baotou	40.65	109.833333333	122	3920	
+196	Barcelona	41.385059999999996	2.173403	80	606	
+197	Barranquilla	10.987778	-74.788889	1820	0	
+198	Beijing	39.9166666667	116.383333333	213	2625	
+199	Benxi	41.3	123.766666667	42	3630	
+200	Betim	-19.0	-44.0	21	0	
+201	Bhubaneswar	20.27	85.84	1343	0	
+202	Bristol	51.45451	-2.58791	0	1957	
+203	Brussels	50.85034	4.35171	4	2066	
+204	Buffalo City	-32.9833	27.8667	64	242	
+205	Changchun	43.886944444399994	125.324722222	92	4243	
+206	Changsha, Hunan	28.196111111100002	112.972222222	545	1082	
+207	Changzhou	31.7833333333	119.966666667	444	1336	
+208	Chengdou	30.6586111111	104.064722222	249	1143	
+209	Chongqing	29.5583333333	106.566666667	400	1016	
+210	Cochin	9.931233	76.267304	502	0	
+211	Coimbatore	11.0	76.9558	588	0	
+212	Dalian	38.9208333333	121.639166667	54	2380	
+213	Dandong	40.1166666667	124.383333333	37	2751	
+214	Daqing	46.5833333333	125.0	93	4792	
+215	Datong	40.0833333333	113.3	20	4030	
+216	Dehradun	30.318	78.029	551	402	
+217	Ekurhuleni	26.22300000000001	28.167	1203	208	
+218	Fort Collins	40.58526	-105.084	42	1341	
+219	Fushun	41.8666666667	123.9	73	3671	
+220	Fuxin	41.0166666667	121.65	132	3139	
+221	Fuzhou	26.0761111111	119.306388889	322	705	
+222	Gandhinagar	23.22	72.68	1510	0	
+223	Graz	47.0667	15.4333	8	2822	
+224	Guangzhou	23.133333333299998	113.266666667	643	271	
+225	Guiyang	26.65	106.633333333	46	1353	
+226	Gwalior	26.218290000000003	78.182831	1483	60	
+227	Gävle	60.6749	17.1413	0	3457	
+228	Haerbin	45.75	126.633333333	76	4651	
+229	Haikou	20.0427777778	110.341666667	929	33	
+230	Handan	36.6	114.483333333	378	1940	
+231	Hangzhou	30.25	120.166666667	423	1283	
+232	Hat Yai	7.016210000000001	100.47288	899	0	
+233	Hefei	31.866666666700002	117.283333333	381	1467	
+234	Hegang	47.35	130.3	32	4983	
+235	Heilongjiang	47.7333333333	128.9	12	5456	
+236	Hengyang	26.9	112.6	592	1007	
+237	Hohhot	40.8166666667	111.65	57	4153	
+238	Huaibei	33.58	116.47	408	1573	
+239	Huainan	32.6166666667	116.983333333	405	1476	
+240	Huangshi	30.2166666667	115.083333333	479	1243	
+241	Hue	16.450001	107.583336	630	2	
+242	Hyderabad	17.366	78.476	1105	0	
+243	Indore	22.723481	75.860184	1206	0	
+244	Istanbul	41.00824	28.978359	100	1180	
+245	Izmir	38.41842000000001	27.14283	283	692	
+246	Jaipur	26.926	75.8235	1380	99	
+247	Jerusalem	31.7833	35.2167	522	447	
+248	Jiamusi	46.8	130.316666667	38	4803	
+249	Jiaozhuo	35.2430555556	113.223055556	227	2013	
+250	Jilin	43.8666666667	126.55	27	4314	
+251	Jinan, Shandong	36.6666666667	116.983333333	329	2040	
+252	Jingzhou	30.3333333333	112.216666667	581	1123	
+253	Jinzhou	41.1166666667	121.133333333	132	3139	
+254	Jixi	45.3	130.966666667	21	4516	
+255	Kaifeng	34.8	114.3	425	1634	
+256	Khelang Nakhon	18.2919	99.5047	615	0	
+257	Kota	25.18	75.83	1564	40	
+258	Kunming	25.0666666667	102.683333333	3	779	
+259	Kyoto	35.011635999999996	135.768029	200	1611	
+260	Lampang	18.315	99.5027	615	0	
+261	Lanzhou	36.0333333333	103.8	4	3609	
+262	León de los Aldamas	21.13	-101.69	2425	14	
+263	Liaoyang	41.2666666667	123.183333333	86	3427	
+264	Linyi	35.05	118.35	231	1991	
+265	Liuzhou	24.3166666667	109.383333333	506	468	
+266	Luoyang	34.6697222222	112.442222222	234	1887	
+267	Lyon	45.7454	4.84195	16	2143	
+268	Malang	-7.969633999999999	112.633156	489	0	
+269	Msunduzi	-29.6179	30.3825	74	356	
+270	Mudanjiang	44.55	129.633333333	7	4737	
+271	Naga	13.62178	123.194824	1280	0	
+272	Nagpur	21.15	79.09	1488	0	
+273	Nanchang	28.6833333333	115.883333333	592	988	
+274	Nanjing, Jiangsu	32.05	118.766666667	399	1472	
+275	Nanning	22.8166666667	108.316666667	617	299	
+276	Nantes	47.2181	-1.5528	7	1690	
+277	Nelson Mandela	-33.0	25.0	78	586	
+278	Ningbo	29.866666666700002	121.55	442	1113	
+279	Osaka	34.69	135.52	199	1505	
+280	Pasig	14.5763768	121.0851097	1037	0	
+281	Phuket	7.88875	98.39779	1562	0	
+282	Pimpri-Chinchwad	18.6298	73.7997	672	0	
+283	Pingdingshan	33.7333333333	113.3	339	1639	
+284	Probolinggo	-7.777007000000001	113.202187	1214	0	
+285	Pune	18.5203	73.8567	672	0	
+286	Qingdao	36.0666666667	120.383333333	128	1779	
+287	Qiqihaer	47.35	123.916666667	109	4699	
+288	Quezon	14.676039999999999	121.0437	863	0	
+289	Rajkot	22.3039	70.80216	1296	2	
+290	Rosario	-32.9442	-60.6505	0	168	
+291	San Carlos (Negros Occidental)	10.0	123.0	882	0	
+292	San Jerónimo de Montería	8.0	-75.0	1344	0	
+293	Santa Rosa	14.2843	121.088893	1037	0	
+294	Sao Paulo	-23.5505	-46.633309	4	0	
+295	Sapporo	43.062	141.3544	4	3241	
+296	Seberang	5.377294	100.400146	721	0	
+297	Semarang	-6.96667	109.417	1339	0	
+298	Sendai	38.2681	140.87	61	1937	
+299	Shanghai	31.2286111111	121.474722222	410	1290	
+300	Shantou	23.35	116.666666667	588	50	
+301	Shenyang	41.8	123.4	73	3671	
+302	Shenzhen	22.55	114.1	709	146	
+303	Shijiazhuang	38.0666666667	114.483333333	348	2162	
+304	Shimla	31.10482	77.173403	197	653	
+305	Singapore	1.283333	103.833333	1086	0	
+306	Surat	21.178283999999998	72.807696	1398	0	
+307	Suzhou	31.3	120.6	451	1352	
+308	Taian	36.2	117.083333333	277	2008	
+309	Taiyuan, Shanxi	37.8694444444	112.560277778	47	3171	
+310	Tangshan	39.6230555556	118.176111111	184	2585	
+311	Thane	19.1724	72.957	1359	0	
+312	Tianjin	39.1333333333	117.183333333	367	2289	
+313	Toluca de Lerdo	19.282610000000002	-99.655665	2547	5	
+314	Tuxtla Gutiérrez	16.0	-93.0	2919	0	
+315	Ubon Ratchathani	15.2283	104.8596	1002	0	
+316	Umeå	63.8258	20.263	0	4292	
+317	Uppsala	59.85856	17.638927	0	3294	
+318	Valledupar	10.4742	-73.2436	1785	0	
+319	Växjö	56.879	14.805852	1	3116	
+320	Weifang	36.7166666667	119.1	233	2130	
+321	Windhoek	-22.5609	17.065755	172	292	
+322	Wonju	37.342218599999995	127.9201621	52	2755	
+323	Wuhan	30.5833333333	114.283333333	522	1244	
+324	Wuxi	31.5666666667	120.3	444	1336	
+325	Xi'an, Shaanxi	34.2666666667	108.9	84	2249	
+326	Xiamen	24.47983611110001	118.089419444	364	403	
+327	Xiangtan	27.85	112.9	584	1006	
+328	Xiangyang	32.016999999999996	112.133	364	1437	
+329	Xining	36.6333333333	101.766666667	0	4756	
+330	Xinxiang	35.3	113.866666667	338	1818	
+331	Xuzhou	34.2666666667	117.216666667	360	1705	
+332	Yantai	37.535	121.389166667	105	2096	
+333	Yinchuan	38.4666666667	106.266666667	187	3290	
+334	Zhangjiakou	40.7666666667	114.883333333	22	4078	
+335	Zhanjiang	21.2	110.4	920	60	
+336	Zhaozhuang	34.8666666667	117.55	327	1762	
+337	Zhengzhou	34.7666666667	113.65	425	1634	
+338	Zhuzhou	27.85	113.133333333	584	1006	
+339	Zibo	36.7833333333	118.05	267	2159	
+340	eThekwini	-29.8587	31.02184	73	194	
+341	Örebro	59.2667	15.2167	0	3356	
+342	Ürümqi (Wulumqi)	43.825	87.6	7	4420	

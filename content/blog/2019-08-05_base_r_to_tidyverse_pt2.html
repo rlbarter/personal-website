@@ -246,7 +246,7 @@ map(c(1, 4, 7), function(number) {
   return(number + 10)
 })</code></pre>
 <pre><code>## [1] &quot;11.000000&quot; &quot;14.000000&quot; &quot;17.000000&quot;</code></pre>
-<p>If you want to return a data frame, then you would use <code>map_df</code> (but you need to make sure that what you’re returning in each iteration is a data frame which has the same column names in each iteration).</p>
+<p>If you want to return a data frame, then you would use <code>map_df</code> (but you need to make sure that in each iteration you’re returning a data frame which has consistent column names).</p>
 <pre class="r"><code>map_df(c(1, 4, 7), function(number) {
   return(data.frame(old_number = number, 
                     new_number = number + 10))

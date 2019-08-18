@@ -1,0 +1,26 @@
+	city name	full city name	city_type	lat	lon	pop	pop_yr	country	region	most recent emissions	most recent emissions year	protocol	nGDP	GDP	GDP year	GDP unit
+0	Ahmedabad	Ahmedabad Municipal Corporation	Municipality	23.03	72.58	5570585	2011.0	India	South Asia	13855311.0	2008.0	Community	10930377619.2687			
+1	Bangalore	Bengaluru Municipal Corporation	Municipality	12.970289999999999	77.596152	9621551	2011.0	India	South Asia	5568706.7	2008.0	Community	16056968041.5791	13627993701.0	2011.0	USD
+2	Barcelona	Municipality of Barcelona	Municipality	41.385059999999996	2.173403	1611822	2013.0	Spain	Europe	3595726.0	2012.0	Community - GPC	91314193646.6486	60540000000.0	2012.0	EUR
+3	Bristol	Bristol City Council	Independent municipality	51.45451	-2.58791	442500	2015.0	United Kingdom	Europe	2127000.0	2012.0	Community	23100902830.8692	12627000000.0	2013.0	GBP
+4	Brussels	Brussels Capital Region	State / Region	50.85034	4.35171	1175173		Belgium	Europe	3293000.0	2011.0	Community	127657612403.47	110000000000.0	1971.0	USD
+5	Buffalo City	Buffalo City Metropolitan Municipality	Independent municipality	-32.9833	27.8667	797556	2011.0	South Africa	Africa	2592942.0	2007.0	Community	3888370113.3161798	3323260000.0	2013.0	USD
+6	Ekurhuleni	Ekurhuleni Metropolitan Municipality	Independent municipality	26.223000000000003	28.166999999999998	3178470	2011.0	South Africa	Africa	19330397.0	2014.0	Community	30306916704.4094	25980000000.0	2014.0	USD
+7	Fort Collins	City of Fort Collins	Municipality	40.58526	-105.084	164207	2016.0	USA	North America	2055587.0	2016.0	Community	9683508064.61925			
+8	Graz	City of Graz	Independent municipality	47.0667	15.4333	269997	2014.0	Austria	Europe	1218740.0	1994.0	Community	22917.3806692355	19522.0	2012.0	USD
+9	Gävle	Gävle Municipality	Municipality	60.6749	17.1413	98524	2015.0	Sweden	Europe	363052.0	2011.0	Community	6124123114.82815			
+10	Istanbul	Istanbul Metropolitan Municipality	Special municipality / Federal district	41.00824	28.978359	14657434	2015.0	Turkey	North Africa, Middle East, West Asia	37199137.0	2010.0	Community	3902129563.8018103	3324000000.0	2012.0	USD
+11	Kyoto	Kyoto City	Municipality	35.011635999999996	135.768029	1470742	2013.0	Japan	East Asia	7684000.0	2011.0	Community	78217889712.0737	6523900000000.0	2013.0	JPY
+12	Lyon	Lyon Metropolis	Independent intercommunality	45.7454	4.84195	1324637	2012.0	France	Europe	7191700.0	2010.0	Community	843110059023.7191	726491000000.0	1971.0	USD
+13	Msunduzi	Msunduzi Local Municipality	Municipality	-29.6179	30.3825	618536	2011.0	South Africa	Africa	1289214.0	2015.0	Community - GPC	210255077800.522	178449310508.0	2011.0	USD
+14	Nantes	Urban Community of Nantes Métropole	Intercommunality	47.2181	-1.5528	602923	2012.0	France	Europe	2076210.0	2003.0	Community	25096388125.0208	21300000000.0	2011.0	USD
+15	Nelson Mandela	Nelson Mandela Bay Metropolitan Municipality	Independent municipality	-33.0	25.0	1152115	2011.0	South Africa	Africa	4986052.0	2012.0	Community	6002821921.49932	42000000000.0	2012.0	ZAR
+16	Osaka	Osaka Prefecture	State / Region	34.69	135.52	8864228	2012.0	Japan	East Asia	50040000.0	2009.0	Community	468438010171.86206			
+17	Sao Paulo	Municipality of São Paulo	Municipality	-23.5505	-46.633309000000004	11253503	2010.0	Brazil	Latin America & Caribbean	15880130.359000001	2011.0	Community	296267786865.972	255288000000.0	1971.0	USD
+18	Sapporo	Sapporo City	Municipality	43.062	141.3544	1952356	2015.0	Japan	East Asia	13024847.61	2014.0	Community	103173988731.68599			
+19	Singapore	Government of Singapore	Sovereign city-state	1.283333	103.833333	5535000	2015.0	Singapore	Southeast Asia	46831680.0	2010.0	Community	359124395494.95294	390089100000.0	2014.0	SGD
+20	Umeå	Umeå Municipality	Municipality	63.8258	20.262999999999998	120058	2015.0	Sweden	Europe	521267.0	2013.0	Community	7258075649.614679	4812000000.0	2012.0	EUR
+21	Uppsala	Uppsala Municipality	Municipality	59.85856	17.638927	217000	2017.0	Sweden	Europe	1182401.0	2014.0	Community	15733293571.3701	92543000000.0	2014.0	SEK
+22	Växjö	Växjö Municipality	Municipality	56.879	14.805852	89500	2016.0	Sweden	Europe	285353.0	2013.0	Community - GPC	5385766499.37743	31075000000.0	2012.0	SEK
+23	eThekwini	eThekwini Metropolitan Municipality	Independent municipality	-29.8587	31.02184	3765088	2015.0	South Africa	Africa	22118090.0	2015.0	Community - GPC	26347959675.812	289300000000.0	2015.0	ZAR
+24	Örebro	Örebro Municipality	Municipality	59.2667	15.2167	146631	2016.0	Sweden	Europe	470149.0	2015.0	Community	9601350231.16959	56475000000.0	2014.0	SEK
