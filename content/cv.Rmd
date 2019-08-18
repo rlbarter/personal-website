@@ -105,7 +105,7 @@ Aug 21 2019, *Learn to purrr*, **R Ladies Sydney**
 
 - A 2-hour workshop on the purrr R package for the R Ladies Sydney meetup. 
 
-- [content](http://www.rebeccabarter.com/blog/2019-08-16_purrr/)
+- [content](http://www.rebeccabarter.com/blog/2019-08-19_purrr/)
 
 
 Feb 12 2019, *Interactivity and Shiny*, [**Environment and Society: Data Science for the 21st Century**](http://ds421.berkeley.edu/), UC Berkeley

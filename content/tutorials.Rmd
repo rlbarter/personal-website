@@ -8,6 +8,8 @@ I  have made a number of tutorials on a variety of R- and statistics-related top
 
 ## R packages
 
+- [purrr](http://www.rebeccabarter.com/blog/2019-08-19_purrr/): an introduction to the purrr R package for iteration
+
 - The [tidyverse](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/): a two part summary of the tidyverse, aimed at helping practitioners transition from base R to the tidyverse. [Part 1](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/) focuses on tidy thinking, piping, dplyr and ggplot2, and [Part 2](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse_pt2/) focuses on tidyr, purrr, readr, tibbles as well as lubridate, forcats and stringr
 
 - [recipes](http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/): an introduction to using the recipes R package for pre-processing data prior to machine learning
