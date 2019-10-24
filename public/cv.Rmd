@@ -95,6 +95,13 @@ Tutorial)
 ### Workshops
 
 
+October 16 2019, *Transitioning into the tidyverse*, **R Ladies San Francsico**
+
+- A 1.5 hour seminar-workshop on transitioning into the tidyverse. Aimed at people familiar with base R who want to familiarize themselves with the tidyverse, as well as those who have a little experience with the tidyverse and want a big picture of how it all fits together.
+
+- [content](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/)
+
+
 Aug 23 2019, *Transitioning into the tidyverse*, **Department of Mathematics and Statistics**, The University of Sydney
 
 - A 1 hour seminar-workshop on transitioning into the tidyverse. Aimed at people familiar with base R who want to familiarize themselves with the tidyverse, as well as those who have a little experience with the tidyverse and want a big picture of how it all fits together.
@@ -201,6 +208,8 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 ## Talks
 
 ### Conference Talks
+
+January 2020, *Becomming an R blogger*, **RStudio::conf 2020**
 
 March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
 

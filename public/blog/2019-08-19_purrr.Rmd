@@ -71,7 +71,7 @@ The naming convention of the map functions are such that the type of the **outpu
 
 Consistent with the way of the tidyverse, the first argument of each mapping function is always the data object that you want to map over, and the second argument is always the *function* that you want to iteratively apply to each element of the input object. 
 
-The **input** `object` to any `map` function is always either 
+The **input** object to any `map` function is always either 
 
 - a *vector* (of any type), in which case the iteration is done over the entries of the vector,
 
@@ -460,7 +460,7 @@ tibble(list_col = list(c(1, 5, 7),
 
 Let's return to the nested gapminder dataset. I want to calculate the average life expectancy within each continent and add it as a new column using `mutate()`. Based on the example above, can you explain why the following code doesn't work?
 
-```{r}
+```{r eval = FALSE}
 gapminder_nested %>% 
   mutate(avg_lifeExp = mean(data$lifeExp))
 ```
@@ -515,7 +515,7 @@ gapminder_nested %>% pluck("lm_obj", 1)
 I can then predict the response for the data stored in the `data` column using the corresponding linear model. So I have two objects I want to iterate over: the data and the linear model object. This means I want to use `map2()`. When things get a little more complicated I like to have multiple function arguments, so I'm going to use a full anonymous function rather than the tilde-dot shorthand. 
 
 ```{r}
-# fit a model separately for each continent
+# predict the response for each continent
 gapminder_nested <- gapminder_nested %>% 
   mutate(pred = map2(lm_obj, data, function(.lm, .data) predict(.lm, .data)))
 gapminder_nested
@@ -524,7 +524,7 @@ gapminder_nested
 And I can then calculate the correlation between the predicted response and the true response, this time using the `map2()_dbl` function since I want the output the be a numeric vector rather than a list of single elements.
 
 ```{r}
-# fit a model separately for each continent
+# calculate the correlation between observed and predicted response for each continent
 gapminder_nested <- gapminder_nested %>% 
   mutate(cor = map2_dbl(pred, data, function(.pred, .data) cor(.pred, .data$lifeExp)))
 gapminder_nested
@@ -544,8 +544,9 @@ gapminder %>%
   nest() %>%
   mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + year + gdpPercap, data = .))) %>%
   mutate(lm_tidy = map(lm_obj, broom::tidy)) %>%
+  ungroup() %>%
   transmute(continent, lm_tidy) %>%
-  unnest()
+  unnest(cols = c(lm_tidy))
 ```
 
 Hint: starting from the `gapminder` dataset, use `group_by()` and `nest()` to nest by continent, use a mutate together with `map` to fit a linear model for each continent, use another mutate with `broom::tidy()` to get a data frame of model coefficients for each model, and a `transmute` to get just the columns you want, followed by an `unnest()` to re-expand the nested tibble. 
@@ -646,8 +647,9 @@ gapminder %>%
   nest() %>%
   mutate(lm_obj = map(data, ~lm(lifeExp ~ pop + year + gdpPercap, data = .))) %>%
   mutate(lm_tidy = map(lm_obj, broom::tidy)) %>%
+  ungroup() %>%
   transmute(continent, lm_tidy) %>%
-  unnest()
+  unnest(cols = c(lm_tidy))
 ```
 
 
