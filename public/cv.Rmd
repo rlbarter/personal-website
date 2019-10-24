@@ -184,7 +184,7 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ## Community
 
-2018 - Judge for the [SciPy 2018 John Hunter Excellence in Plotting Competition](https://scipy2018.scipy.org/ehome/299527/648119/?&speakerid=951914&language=eng&back=1)
+2018/19 *Judge* for the [**SciPy 2018 John Hunter Excellence in Plotting Competition**](https://scipy2018.scipy.org/ehome/299527/648119/?&speakerid=951914&language=eng&back=1)
 
 - I was one of the Judges who chose the best visualizations from among the 38 entries to the John Hunter Excellence in Plotting Competition.
 
@@ -209,7 +209,7 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ### Conference Talks
 
-January 2020, *Becomming an R blogger*, **RStudio::conf 2020**
+January 2020, **Becomming an R blogger**, *RStudio::conf 2020*
 
 March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
 
