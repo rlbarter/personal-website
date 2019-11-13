@@ -31,12 +31,12 @@ Statistics, The University of Sydney Australia*
 ------
 
 ## Education
-**PhD in Statistics** , *University of California, Berkeley*, Graduated December 2019
+**PhD in Statistics** , *University of California, Berkeley*, Graduated December 2019.
 Thesis title: "Visualization, Prediction, and Causal Inference: Applications in Healthcare"
 
 **Bachelor of Science (Advanced)
 (First Class Honours and University Medal in Statistics)**,
-*The University of Sydney, Australia*, Graduated November 2013
+*The University of Sydney, Australia*, Graduated November 2013.
 Thesis title: "Network-based Biomarker Identification for Stage III Melanoma"
 
 ------
