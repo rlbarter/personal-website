@@ -6,9 +6,9 @@ date: "2016-05-05T21:48:51-07:00"
 
 Hi there! I'm Rebecca Barter. I'm so glad you've made it to my page.
 
-Originally from Australia, I moved to California in 2014 and am now towards the tail-end of my PhD in Statistics at UC Berkeley where I'm advised primarily by Prof Bin Yu. I have been fortunate to be a Data Science Fellow for the past few years at the [Berkeley Institute for Data Science (BIDS)](https://bids.berkeley.edu). 
+Originally from Australia, I moved to California in 2014 and graduated from my PhD in Statistics at UC Berkeley in December 2019, during which time I was advised primarily by Prof Bin Yu. I have been fortunate to be a Data Science Fellow for the past few years at the [Berkeley Institute for Data Science (BIDS)](https://bids.berkeley.edu), and am about to start a post doctoral position with Bin Yu, during which she and I will write a book on data science. 
 
-My research focuses on data science in medicine (such as predicting surgical site infections using electronic medical records). My dual passions are explaining "seemingly complicated" concepts to others in plain English, and exploring and presenting the stories that underlie complex datasets.
+My research focuses on data science in healthcare (such as predicting surgical site infections using electronic health records). I particularly enjoy making sense of complex, messy and sometimes nonsensical datasets, such as electronic health records, and insurance claims. My dual passions are explaining "seemingly complicated" concepts to others in plain English, and exploring and presenting the stories that underlie complex datasets.
 
 I have dabbled in writing software as the author of the [superheat](https://github.com/rlbarter/superheat) R package for creating beautiful and customizable heatmaps in R.
 
