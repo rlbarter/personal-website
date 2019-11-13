@@ -17,7 +17,7 @@ If you'd like to quickly brush up on your causal inference, the fundamental issu
 
 Recall that the causal estimand is *identifiable* when (1) exchangeability/ignorability, (2) consistency and (3) positivity all hold. This means that the causal effect can be unbiasedly estimated using the estimand,
 $$\hat{\tau} = \frac{1}{n_T}\sum_{i : T_i = 1} y_i - \frac{1}{n_C}\sum_{i:T_i = 0}y_i.$$ 
-where $n_T$ and $n_C$ are the number of individuals in the treated and control groups, respectively. This is simply the difference between the average treated and control outcomes.
+where $n_T$ and $n_C$ are the number of individuals in the treated and control groups, respectively. This is the difference between the average treated and control outcomes.
 
 
 

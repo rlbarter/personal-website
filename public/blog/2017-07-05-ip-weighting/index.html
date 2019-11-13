@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2017-07-05T21:13:14-05:00" />
 <meta itemprop="dateModified" content="2017-07-05T21:13:14-05:00" />
-<meta itemprop="wordCount" content="1419">
+<meta itemprop="wordCount" content="1418">
 
 
 
@@ -463,7 +463,9 @@ ga('send', 'pageview');
 <p>If you’d like to quickly brush up on your causal inference, the fundamental issue associated with making causal inferences, and in particular, the troubles that arise in the presence of confounding, I suggest you read my <a href="../2017-07-05-confounding/index.html">previous post</a> on this topic.</p>
 <div id="confounding-and-idenitifiability" class="section level1">
 <h1>Confounding and idenitifiability</h1>
-<p>Recall that the causal estimand is <em>identifiable</em> when (1) exchangeability/ignorability, (2) consistency and (3) positivity all hold. This means that the causal effect can be unbiasedly estimated using the estimand, <span class="math display">\[\hat{\tau} = \frac{1}{n_T}\sum_{i : T_i = 1} y_i - \frac{1}{n_C}\sum_{i:T_i = 0}y_i.\]</span> where <span class="math inline">\(n_T\)</span> and <span class="math inline">\(n_C\)</span> are the number of individuals in the treated and control groups, respectively. This is simply the difference between the average treated and control outcomes.</p>
+<p>Recall that the causal estimand is <em>identifiable</em> when (1) exchangeability/ignorability, (2) consistency and (3) positivity all hold. This means that the causal effect can be unbiasedly estimated using the estimand,
+<span class="math display">\[\hat{\tau} = \frac{1}{n_T}\sum_{i : T_i = 1} y_i - \frac{1}{n_C}\sum_{i:T_i = 0}y_i.\]</span>
+where <span class="math inline">\(n_T\)</span> and <span class="math inline">\(n_C\)</span> are the number of individuals in the treated and control groups, respectively. This is the difference between the average treated and control outcomes.</p>
 <p>In the presence of confounding, the exchangeability assumption is false, implying that the estimand above is not unbiased for the true population average causal effect.</p>
 <p>Under the stronger condition of <strong>conditional exchangeability</strong>, wherein exchangeability holds within each strata of the confounding variables (i.e. <span class="math inline">\(Y(1), Y(0) \perp T | X\)</span>), then there are methods that can be used to eliminate confounding and estimate the causal effect.</p>
 <p>In this post, I will discuss one such method, the inverse-probability method, for removing (or adjusting for) confounding.</p>
@@ -483,7 +485,8 @@ ga('send', 'pageview');
 <p><img src="/img/causal-inference/propensity-weighting.png" style="display: block; margin: auto;" /></p>
 <p>As implied by its name, inverse probability weighting literally refers to weighting the outcome measures by the inverse of the probability of the individual with a given set of covariates being assigned to their treatment (note that this doesn’t depend on whether or not the individual <em>was</em> in fact assigned to treatment).This quantity is known as the <strong>propensity score</strong> and is denoted</p>
 <p><span class="math display">\[p(x) = P(T = 1 | X = x)\]</span></p>
-<p>For treated individuals, we weight their outcome by <span class="math display">\[w(x) = \frac{1}{p(x)},\]</span></p>
+<p>For treated individuals, we weight their outcome by
+<span class="math display">\[w(x) = \frac{1}{p(x)},\]</span></p>
 <p>whereas for control individuals, the weight is:</p>
 <p><span class="math display">\[w(x) = \frac{1}{1 - p(x)}\]</span></p>
 <p>Obviously unless we randomly assigned treatment with a set probability (as in the example above), we do not actually know the propensity score of each individual. What we do observe however, is which individuals <em>were</em> actually assigned to treatment, along with a number of measured covariates for each individual. The idea is that we can use these covariates as well as our observation of who received treatment to develop a <strong>logistic regression</strong> model that predicts the probability of treatment (propensity score).</p>
@@ -494,7 +497,8 @@ ga('send', 'pageview');
 \end{align*}\]</span></p>
 <p>where <span class="math inline">\(\hat{p}(x)\)</span> is a logistic-regression based estimator of the propensity score.</p>
 <p>To show that this quantity is unbiased for the original quantity we want to estimate, <span class="math inline">\(\tau = E[Y(1)] - E[Y(0)]\)</span>, it is sufficient to show that</p>
-<p><span class="math display">\[E \left[ \frac{Y T}{p(X)}\right] = E[Y(1)], ~~~~~ \textrm{and} ~~~~~ E \left[ \frac{Y (1 - T)}{1 - p(X)}\right] = E[Y(0)]\]</span> which is easy to see as follows:</p>
+<p><span class="math display">\[E \left[ \frac{Y T}{p(X)}\right] = E[Y(1)], ~~~~~ \textrm{and} ~~~~~ E \left[ \frac{Y (1 - T)}{1 - p(X)}\right] = E[Y(0)]\]</span>
+which is easy to see as follows:</p>
 <p><span class="math display">\[\begin{align*}
 E \left[ \frac{Y ~T}{p(X)}\right] &amp;= E \left[ E \left[ \frac{Y T}{p(X) }\Bigg| X\right] \right]\\
 &amp; = E \left[ E \left[ \frac{Y(1) ~T}{p(X)} \Bigg|X\right] \right]\\
@@ -509,7 +513,8 @@ E \left[ \frac{Y ~T}{p(X)}\right] &amp;= E \left[ E \left[ \frac{Y T}{p(X) }\Big
 <p>A common alternative to the conventional weights that at least “kind of” addresses this problem are the <strong>stabilized weights</strong>, which use the marginal probability of treatment instead of <span class="math inline">\(1\)</span> in the weight numerator.</p>
 <p>For treated individuals, the stabilized weight is given by</p>
 <p><span class="math display">\[w(x) = \frac{P(T = 1)}{p(x)} = \frac{P(T = 1)}{P(T = 1 | X = x)}\]</span></p>
-<p>and for control individuals, the stabilized weight is <span class="math display">\[w(x) = \frac{1 - P(T = 1)}{1 - p(x)} = \frac{1 - P(T = 1)}{1 - P(T = 1 | X = x)}\]</span></p>
+<p>and for control individuals, the stabilized weight is
+<span class="math display">\[w(x) = \frac{1 - P(T = 1)}{1 - p(x)} = \frac{1 - P(T = 1)}{1 - P(T = 1 | X = x)}\]</span></p>
 <p>Note that whereas the original weights essentially <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4351790/">doubles the sample size</a>, these stabilized weights preserve the sample size.</p>
 </div>
 </div>
