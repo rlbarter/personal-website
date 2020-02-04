@@ -1,0 +1,95 @@
+---
+title: "Becoming an R blogger."
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, rstudioconf, blog]
+date: 2020-02-03T23:13:14-05:00
+type: "post" 
+description: "In this post I discuss why I became an R blogger, why you should too, and some tips and tricks to get your started. This post is based on my rstudio::conf(2020) talk called 'Becoming an R blogger'" 
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#why-start-a-blog">Why start a blog?</a></li>
+<li><a href="#how-to-choose-a-topic">How to choose a topic</a></li>
+<li><a href="#use-interesting-and-easily-accessible-data-examples">Use interesting and easily accessible data examples</a></li>
+<li><a href="#keep-it-simple">Keep it simple</a></li>
+<li><a href="#creating-and-hosting-your-blog">Creating and hosting your blog</a></li>
+<li><a href="#spreading-the-word">Spreading the word</a></li>
+<li><a href="#go-forth-and-blog">Go forth and blog!</a></li>
+</ul>
+</div>
+
+<p>This year I was given the opportunity to talk at rstudio::conf(2020), which, if you’ve never been, is one of those rare conferences where every person you meet is both extremely friendly and excited about R, and you learn a million fun and useful things that you can <em>actually use</em>. 10/10, would go again.</p>
+<p>My talk was about blogging about R. Specifically, about why I blog, and why you should too, while also giving some tips and tricks for getting started. My slides can are here, if you just want to flick through the slides and get the tl;dr.</p>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ2Q5VLQ-izMDNocHumJzStmo2IIo9BVKRqXmWve0UocVzTWMOVlBAz8mfCMpJ1cA0G_3O5i3uyJ-jH/embed?start=false&amp;loop=false&amp;delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+</iframe>
+<p>Read on below if you’re interested in learning more!</p>
+<div id="why-start-a-blog" class="section level1">
+<h1>Why start a blog?</h1>
+<p>Many years ago, I began to realize that I love to teach and explain <em>things</em>. As it turned out, it doesn’t really matter what the <em>things</em> are, but since I happened to be getting a PhD in statistics, I figured I might as well apply my love of explaining things to my work. Since I figured I might want to do explain things as a career one day, I decided to start a <strong>portfolio</strong> in the form of a blog, which turned out to be a great way to <strong>practice my explaining skills</strong> (which have undoubtedly improved over the past few years). To be honest, I never really expected anyone to pay attention to the things I wrote (and for many years, they didn’t), but I’m pretty excited that you’re here reading this now!</p>
+<p>One of the main benefits I’ve found since I started my blog several years ago is that I’ve <strong>learnt so many things</strong>. For starters, having to come up with topics to write about is an excellent way to keep up with what’s current. If you hear about a new R package or statistical concept floating around, but you can’t think of an excuse to learn about it in your every-day work, write a blog post about it! Having to explain something is an excellent way to learn it. Writing a blog post also turns out to be a great way to <strong>procrastinate</strong> during those afternoons when you can’t force yourself to do your actual work, but you still want to give the illusion (both to your boss and yourself) that you’re being productive.</p>
+<p>So my top 4 reasons to start a blog:</p>
+<ol style="list-style-type: decimal">
+<li><p>To learn!</p></li>
+<li><p>Portfolio &amp; gain exposure (people will start to know who you are)</p></li>
+<li><p>To practice your communication skills</p></li>
+<li><p>Productive procrastination</p></li>
+</ol>
+<p>Bonus reason: someone else might find what you wrote useful and send you a nice email, or even give you a job!</p>
+</div>
+<div id="how-to-choose-a-topic" class="section level1">
+<h1>How to choose a topic</h1>
+<p>So you’ve decided you want to start a blog. That’s so awesome! Now how in the world are you supposed to decide what to write about?</p>
+<p>I tend to choose topics in one of two ways:</p>
+<p><strong>Write about something that you just learned</strong>. Especially if you had a hard time learning it, because there weren’t any good resources out there. This is a definite indication that there is a need for a good post about a topic. It happens surprisingly often, even with widely used R packages.</p>
+<p>Alternatively, <strong>write about something you want to learn</strong>. As I mentioned above, having to explain something to someone else is a great way to learn something thoroughly in the first place.</p>
+</div>
+<div id="use-interesting-and-easily-accessible-data-examples" class="section level1">
+<h1>Use interesting and easily accessible data examples</h1>
+<p>I always try to use interesting data examples (such as the gapminder dataset), or examples that are humorous in some way (such as the baking data example for my <a href="http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/">recipes blogpost</a>).</p>
+<p>Making it very easy for your reader to access the data in their own console is highly recommended. For instance, instead of proving a link where the user can download the data locally to their computer and then load it in to their environment (since who knows where it will end up on their computer relative to their working directory), try to use data examples that can be downloaded directly from a URL. For instance:</p>
+<pre class="r"><code>muffin_cupcake_data_orig &lt;- read_csv(&quot;https://raw.githubusercontent.com/adashofdata/muffin-cupcake/master/recipes_muffins_cupcakes.csv&quot;)</code></pre>
+</div>
+<div id="keep-it-simple" class="section level1">
+<h1>Keep it simple</h1>
+<p>When explaining technical concepts, try to stay away from complex terminology, jargon, notation, and if possible, stay away from math altogether. Opt instead for metaphors and images that explain a concept. You’re writing a blog post, not a text book. My advice is always: explain it to your grandmother. Always keep your audience in mind. Err on the side of being <em>too</em> detailed, and assume that your audience is a total newbie. Then the people who already know the basics can skip over your intro-level descriptions and take away the high level info, but this way you’re still making your post accessible to absolute newbies.</p>
+<p>In addition, avoid saying that things are “obvious”, “easy”, or “trivial”. Just because they are for you, doesn’t mean that they are for everyone, and you’re likely to scare away people who don’t find it obvious, easy, or trivial.</p>
+</div>
+<div id="creating-and-hosting-your-blog" class="section level1">
+<h1>Creating and hosting your blog</h1>
+<p>I write my blog in RStudio using the <a href="https://bookdown.org/yihui/blogdown/">blogdown</a> R package, which magically combines many .Rmd files into a webpage. It’s amazing. There are many pre-existing themes that you can choose from that you can modify with a little bit of CSS and html code if you want to.</p>
+<p>I also have a <a href="https://github.com/rlbarter/personal-website">GitHub repository</a> that contains my website, which is where I push any updates I make to my website to. Then I have a Netlify site that mirrors whatever is in the GitHub repository, so that any changes I push are automatically updated.</p>
+<p>A summary of the technical workflow to get the website set up is as follows: make a GitHub repository containing your website, tell Netlify what the repository is called and push. Bam! Your website is now ready!</p>
+<p>If you’re looking for some more explicit details, here they are:</p>
+<ol style="list-style-type: decimal">
+<li><p>Start a new github repository for your website and call it anything you like. By that I mean that it doesn’t have to be <code>username.github.io</code>. I called mine <code>personal-webpage</code>. So creative, I know.</p></li>
+<li><p>Use the R package <a href="https://bookdown.org/yihui/blogdown/">blogdown</a> to design your page with <a href="https://gohugo.io/">Hugo</a>. There are lots of cool <a href="https://themes.gohugo.io/">themes</a> available. Choose a good one.</p></li>
+<li><p>Push your website, content and all, to your new repo.</p></li>
+<li><p>Head on over to <a href="https://app.netlify.com/">netlify</a>, create and account/log in and hit “New site from Git”.</p></li>
+</ol>
+<ul>
+<li><p>Step 1: Set the Continuous Deployment Git provider to GitHub (or whichever provider you use).</p></li>
+<li><p>Step 2: Choose the repository containing your website.</p></li>
+<li><p>Step 3: Set the Build command to hugo_0.19 (or whichever version you want), and the Publish directory to “public” (this is the folder in which Hugo by default puts the actual webpage files when it’s built).</p></li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li><p>Hit “Deploy site”.</p></li>
+<li><p>If you like you can choose to “Change site name”.</p></li>
+<li><p>Your site can now be found at <code>sitename.netlify.com</code>!</p></li>
+<li><p>Every time you push new content to the GitHub repo, Netlify will automatically rebuild and deploy your site. You can just sit back and relax :).</p></li>
+</ol>
+<p>It’s probably a good idea to buy a domain name from somewhere like Google Domains for like $10/year and point that domain name towards your netlify site, but otherwise you’re good to go!</p>
+</div>
+<div id="spreading-the-word" class="section level1">
+<h1>Spreading the word</h1>
+<p>Title your blogs as something people might google, such as “A caret tutorial” (try googling this, and see what comes up ;)). Most of the people who come to my website find it on Google.</p>
+<p>A great way to gain a reader following is Twitter (I’m <span class="citation">[@rlbarter]</span>(<a href="https://twitter.com/rlbarter" class="uri">https://twitter.com/rlbarter</a>)). Twitter is also a surprisingly effective way to keep up to date with what’s current with the R community. Even though I initially had very few followers, whenever I shared one of my blogs on twitter, it would get a surprisingly large number of re-tweets and likes. It gave me warm fuzzies.</p>
+<p>Finally, another great way to get experience explaining things, and to get your blog (and name) out there is to run tutorials on your favorite blog posts. Reach out to your local R Ladies or UseR! groups, or run a tutorial in your department or company.</p>
+</div>
+<div id="go-forth-and-blog" class="section level1">
+<h1>Go forth and blog!</h1>
+</div>

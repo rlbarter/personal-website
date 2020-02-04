@@ -1,0 +1,129 @@
+---
+title: "10 R tips from rstudio::conf(2020)"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, purrr, tidyverse]
+date: 2020-01-31T23:13:14-05:00
+type: "post" 
+description: "This week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the smaller tips and tricks that I learnt throughout the conference." 
+---
+
+
+Rstudio::conf(2020) is my favourite conference. This was my second year attending as a diversity scholar, and I was yet again blown away by the friendliness of the community and the quality of the presentations. Over the course of the week, I met so many wonderful and talented humans, and learnt so many things. While there were number of big things I learnt, this post is all about those little tips and tricks that I picked up from watching everyone's fantastic presentations, and having many insightful conversations. 
+
+
+# Tip 1: `geom_col()`: you'll never have to specify "stat = identity" for your bar plots ever again!
+
+Most of the time when I want to make a bar chart, I want to provide an `x` variable for the bar identifier, and a `y` variable for the height of the bar. However, when I use the `geom_bar()` function for this, I get the annoying error `Error: stat_count() must not be used with a y aesthetic.`. This happens *literally every time*. The typical fix for this is to include `stat = 'identity'` as an argument of `geom_bar()`, but it turns out *there's a better way*!
+
+During his fantastic talk on his ggtext package, Klaus Wilkinson casually used the `geom_col()` function to create a *column chart* (is that what `geom_col()` stands for?), which, as it turns out, is what I've been trying to make the whole time. To demonstrate `geom_col()` we will use the inbuilt islands dataset consisting of the sizes of the land masses. `islands` initially comes as a named vector, so here are some bonus tips: the `enframe()` function converts a named vector to a two-column data frame, and the `gt()` function is a nice way to print a data frame in html format.
+
+```{r}
+library(tidyverse)
+library(gt)
+large_islands <- islands %>%
+  # convert the vector to a data frame
+  enframe(name = "island", value = "land_mass") %>%
+  # filter to the larger islands
+  filter(land_mass > 1000)  
+gt(large_islands)
+```
+
+
+When I want to create a bar plot I usually try 
+
+```{r, eval = FALSE}
+large_islands %>%
+  ggplot() +
+  geom_bar(aes(x = island, y = land_mass))
+```
+
+and fix the error by specifying `stat = "identity"`. 
+
+```{r, eval = FALSE, fig.align="center"}
+large_islands %>%
+  ggplot() +
+  geom_bar(aes(x = island, y = land_mass), stat = "identity")
+```
+
+While it seems like a very small life improvement, you have no idea how much joy simply being able to use `geom_col()` brings me. I'm never going to have to specify `stat = "identity"` again! I'm so pathetically excited!
+
+```{r, eval = FALSE, fig.align="center"}
+large_islands %>%
+  ggplot() +
+  geom_col(aes(x = island, y = land_mass))
+```
+
+
+# Tip 2: Pipe into later arguments of a function using `.`
+
+While I didn't technically learn this one from a talk at rstudio::conf(2020), I did run into an old friend Garth ([@garthtarr](https://twitter.com/garthtarr)) who told me about this little trick: if you want to pipe an object into any argument of a function other than the first one, you can do so using the `.` placeholder. For instance, let's say that you want to use the `lm` function to fit a linear model, and because you, like me, are a tidyverse fangirl, you want to pipe the data into `lm`. 
+
+Using the `midwest` dataset from the ggplo2 package, we will try to model population density (`popdensity`) as a linear function of the poverty rate (`percbelowpoverty`). The following code, however, doesn't work:
+
+```{r, eval = FALSE}
+midwest %>% lm(popdensity ~ percbelowpoverty)
+```
+
+
+What's going wrong? There are two things you need to understand about what's happening here:
+
+1. The argument order of `lm()` us `lm(formula, data)`
+
+1. The pipe, `%>%`, automatically places the *object* to the left of the pipe into the first argument of the *function* to the right of the pipe
+
+so `iris %>% lm(Sepal.Length ~ Sepal.Width)` above is equivalent to `lm(formula = iris, data = Sepal.Length ~ Sepal.Width)`, which has the arguments reversed.
+
+Instead of abandoning our trusty pipe (the thought of which fills me with sadness), we can instead pipe the data into the *second* argument using `.`: 
+
+```{r}
+midwest %>% lm(popdensity ~ percbelowpoverty, .)
+```
+
+
+which is equivalent to
+
+```{r}
+midwest %>% lm(formula = popdensity ~ percbelowpoverty, data = .)
+```
+
+
+Note that we could alternatively just name the formula argument, which would automatically pipe the object into the first *unassigned* argument (which in our case is data), but this becomes cumbersome when you have many arguments. 
+
+```{r}
+midwest %>% lm(formula = popdensity ~ percbelowpoverty)
+```
+
+
+
+
+# Tip 3: Rayshader for making 3D ggplots
+
+
+
+# Tip 4: Include images in R Markdown by editing the yaml header
+
+
+
+# Tip 5: Include note boxes in R Markdown
+
+
+# Tip 6: Using .data as a stand-in for your data inside tidyverse functions
+
+
+
+# Tip 7: Adding `NULL` to a plot changes nothing
+
+
+# Tip 8: Using colour in axes text using the `ggtext` package
+
+
+# Tip 9: Using `show_col()` for viewing colour palettes
+
+
+# Tip 10: Using slider for taking rolling averages
+
+
+

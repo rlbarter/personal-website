@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on Rebecca Barter</title>
+    <link>/categories/blog/</link>
+    <description>Recent content in Blog on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 Feb 2020 23:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Becoming an R blogger.</title>
+      <link>/blog/2020-02-03_blogger/</link>
+      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-02-03_blogger/</guid>
+      <description>Why start a blog? How to choose a topic Use interesting and easily accessible data examples Keep it simple Creating and hosting your blog Spreading the word Go forth and blog!   This year I was given the opportunity to talk at rstudio::conf(2020), which, if you’ve never been, is one of those rare conferences where every person you meet is both extremely friendly and excited about R, and you learn a million fun and useful things that you can actually use.</description>
+    </item>
+    
+  </channel>
+</rss>

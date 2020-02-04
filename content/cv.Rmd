@@ -5,12 +5,15 @@ date: "2016-05-05T21:48:51-07:00"
 
 ## Experience
 
-August 2016 - Present **Data Science Fellow**,
+January 2020 - Present **Postdoctoral Scholar**, 
+*Department of Statistics, University of California, Berkeley*
+
+August 2014 - December 2019 **Graduate Student Researcher (GSR)**,
+*Department of Statistics, University of California, Berkeley*
+
+August 2016 - December 2018 **Data Science Fellow**,
 *Berkeley Institute of Data Science, University of
 California, Berkeley*
-
-August 2014 - Present **Graduate Student Researcher (GSR)**,
-*Department of Statistics, University of California, Berkeley*
 
 January 2015 - May 2017 **Graduate Student Instructor (GSI)**,
 *Department of Statistics, University of California, Berkeley*
@@ -94,6 +97,16 @@ Tutorial)
 - MATH 1005 Statistics
 
 ### Workshops
+
+March 2020, *Women's Summit*, [**Correlation One**](https://www.correlation-one.com/ds4a)
+
+- TA for the month-long Women's Summuit workshop run by Correlation One. This program pairs mentors with aspriring female data scientists, combining hands-on learning, mentorship, and professional development in a multi-day event.
+
+Feb 11 2020, *Interactivity and Shiny*, [**Environment and Society: Data Science for the 21st Century**](http://ds421.berkeley.edu/), UC Berkeley
+
+- A 1.5 hour workshop on interactivity and creating shiny applications to 15 students in the National Science Foundation Research Traineeship (NRT) interdisciplinary graduate training program at UC Berkeley at the interface of data, social and natural sciences.
+
+- [slides](http://slides.com/rebeccabarter/shiny/fullscreen)
 
 
 October 16 2019, *Transitioning into the tidyverse*, **R Ladies San Francsico**
@@ -210,7 +223,7 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ### Conference Talks
 
-January 2020, **Becomming an R blogger**, *RStudio::conf 2020*
+January 2020, **Becomming an R blogger**, *RStudio::conf 2020*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf)]
 
 March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
 

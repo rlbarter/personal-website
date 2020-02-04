@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2020-02-03_blogger/</loc>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2019-08-19_purrr/</loc>
     <lastmod>2019-08-19T23:13:14-05:00</lastmod>
   </url>
@@ -178,8 +183,14 @@
   </url>
   
   <url>
+    <loc>/categories/blog/</loc>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/blog/</loc>
-    <lastmod>2019-08-19T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -311,7 +322,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-08-19T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -329,13 +340,19 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-08-19T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/reproducibility/</loc>
     <lastmod>2019-03-23T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/rstudioconf/</loc>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

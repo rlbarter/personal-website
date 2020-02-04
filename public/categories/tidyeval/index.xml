@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tidyeval on Rebecca Barter</title>
+    <link>/categories/tidyeval/</link>
+    <description>Recent content in Tidyeval on Rebecca Barter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 Feb 2020 23:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/categories/tidyeval/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>10 R tips from rstudio::conf(2020) - tidy evaluation, piping into later arguments, changing axis colors and more.</title>
+      <link>/blog/2020-02-03_rstudio_conf/</link>
+      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-02-03_rstudio_conf/</guid>
+      <description>Tip 1: geom_col(): you’ll never have to specify “stat = identity” for your bar plots ever again! Tip 2: Pipe into later arguments of a function using . Tip 3: Make gifs using the gifski package Tip 4: Usethis and chatty functions Tip 5: Tidy evaluation: accessing variables inside functions using {{ }} and .data Tip 6: Adding NULL to a plot changes nothing Tip 7: Using italics, colour in axes text using the ggtext package Tip 9: Using show_col() for viewing colour palettes Tip 10: Using slider for taking rolling averages   Rstudio::conf(2020) is my favourite conference.</description>
+    </item>
+    
+  </channel>
+</rss>

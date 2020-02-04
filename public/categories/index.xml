@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Blog</title>
+      <link>/categories/blog/</link>
+      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Causal Inference</title>
       <link>/categories/causal-inference/</link>
       <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
@@ -176,7 +185,7 @@
     <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Mon, 19 Aug 2019 23:13:14 -0500</pubDate>
+      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/r/</guid>
       <description></description>
@@ -197,6 +206,15 @@
       <pubDate>Sat, 23 Mar 2019 23:13:14 -0500</pubDate>
       
       <guid>/categories/reproducibility/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstudioconf</title>
+      <link>/categories/rstudioconf/</link>
+      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/rstudioconf/</guid>
       <description></description>
     </item>
     
