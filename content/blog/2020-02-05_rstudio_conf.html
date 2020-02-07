@@ -53,7 +53,7 @@ description: "Last week I had the pleasure of attending rstudio::conf(2020) in S
 <pre><code>## Error in FUN(X[[i]], ...): object &#39;popdensity&#39; not found</code></pre>
 <p>but this doesn’t work! Perhaps if I quote the variable names it will work:</p>
 <pre class="r"><code>plotMidwest(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;)</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The above code didn’t throw an error, but this is literally plotting the <em>word</em> “popdensity” against the <em>word</em> “percbelowpoverty”, which isn’t what I wanted to do!</p>
 <p>The secret to providing column names as arguments to a function is…. tidy eval! Fortunately even without understanding <em>why</em> it works (something about delaying evaluation until later in the execution path blah blah blah), you can use tidy eval. The way you do this is to envelop your arguments within the function in curly braces <code>{{ }}</code>:</p>
 <pre class="r"><code>plotMidwestTidy &lt;- function(var1, var2) {
@@ -62,17 +62,17 @@ description: "Last week I had the pleasure of attending rstudio::conf(2020) in S
 }</code></pre>
 <p>Now when I provide my column names as unquoted variables, I actually get the scatterplot I wanted!</p>
 <pre class="r"><code>plotMidwestTidy(popdensity, percbelowpoverty)</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Note that my tidy eval version of my <code>plotMidwest()</code> function isn’t designed to take <em>quoted</em> variable names. The following code yields the same plot as before of the <em>word</em> “popdensity” against the <em>word</em> “percbelowpoverty”.</p>
 <pre class="r"><code>plotMidwestTidy(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;)</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>A neat little trick I learned from <a href="https://twitter.com/paleolimbot?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Dewey Dunnington</a>’s talk is that you can use <code>.data</code> as placeholder for the data object inside <code>aes()</code>. This means that, if <code>var</code> is a character column name, you can access the quoted column from the data object using <code>.data[[var]]</code>:</p>
 <pre class="r"><code>plotMidwestQuoted &lt;- function(var1, var2) {
   ggplot(midwest) +
     geom_point(aes(x = .data[[var1]], y = .data[[var2]]))
 }
 plotMidwestQuoted(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;) </code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Dewey’s talk is full of gems (check out his slides: <a href="https://fishandwhistle.net/slides/rstudioconf2020/#1" class="uri">https://fishandwhistle.net/slides/rstudioconf2020/#1</a>).</p>
 </div>
 <div id="tip-2-pipe-into-later-arguments-of-a-function-using-." class="section level1">
@@ -202,13 +202,13 @@ average_price</code></pre>
 <pre class="r"><code>average_price %&gt;% 
   ggplot() +
   geom_bar(aes(x = cut, y = average_price), stat = &quot;identity&quot;)</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>But it turns out <em>there’s a better way</em>!</p>
 <p>During his fantastic talk on his <code>ggtext</code> package, <a href="https://twitter.com/ClausWilke">Claus Wilke</a>) casually used the <code>geom_col()</code> function to create a <em>column chart</em> (is that what <code>geom_col()</code> stands for?), which, as it turns out, is what I’ve been trying to make the whole time:</p>
 <pre class="r"><code>average_price %&gt;% 
   ggplot() +
   geom_col(aes(x = cut, y = average_price))</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This probably wasn’t what Claus imagined me to take away from his talk, but I swear ggtext was super cool too!</p>
 <!--  To demonstrate `geom_col()` we will use the inbuilt islands dataset consisting of the sizes of the land masses. `islands` initially comes as a named vector, so here are some bonus tips: the `enframe()` function converts a named vector to a two-column data frame, and the `gt()` function is a nice way to print a data frame in html format. -->
 <!-- ```{r} -->
@@ -245,7 +245,7 @@ average_price</code></pre>
 <p>Last but not least, <a href="https://twitter.com/dpseidel">Dana Paige Seidel</a> gave a great talk on the scales package, which does a lot of great things under the hood of ggplot. But scales also let’s you look at colours! The <code>show_col()</code> function shows you what colours look like:</p>
 <pre class="r"><code>library(scales)
 show_col(c(&quot;#9C89B8&quot;, &quot;#F0A6CA&quot;, &quot;#EFC3E6&quot;, &quot;#F0E6EF&quot;))</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Also a quick plug for how I chose these colours (and how I choose colours in general): <a href="https://coolors.co/app" class="uri">https://coolors.co/app</a>.</p>
 <p>I’m super excited for rstudio::conf(2021)!!</p>
 </div>

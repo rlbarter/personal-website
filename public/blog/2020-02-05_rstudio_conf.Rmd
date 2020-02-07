@@ -41,13 +41,13 @@ plotMidwest <- function(var1, var2) {
 
 Theoretically, this plot should be able to take the arguments `popdensity` and `percbelowpoverty` and provide me with a scatterplot of these two columns against one another:
 
-```{r error = TRUE, fig.show = "hide"}
+```{r error = TRUE, fig.show = "hide", fig.align = "center"}
 plotMidwest(popdensity, percbelowpoverty)
 ```
 
 but this doesn't work! Perhaps if I quote the variable names it will work:
 
-```{r error = TRUE}
+```{r error = TRUE, fig.align = "center"}
 plotMidwest("popdensity", "percbelowpoverty")
 ```
 
@@ -64,20 +64,20 @@ plotMidwestTidy <- function(var1, var2) {
 
 Now when I provide my column names as unquoted variables, I actually get the scatterplot I wanted!
 
-```{r error = TRUE}
+```{r error = TRUE, fig.align = "center"}
 plotMidwestTidy(popdensity, percbelowpoverty)
 ```
 
 Note that my tidy eval version of my `plotMidwest()` function isn't designed to take *quoted* variable names. The following code yields the same plot as before of the *word* "popdensity" against the *word* "percbelowpoverty".
 
 
-```{r error = TRUE}
+```{r error = TRUE, fig.align = "center"}
 plotMidwestTidy("popdensity", "percbelowpoverty")
 ```
 
 A neat little trick I learned from [Dewey Dunnington](https://twitter.com/paleolimbot?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor)'s talk is that you can use `.data` as placeholder for the data object inside `aes()`. This means that, if `var` is a character column name, you can access the quoted column from the data object using `.data[[var]]`:
 
-```{r error = TRUE}
+```{r error = TRUE, fig.align = "center"}
 plotMidwestQuoted <- function(var1, var2) {
   ggplot(midwest) +
     geom_point(aes(x = .data[[var1]], y = .data[[var2]]))
@@ -206,7 +206,7 @@ average_price %>%
 
 The typical fix for this is to include `stat = 'identity'` as an argument of `geom_bar()`.
 
-```{r error = TRUE}
+```{r error = TRUE, fig.align="center"}
 average_price %>% 
   ggplot() +
   geom_bar(aes(x = cut, y = average_price), stat = "identity")
@@ -216,7 +216,7 @@ But it turns out *there's a better way*!
 
 During his fantastic talk on his `ggtext` package, [Claus Wilke](https://twitter.com/ClausWilke)) casually used the `geom_col()` function to create a *column chart* (is that what `geom_col()` stands for?), which, as it turns out, is what I've been trying to make the whole time:
 
-```{r}
+```{r fig.align = "center"}
 average_price %>% 
   ggplot() +
   geom_col(aes(x = cut, y = average_price))
@@ -269,7 +269,7 @@ This probably wasn't what Claus imagined me to take away from his talk, but I sw
 
 Last but not least, [Dana Paige Seidel](https://twitter.com/dpseidel) gave a great talk on the scales package, which does a lot of great things under the hood of ggplot. But scales also let's you look at colours! The `show_col()` function shows you what colours look like:
 
-```{r}
+```{r, fig.align = "center"}
 library(scales)
 show_col(c("#9C89B8", "#F0A6CA", "#EFC3E6", "#F0E6EF"))
 ```
