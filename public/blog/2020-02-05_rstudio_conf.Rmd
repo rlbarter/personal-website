@@ -1,0 +1,280 @@
+---
+title: "5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, rstudioconf, tidyverse, ggplot2, tidyeval, visualization]
+date: 2020-02-06T23:13:14-05:00
+type: "post" 
+description: "Last week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the little tips and tricks that I learnt throughout the conference." 
+---
+
+
+This was my second year attending rstudio::conf() as a diversity scholar (and my first time as a [speaker](http://www.rebeccabarter.com/blog/2020-02-03_blogger/)), and I was yet again blown away by the friendliness of the community and the quality of the talks. Over the course of the week, I met so many wonderful and talented humans, and learnt so many incredibly useful things. This post is all about the little tips and tricks that I picked up from watching many fantastic presentations, attendees live tweeting, and having many insightful conversations. 
+
+
+# Tip 1: Tidy evaluation
+
+Tidy eval is one of those terms that seems to float around a lot in the R community, but I feel like 99% of us don't really get what tidy eval is, nor why we should care about it. Turns out, unless we're getting deep into package development, we probably don't need to be up to speed with tidy eval. The only part of tidy eval that I know is this: how to supply column names as unquoted arguments in functions. All of the resources I found on tidy eval go into waaay more detail about how it works, and maybe one day I'll care about that, but that time is not now.
+
+
+For this (and the next few) example, I'll use the `midwest` dataset from the ggplot2 package, the first 6 rows of which are shown below. 
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+```{r}
+head(midwest)
+```
+
+
+Suppose that you want to write a function that plays nicely with the tidyverse (e.g. can take unquoted column names just like tidyverse functions do). Such an example might be one that makes a plot where the user supplies the variables:
+
+```{r error = TRUE}
+plotMidwest <- function(var1, var2) {
+  ggplot(midwest) +
+    geom_point(aes(x = var1, y = var2))
+}
+```
+
+Theoretically, this plot should be able to take the arguments `popdensity` and `percbelowpoverty` and provide me with a scatterplot of these two columns against one another:
+
+```{r error = TRUE, fig.show = FALSE}
+plotMidwest(popdensity, percbelowpoverty)
+```
+
+but this doesn't work! Perhaps if I quote the variable names it will work:
+
+```{r error = TRUE}
+plotMidwest("popdensity", "percbelowpoverty")
+```
+
+The above code didn't throw an error, but this is literally plotting the *word* "popdensity" against the *word* "percbelowpoverty", which isn't what I wanted to do!
+
+The secret to providing column names as arguments to a function is.... tidy eval! Fortunately even without understanding *why* it works (something about delaying evaluation until later in the execution path blah blah blah), you can use tidy eval. The way you do this is to envelop your arguments within the function in curly braces `{{ }}`:
+
+```{r}
+plotMidwestTidy <- function(var1, var2) {
+  ggplot(midwest) +
+    geom_point(aes(x = {{ var1 }}, y = {{ var2 }}))
+}
+```
+
+Now when I provide my column names as unquoted variables, I actually get the scatterplot I wanted!
+
+```{r error = TRUE}
+plotMidwestTidy(popdensity, percbelowpoverty)
+```
+
+Note that my tidy eval version of my `plotMidwest()` function isn't designed to take *quoted* variable names. The following code yields the same plot as before of the *word* "popdensity" against the *word* "percbelowpoverty".
+
+
+```{r error = TRUE}
+plotMidwestTidy("popdensity", "percbelowpoverty")
+```
+
+A neat little trick I learned from [Dewey Dunnington](https://twitter.com/paleolimbot?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor)'s talk is that you can use `.data` as placeholder for the data object inside `aes()`. This means that, if `var` is a character column name, you can access the quoted column from the data object using `.data[[var]]`:
+
+```{r error = TRUE}
+plotMidwestQuoted <- function(var1, var2) {
+  ggplot(midwest) +
+    geom_point(aes(x = .data[[var1]], y = .data[[var2]]))
+}
+plotMidwestQuoted("popdensity", "percbelowpoverty") 
+
+```
+
+Dewey's talk is full of gems (check out his slides: https://fishandwhistle.net/slides/rstudioconf2020/#1).
+
+
+
+
+# Tip 2: Pipe into later arguments of a function using `.`
+
+While I didn't technically learn this one from a talk at rstudio::conf(2020), I did run into an old friend [Garth Tarr](https://twitter.com/garthtarr) who told me about this piping trick: if you want to pipe an object into any argument other than the first one, you can do so using the `.` placeholder. For instance, let's say that you want to use the `lm()` function to fit a linear model, and because you, like me, are pipe-obsessed, you want to pipe the data into `lm()`. 
+
+
+Sadly, when I try to pipe the midwest data into my `lm()` function for regressing population density (`popdensity`) against poverty rate (`percbelowpoverty`), I get an error.
+
+```{r, error = TRUE}
+midwest %>%
+  lm(popdensity ~ percbelowpoverty)
+```
+
+
+What's going wrong? There are two things you need to understand about what's happening here:
+
+1. The argument order of `lm()` is: `lm(formula, data)`, i.e. the data is the *second* argument of the `lm` function (whereas all tidyverse functions have the data as the *first* argument)
+
+1. The pipe, `%>%`, automatically places the *object* to the left of the pipe into the *first argument* of the function to the right of the pipe
+
+so `midwest %>% lm(popdensity ~ percbelowpoverty)` above is equivalent to `lm(formula = iris, data = Sepal.Length ~ Sepal.Width)`, which has the arguments reversed.
+
+Instead of abandoning the trusty pipe (the thought of which fills me with sadness), I can instead pipe the data into the *second* argument using `.` as a placeholder for the position into which I want to pipe the data: 
+
+```{r}
+midwest %>% lm(popdensity ~ percbelowpoverty, .)
+```
+
+
+Note that I could alternatively *name* the `formula` argument, which would automatically pipe the object into the first *unassigned* argument (which in our case is the data argument), but this becomes cumbersome when you have many arguments. 
+
+```{r}
+midwest %>% lm(formula = popdensity ~ percbelowpoverty)
+```
+
+
+
+
+# Tip 3: Function conflicts workaround (no more dplyr::select())
+
+Have you ever loaded the `MASS` R package and found that `select()` from `dplyr` no longer works? I regularly get this type of error when functions from different packages have the same name as tidyverse functions I use on the reg. Let's pretend that I really want to select the `cut` variable from the `diamonds` dataset from the `ggplot2` package.  
+
+
+The first 6 rows of the diamonds dataset are shown below:
+
+```{r}
+head(diamonds)
+```
+
+Sadly if I loaded the `MASS` library before trying to select `cut` from `diamonds`, I get the following error:
+
+```{r error = TRUE}
+library(MASS)
+diamonds %>% select(cut)
+```
+
+This is because by loading `MASS`, I have overwritten `dplyr`'s `select()` function (hence the warning). The normal workaround is to be explicit about what `select()` function you want using `dplyr::select()` as in 
+
+```{r}
+diamonds %>% dplyr::select(cut)
+```
+
+But this can be really annoying if you have a lot of `select()`s in your code (because you have to go through and apply `dplyr::` to each one). It turns out (as [tweeted by Birunda Chelliah](https://twitter.com/cbirunda/status/1221954540544507906?s=20) - I'm not where she learned it though) that a better workaround is to set conflict hierarchies at the top of your document (`conflict_prefer("select", "dplyr")`) to specify that the `select()` function should always come from the `dplyr` package.
+
+```{r}
+# install.packages("conflicted")
+library(conflicted)
+# set conflict preference
+conflict_prefer("select", "dplyr")
+```
+
+Now when I use `select()` it works just fine!
+
+```{r}
+# no more error!
+diamonds %>% select(cut)
+```
+
+
+
+# Tip 4: `geom_col()`: you'll never have to specify "stat = identity" for your bar plots ever again!
+
+Most of the time when I want to make a bar chart, I want to provide an `x` variable for the bar categories, and a `y` variable for the height of the bar for each category. Sadly, this isn't what `geom_bar()` does by default - its default behaviour is to *count* each level of the provided `x` aesthetic. For instance, in the `diamonds` dataset, the `cut` variable takes 5 unique values: fair, good, very good, premium and ideal. Providing `cut` as the x-aesthetic for `geom_bar()` will, by default, count the number of times each of these unique values appear in the data and use these counts as the heights.
+
+
+The default usage of `geom_bar()` is as follows
+
+```{r, fig.align="center"}
+diamonds %>%
+  ggplot() +
+  geom_bar(aes(x = cut))
+```
+
+which automatically counts the number of time each `cut` appears in the data.
+
+However (putting aside arguments about what types of data bar charts are appropriate for), I frequently want to use a bar chart to display something other than a count. For instance, the average price of each cut, shown below.  
+
+```{r}
+average_price <- diamonds %>% 
+  group_by(cut) %>%
+  summarise(average_price = mean(price)) %>%
+  ungroup() 
+average_price
+```
+
+If I try to set the `y` aesthetic of `geom_bar` to `y = average_price`, I get an annoying error:
+
+```{r error = TRUE, fig.show=FALSE}
+average_price %>% 
+  ggplot() +
+  geom_bar(aes(x = cut, y = average_price))
+```
+
+
+The typical fix for this is to include `stat = 'identity'` as an argument of `geom_bar()`.
+
+```{r error = TRUE}
+average_price %>% 
+  ggplot() +
+  geom_bar(aes(x = cut, y = average_price), stat = "identity")
+```
+
+But it turns out *there's a better way*!
+
+During his fantastic talk on his `ggtext` package, [Claus Wilke](https://twitter.com/ClausWilke)) casually used the `geom_col()` function to create a *column chart* (is that what `geom_col()` stands for?), which, as it turns out, is what I've been trying to make the whole time:
+
+```{r}
+average_price %>% 
+  ggplot() +
+  geom_col(aes(x = cut, y = average_price))
+```
+
+This probably wasn't what Claus imagined me to take away from his talk, but I swear ggtext was super cool too!
+
+<!--  To demonstrate `geom_col()` we will use the inbuilt islands dataset consisting of the sizes of the land masses. `islands` initially comes as a named vector, so here are some bonus tips: the `enframe()` function converts a named vector to a two-column data frame, and the `gt()` function is a nice way to print a data frame in html format. -->
+
+
+<!-- ```{r} -->
+<!-- library(tidyverse) -->
+<!-- library(gt) -->
+<!-- large_islands <- islands %>% -->
+<!--   # convert the vector to a data frame -->
+<!--   enframe(name = "island", value = "land_mass") %>% -->
+<!--   # filter to the larger islands -->
+<!--   filter(land_mass > 1000)   -->
+<!-- gt(large_islands) -->
+<!-- ``` -->
+
+
+<!-- When I want to create a bar plot I usually try  -->
+
+<!-- ```{r, eval = FALSE} -->
+<!-- large_islands %>% -->
+<!--   ggplot() + -->
+<!--   geom_bar(aes(x = island, y = land_mass)) -->
+<!-- ``` -->
+
+<!-- and fix the error by specifying `stat = "identity"`.  -->
+
+<!-- ```{r, eval = FALSE, fig.align="center"} -->
+<!-- large_islands %>% -->
+<!--   ggplot() + -->
+<!--   geom_bar(aes(x = island, y = land_mass), stat = "identity") -->
+<!-- ``` -->
+
+<!-- While it seems like a very small life improvement, you have no idea how much joy simply being able to use `geom_col()` brings me. I'm never going to have to specify `stat = "identity"` again! I'm so pathetically excited! -->
+
+<!-- ```{r, eval = FALSE, fig.align="center"} -->
+<!-- large_islands %>% -->
+<!--   ggplot() + -->
+<!--   geom_col(aes(x = island, y = land_mass)) -->
+<!-- ``` -->
+
+
+
+# Tip 5: Using `show_col()` for viewing colour palettes
+
+Last but not least, [Dana Paige Seidel](https://twitter.com/dpseidel) gave a great talk on the scales package, which does a lot of great things under the hood of ggplot. But scales also let's you look at colours! The `show_col()` function shows you what colours look like:
+
+```{r}
+library(scales)
+show_col(c("#9C89B8", "#F0A6CA", "#EFC3E6", "#F0E6EF"))
+```
+
+Also a quick plug for how I chose these colours (and how I choose colours in general): https://coolors.co/app. 
+
+
+I'm super excited for rstudio::conf(2021)!!

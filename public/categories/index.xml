@@ -113,7 +113,7 @@
     <item>
       <title>Ggplot2</title>
       <link>/categories/ggplot2/</link>
-      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/ggplot2/</guid>
       <description></description>
@@ -185,7 +185,7 @@
     <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/r/</guid>
       <description></description>
@@ -212,7 +212,7 @@
     <item>
       <title>Rstudioconf</title>
       <link>/categories/rstudioconf/</link>
-      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/rstudioconf/</guid>
       <description></description>
@@ -255,6 +255,15 @@
     </item>
     
     <item>
+      <title>Tidyeval</title>
+      <link>/categories/tidyeval/</link>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidyeval/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Tidyr</title>
       <link>/categories/tidyr/</link>
       <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
@@ -266,7 +275,7 @@
     <item>
       <title>Tidyverse</title>
       <link>/categories/tidyverse/</link>
-      <pubDate>Mon, 19 Aug 2019 23:13:14 -0500</pubDate>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/tidyverse/</guid>
       <description></description>

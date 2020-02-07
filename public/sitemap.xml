@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2020-02-05_rstudio_conf/</loc>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2020-02-03_blogger/</loc>
     <lastmod>2020-02-03T23:13:14-05:00</lastmod>
   </url>
@@ -190,7 +195,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -268,7 +273,7 @@
   
   <url>
     <loc>/categories/ggplot2/</loc>
-    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -322,7 +327,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -340,7 +345,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -352,7 +357,7 @@
   
   <url>
     <loc>/categories/rstudioconf/</loc>
-    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -387,6 +392,12 @@
   </url>
   
   <url>
+    <loc>/categories/tidyeval/</loc>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/tidyr/</loc>
     <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
@@ -394,7 +405,7 @@
   
   <url>
     <loc>/categories/tidyverse/</loc>
-    <lastmod>2019-08-19T23:13:14-05:00</lastmod>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

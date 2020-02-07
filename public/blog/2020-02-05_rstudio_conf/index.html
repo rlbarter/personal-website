@@ -1,0 +1,1336 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.40.3" />
+        
+
+
+        
+            <meta name="author" content="Rebecca Barter">
+        
+        
+            <meta name="description" content="Last week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the little tips and tricks that I learnt throughout the conference.">
+        
+
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors"/>
+<meta name="twitter:description" content="Last week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the little tips and tricks that I learnt throughout the conference."/>
+<meta name="twitter:site" content="@rlbarter"/>
+
+        <meta property="og:title" content="5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors" />
+<meta property="og:description" content="Last week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the little tips and tricks that I learnt throughout the conference." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2020-02-05_rstudio_conf/" />
+
+
+
+<meta property="article:published_time" content="2020-02-06T23:13:14-05:00"/>
+
+<meta property="article:modified_time" content="2020-02-06T23:13:14-05:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors">
+<meta itemprop="description" content="Last week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the little tips and tricks that I learnt throughout the conference.">
+
+
+<meta itemprop="datePublished" content="2020-02-06T23:13:14-05:00" />
+<meta itemprop="dateModified" content="2020-02-06T23:13:14-05:00" />
+<meta itemprop="wordCount" content="2080">
+
+
+
+<meta itemprop="keywords" content="" />
+
+        
+
+        
+
+        
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="/css/google-font.css" />
+            <link rel="stylesheet" href="/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/add-on.css" />
+            <link rel="stylesheet" href="/css/tomorrow.css">
+        
+
+        
+
+        
+        
+        
+            
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-90929425-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+        
+
+        <link rel="stylesheet" href="/css/github-gist.css" rel="stylesheet" id="theme-stylesheet">
+          <script src="/js/highlight.pack.js"></script>
+          <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+ <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <body>
+
+        
+        <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+        <h2><a href="/">Rebecca Barter</i></a></h2>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/blog">
+                        
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories">
+                        Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about">
+                        About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/cv">
+                        CV
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/teaching">
+                        Teaching
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/tutorials">
+                        Tutorials
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/useful_resources">
+                        Useful resources
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/rlbarter">
+                        GitHub
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact">
+                        Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="q" value="site:/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="q" value="site:/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/blog">
+                            <h3>
+                                
+                                    <i class="fa fa-newspaper-o">&nbsp;</i>
+                                
+                                Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            <h3>
+                                
+                                Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about">
+                            <h3>
+                                
+                                About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/cv">
+                            <h3>
+                                
+                                CV
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/teaching">
+                            <h3>
+                                
+                                Teaching
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tutorials">
+                            <h3>
+                                
+                                Tutorials
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/useful_resources">
+                            <h3>
+                                
+                                Useful resources
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/rlbarter">
+                            <h3>
+                                
+                                GitHub
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact">
+                            <h3>
+                                
+                                Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    <li>
+                        <a href="/blog/2020-02-05_rstudio_conf/"><p>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</p></a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/2020-02-03_blogger/"><p>Becoming an R blogger</p></a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2020-02-05_rstudio_conf%2f&text=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2020-02-05_rstudio_conf%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2020-02-05_rstudio_conf%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2020-02-05_rstudio_conf%2f&title=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2020-02-05_rstudio_conf%2f&title=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2020-02-05_rstudio_conf%2f&title=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2020-02-05_rstudio_conf%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+    <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2020-02-05_rstudio_conf/">5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</a></h1>
+            
+        
+        
+            <p>Last week I had the pleasure of attending rstudio::conf(2020) in San Francisco. Throughout the course of the week I met many wonderful people and learnt many things. This post covers some of the little tips and tricks that I learnt throughout the conference.</p>
+        
+    </div>
+    <div class="meta">
+        
+            
+        
+
+        <time class="published"
+            datetime='2020-02-06'>
+            February 6, 2020</time>
+        <span class="author">Rebecca Barter</span>
+        
+        
+    </div>
+</header>
+
+
+    <section id="social-share">
+        <ul class="icons">
+            
+
+
+<li><a href="//twitter.com/share?url=%2fblog%2f2020-02-05_rstudio_conf%2f&text=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors&via=rlbarter" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+</a></li>
+
+
+<li><a href="//plus.google.com/share?url=%2fblog%2f2020-02-05_rstudio_conf%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+</a></li>
+
+
+<li><a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2020-02-05_rstudio_conf%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+</a></li>
+
+
+<li><a href="//reddit.com/submit?url=%2fblog%2f2020-02-05_rstudio_conf%2f&title=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+</a></li>
+
+
+<li><a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2020-02-05_rstudio_conf%2f&title=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors" target="_blank" class="share-btn linkedin">
+    <i class="fa fa-linkedin"></i>
+    <p>LinkedIn</p>
+</a></li>
+
+
+<li><a href="//www.stumbleupon.com/submit?url=%2fblog%2f2020-02-05_rstudio_conf%2f&title=5%20useful%20R%20tips%20from%20rstudio%3a%3aconf%282020%29%20-%20tidy%20eval%2c%20piping%2c%20conflicts%2c%20bar%20charts%20and%20colors" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+</a></li>
+
+
+<li><a href="mailto:?subject=Check out this post by Rebecca%20Barter&body=%2fblog%2f2020-02-05_rstudio_conf%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+</a></li>
+
+        </ul>
+    </section>
+    
+
+    <div id="content">
+        <div id="TOC">
+<ul>
+<li><a href="#tip-1-tidy-evaluation">Tip 1: Tidy evaluation</a></li>
+<li><a href="#tip-2-pipe-into-later-arguments-of-a-function-using-.">Tip 2: Pipe into later arguments of a function using <code>.</code></a></li>
+<li><a href="#tip-3-function-conflicts-workaround-no-more-dplyrselect">Tip 3: Function conflicts workaround (no more dplyr::select())</a></li>
+<li><a href="#tip-4-geom_col-youll-never-have-to-specify-stat-identity-for-your-bar-plots-ever-again">Tip 4: <code>geom_col()</code>: you’ll never have to specify “stat = identity” for your bar plots ever again!</a></li>
+<li><a href="#tip-5-using-show_col-for-viewing-colour-palettes">Tip 5: Using <code>show_col()</code> for viewing colour palettes</a></li>
+</ul>
+</div>
+
+<p>This was my second year attending rstudio::conf() as a diversity scholar (and my first time as a <a href="http://www.rebeccabarter.com/blog/2020-02-03_blogger/">speaker</a>), and I was yet again blown away by the friendliness of the community and the quality of the talks. Over the course of the week, I met so many wonderful and talented humans, and learnt so many incredibly useful things. This post is all about the little tips and tricks that I picked up from watching many fantastic presentations, attendees live tweeting, and having many insightful conversations.</p>
+<div id="tip-1-tidy-evaluation" class="section level1">
+<h1>Tip 1: Tidy evaluation</h1>
+<p>Tidy eval is one of those terms that seems to float around a lot in the R community, but I feel like 99% of us don’t really get what tidy eval is, nor why we should care about it. Turns out, unless we’re getting deep into package development, we probably don’t need to be up to speed with tidy eval. The only part of tidy eval that I know is this: how to supply column names as unquoted arguments in functions. All of the resources I found on tidy eval go into waaay more detail about how it works, and maybe one day I’ll care about that, but that time is not now.</p>
+<p>For this (and the next few) example, I’ll use the <code>midwest</code> dataset from the ggplot2 package, the first 6 rows of which are shown below.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>head(midwest)</code></pre>
+<pre><code>## # A tibble: 6 x 28
+##     PID county state  area poptotal popdensity popwhite popblack popamerindian
+##   &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;    &lt;int&gt;      &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;         &lt;int&gt;
+## 1   561 ADAMS  IL    0.052    66090      1271.    63917     1702            98
+## 2   562 ALEXA… IL    0.014    10626       759      7054     3496            19
+## 3   563 BOND   IL    0.022    14991       681.    14477      429            35
+## 4   564 BOONE  IL    0.017    30806      1812.    29344      127            46
+## 5   565 BROWN  IL    0.018     5836       324.     5264      547            14
+## 6   566 BUREAU IL    0.05     35688       714.    35157       50            65
+## # … with 19 more variables: popasian &lt;int&gt;, popother &lt;int&gt;, percwhite &lt;dbl&gt;,
+## #   percblack &lt;dbl&gt;, percamerindan &lt;dbl&gt;, percasian &lt;dbl&gt;, percother &lt;dbl&gt;,
+## #   popadults &lt;int&gt;, perchsd &lt;dbl&gt;, percollege &lt;dbl&gt;, percprof &lt;dbl&gt;,
+## #   poppovertyknown &lt;int&gt;, percpovertyknown &lt;dbl&gt;, percbelowpoverty &lt;dbl&gt;,
+## #   percchildbelowpovert &lt;dbl&gt;, percadultpoverty &lt;dbl&gt;,
+## #   percelderlypoverty &lt;dbl&gt;, inmetro &lt;int&gt;, category &lt;chr&gt;</code></pre>
+<p>Suppose that you want to write a function that plays nicely with the tidyverse (e.g. can take unquoted column names just like tidyverse functions do). Such an example might be one that makes a plot where the user supplies the variables:</p>
+<pre class="r"><code>plotMidwest &lt;- function(var1, var2) {
+  ggplot(midwest) +
+    geom_point(aes(x = var1, y = var2))
+}</code></pre>
+<p>Theoretically, this plot should be able to take the arguments <code>popdensity</code> and <code>percbelowpoverty</code> and provide me with a scatterplot of these two columns against one another:</p>
+<pre class="r"><code>plotMidwest(popdensity, percbelowpoverty)</code></pre>
+<pre><code>## Error in FUN(X[[i]], ...): object &#39;popdensity&#39; not found</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>but this doesn’t work! Perhaps if I quote the variable names it will work:</p>
+<pre class="r"><code>plotMidwest(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;)</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The above code didn’t throw an error, but this is literally plotting the <em>word</em> “popdensity” against the <em>word</em> “percbelowpoverty”, which isn’t what I wanted to do!</p>
+<p>The secret to providing column names as arguments to a function is…. tidy eval! Fortunately even without understanding <em>why</em> it works (something about delaying evaluation until later in the execution path blah blah blah), you can use tidy eval. The way you do this is to envelop your arguments within the function in curly braces <code>{{ }}</code>:</p>
+<pre class="r"><code>plotMidwestTidy &lt;- function(var1, var2) {
+  ggplot(midwest) +
+    geom_point(aes(x = {{ var1 }}, y = {{ var2 }}))
+}</code></pre>
+<p>Now when I provide my column names as unquoted variables, I actually get the scatterplot I wanted!</p>
+<pre class="r"><code>plotMidwestTidy(popdensity, percbelowpoverty)</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Note that my tidy eval version of my <code>plotMidwest()</code> function isn’t designed to take <em>quoted</em> variable names. The following code yields the same plot as before of the <em>word</em> “popdensity” against the <em>word</em> “percbelowpoverty”.</p>
+<pre class="r"><code>plotMidwestTidy(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;)</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>A neat little trick I learned from <a href="https://twitter.com/paleolimbot?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Dewey Dunnington</a>’s talk is that you can use <code>.data</code> as placeholder for the data object inside <code>aes()</code>. This means that, if <code>var</code> is a character column name, you can access the quoted column from the data object using <code>.data[[var]]</code>:</p>
+<pre class="r"><code>plotMidwestQuoted &lt;- function(var1, var2) {
+  ggplot(midwest) +
+    geom_point(aes(x = .data[[var1]], y = .data[[var2]]))
+}
+plotMidwestQuoted(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;) </code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Dewey’s talk is full of gems (check out his slides: <a href="https://fishandwhistle.net/slides/rstudioconf2020/#1" class="uri">https://fishandwhistle.net/slides/rstudioconf2020/#1</a>).</p>
+</div>
+<div id="tip-2-pipe-into-later-arguments-of-a-function-using-." class="section level1">
+<h1>Tip 2: Pipe into later arguments of a function using <code>.</code></h1>
+<p>While I didn’t technically learn this one from a talk at rstudio::conf(2020), I did run into an old friend <a href="https://twitter.com/garthtarr">Garth Tarr</a> who told me about this piping trick: if you want to pipe an object into any argument other than the first one, you can do so using the <code>.</code> placeholder. For instance, let’s say that you want to use the <code>lm()</code> function to fit a linear model, and because you, like me, are pipe-obsessed, you want to pipe the data into <code>lm()</code>.</p>
+<p>Sadly, when I try to pipe the midwest data into my <code>lm()</code> function for regressing population density (<code>popdensity</code>) against poverty rate (<code>percbelowpoverty</code>), I get an error.</p>
+<pre class="r"><code>midwest %&gt;%
+  lm(popdensity ~ percbelowpoverty)</code></pre>
+<pre><code>## Error in as.data.frame.default(data): cannot coerce class &#39;&quot;formula&quot;&#39; to a data.frame</code></pre>
+<p>What’s going wrong? There are two things you need to understand about what’s happening here:</p>
+<ol style="list-style-type: decimal">
+<li><p>The argument order of <code>lm()</code> is: <code>lm(formula, data)</code>, i.e. the data is the <em>second</em> argument of the <code>lm</code> function (whereas all tidyverse functions have the data as the <em>first</em> argument)</p></li>
+<li><p>The pipe, <code>%&gt;%</code>, automatically places the <em>object</em> to the left of the pipe into the <em>first argument</em> of the function to the right of the pipe</p></li>
+</ol>
+<p>so <code>midwest %&gt;% lm(popdensity ~ percbelowpoverty)</code> above is equivalent to <code>lm(formula = iris, data = Sepal.Length ~ Sepal.Width)</code>, which has the arguments reversed.</p>
+<p>Instead of abandoning the trusty pipe (the thought of which fills me with sadness), I can instead pipe the data into the <em>second</em> argument using <code>.</code> as a placeholder for the position into which I want to pipe the data:</p>
+<pre class="r"><code>midwest %&gt;% lm(popdensity ~ percbelowpoverty, .)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = popdensity ~ percbelowpoverty, data = .)
+## 
+## Coefficients:
+##      (Intercept)  percbelowpoverty  
+##          4068.06            -77.56</code></pre>
+<p>Note that I could alternatively <em>name</em> the <code>formula</code> argument, which would automatically pipe the object into the first <em>unassigned</em> argument (which in our case is the data argument), but this becomes cumbersome when you have many arguments.</p>
+<pre class="r"><code>midwest %&gt;% lm(formula = popdensity ~ percbelowpoverty)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = popdensity ~ percbelowpoverty, data = .)
+## 
+## Coefficients:
+##      (Intercept)  percbelowpoverty  
+##          4068.06            -77.56</code></pre>
+</div>
+<div id="tip-3-function-conflicts-workaround-no-more-dplyrselect" class="section level1">
+<h1>Tip 3: Function conflicts workaround (no more dplyr::select())</h1>
+<p>Have you ever loaded the <code>MASS</code> R package and found that <code>select()</code> from <code>dplyr</code> no longer works? I regularly get this type of error when functions from different packages have the same name as tidyverse functions I use on the reg. Let’s pretend that I really want to select the <code>cut</code> variable from the <code>diamonds</code> dataset from the <code>ggplot2</code> package.</p>
+<p>The first 6 rows of the diamonds dataset are shown below:</p>
+<pre class="r"><code>head(diamonds)</code></pre>
+<pre><code>## # A tibble: 6 x 10
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</code></pre>
+<p>Sadly if I loaded the <code>MASS</code> library before trying to select <code>cut</code> from <code>diamonds</code>, I get the following error:</p>
+<pre class="r"><code>library(MASS)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre class="r"><code>diamonds %&gt;% select(cut)</code></pre>
+<pre><code>## Error in select(., cut): unused argument (cut)</code></pre>
+<p>This is because by loading <code>MASS</code>, I have overwritten <code>dplyr</code>’s <code>select()</code> function (hence the warning). The normal workaround is to be explicit about what <code>select()</code> function you want using <code>dplyr::select()</code> as in</p>
+<pre class="r"><code>diamonds %&gt;% dplyr::select(cut)</code></pre>
+<pre><code>## # A tibble: 53,940 x 1
+##    cut      
+##    &lt;ord&gt;    
+##  1 Ideal    
+##  2 Premium  
+##  3 Good     
+##  4 Premium  
+##  5 Good     
+##  6 Very Good
+##  7 Very Good
+##  8 Very Good
+##  9 Fair     
+## 10 Very Good
+## # … with 53,930 more rows</code></pre>
+<p>But this can be really annoying if you have a lot of <code>select()</code>s in your code (because you have to go through and apply <code>dplyr::</code> to each one). It turns out (as <a href="https://twitter.com/cbirunda/status/1221954540544507906?s=20">tweeted by Birunda Chelliah</a> - I’m not where she learned it though) that a better workaround is to set conflict hierarchies at the top of your document (<code>conflict_prefer(&quot;select&quot;, &quot;dplyr&quot;)</code>) to specify that the <code>select()</code> function should always come from the <code>dplyr</code> package.</p>
+<pre class="r"><code># install.packages(&quot;conflicted&quot;)
+library(conflicted)
+# set conflict preference
+conflict_prefer(&quot;select&quot;, &quot;dplyr&quot;)</code></pre>
+<pre><code>## [conflicted] Will prefer dplyr::select over any other package</code></pre>
+<p>Now when I use <code>select()</code> it works just fine!</p>
+<pre class="r"><code># no more error!
+diamonds %&gt;% select(cut)</code></pre>
+<pre><code>## # A tibble: 53,940 x 1
+##    cut      
+##    &lt;ord&gt;    
+##  1 Ideal    
+##  2 Premium  
+##  3 Good     
+##  4 Premium  
+##  5 Good     
+##  6 Very Good
+##  7 Very Good
+##  8 Very Good
+##  9 Fair     
+## 10 Very Good
+## # … with 53,930 more rows</code></pre>
+</div>
+<div id="tip-4-geom_col-youll-never-have-to-specify-stat-identity-for-your-bar-plots-ever-again" class="section level1">
+<h1>Tip 4: <code>geom_col()</code>: you’ll never have to specify “stat = identity” for your bar plots ever again!</h1>
+<p>Most of the time when I want to make a bar chart, I want to provide an <code>x</code> variable for the bar categories, and a <code>y</code> variable for the height of the bar for each category. Sadly, this isn’t what <code>geom_bar()</code> does by default - its default behaviour is to <em>count</em> each level of the provided <code>x</code> aesthetic. For instance, in the <code>diamonds</code> dataset, the <code>cut</code> variable takes 5 unique values: fair, good, very good, premium and ideal. Providing <code>cut</code> as the x-aesthetic for <code>geom_bar()</code> will, by default, count the number of times each of these unique values appear in the data and use these counts as the heights.</p>
+<p>The default usage of <code>geom_bar()</code> is as follows</p>
+<pre class="r"><code>diamonds %&gt;%
+  ggplot() +
+  geom_bar(aes(x = cut))</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>which automatically counts the number of time each <code>cut</code> appears in the data.</p>
+<p>However (putting aside arguments about what types of data bar charts are appropriate for), I frequently want to use a bar chart to display something other than a count. For instance, the average price of each cut, shown below.</p>
+<pre class="r"><code>average_price &lt;- diamonds %&gt;% 
+  group_by(cut) %&gt;%
+  summarise(average_price = mean(price)) %&gt;%
+  ungroup() 
+average_price</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   cut       average_price
+##   &lt;ord&gt;             &lt;dbl&gt;
+## 1 Fair              4359.
+## 2 Good              3929.
+## 3 Very Good         3982.
+## 4 Premium           4584.
+## 5 Ideal             3458.</code></pre>
+<p>If I try to set the <code>y</code> aesthetic of <code>geom_bar</code> to <code>y = average_price</code>, I get an annoying error:</p>
+<pre class="r"><code>average_price %&gt;% 
+  ggplot() +
+  geom_bar(aes(x = cut, y = average_price))</code></pre>
+<pre><code>## Error: stat_count() can only have an x or y aesthetic.</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>The typical fix for this is to include <code>stat = 'identity'</code> as an argument of <code>geom_bar()</code>.</p>
+<pre class="r"><code>average_price %&gt;% 
+  ggplot() +
+  geom_bar(aes(x = cut, y = average_price), stat = &quot;identity&quot;)</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>But it turns out <em>there’s a better way</em>!</p>
+<p>During his fantastic talk on his <code>ggtext</code> package, <a href="https://twitter.com/ClausWilke">Claus Wilke</a>) casually used the <code>geom_col()</code> function to create a <em>column chart</em> (is that what <code>geom_col()</code> stands for?), which, as it turns out, is what I’ve been trying to make the whole time:</p>
+<pre class="r"><code>average_price %&gt;% 
+  ggplot() +
+  geom_col(aes(x = cut, y = average_price))</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>This probably wasn’t what Claus imagined me to take away from his talk, but I swear ggtext was super cool too!</p>
+<!--  To demonstrate `geom_col()` we will use the inbuilt islands dataset consisting of the sizes of the land masses. `islands` initially comes as a named vector, so here are some bonus tips: the `enframe()` function converts a named vector to a two-column data frame, and the `gt()` function is a nice way to print a data frame in html format. -->
+<!-- ```{r} -->
+<!-- library(tidyverse) -->
+<!-- library(gt) -->
+<!-- large_islands <- islands %>% -->
+<!--   # convert the vector to a data frame -->
+<!--   enframe(name = "island", value = "land_mass") %>% -->
+<!--   # filter to the larger islands -->
+<!--   filter(land_mass > 1000)   -->
+<!-- gt(large_islands) -->
+<!-- ``` -->
+<!-- When I want to create a bar plot I usually try  -->
+<!-- ```{r, eval = FALSE} -->
+<!-- large_islands %>% -->
+<!--   ggplot() + -->
+<!--   geom_bar(aes(x = island, y = land_mass)) -->
+<!-- ``` -->
+<!-- and fix the error by specifying `stat = "identity"`.  -->
+<!-- ```{r, eval = FALSE, fig.align="center"} -->
+<!-- large_islands %>% -->
+<!--   ggplot() + -->
+<!--   geom_bar(aes(x = island, y = land_mass), stat = "identity") -->
+<!-- ``` -->
+<!-- While it seems like a very small life improvement, you have no idea how much joy simply being able to use `geom_col()` brings me. I'm never going to have to specify `stat = "identity"` again! I'm so pathetically excited! -->
+<!-- ```{r, eval = FALSE, fig.align="center"} -->
+<!-- large_islands %>% -->
+<!--   ggplot() + -->
+<!--   geom_col(aes(x = island, y = land_mass)) -->
+<!-- ``` -->
+</div>
+<div id="tip-5-using-show_col-for-viewing-colour-palettes" class="section level1">
+<h1>Tip 5: Using <code>show_col()</code> for viewing colour palettes</h1>
+<p>Last but not least, <a href="https://twitter.com/dpseidel">Dana Paige Seidel</a> gave a great talk on the scales package, which does a lot of great things under the hood of ggplot. But scales also let’s you look at colours! The <code>show_col()</code> function shows you what colours look like:</p>
+<pre class="r"><code>library(scales)
+show_col(c(&quot;#9C89B8&quot;, &quot;#F0A6CA&quot;, &quot;#EFC3E6&quot;, &quot;#F0E6EF&quot;))</code></pre>
+<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>Also a quick plug for how I chose these colours (and how I choose colours in general): <a href="https://coolors.co/app" class="uri">https://coolors.co/app</a>.</p>
+<p>I’m super excited for rstudio::conf(2021)!!</p>
+</div>
+
+    </div>
+
+    <footer>
+        <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+
+                    
+                        Categories
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categoriesr'>R</a></li>
+    
+        <li><a href='/categoriesrstudioconf'>rstudioconf</a></li>
+    
+        <li><a href='/categoriestidyverse'>tidyverse</a></li>
+    
+        <li><a href='/categoriesggplot2'>ggplot2</a></li>
+    
+        <li><a href='/categoriestidyeval'>tidyeval</a></li>
+    
+        <li><a href='/categoriesvisualization'>visualization</a></li>
+    
+</ul>
+
+    </footer>
+</article>
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2020-02-03_blogger/"
+                class="button big previous">Becoming an R blogger</a></li>
+    
+
+    
+</ul>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://rebeccabarter.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+    </div>
+    
+<section id="sidebar">
+
+    
+        <section id="intro">
+            
+            
+                
+                    <a href="/" class="logo"><img src="/img/main/logo.jpg" alt="Hugo Future Imperfect" /></a>
+                
+            
+            
+                <header>
+                    <h2>Rebecca Barter</h2>
+                    <p>Data meets Narrative</p>
+                </header>
+            
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <ul class="posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+                    
+                
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2020-02-05_rstudio_conf/">5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2020-02-06'>
+                                    February 6, 2020</time>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <h3><a href="/blog/2020-02-03_blogger/">Becoming an R blogger</a></h3>
+                                
+                                    
+                                
+                                <time class="published" datetime=
+                                    '2020-02-03'>
+                                    February 3, 2020</time>
+                            </header>
+                        </article>
+                    </li>
+                
+
+                
+                    <li>
+                        <ul class="actions">
+                            <li><a href=
+                            
+                                /blog/
+                            
+                            class="button">View more posts</a></li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+    
+    
+    
+        <section id="categories">
+            <ul class="posts">
+                <header>
+                    <h3><a href="/categories/">Categories</a></h3>
+                </header>
+
+                
+                    
+                
+
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/r/">R</a>
+                                <span style="float:right;">18</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">Visualization</a>
+                                <span style="float:right;">6</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/statistics/">Statistics</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyverse/">tidyverse</a>
+                                <span style="float:right;">5</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">Workflow</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">Communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">D3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">Exploration</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">Machine Learning</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">Misc</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/ggplot2/">ggplot2</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/purrr/">purrr</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/rstudioconf/">rstudioconf</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/superheat/">superheat</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/anova/">Anova</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/cycling/">Cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/data-science/">Data Science</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">Documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/interactivity/">Interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/reproducibility/">Reproducibility</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/blog/">blog</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/forcats/">forcats</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/lubridate/">lubridate</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/pipes/">pipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/readr/">readr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/stringr/">stringr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tibbles/">tibbles</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyeval/">tidyeval</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tidyr/">tidyr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+            </ul>
+        </section>
+    
+
+    
+        
+        <section class="blurb">
+            <h2>About</h2>
+            <p>Data Scientist, Communicator, Artist, Adventurer.</p>
+
+            <ul class="actions">
+                <li><a href="/about/" class="button">Learn More</a></li>
+            </ul>
+        </section>
+        
+
+    
+        <section id="footer">
+            <ul class="icons">
+                
+                
+                    
+<li><a href="//github.com/rlbarter" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//twitter.com/rlbarter" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+                
+            </ul>
+
+            <p class="copyright">&copy; Rebecca Barter. Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a>. Ported by <a href="//github.com/jpescador" target="_blank">Julio Pescador</a>. Powered by <a href="//gohugo.io" target="_blank">Hugo</a></p>
+        </section>
+
+</section>
+
+            </div>
+        <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+        
+
+        
+        
+            
+        
+
+        
+        
+            <script src="/js/jquery.min.js"></script>
+            <script src="/js/skel.min.js"></script>
+            <script src="/js/util.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/backToTop.js"></script>
+            <script src="/js/highlight.pack.js"></script>
+        
+
+        
+
+            
+            <script>hljs.initHighlightingOnLoad();</script>
+            
+    </body>
+</html>
+

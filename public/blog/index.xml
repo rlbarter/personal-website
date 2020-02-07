@@ -6,13 +6,22 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Feb 2020 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 06 Feb 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Becoming an R blogger.</title>
+      <title>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</title>
+      <link>/blog/2020-02-05_rstudio_conf/</link>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-02-05_rstudio_conf/</guid>
+      <description>Tip 1: Tidy evaluation Tip 2: Pipe into later arguments of a function using . Tip 3: Function conflicts workaround (no more dplyr::select()) Tip 4: geom_col(): you’ll never have to specify “stat = identity” for your bar plots ever again! Tip 5: Using show_col() for viewing colour palettes   This was my second year attending rstudio::conf() as a diversity scholar (and my first time as a speaker), and I was yet again blown away by the friendliness of the community and the quality of the talks.</description>
+    </item>
+    
+    <item>
+      <title>Becoming an R blogger</title>
       <link>/blog/2020-02-03_blogger/</link>
       <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
       

@@ -1,5 +1,5 @@
 ---
-title: "Becoming an R blogger."
+title: "Becoming an R blogger"
 author: "Rebecca Barter"
 output:
   blogdown::html_page:
@@ -9,7 +9,7 @@ date: 2020-02-03T23:13:14-05:00
 type: "post" 
 description: "In this post I discuss why I became an R blogger, why you should too, and some tips and tricks to get your started. This post is based on my rstudio::conf(2020) talk called 'Becoming an R blogger'" 
 ---
-
+ 
 
 This year I was given the opportunity to talk at rstudio::conf(2020), which, if you've never been, is one of those rare conferences where every person you meet is both extremely friendly and excited about R, and you learn a million fun and useful things that you can *actually use*. 10/10, would go again.
 
@@ -21,7 +21,7 @@ Read on below if you're interested in learning more!
 
 # Why start a blog?
 
-Many years ago, I began to realize that I love to teach and explain *things*. As it turned out, it doesn't really matter what the *things* are, but since I happened to be getting a PhD in statistics, I figured I might as well apply my love of explaining things to my work. Since I figured I might want to do explain things as a career one day, I decided to start a **portfolio** in the form of a blog, which turned out to be a great way to **practice my explaining skills** (which have undoubtedly improved over the past few years). To be honest, I never really expected anyone to pay attention to the things I wrote (and for many years, they didn't), but I'm pretty excited that you're here reading this now!
+Many years ago, I began to realize that I love to teach and explain *things*. As it turned out, it doesn't really matter what the *things* are, but since I happened to be getting a PhD in statistics, I figured I might as well apply my love of explaining things to my work. Since I decided that I might want to do explain things as a career one day, I decided to start a **portfolio** in the form of a blog, which turned out to be a great way to **practice my explaining skills** (which have undoubtedly improved over the past few years). To be honest, I never really expected anyone to pay attention to the things I wrote (and for many years, they didn't), but I'm pretty excited that you're here reading this now!
 
 One of the main benefits I've found since I started my blog several years ago is that I've **learnt so many things**. For starters, having to come up with topics to write about is an excellent way to keep up with what's current. If you hear about a new R package or statistical concept floating around, but you can't think of an excuse to learn about it in your every-day work, write a blog post about it! Having to explain something is an excellent way to learn it. Writing a blog post also turns out to be a great way to **procrastinate** during those afternoons when you can't force yourself to do your actual work, but you still want to give the illusion (both to your boss and yourself) that you're being productive.
 
