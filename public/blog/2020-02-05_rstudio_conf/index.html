@@ -499,7 +499,6 @@ ga('send', 'pageview');
 <p>Theoretically, this plot should be able to take the arguments <code>popdensity</code> and <code>percbelowpoverty</code> and provide me with a scatterplot of these two columns against one another:</p>
 <pre class="r"><code>plotMidwest(popdensity, percbelowpoverty)</code></pre>
 <pre><code>## Error in FUN(X[[i]], ...): object &#39;popdensity&#39; not found</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>but this doesn’t work! Perhaps if I quote the variable names it will work:</p>
 <pre class="r"><code>plotMidwest(&quot;popdensity&quot;, &quot;percbelowpoverty&quot;)</code></pre>
 <p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
@@ -647,7 +646,6 @@ average_price</code></pre>
   ggplot() +
   geom_bar(aes(x = cut, y = average_price))</code></pre>
 <pre><code>## Error: stat_count() can only have an x or y aesthetic.</code></pre>
-<p><img src="/blog/2020-02-05_rstudio_conf_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>The typical fix for this is to include <code>stat = 'identity'</code> as an argument of <code>geom_bar()</code>.</p>
 <pre class="r"><code>average_price %&gt;% 
   ggplot() +

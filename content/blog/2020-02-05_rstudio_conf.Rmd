@@ -41,7 +41,7 @@ plotMidwest <- function(var1, var2) {
 
 Theoretically, this plot should be able to take the arguments `popdensity` and `percbelowpoverty` and provide me with a scatterplot of these two columns against one another:
 
-```{r error = TRUE, fig.show = FALSE}
+```{r error = TRUE, fig.show = "hide"}
 plotMidwest(popdensity, percbelowpoverty)
 ```
 
@@ -197,7 +197,7 @@ average_price
 
 If I try to set the `y` aesthetic of `geom_bar` to `y = average_price`, I get an annoying error:
 
-```{r error = TRUE, fig.show=FALSE}
+```{r error = TRUE, fig.show="hide"}
 average_price %>% 
   ggplot() +
   geom_bar(aes(x = cut, y = average_price))
