@@ -10,23 +10,27 @@ type: "post"
 description: "What's the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn't seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they're called 'scoped verbs' and hopefully this post will become one of many decent explanations of how to use them!" 
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
 <li><a href="#a-quick-useful-aside-using-shorthand-for-functions">A quick useful aside: Using shorthand for functions</a></li>
-<li><a href="#the-_if-scoped-variant-perform-an-operation-on-variables-that-satisfy-a-logical-criteria">The _if() scoped variant: perform an operation on variables that satisfy a logical criteria</a><ul>
+<li><a href="#the-_if-scoped-variant-perform-an-operation-on-variables-that-satisfy-a-logical-criteria">The _if() scoped variant: perform an operation on variables that satisfy a logical criteria</a>
+<ul>
 <li><a href="#select_if">select_if()</a></li>
 <li><a href="#rename_if">rename_if()</a></li>
 <li><a href="#mutate_if">mutate_if()</a></li>
 <li><a href="#summarise_if">summarise_if()</a></li>
 </ul></li>
-<li><a href="#the-_at-scoped-variant-perform-an-operation-only-on-variables-specified-by-name">The _at() scoped variant: perform an operation only on variables specified by name</a><ul>
+<li><a href="#the-_at-scoped-variant-perform-an-operation-only-on-variables-specified-by-name">The _at() scoped variant: perform an operation only on variables specified by name</a>
+<ul>
 <li><a href="#select-helpers">Select helpers</a></li>
 <li><a href="#rename_at">rename_at()</a></li>
 <li><a href="#mutate_at">mutate_at()</a></li>
 <li><a href="#summarise_at">summarise_at()</a></li>
 </ul></li>
-<li><a href="#the-_all-scoped-variant-perform-an-operation-on-all-variables-at-once">The _all() scoped variant: perform an operation on all variables at once</a><ul>
+<li><a href="#the-_all-scoped-variant-perform-an-operation-on-all-variables-at-once">The _all() scoped variant: perform an operation on all variables at once</a>
+<ul>
 <li><a href="#rename_all">rename_all()</a></li>
 <li><a href="#mutate_all">mutate_all()</a></li>
 <li><a href="#summarise_all">summarise_all()</a></li>
@@ -35,13 +39,14 @@ description: "What's the deal with these mutate_all(), select_if(), summarise_at
 </ul>
 </div>
 
+<p>Note: Scoped verbs have now essentially been superseded by <code>accross()</code> (soon to be available in dplyr 1.0.0). See <a href="https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/" class="uri">https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/</a> for details.</p>
 <p>I often find myself wishing that I could apply the same <code>mutate</code> function to several columns in a data frame at once, such as convert all factors to characters, or do something to all columns that have missing values, or select all variables whose names end with <code>_important</code>. When I first googled these problems around a year ago, I started to see solutions that use weird extensions of the basic <code>mutate()</code>, <code>select()</code>, <code>rename()</code>, and <code>summarise()</code> dplyr functions that look like <code>summarise_all()</code>, <code>filter_at()</code>, <code>mutate_if()</code>, and so on. I have since learned that these functions are called <strong>“scoped verbs”</strong> (where “scoped” means that they operate only on a selection of variables).</p>
 <p>Unfortunately, despite my extensive googling, I never really found a satisfactory description of <em>how</em> to use these functions in general, I think primarily because the documentation for these functions is not particularly useful (try <code>?mutate_at()</code>).</p>
 <p>Fortunately, I recently attended a series of lightening talks hosted by the RLadies SF chapter where Sara Altman pointed us towards a <a href="https://dcl-2017-04.github.io/curriculum/manip-scoped.html">summary document</a> that Hadley Wickham wrote for the Data Science class he helped create at Stanford in 2017 (this class is now taught by Sara Altman herself).</p>
 <p>To summarise what I will demonstrate below, there are three scoped variants of the standard <code>mutate</code>, <code>summarise</code>, <code>rename</code> and <code>select</code> (and <code>transmute</code>) dplyr functions that can be specified by the following suffixes:</p>
 <ul>
 <li><p><code>_if</code>: allows you to pick variables that satisfy some logical criteria such as <code>is.numeric()</code> or <code>is.character()</code> (e.g. summarising only the numeric columns)</p></li>
-<li><p><code>_at</code>: allows you to perform an operation only on variables specified by name (e.g. mutating only the columns whose name ends with &quot;_date&quot;)</p></li>
+<li><p><code>_at</code>: allows you to perform an operation only on variables specified by name (e.g. mutating only the columns whose name ends with "_date")</p></li>
 <li><p><code>_all</code>: allows you to perform an operation on all variables at once (e.g. calculating the number of missing values in every column)</p></li>
 </ul>
 <p>To explain how these functions all work, I will use the dataset from a survey of 800 Pittsburgh residents on whether or not they approve of self-driving car companies testing their autonomous vehicles on the streets of Pittsburgh (there have several articles on this issue in recent times in case you missed them: <a href="https://www.wired.com/story/uber-returns-self-driving-after-deadly-crash/">1</a>, <a href="https://www.nytimes.com/2018/12/05/technology/uber-self-driving-cars.html">2</a>). The data can usually be downloaded from data.gov (but is currently unavailable due to the current Government Shutdown - I will update this with an actual link to the data one day). For now you can download the data from <a href="/data/bikepghpublic.csv">here</a>.</p>
@@ -213,7 +218,7 @@ av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
 </div>
 <div id="mutate_if" class="section level2">
 <h2>mutate_if()</h2>
-<p>We could similarly use <code>mutate_if()</code> to mutate columns that satisfy specified logical conditions. In the example below, we mutate all columns that have at least one missing value by replacing <code>NA</code> with <code>&quot;missing&quot;</code>.</p>
+<p>We could similarly use <code>mutate_if()</code> to mutate columns that satisfy specified logical conditions. In the example below, we mutate all columns that have at least one missing value by replacing <code>NA</code> with <code>"missing"</code>.</p>
 <pre class="r"><code>av_survey_sample %&gt;% 
   # only mutate columns with at least one NA
   # replace each NA value with the character &quot;missing&quot;
@@ -285,7 +290,7 @@ av_survey_sample %&gt;%
 <li><p><code>contains()</code>: select all variables that contain a specified character string</p></li>
 <li><p><code>matches()</code>: select variables that match a specified character string</p></li>
 <li><p><code>one_of()</code>: selects variables that match any entries in the specified character vector</p></li>
-<li><p><code>num_range()</code>: selects variables that are numbered (e.g. columns named <code>V1</code>, <code>V2</code>, <code>V3</code> would be selected by <code>select(num_range(&quot;V&quot;, 1:3))</code>)</p></li>
+<li><p><code>num_range()</code>: selects variables that are numbered (e.g. columns named <code>V1</code>, <code>V2</code>, <code>V3</code> would be selected by <code>select(num_range("V", 1:3))</code>)</p></li>
 </ul>
 <p>There are many ways that we could select the <code>date</code> variables using the <code>ends_with()</code> and <code>contains()</code> select helpers:</p>
 <pre class="r"><code># selecting the date columns by providing their names

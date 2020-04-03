@@ -31,7 +31,7 @@ install.packages(&amp;quot;superheat&amp;quot;) Stay tuned for new versions with
       <guid>/blog/2017-02-02-superheat-example/</guid>
       <description>Making beautiful and customizable heatmaps just got way easier… Introducing the superheat R package!
 Using superheat, it is now extremely easy to produce plots like the example below describing 10 randomly selected cars from the famous mtcars dataset.
-library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcars), 10) X.col &amp;lt;- matrix(&amp;quot;black&amp;quot;, ncol = ncol(mtcars), nrow = 10) X.col[scale(mtcars[selected.rows, ]) &amp;lt; 0] &amp;lt;- &amp;quot;white&amp;quot; superheat(mtcars[selected.rows,], # add text X.text = round(as.matrix(mtcars[selected.rows, ])), X.text.col = X.col, # scale columns scale = T, # label aesthetics left.</description>
+library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcars), 10) X.col &amp;lt;- matrix(&amp;quot;black&amp;quot;, ncol = ncol(mtcars), nrow = 10) X.col[scale(mtcars[selected.rows, ]) &amp;lt; 0] &amp;lt;- &amp;quot;white&amp;quot; superheat(mtcars[selected.rows,], # add text X.text = round(as.matrix(mtcars[selected.rows, ])), X.text.col = X.</description>
     </item>
     
   </channel>
