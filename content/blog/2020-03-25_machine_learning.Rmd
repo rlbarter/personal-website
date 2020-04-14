@@ -12,10 +12,10 @@ description: "The tidyverse's take on machine learning is finally here. Tidymode
 
 There's a new modeling pipeline in town: tidymodels. Over the past few years, tidymodels has been gradually emerging as the tidyverse's machine learning toolkit. 
 
-Why tidymodels? Well, it turns out that R has a consistency problem. Since everything was made by different people and using different principles, everything has a slightly different interface, and trying to keep everything in line can be frustrating. Several years ago, [Max Kuhn](https://twitter.com/topepos) (formerly at Pfeizer, now at RStudio) developed the caret R package (see my [caret tutorial](http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/)) aimed at creating a uniform interface for the massive variety of machine learning models that exist in R. Caret was great in a lot of ways, but also limited in others. In my own use, I found it to be quite slow whenever I tried to use on problems of any kind of modest size. It also didn't effectively address any of the other stuff that comes along with machine learning problems, such as pre-processing, sample splitting, evaluation metrics, etc. 
+Why tidymodels? Well, it turns out that R has a consistency problem. Since everything was made by different people and using different principles, everything has a slightly different interface, and trying to keep everything in line can be frustrating. Several years ago, [Max Kuhn](https://twitter.com/topepos) (formerly at Pfeizer, now at RStudio) developed the caret R package (see my [caret tutorial](http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/)) aimed at creating a uniform interface for the massive variety of machine learning models that exist in R. Caret was great in a lot of ways, but also limited in others. In my own use, I found it to be quite slow whenever I tried to use on problems of any kind of modest size. 
 
 
-That said, caret was a great starting point, so RStudio hired Max Kuhn to work on a tidy version of caret, and he and many other people have developed what is today's tidymodels. Tidymodels has been in development for a few years, with snippets of it being released as they were developed (see my [post on the recipes package](http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/)). I've been holding off writing a post about tidymodels until it seemed as though the different pieces fit together sufficiently for it to all feel cohesive. I feel like they're finally there - which means it was time for me to learn it! While caret isn't going anywhere (you can continue to use caret, and your existing caret code isn't going to stop working), tidymodels will eventually make it redundant. 
+That said, caret was a great starting point, so RStudio hired Max Kuhn to work on a tidy version of caret, and he and many other people have developed what has become tidymodels. Tidymodels has been in development for a few years, with snippets of it being released as they were developed (see my [post on the recipes package](http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/)). I've been holding off writing a post about tidymodels until it seemed as though the different pieces fit together sufficiently for it to all feel cohesive. I feel like they're finally there - which means it is time for me to learn it! While caret isn't going anywhere (you can continue to use caret, and your existing caret code isn't going to stop working), tidymodels will eventually make it redundant. 
 
 
 The main resources I used to learn tidymodels were Alison Hill's slides from [Introduction to Machine Learning with the Tidyverse](https://education.rstudio.com/blog/2020/02/conf20-intro-ml/), which contains all the slides for the course she prepared with Garrett Grolemund for RStudio::conf(2020), and Edgar Ruiz's [Gentle introduction to tidymodels](https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/) on the RStudio website.
@@ -48,7 +48,7 @@ Similarly to how you can load the entire tidyverse suite of packages by typing `
 
 
 
-Unlike in my [tidyverse post](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/), I *won't* base this post around the packages themselves (because, quite frankly, the functions are more important than the packages), but I will mention the packages in passing.
+Unlike in my [tidyverse post](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/), I *won't* base this post around the packages themselves, but I will mention the packages in passing.
 
 # Getting set up
 
@@ -229,7 +229,7 @@ rf_model <-
   set_mode("classification")
 ```
 
-Note that this code doesn't actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to `tune()` means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen).
+Note that this code doesn't actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to `tune()` means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen). You could also just specify a particular value of the parameter if you don't want to tune it e.g. using `set_args(mtry = 4)`.
 
 Another thing to note is that nothing about this model specification is specific to the diabetes dataset.
 
@@ -248,11 +248,11 @@ rf_workflow <- workflow() %>%
 ```
 
 
-Note that we haven't yet implemented the pre-processing steps in the recipe nor have we fit the model. We've just written the framework. It is only when we tune the parameters or fit the model that the recipe and model frameworks are actually implemented.
+Note that we still haven't yet implemented the pre-processing steps in the recipe nor have we fit the model. We've just written the framework. It is only when we tune the parameters or fit the model that the recipe and model frameworks are actually implemented.
 
 # Tune the parameters
 
-Since we had a parameter that we designated to be tuned (`mtry`), we need to tune it (i.e. choose the value that leads to the best performance) before fitting our model.
+Since we had a parameter that we designated to be tuned (`mtry`), we need to tune it (i.e. choose the value that leads to the best performance) before fitting our model. If you don't have any parameters to tune, you can skip this step.
 
 Note that we will do our tuning using the cross-validation object (`diabetes_cv`). To do this, we specify the range of `mtry` values we want to try, and then we add a tuning layer to our workflow using `tune_grid()` (from the `tune` package). Note that we focus on two metrics: `accuracy` and `roc_auc` (from the `yardstick` package).
 
@@ -267,6 +267,8 @@ rf_tune_results <- rf_workflow %>%
             )
 ```
 
+You can tune multiple parameters at once by providing multiple parameters to the `expand.grid()` function, e.g. `expand.grid(mtry = c(3, 4, 5), trees = c(100, 500))`.
+
 It's always a good idea to explore the results of the cross-validation. `collect_metrics()` is a really handy function that can be used in a variety of circumstances to extract any metrics that have been calculated within the object it's being used on. In this case, the metrics come from the cross-validation performance across the different values of the parameters.
 
 ```{r}
@@ -280,7 +282,7 @@ Across both accuracy and AUC, `mtry = 4` yields the best performance (*just*).
 
 # Finalize the workflow
 
-We want to add a layer to our workflow that corresponds to the tuned parameter, i.e. sets `mtry` to be the value that yielded the best results.
+We want to add a layer to our workflow that corresponds to the tuned parameter, i.e. sets `mtry` to be the value that yielded the best results. If you didn't tune any parameters, you can skip this step.
 
 We can extract the best value for the accuracy metric by applying the `select_best()` function to the tune object.
 
@@ -306,6 +308,7 @@ rf_fit <- rf_workflow %>%
   # fit on entire training set and evaluate on test set
   last_fit(diabetes_split)
 ```
+
 
 Note that the fit object that is created is a data-frame-like object; specifically, it is a tibble with list columns.
 

@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2020-04-14T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2020-04-14T23:13:14-05:00" />
-<meta itemprop="wordCount" content="12026">
+<meta itemprop="wordCount" content="12063">
 
 
 
@@ -477,8 +477,8 @@ ga('send', 'pageview');
 </div>
 
 <p>There’s a new modeling pipeline in town: tidymodels. Over the past few years, tidymodels has been gradually emerging as the tidyverse’s machine learning toolkit.</p>
-<p>Why tidymodels? Well, it turns out that R has a consistency problem. Since everything was made by different people and using different principles, everything has a slightly different interface, and trying to keep everything in line can be frustrating. Several years ago, <a href="https://twitter.com/topepos">Max Kuhn</a> (formerly at Pfeizer, now at RStudio) developed the caret R package (see my <a href="http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/">caret tutorial</a>) aimed at creating a uniform interface for the massive variety of machine learning models that exist in R. Caret was great in a lot of ways, but also limited in others. In my own use, I found it to be quite slow whenever I tried to use on problems of any kind of modest size. It also didn’t effectively address any of the other stuff that comes along with machine learning problems, such as pre-processing, sample splitting, evaluation metrics, etc.</p>
-<p>That said, caret was a great starting point, so RStudio hired Max Kuhn to work on a tidy version of caret, and he and many other people have developed what is today’s tidymodels. Tidymodels has been in development for a few years, with snippets of it being released as they were developed (see my <a href="http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/">post on the recipes package</a>). I’ve been holding off writing a post about tidymodels until it seemed as though the different pieces fit together sufficiently for it to all feel cohesive. I feel like they’re finally there - which means it was time for me to learn it! While caret isn’t going anywhere (you can continue to use caret, and your existing caret code isn’t going to stop working), tidymodels will eventually make it redundant.</p>
+<p>Why tidymodels? Well, it turns out that R has a consistency problem. Since everything was made by different people and using different principles, everything has a slightly different interface, and trying to keep everything in line can be frustrating. Several years ago, <a href="https://twitter.com/topepos">Max Kuhn</a> (formerly at Pfeizer, now at RStudio) developed the caret R package (see my <a href="http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/">caret tutorial</a>) aimed at creating a uniform interface for the massive variety of machine learning models that exist in R. Caret was great in a lot of ways, but also limited in others. In my own use, I found it to be quite slow whenever I tried to use on problems of any kind of modest size.</p>
+<p>That said, caret was a great starting point, so RStudio hired Max Kuhn to work on a tidy version of caret, and he and many other people have developed what has become tidymodels. Tidymodels has been in development for a few years, with snippets of it being released as they were developed (see my <a href="http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/">post on the recipes package</a>). I’ve been holding off writing a post about tidymodels until it seemed as though the different pieces fit together sufficiently for it to all feel cohesive. I feel like they’re finally there - which means it is time for me to learn it! While caret isn’t going anywhere (you can continue to use caret, and your existing caret code isn’t going to stop working), tidymodels will eventually make it redundant.</p>
 <p>The main resources I used to learn tidymodels were Alison Hill’s slides from <a href="https://education.rstudio.com/blog/2020/02/conf20-intro-ml/">Introduction to Machine Learning with the Tidyverse</a>, which contains all the slides for the course she prepared with Garrett Grolemund for RStudio::conf(2020), and Edgar Ruiz’s <a href="https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/">Gentle introduction to tidymodels</a> on the RStudio website.</p>
 <p>Note that throughout this post I’ll be assuming basic tidyverse knowledge, primarily of dplyr (e.g. piping <code>%&gt;%</code> and function such as <code>mutate()</code>). Fortunately, for all you purrr-phobes out there, purrr is <em>not</em> required. If, however, you’d like to either brush up on your tidyverse skills, check out my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">Introduction to the Tidyverse</a> posts, and if you’d like to learn purrr (purrr is very handy for working with tidymodels but is no longer a requirement), check out my <a href="http://www.rebeccabarter.com/blog/2019-08-19_purrr/">purrr post</a>.</p>
 <div id="what-is-tidymodels" class="section level1">
@@ -493,7 +493,7 @@ ga('send', 'pageview');
 <li><p><code>workflows</code>: for putting everything together</p></li>
 </ul>
 <p>Similarly to how you can load the entire tidyverse suite of packages by typing <code>library(tidyverse)</code>, you can load the entire tidymodels suite of packages by typing <code>library(tidymodels)</code>.</p>
-<p>Unlike in my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">tidyverse post</a>, I <em>won’t</em> base this post around the packages themselves (because, quite frankly, the functions are more important than the packages), but I will mention the packages in passing.</p>
+<p>Unlike in my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">tidyverse post</a>, I <em>won’t</em> base this post around the packages themselves, but I will mention the packages in passing.</p>
 </div>
 <div id="getting-set-up" class="section level1">
 <h1>Getting set up</h1>
@@ -1394,7 +1394,7 @@ diabetes_train_preprocessed</code></pre>
   set_engine(&quot;ranger&quot;) %&gt;%
   # choose either the continuous regression or binary classification mode
   set_mode(&quot;classification&quot;)</code></pre>
-<p>Note that this code doesn’t actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to <code>tune()</code> means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen).</p>
+<p>Note that this code doesn’t actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to <code>tune()</code> means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen). You could also just specify a particular value of the parameter if you don’t want to tune it e.g. using <code>set_args(mtry = 4)</code>.</p>
 <p>Another thing to note is that nothing about this model specification is specific to the diabetes dataset.</p>
 </div>
 <div id="put-it-all-together-in-a-workflow" class="section level1">
@@ -1406,11 +1406,11 @@ rf_workflow &lt;- workflow() %&gt;%
   add_recipe(diabetes_recipe) %&gt;%
   # add the model
   add_model(rf_model)</code></pre>
-<p>Note that we haven’t yet implemented the pre-processing steps in the recipe nor have we fit the model. We’ve just written the framework. It is only when we tune the parameters or fit the model that the recipe and model frameworks are actually implemented.</p>
+<p>Note that we still haven’t yet implemented the pre-processing steps in the recipe nor have we fit the model. We’ve just written the framework. It is only when we tune the parameters or fit the model that the recipe and model frameworks are actually implemented.</p>
 </div>
 <div id="tune-the-parameters" class="section level1">
 <h1>Tune the parameters</h1>
-<p>Since we had a parameter that we designated to be tuned (<code>mtry</code>), we need to tune it (i.e. choose the value that leads to the best performance) before fitting our model.</p>
+<p>Since we had a parameter that we designated to be tuned (<code>mtry</code>), we need to tune it (i.e. choose the value that leads to the best performance) before fitting our model. If you don’t have any parameters to tune, you can skip this step.</p>
 <p>Note that we will do our tuning using the cross-validation object (<code>diabetes_cv</code>). To do this, we specify the range of <code>mtry</code> values we want to try, and then we add a tuning layer to our workflow using <code>tune_grid()</code> (from the <code>tune</code> package). Note that we focus on two metrics: <code>accuracy</code> and <code>roc_auc</code> (from the <code>yardstick</code> package).</p>
 <pre class="r"><code># specify which values eant to try
 rf_grid &lt;- expand.grid(mtry = c(3, 4, 5))
@@ -1421,6 +1421,7 @@ rf_tune_results &lt;- rf_workflow %&gt;%
             metrics = metric_set(accuracy, roc_auc) # metrics we care about
             )</code></pre>
 <pre><code>## i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+<p>You can tune multiple parameters at once by providing multiple parameters to the <code>expand.grid()</code> function, e.g. <code>expand.grid(mtry = c(3, 4, 5), trees = c(100, 500))</code>.</p>
 <p>It’s always a good idea to explore the results of the cross-validation. <code>collect_metrics()</code> is a really handy function that can be used in a variety of circumstances to extract any metrics that have been calculated within the object it’s being used on. In this case, the metrics come from the cross-validation performance across the different values of the parameters.</p>
 <pre class="r"><code># print results
 rf_tune_results %&gt;%
@@ -1438,7 +1439,7 @@ rf_tune_results %&gt;%
 </div>
 <div id="finalize-the-workflow" class="section level1">
 <h1>Finalize the workflow</h1>
-<p>We want to add a layer to our workflow that corresponds to the tuned parameter, i.e. sets <code>mtry</code> to be the value that yielded the best results.</p>
+<p>We want to add a layer to our workflow that corresponds to the tuned parameter, i.e. sets <code>mtry</code> to be the value that yielded the best results. If you didn’t tune any parameters, you can skip this step.</p>
 <p>We can extract the best value for the accuracy metric by applying the <code>select_best()</code> function to the tune object.</p>
 <pre class="r"><code>param_final &lt;- rf_tune_results %&gt;%
   select_best(metric = &quot;accuracy&quot;, maximize = TRUE)

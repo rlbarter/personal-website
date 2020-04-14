@@ -7,7 +7,9 @@ type: "post"
 description: "R has a wide number of packages for machine learning (ML), which is great, but also quite frustrating since each package was designed independently and has very different syntax, inputs and outputs. Caret unifies these packages into a single package with constant syntax, saving everyone a lot of frustration and time!" 
 ---
 
-Note: This tutorial was based on an older version of the abalone data that had a binary `old` varibale rather than a numeric `age` variable. It has been modified lightly so that it uses a manual `old` variable (is the abalone older than 10 or not) and ignores the numeric `age` variable.
+Note: If you're new to caret, I suggest learning tidymodels instead (http://www.rebeccabarter.com/blog/2020-03-25_machine_learning/). Tidymodels is essentially caret's successor. Don't worry though, your caret code will still work!
+
+Older note: This tutorial was based on an older version of the abalone data that had a binary `old` varibale rather than a numeric `age` variable. It has been modified lightly so that it uses a manual `old` variable (is the abalone older than 10 or not) and ignores the numeric `age` variable.
 
 Materials prepared by Rebecca Barter. Package developed by Max Kuhn.
 
@@ -19,9 +21,9 @@ This means that if you want to do machine learning in R, you have to learn a lar
 
 Recognizing this, Max Kuhn (at the time working in drug discovery at Pfizer, now at RStudio) put together a single package for performing any machine learning method you like. This package is called `caret`. Caret stands for **C**lassification **A**nd **Re**gression **T**raining. Apparently caret has little to do with our orange friend, the carrot.
 
-```{r echo = FALSE}
-knitr::include_graphics("/img/caret/caret.png")
-```
+<!-- ```{r echo = FALSE} -->
+<!-- knitr::include_graphics("img/caret/caret.png") -->
+<!-- ``` -->
 
 Not only does caret allow you to run a plethora of ML methods, it also provides tools for auxiliary techniques such as:
 
@@ -132,7 +134,7 @@ In addition to these individual functions, there also exists the **`preProcess`*
 # identify and remove variables with near zero variance
 # perform pca
 abalone_no_nzv_pca <- preProcess(select(abalone_train, - old), 
-                        method = c("center", "scale", "YeoJohnson", "nzv", "pca"))
+                        method = c("center", "scale", "nzv", "pca"))
 abalone_no_nzv_pca
 ```
 

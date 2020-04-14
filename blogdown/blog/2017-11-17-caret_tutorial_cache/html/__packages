@@ -5,3 +5,10 @@ caret
 ranger
 dplyr
 e1071
+tidyverse
+tibble
+tidyr
+readr
+purrr
+stringr
+forcats
