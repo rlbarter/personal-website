@@ -30,6 +30,15 @@
     </item>
     
     <item>
+      <title>Caret</title>
+      <link>/categories/caret/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/caret/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Causal Inference</title>
       <link>/categories/causal-inference/</link>
       <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
@@ -156,11 +165,29 @@
     </item>
     
     <item>
+      <title>Machine learning</title>
+      <link>/categories/machine-learning/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Misc</title>
       <link>/categories/misc/</link>
       <pubDate>Thu, 29 Jun 2017 21:13:14 -0500</pubDate>
       
       <guid>/categories/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Parsnip</title>
+      <link>/categories/parsnip/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/parsnip/</guid>
       <description></description>
     </item>
     
@@ -185,7 +212,7 @@
     <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/r/</guid>
       <description></description>
@@ -201,11 +228,29 @@
     </item>
     
     <item>
+      <title>Recipes</title>
+      <link>/categories/recipes/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/recipes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Reproducibility</title>
       <link>/categories/reproducibility/</link>
       <pubDate>Sat, 23 Mar 2019 23:13:14 -0500</pubDate>
       
       <guid>/categories/reproducibility/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rsample</title>
+      <link>/categories/rsample/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/rsample/</guid>
       <description></description>
     </item>
     
@@ -264,6 +309,15 @@
     </item>
     
     <item>
+      <title>Tidymodels</title>
+      <link>/categories/tidymodels/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidymodels/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Tidyr</title>
       <link>/categories/tidyr/</link>
       <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
@@ -275,9 +329,18 @@
     <item>
       <title>Tidyverse</title>
       <link>/categories/tidyverse/</link>
-      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
       <guid>/categories/tidyverse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tune</title>
+      <link>/categories/tune/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tune/</guid>
       <description></description>
     </item>
     

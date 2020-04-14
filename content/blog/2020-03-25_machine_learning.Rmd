@@ -1,0 +1,368 @@
+---
+title: "Tidymodels: tidy machine learning in R"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, tidyverse, machine learning, tidymodels, caret, recipes, parsnip, tune, rsample]
+date: 2020-04-14T23:13:14-05:00
+type: "post" 
+description: "The tidyverse's take on machine learning is finally here. Tidymodels forms the basis of tidy machine learning, and this post provides a whirlwind tour to get you started." 
+---
+
+There's a new modeling pipeline in town: tidymodels. Over the past few years, tidymodels has been gradually emerging as the tidyverse's machine learning toolkit. 
+
+Why tidymodels? Well, it turns out that R has a consistency problem. Since everything was made by different people and using different principles, everything has a slightly different interface, and trying to keep everything in line can be frustrating. Several years ago, [Max Kuhn](https://twitter.com/topepos) (formerly at Pfeizer, now at RStudio) developed the caret R package (see my [caret tutorial](http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/)) aimed at creating a uniform interface for the massive variety of machine learning models that exist in R. Caret was great in a lot of ways, but also limited in others. In my own use, I found it to be quite slow whenever I tried to use on problems of any kind of modest size. It also didn't effectively address any of the other stuff that comes along with machine learning problems, such as pre-processing, sample splitting, evaluation metrics, etc. 
+
+
+That said, caret was a great starting point, so RStudio hired Max Kuhn to work on a tidy version of caret, and he and many other people have developed what is today's tidymodels. Tidymodels has been in development for a few years, with snippets of it being released as they were developed (see my [post on the recipes package](http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/)). I've been holding off writing a post about tidymodels until it seemed as though the different pieces fit together sufficiently for it to all feel cohesive. I feel like they're finally there - which means it was time for me to learn it! While caret isn't going anywhere (you can continue to use caret, and your existing caret code isn't going to stop working), tidymodels will eventually make it redundant. 
+
+
+The main resources I used to learn tidymodels were Alison Hill's slides from [Introduction to Machine Learning with the Tidyverse](https://education.rstudio.com/blog/2020/02/conf20-intro-ml/), which contains all the slides for the course she prepared with Garrett Grolemund for RStudio::conf(2020), and Edgar Ruiz's [Gentle introduction to tidymodels](https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/) on the RStudio website.
+
+
+Note that throughout this post I'll be assuming basic tidyverse knowledge, primarily of dplyr (e.g. piping `%>%` and function such as `mutate()`). Fortunately, for all you purrr-phobes out there, purrr is *not* required. If, however, you'd like to either brush up on your tidyverse skills, check out my [Introduction to the Tidyverse](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/) posts, and if you'd like to learn purrr (purrr is very handy for working with tidymodels but is no longer a requirement), check out my [purrr post](http://www.rebeccabarter.com/blog/2019-08-19_purrr/).
+
+
+
+
+
+# What is tidymodels
+
+Much like the tidyverse consists of many core packages, such as ggplot2 and dplyr, tidymodels also consists of several core packages, including 
+
+- `rsample`: for sample splitting (e.g. train/test or cross-validation)
+
+- `recipes`: for pre-processing 
+
+- `parsnip`: for specifying the model
+
+- `tune`: for parameter tuning procedure 
+
+- `yardstick`: for evaluating the model
+
+- `workflows`: for putting everything together
+
+
+Similarly to how you can load the entire tidyverse suite of packages by typing `library(tidyverse)`, you can load the entire tidymodels suite of packages by typing `library(tidymodels)`.
+
+
+
+Unlike in my [tidyverse post](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/), I *won't* base this post around the packages themselves (because, quite frankly, the functions are more important than the packages), but I will mention the packages in passing.
+
+# Getting set up
+
+
+First we need to load some libraries: `tidymodels` and `tidyverse`. We will also be using the `workflows` and `tune` packages that I had thought were a part of CRAN's tidymodels package bundle, but apparently they aren't, and so they need to be loaded separately (though I imagine that they probably will be included some day soon).
+
+```{r, message=FALSE}
+# load the relevant tidymodels libraries
+library(tidymodels)
+library(tidyverse)
+library(workflows)
+library(tune)
+```
+
+
+If you don't already have the tidymodels library (or any of the other libraries) installed, then you'll need to install it (once only) using `install.packages("tidymodels")`.
+
+
+We will use the Pima Indian Women's diabetes dataset which contains information on 768 Pima Indian women's diabetes status, as well as many predictive features such as the number of pregnancies (pregnant), plasma glucose concentration (glucose), diastolic blood pressure (pressure), triceps skin fold thickness (triceps), 2-hour serum insulin (insulin), BMI (mass), diabetes pedigree function (pedigree), and their age (age). In case you were wondering, the [Pima Indians](https://en.wikipedia.org/wiki/Pima_people) are a group of Native Americans living in an area consisting of what is now central and southern Arizona. The short name, "Pima" is believed to have come from a phrase meaning "I don't know," which they used repeatedly in their initial meetings with Spanish colonists. Thanks Wikipedia!
+
+```{r}
+# load the Pima Indians dataset from the mlbench dataset
+library(mlbench)
+data(PimaIndiansDiabetes)
+# rename dataset to have shorter name because lazy
+diabetes_orig <- PimaIndiansDiabetes
+```
+
+```{r}
+diabetes_orig
+```
+
+
+A quick exploration reveals that there are more zeros in the data than expected (especially since a BMI or tricep skin fold thickness of 0 is impossible), implying that missing values are recorded as zeros. See for instance the histogram of the tricep skin fold thickness, which has a number of 0 entries that are set apart from the other entries. 
+
+```{r, fig.align="center"}
+ggplot(diabetes_orig) +
+  geom_histogram(aes(x = triceps))
+```
+
+This phenomena can also seen in the glucose, pressure, insulin and mass variables. Thus, we convert the 0 entries in all variables (other than "pregnant") to `NA`. To do that, we use the `mutate_at()` function (which will soon be superseded by `mutate()` with `across()`) to specify which variables we want to apply our mutating function to, and we use the `if_else()` function to specify what to replace the value with if the condition is true or false.
+
+```{r}
+diabetes_clean <- diabetes_orig %>%
+  mutate_at(vars(triceps, glucose, pressure, insulin, mass), 
+            function(.var) { 
+              if_else(condition = (.var == 0), # if true (i.e. the entry is 0)
+                      true = as.numeric(NA),  # replace the value with NA
+                      false = .var # otherwise leave it as it is
+                      )
+            })
+```
+
+Our data is ready. Hopefully you've replenished your cup of tea (or coffee if you're into that for some reason). Let's start making some tidy models!
+
+# Split into train/test
+
+First, let's split our dataset into training and testing data. The training data will be used to fit our model and tune its parameters, where the testing data will be used to evaluate our final model's performance.
+
+This split can be done automatically using the `inital_split()` function (from `rsample`) which creates a special "split" object. 
+
+```{r}
+set.seed(234589)
+# split the data into trainng (75%) and testing (25%)
+diabetes_split <- initial_split(diabetes_clean, 
+                                prop = 3/4)
+diabetes_split
+```
+
+The printed output of `diabetes_split`, our split object, tells us how many observations we have in the training set, the testing set, and overall: `<train/test/total>`.
+
+The training and testing sets can be extracted from the "split" object using the `training()` and `testing()` functions. Although, we won't actually use these objects in the pipeline (we will be using the `diabetes_split` object itself).
+
+```{r}
+# extract training and testing sets
+diabetes_train <- training(diabetes_split)
+diabetes_test <- testing(diabetes_split)
+```
+
+At some point we're going to want to do some parameter tuning, and to do that we're going to want to use cross-validation. So we can create a cross-validated version of the training set in preparation for that moment using `vfold_cv()`.
+
+
+```{r}
+# create CV object from training data
+diabetes_cv <- vfold_cv(diabetes_train)
+```
+
+
+
+# Define a recipe
+
+Recipes allow you to specify the role of each variable as an outcome or predictor variable (using a "formula"), and any pre-processing steps you want to conduct (such as normalization, imputation, PCA, etc).
+
+Creating a recipe has two parts (layered on top of one another using pipes `%>%`):
+
+1. **Specify the formula** (`recipe()`): specify the outcome variable and predictor variables
+
+1. **Specify pre-processing steps** (`step_zzz()`): define the pre-processing steps, such as imputation, creating dummy variables, scaling, and more
+
+
+For instance, we can define the following recipe 
+
+```{r}
+# define the recipe
+diabetes_recipe <- 
+  # which consists of the formula (outcome ~ predictors)
+  recipe(diabetes ~ pregnant + glucose + pressure + triceps + 
+           insulin + mass + pedigree + age, 
+         data = diabetes_clean) %>%
+  # and some pre-processing steps
+  step_normalize(all_numeric()) %>%
+  step_knnimpute(all_predictors())
+```
+
+Note that if you've ever seen formulas before (e.g. using the `lm()` function in R), you might have noticed that we could have written our formula much more efficiently using the formula short-hand where `.` represents all of the variables in the data: `outcome ~ .` will fit a model that predicts the outcome using *all other columns*.
+
+The full list of pre-processing steps available can be found [here](https://tidymodels.github.io/recipes/articles/Custom_Steps.html). Notice also that we used the functions `all_numeric()` and `all_predictors()` as arguments to the pre-processing steps. These are called "role selections", and they specify that we want to apply the step to "all numeric" variables or "all predictor variables". The list of all potential role selectors can be found by typing `?selections` into your console.
+
+
+Note that we used the original `diabetes_clean` data object (we set `recipe(..., data = diabetes_clean)`), rather than the `diabetes_train` object or the `diabetes_split` object. It turns out we could have used any of these. All recipes takes from the data object at this point is the *names and roles* of the outcome and predictor variables. We will apply this recipe to specific datasets later. This means that for large data sets, the head of the data could be used to pass the recipe a smaller data set to save time and memory.
+
+
+Indeed, if we print a summary of the `diabetes_recipe` object, it just shows us how many predictor variables we've specified and the steps we've specified (but it doesn't actually implement them yet!). If you print out the recipe, it just tells you how many outcome and predictor variables there are and the pre-processing options you've specified. It hasn't actually run these pre-processing steps on anything yet.
+
+```{r}
+diabetes_recipe
+```
+
+
+If you want to create a pre-processed data, you can first `prep()` the recipe for a specific dataset and `juice()` the prepped recipe to extract the pre-processed data. It turns out that extracting the pre-processed data isn't actually necessary for the pipeline (but sometimes it's useful anyway), since this will be done under the hood when the model is fit.
+
+```{r}
+diabetes_train_preprocessed <- diabetes_recipe %>%
+  # apply the recipe to the training data
+  prep(diabetes_train) %>%
+  # extract the pre-processed training dataset
+  juice()
+diabetes_train_preprocessed
+```
+
+
+I wrote a much longer [post on recipes](http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/) if you'd like to check out more details. However, note that the preparation and bake steps described in that post are no longer necessary in the tidymodels pipeline, since they're now implemented under the hood by the later model fitting functions in this pipeline.
+
+
+
+
+# Specify the model
+
+
+So far we've split our data into training/testing, and we've specified our pre-processing steps using a recipe. The next thing we want to specify is our model (using the `parsnip` package).
+
+Parsnip offers a unified interface for the massive variety of models that exist in R. This means, you only have to learn one way of specifying a model, and then you can use this specification and have it generate a linear model, a random forest model, a support vector machine model and more with a single line of code.
+
+There are a few primary component for the model specification
+
+
+1. The **model type**: what kind of model you want to fit, set using a different function depending on the model, such as `rand_forest()` for random forest, `logistic_reg()` for logistic regression, `svm_poly()` for a polynomial SVM model etc. The full list of models available via parsnip can be found [here](https://tidymodels.github.io/parsnip/articles/articles/Models.html).
+
+1. The **arguments**: the model parameter values (now consistently named across different models), set using `set_args()`.
+
+1. The **engine**: the underlying package the model should come from (e.g. "ranger" for the ranger implementation of Random Forest), set using `set_engine()`.
+
+1. The **mode**: the type of prediction - since several packages can do both classification (binary/categorical prediction) and regression (continuous prediction), set using `set_mode()`.
+
+
+For instance, if we want to fit a random forest model as implemented by the `ranger` package for the purpose of classification and we want to tune the `mtry` parameter (the number of randomly selected variables to be considered at each split in the trees), then we would built the following model specification:
+
+
+```{r}
+rf_model <- 
+  # specify that the model is a random forest
+  rand_forest() %>%
+  # specify that the `mtry` parameter needs to be tuned
+  set_args(mtry = tune()) %>%
+  # select the engine/package that underlies the model
+  set_engine("ranger") %>%
+  # choose either the continuous regression or binary classification mode
+  set_mode("classification")
+```
+
+Note that this code doesn't actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to `tune()` means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen).
+
+Another thing to note is that nothing about this model specification is specific to the diabetes dataset.
+
+# Put it all together in a workflow
+
+We're now ready to put the model and recipes together into a workflow. You initiate a workflow using `workflow()` (from the `workflows` package) and then you can add a recipe and add a model to it.
+
+
+```{r}
+# set the workflow
+rf_workflow <- workflow() %>%
+  # add the recipe
+  add_recipe(diabetes_recipe) %>%
+  # add the model
+  add_model(rf_model)
+```
+
+
+Note that we haven't yet implemented the pre-processing steps in the recipe nor have we fit the model. We've just written the framework. It is only when we tune the parameters or fit the model that the recipe and model frameworks are actually implemented.
+
+# Tune the parameters
+
+Since we had a parameter that we designated to be tuned (`mtry`), we need to tune it (i.e. choose the value that leads to the best performance) before fitting our model.
+
+Note that we will do our tuning using the cross-validation object (`diabetes_cv`). To do this, we specify the range of `mtry` values we want to try, and then we add a tuning layer to our workflow using `tune_grid()` (from the `tune` package). Note that we focus on two metrics: `accuracy` and `roc_auc` (from the `yardstick` package).
+
+```{r}
+# specify which values eant to try
+rf_grid <- expand.grid(mtry = c(3, 4, 5))
+# extract results
+rf_tune_results <- rf_workflow %>%
+  tune_grid(resamples = diabetes_cv, #CV object
+            grid = rf_grid, # grid of values to try
+            metrics = metric_set(accuracy, roc_auc) # metrics we care about
+            )
+```
+
+It's always a good idea to explore the results of the cross-validation. `collect_metrics()` is a really handy function that can be used in a variety of circumstances to extract any metrics that have been calculated within the object it's being used on. In this case, the metrics come from the cross-validation performance across the different values of the parameters.
+
+```{r}
+# print results
+rf_tune_results %>%
+  collect_metrics()
+```
+
+Across both accuracy and AUC, `mtry = 4` yields the best performance (*just*).
+
+
+# Finalize the workflow
+
+We want to add a layer to our workflow that corresponds to the tuned parameter, i.e. sets `mtry` to be the value that yielded the best results.
+
+We can extract the best value for the accuracy metric by applying the `select_best()` function to the tune object.
+
+```{r}
+param_final <- rf_tune_results %>%
+  select_best(metric = "accuracy", maximize = TRUE)
+param_final
+```
+
+Then we can add this parameter to the workflow using the `finalize_workflow()` function.
+
+```{r}
+rf_workflow <- rf_workflow %>%
+  finalize_workflow(param_final)
+```
+
+# Fit the final model
+
+Now we've defined our recipe, our model, and tuned the model's parameters, we're ready to actually fit the final model. Since all of this information is contained within the workflow object, we will apply the `last_fit()` function to our workflow and our train/test split object. This will automatically train the model specified by the workflow using the training data, and produce evaluations based on the test set.
+
+```{r}
+rf_fit <- rf_workflow %>%
+  # fit on entire training set and evaluate on test set
+  last_fit(diabetes_split)
+```
+
+Note that the fit object that is created is a data-frame-like object; specifically, it is a tibble with list columns.
+
+```{r}
+rf_fit
+```
+
+This is a really nice feature of tidymodels (and is what makes it work so nicely with the tidyverse) since you can do all of your tidyverse operations to the model object. While truly taking advantage of this flexibility requires proficiency with purrr, if you don't want to deal with purrr and list-columns, there are functions that can extract the relevant information from the fit object that remove the need for purrr as we will see below.
+
+# Evaluate the model on the test set
+
+Since we supplied the train/test object when we fit the workflow, the metrics are evaluated on the *test* set. Now when we use the `collect_metrics()` function (recall we used this when tuning our parameters), it extracts the performance of the final model (since `rf_fit` now consists of a single final model) applied to the *test* set.
+
+
+```{r}
+test_performance <- rf_fit %>% collect_metrics()
+test_performance
+```
+
+Overall the performance is very good, with an accuracy of 0.74 and an AUC of 0.82.
+
+You can also extract the test set predictions themselves using the `collect_predictions()` function. Note that there are 192 rows in the predictions object below which matches the number of *test set* observations (just to give you some evidence that these are based on the test set rather than the training set).
+
+
+```{r}
+# generate predictions from the test set
+test_predictions <- rf_fit %>% collect_predictions()
+test_predictions
+```
+
+
+Since this is just a normal data frame/tibble object, we can generate summaries and plots such as a confusion matrix.
+
+```{r}
+# generate a confusion matrix
+test_predictions %>% 
+  conf_mat(truth = diabetes, estimate = .pred_class)
+```
+
+We could also plot distributions of the predicted probability distributions for each class.
+
+```{r}
+test_predictions %>%
+  ggplot() +
+  geom_density(aes(x = .pred_pos, fill = diabetes), 
+               alpha = 0.5)
+```
+
+
+
+
+If you're familiar with purrr, you could use purrr functions to extract the predictions column using `pull()`. The following code does almost the same thing as `collect_predictions()`. You could similarly have done this with the `.metrics` column.
+
+```{r}
+test_predictions <- rf_fit %>% pull(.predictions)
+test_predictions
+```
+
+
+

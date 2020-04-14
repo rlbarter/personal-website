@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2020-03-25_machine_learning/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2020-02-05_rstudio_conf/</loc>
     <lastmod>2020-02-06T23:13:14-05:00</lastmod>
   </url>
@@ -195,7 +200,13 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/caret/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -302,8 +313,20 @@
   </url>
   
   <url>
+    <loc>/categories/machine-learning/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/misc/</loc>
     <lastmod>2017-06-29T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/parsnip/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -327,7 +350,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -345,13 +368,25 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/recipes/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/reproducibility/</loc>
     <lastmod>2019-03-23T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/rsample/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -398,6 +433,12 @@
   </url>
   
   <url>
+    <loc>/categories/tidymodels/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/tidyr/</loc>
     <lastmod>2019-08-05T23:13:14-05:00</lastmod>
     <priority>0</priority>
@@ -405,7 +446,13 @@
   
   <url>
     <loc>/categories/tidyverse/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/tune/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

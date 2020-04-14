@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2019-06-06T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2019-06-06T23:13:14-05:00" />
-<meta itemprop="wordCount" content="3316">
+<meta itemprop="wordCount" content="3282">
 
 
 
@@ -310,11 +310,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2020-02-05_rstudio_conf/"><p>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</p></a>
+                        <a href="/blog/2020-03-25_machine_learning/"><p>Tidymodels: tidy machine learning in R</p></a>
                     </li>
                 
                     <li>
-                        <a href="/blog/2020-02-03_blogger/"><p>Becoming an R blogger</p></a>
+                        <a href="/blog/2020-02-05_rstudio_conf/"><p>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</p></a>
                     </li>
                 
             </ul>
@@ -459,19 +459,19 @@ ga('send', 'pageview');
     
 
     <div id="content">
-        <p>Pre-processing data in R used to be the bane of my existence. For something that should be fairly straightforward, it often really wasn’t. Often my frustrations stemmed from simple things such as factor variables having different levels in the training data and test data, or a variable having missing values in the test data but not in the training data. I’d write a function that would pre-process the training data, and when I’d try to apply it to the test data, R would cry and yell and just be generally unpleasant.</p>
+        <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Pre-processing data in R used to be the bane of my existence. For something that should be fairly straightforward, it often really wasn’t. Often my frustrations stemmed from simple things such as factor variables having different levels in the training data and test data, or a variable having missing values in the test data but not in the training data. I’d write a function that would pre-process the training data, and when I’d try to apply it to the test data, R would cry and yell and just be generally unpleasant.</p>
 <p>Thankfully most of the pain of pre-processing is now in the past thanks to the <a href="https://tidymodels.github.io/recipes/">recipes</a> R package that is a part of the new “tidymodels” package ecosystem (which, I guess is supposed to be equivalent to the data-focused “tidyverse” package ecosystem that includes dplyr, tidyr, and other super awesome packages like that). Recipes was developed by Max Kuhn and Hadley Wickham.</p>
-<p>Those who have ever seen Hadley Wickham give a talk will know that baking and data are inherently related (see photo below).</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
-<img src="/img/recipes/hadley_cupcakes.jpg" alt="A photo I took at an R Ladies SF meetup of Hadley's cupcake recipes."  />
-<p class="caption">
-Figure 1: A photo I took at an R Ladies SF meetup of Hadley’s cupcake recipes.
-</p>
-</div>
+<!-- Those who have ever seen Hadley Wickham give a talk will know that baking and data are inherently related (see photo below).  -->
+<!-- ```{r echo = FALSE, fig.align="center", fig.cap = "A photo I took at an R Ladies SF meetup of Hadley's cupcake recipes."} -->
+<!-- knitr::include_graphics("/img/recipes/hadley_cupcakes.jpg") -->
+<!-- ``` -->
 <p>So let’s get baking!</p>
 <div id="the-fundamentals-of-pre-processing-your-data-using-recipes" class="section level2">
 <h2>The fundamentals of pre-processing your data using recipes</h2>
-<p>Creating a recipe has three steps:</p>
+<p>Creating a recipe has four steps:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Get the ingredients</strong> (<code>recipe()</code>): specify the response variable and predictor variables</p></li>
 <li><p><strong>Write the recipe</strong> (<code>step_zzz()</code>): define the pre-processing steps, such as imputation, creating dummy variables, scaling, and more</p></li>
@@ -494,7 +494,7 @@ muffin_cupcake_data_orig &lt;- read_csv(&quot;https://raw.githubusercontent.com/
 muffin_cupcake_data_orig</code></pre>
 <pre><code>## # A tibble: 20 x 9
 ##    Type    Flour  Milk Sugar Butter   Egg `Baking Powder` Vanilla  Salt
-##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;           &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ##  1 Muffin     55    28     3      7     5               2       0     0
 ##  2 Muffin     47    24    12      6     9               1       0     0
 ##  3 Muffin     47    23    18      6     4               1       0     0
@@ -530,7 +530,7 @@ muffin_cupcake_data_orig</code></pre>
 muffin_cupcake_data</code></pre>
 <pre><code>## # A tibble: 20 x 9
 ##    type    flour  milk sugar butter   egg baking_powder vanilla  salt
-##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;         &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ##  1 Muffin     55    28     3      7     5             2       0     0
 ##  2 Muffin     47    24    12      6     9             1       0     0
 ##  3 Muffin     47    23    18      6     4             1       0     0
@@ -589,7 +589,7 @@ muffin_cupcake_data &lt;- muffin_cupcake_data %&gt;%
 muffin_cupcake_data</code></pre>
 <pre><code>## # A tibble: 20 x 10
 ##    type    flour  milk sugar butter   egg baking_powder vanilla  salt
-##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;         &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ##  1 Muffin     55    28     3      7     5             2       0     0
 ##  2 Muffin     47    24    12      6     9             1       0     0
 ##  3 Muffin     47    23    18      6    NA             1       0     0
@@ -642,7 +642,7 @@ rm(muffin_cupcake_data)</code></pre>
 <pre class="r"><code>muffin_cupcake_train</code></pre>
 <pre><code>## # A tibble: 15 x 10
 ##    type    flour  milk sugar butter   egg baking_powder vanilla  salt
-##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;         &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ##  1 Muffin     47    24    12      6     9             1       0     0
 ##  2 Muffin     45    11    17     17     8             1      NA     0
 ##  3 Muffin     50    NA    12      6     5             2       1     0
@@ -679,7 +679,7 @@ rm(muffin_cupcake_data)</code></pre>
 <pre class="r"><code>muffin_cupcake_test</code></pre>
 <pre><code>## # A tibble: 5 x 10
 ##   type    flour  milk sugar butter   egg baking_powder vanilla  salt
-##   &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;         &lt;int&gt;   &lt;int&gt; &lt;int&gt;
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Muffin     55    28     3      7     5             2       0     0
 ## 2 Muffin     47    23    18      6    NA             1       0     0
 ## 3 Cupcake    39     0    NA     19    14             1       1     0
@@ -771,10 +771,10 @@ model_recipe_steps &lt;- model_recipe %&gt;%
 ## 
 ## Operations:
 ## 
-## Mean Imputation for all_numeric()
+## Mean Imputation for all_numeric
 ## Dummy variables from additional_ingredients
-## Range scaling to [0,1] for all_numeric(), -vanilla, ...
-## Sparse, unbalanced variable filter on all_predictors()</code></pre>
+## Range scaling to [0,1] for all_numeric, -, vanilla, -, salt, ...
+## Sparse, unbalanced variable filter on all_predictors</code></pre>
 <p>Note that the order in which you apply the steps does matter to some extent. The recommended ordering (<a href="https://tidymodels.github.io/recipes/articles/Ordering.html">taken from here</a>) is</p>
 <ol style="list-style-type: decimal">
 <li><p>Impute</p></li>
@@ -803,7 +803,7 @@ model_recipe_steps &lt;- model_recipe %&gt;%
 ## 
 ## Operations:
 ## 
-## Mean Imputation for flour, milk, sugar, butter, ... [trained]
+## Mean Imputation for flour, milk, sugar, butter, egg, ... [trained]
 ## Dummy variables from additional_ingredients [trained]
 ## Range scaling to [0,1] for flour, milk, sugar, butter, ... [trained]
 ## Sparse, unbalanced variable filter removed salt [trained]</code></pre>
@@ -821,23 +821,23 @@ model_recipe_steps &lt;- model_recipe %&gt;%
 <pre class="r"><code>muffin_cupcake_train_preprocessed &lt;- bake(prepped_recipe, muffin_cupcake_train) 
 muffin_cupcake_train_preprocessed</code></pre>
 <pre><code>## # A tibble: 15 x 11
-##    type     flour  milk sugar butter   egg baking_powder vanilla
-##    &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;int&gt;   &lt;dbl&gt;
-##  1 Muffin  0.619  0.812 0.321 0.0714 0.556             1   0    
-##  2 Muffin  0.524  0     0.5   0.857  0.444             1   0.538
-##  3 Muffin  0.762  0.433 0.321 0.0714 0.111             2   1    
-##  4 Muffin  1      1     0     0.143  0.111             2   1    
-##  5 Muffin  0.952  0.433 0.143 0      0.111             2   0    
-##  6 Muffin  0.619  0.938 0.25  0.357  0.376             1   0    
-##  7 Muffin  0.762  0.375 0.5   0.214  0.222             1   0    
-##  8 Muffin  0.762  0.375 0.5   0.429  0                 1   0    
-##  9 Cupcake 0.381  0.625 0.464 0.357  0.444             3   0    
-## 10 Cupcake 0.238  0.125 0.5   1      0.667             1   1    
-## 11 Cupcake 0.190  0.25  0.714 0.714  0.444             0   1    
-## 12 Cupcake 0.0952 0.188 0.643 0.643  0.376             2   1    
-## 13 Cupcake 0.190  0.25  1     0.214  0.222             1   0.538
-## 14 Cupcake 0.0952 0.312 0.75  0.5    0.556             1   1    
-## 15 Cupcake 0      0.375 0.714 0.429  1                 0   1    
+##     flour  milk sugar butter   egg baking_powder vanilla type   
+##     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;  
+##  1 0.619  0.812 0.321 0.0714 0.556             1   0     Muffin 
+##  2 0.524  0     0.5   0.857  0.444             1   0.538 Muffin 
+##  3 0.762  0.433 0.321 0.0714 0.111             2   1     Muffin 
+##  4 1      1     0     0.143  0.111             2   1     Muffin 
+##  5 0.952  0.433 0.143 0      0.111             2   0     Muffin 
+##  6 0.619  0.938 0.25  0.357  0.376             1   0     Muffin 
+##  7 0.762  0.375 0.5   0.214  0.222             1   0     Muffin 
+##  8 0.762  0.375 0.5   0.429  0                 1   0     Muffin 
+##  9 0.381  0.625 0.464 0.357  0.444             3   0     Cupcake
+## 10 0.238  0.125 0.5   1      0.667             1   1     Cupcake
+## 11 0.190  0.25  0.714 0.714  0.444             0   1     Cupcake
+## 12 0.0952 0.188 0.643 0.643  0.376             2   1     Cupcake
+## 13 0.190  0.25  1     0.214  0.222             1   0.538 Cupcake
+## 14 0.0952 0.312 0.75  0.5    0.556             1   1     Cupcake
+## 15 0      0.375 0.714 0.429  1                 0   1     Cupcake
 ##    additional_ingredients_icing additional_ingredients_none
 ##                           &lt;dbl&gt;                       &lt;dbl&gt;
 ##  1                            0                           0
@@ -875,13 +875,13 @@ muffin_cupcake_train_preprocessed</code></pre>
 <pre class="r"><code>muffin_cupcake_test_preprocessed &lt;- bake(prepped_recipe, muffin_cupcake_test)
 muffin_cupcake_test_preprocessed</code></pre>
 <pre><code>## # A tibble: 5 x 11
-##   type    flour  milk sugar butter   egg baking_powder vanilla
-##   &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;int&gt;   &lt;dbl&gt;
-## 1 Muffin  1     1     0     0.143  0.111             2   0    
-## 2 Muffin  0.619 0.75  0.536 0.0714 0.376             1   0    
-## 3 Cupcake 0.238 0     0.488 1      1                 1   1    
-## 4 Cupcake 0     0.375 0.607 1      0.111             2   1    
-## 5 Cupcake 0.381 0.438 0.786 0.286  0.111             1   0.538
+##   flour  milk sugar butter   egg baking_powder vanilla type   
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;  
+## 1 1     1     0     0.143  0.111             2   0     Muffin 
+## 2 0.619 0.75  0.536 0.0714 0.376             1   0     Muffin 
+## 3 0.238 0     0.488 1      1                 1   1     Cupcake
+## 4 0     0.375 0.607 1      0.111             2   1     Cupcake
+## 5 0.381 0.438 0.786 0.286  0.111             1   0.538 Cupcake
 ##   additional_ingredients_icing additional_ingredients_none
 ##                          &lt;dbl&gt;                       &lt;dbl&gt;
 ## 1                            0                           0
@@ -1066,13 +1066,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2020-02-05_rstudio_conf/">5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</a></h3>
+                                <h3><a href="/blog/2020-03-25_machine_learning/">Tidymodels: tidy machine learning in R</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2020-02-06'>
-                                    February 6, 2020</time>
+                                    '2020-04-14'>
+                                    April 14, 2020</time>
                             </header>
                         </article>
                     </li>
@@ -1080,13 +1080,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2020-02-03_blogger/">Becoming an R blogger</a></h3>
+                                <h3><a href="/blog/2020-02-05_rstudio_conf/">5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2020-02-03'>
-                                    February 3, 2020</time>
+                                    '2020-02-06'>
+                                    February 6, 2020</time>
                             </header>
                         </article>
                     </li>
@@ -1125,7 +1125,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/r/">R</a>
-                                <span style="float:right;">18</span>
+                                <span style="float:right;">19</span>
                             </header>
                         </article>
                     </li>
@@ -1142,8 +1142,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/statistics/">Statistics</a>
-                                <span style="float:right;">5</span>
+                                <a href="/categories/tidyverse/">tidyverse</a>
+                                <span style="float:right;">6</span>
                             </header>
                         </article>
                     </li>
@@ -1151,7 +1151,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/tidyverse/">tidyverse</a>
+                                <a href="/categories/statistics/">Statistics</a>
                                 <span style="float:right;">5</span>
                             </header>
                         </article>
@@ -1349,6 +1349,15 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
+                                <a href="/categories/caret/">caret</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
                                 <a href="/categories/forcats/">forcats</a>
                                 <span style="float:right;">1</span>
                             </header>
@@ -1367,6 +1376,24 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
+                                <a href="/categories/machine-learning/">machine learning</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/parsnip/">parsnip</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
                                 <a href="/categories/pipes/">pipes</a>
                                 <span style="float:right;">1</span>
                             </header>
@@ -1377,6 +1404,24 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/readr/">readr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/recipes/">recipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/rsample/">rsample</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1412,7 +1457,25 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
+                                <a href="/categories/tidymodels/">tidymodels</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
                                 <a href="/categories/tidyr/">tidyr</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/tune/">tune</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>

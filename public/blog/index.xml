@@ -6,10 +6,20 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Feb 2020 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tidymodels: tidy machine learning in R</title>
+      <link>/blog/2020-03-25_machine_learning/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-03-25_machine_learning/</guid>
+      <description>What is tidymodels Getting set up Split into train/test Define a recipe Specify the model Put it all together in a workflow Tune the parameters Finalize the workflow Fit the final model Evaluate the model on the test set   There’s a new modeling pipeline in town: tidymodels. Over the past few years, tidymodels has been gradually emerging as the tidyverse’s machine learning toolkit.
+Why tidymodels? Well, it turns out that R has a consistency problem.</description>
+    </item>
     
     <item>
       <title>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</title>

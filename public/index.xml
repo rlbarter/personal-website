@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-&lt;?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Rebecca Barter</title>
@@ -7,10 +6,20 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Feb 2020 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tidymodels: tidy machine learning in R</title>
+      <link>/blog/2020-03-25_machine_learning/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-03-25_machine_learning/</guid>
+      <description>What is tidymodels Getting set up Split into train/test Define a recipe Specify the model Put it all together in a workflow Tune the parameters Finalize the workflow Fit the final model Evaluate the model on the test set   There’s a new modeling pipeline in town: tidymodels. Over the past few years, tidymodels has been gradually emerging as the tidyverse’s machine learning toolkit.
+Why tidymodels? Well, it turns out that R has a consistency problem.</description>
+    </item>
     
     <item>
       <title>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</title>
@@ -83,7 +92,7 @@ The document as of writing is shown below.</description>
       <pubDate>Wed, 23 Jan 2019 23:13:14 -0500</pubDate>
       
       <guid>/blog/2019-01-23_scoped-verbs/</guid>
-      <description>A quick useful aside: Using shorthand for functions The _if() scoped variant: perform an operation on variables that satisfy a logical criteria select_if() rename_if() mutate_if() summarise_if()  The _at() scoped variant: perform an operation only on variables specified by name Select helpers rename_at() mutate_at() summarise_at()  The _all() scoped variant: perform an operation on all variables at once rename_all() mutate_all() summarise_all()  Conclusion   I often find myself wishing that I could apply the same mutate function to several columns in a data frame at once, such as convert all factors to characters, or do something to all columns that have missing values, or select all variables whose names end with _important.</description>
+      <description>A quick useful aside: Using shorthand for functions The _if() scoped variant: perform an operation on variables that satisfy a logical criteria  select_if() rename_if() mutate_if() summarise_if()  The _at() scoped variant: perform an operation only on variables specified by name  Select helpers rename_at() mutate_at() summarise_at()  The _all() scoped variant: perform an operation on all variables at once  rename_all() mutate_all() summarise_all()  Conclusion   Note: Scoped verbs have now essentially been superseded by accross() (soon to be available in dplyr 1.</description>
     </item>
     
     <item>
@@ -279,7 +288,7 @@ Anyway, my lack of desire to spend time writing something that may have already 
       <guid>/blog/2017-02-02-superheat-example/</guid>
       <description>Making beautiful and customizable heatmaps just got way easier… Introducing the superheat R package!
 Using superheat, it is now extremely easy to produce plots like the example below describing 10 randomly selected cars from the famous mtcars dataset.
-library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcars), 10) X.col &amp;lt;- matrix(&amp;quot;black&amp;quot;, ncol = ncol(mtcars), nrow = 10) X.col[scale(mtcars[selected.rows, ]) &amp;lt; 0] &amp;lt;- &amp;quot;white&amp;quot; superheat(mtcars[selected.rows,], # add text X.text = round(as.matrix(mtcars[selected.rows, ])), X.text.col = X.col, # scale columns scale = T, # label aesthetics left.</description>
+library(superheat) set.seed(1347983) selected.rows &amp;lt;- sample(1:nrow(mtcars), 10) X.col &amp;lt;- matrix(&amp;quot;black&amp;quot;, ncol = ncol(mtcars), nrow = 10) X.col[scale(mtcars[selected.rows, ]) &amp;lt; 0] &amp;lt;- &amp;quot;white&amp;quot; superheat(mtcars[selected.rows,], # add text X.text = round(as.matrix(mtcars[selected.rows, ])), X.text.col = X.</description>
     </item>
     
     <item>

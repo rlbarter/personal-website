@@ -12,18 +12,18 @@ Pre-processing data in R used to be the bane of my existence. For something that
 
 Thankfully most of the pain of pre-processing is now in the past thanks to the [recipes](https://tidymodels.github.io/recipes/) R package that is a part of the new "tidymodels" package ecosystem (which, I guess is supposed to be equivalent to the data-focused "tidyverse" package ecosystem that includes dplyr, tidyr, and other super awesome packages like that). Recipes was developed by Max Kuhn and Hadley Wickham.
 
-Those who have ever seen Hadley Wickham give a talk will know that baking and data are inherently related (see photo below). 
+<!-- Those who have ever seen Hadley Wickham give a talk will know that baking and data are inherently related (see photo below).  -->
 
-```{r echo = FALSE, fig.align="center", fig.cap = "A photo I took at an R Ladies SF meetup of Hadley's cupcake recipes."}
-knitr::include_graphics("/img/recipes/hadley_cupcakes.jpg")
-```
+<!-- ```{r echo = FALSE, fig.align="center", fig.cap = "A photo I took at an R Ladies SF meetup of Hadley's cupcake recipes."} -->
+<!-- knitr::include_graphics("/img/recipes/hadley_cupcakes.jpg") -->
+<!-- ``` -->
 
 
 So let's get baking!
 
 ## The fundamentals of pre-processing your data using recipes
 
-Creating a recipe has three steps:
+Creating a recipe has four steps:
 
 1. **Get the ingredients** (`recipe()`): specify the response variable and predictor variables
 
