@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Machine Learning on Rebecca Barter</title>
+    <title>Machine learning on Rebecca Barter</title>
     <link>/categories/machine-learning/</link>
-    <description>Recent content in Machine Learning on Rebecca Barter</description>
+    <description>Recent content in Machine learning on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Jun 2019 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Using the recipes package for easy pre-processing</title>
-      <link>/blog/2019-06-06_pre_processing/</link>
-      <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
+      <title>Tidymodels: tidy machine learning in R</title>
+      <link>/blog/2020-03-25_machine_learning/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
-      <guid>/blog/2019-06-06_pre_processing/</guid>
-      <description>Pre-processing data in R used to be the bane of my existence. For something that should be fairly straightforward, it often really wasn’t. Often my frustrations stemmed from simple things such as factor variables having different levels in the training data and test data, or a variable having missing values in the test data but not in the training data. I’d write a function that would pre-process the training data, and when I’d try to apply it to the test data, R would cry and yell and just be generally unpleasant.</description>
-    </item>
-    
-    <item>
-      <title>A basic tutorial of caret: the machine learning package in R</title>
-      <link>/blog/2017-11-17-caret_tutorial/</link>
-      <pubDate>Fri, 17 Nov 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/blog/2017-11-17-caret_tutorial/</guid>
-      <description>Note: If you’re new to caret, I suggest learning tidymodels instead (http://www.rebeccabarter.com/blog/2020-03-25_machine_learning/). Tidymodels is essentially caret’s successor. Don’t worry though, your caret code will still work!
-Older note: This tutorial was based on an older version of the abalone data that had a binary old varibale rather than a numeric age variable. It has been modified lightly so that it uses a manual old variable (is the abalone older than 10 or not) and ignores the numeric age variable.</description>
+      <guid>/blog/2020-03-25_machine_learning/</guid>
+      <description>What is tidymodels Getting set up Split into train/test Define a recipe Specify the model Put it all together in a workflow Tune the parameters Finalize the workflow Fit the final model Evaluate the model on the test set   There’s a new modeling pipeline in town: tidymodels. Over the past few years, tidymodels has been gradually emerging as the tidyverse’s machine learning toolkit.
+Why tidymodels? Well, it turns out that R has a consistency problem.</description>
     </item>
     
   </channel>

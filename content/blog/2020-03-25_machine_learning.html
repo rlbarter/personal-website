@@ -31,7 +31,7 @@ description: "The tidyverse's take on machine learning is finally here. Tidymode
 <p>Why tidymodels? Well, it turns out that R has a consistency problem. Since everything was made by different people and using different principles, everything has a slightly different interface, and trying to keep everything in line can be frustrating. Several years ago, <a href="https://twitter.com/topepos">Max Kuhn</a> (formerly at Pfeizer, now at RStudio) developed the caret R package (see my <a href="http://www.rebeccabarter.com/blog/2017-11-17-caret_tutorial/">caret tutorial</a>) aimed at creating a uniform interface for the massive variety of machine learning models that exist in R. Caret was great in a lot of ways, but also limited in others. In my own use, I found it to be quite slow whenever I tried to use on problems of any kind of modest size.</p>
 <p>That said, caret was a great starting point, so RStudio hired Max Kuhn to work on a tidy version of caret, and he and many other people have developed what has become tidymodels. Tidymodels has been in development for a few years, with snippets of it being released as they were developed (see my <a href="http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/">post on the recipes package</a>). I’ve been holding off writing a post about tidymodels until it seemed as though the different pieces fit together sufficiently for it to all feel cohesive. I feel like they’re finally there - which means it is time for me to learn it! While caret isn’t going anywhere (you can continue to use caret, and your existing caret code isn’t going to stop working), tidymodels will eventually make it redundant.</p>
 <p>The main resources I used to learn tidymodels were Alison Hill’s slides from <a href="https://education.rstudio.com/blog/2020/02/conf20-intro-ml/">Introduction to Machine Learning with the Tidyverse</a>, which contains all the slides for the course she prepared with Garrett Grolemund for RStudio::conf(2020), and Edgar Ruiz’s <a href="https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/">Gentle introduction to tidymodels</a> on the RStudio website.</p>
-<p>Note that throughout this post I’ll be assuming basic tidyverse knowledge, primarily of dplyr (e.g. piping <code>%&gt;%</code> and function such as <code>mutate()</code>). Fortunately, for all you purrr-phobes out there, purrr is <em>not</em> required. If, however, you’d like to either brush up on your tidyverse skills, check out my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">Introduction to the Tidyverse</a> posts, and if you’d like to learn purrr (purrr is very handy for working with tidymodels but is no longer a requirement), check out my <a href="http://www.rebeccabarter.com/blog/2019-08-19_purrr/">purrr post</a>.</p>
+<p>Note that throughout this post I’ll be assuming basic tidyverse knowledge, primarily of dplyr (e.g. piping <code>%&gt;%</code> and function such as <code>mutate()</code>). Fortunately, for all you purrr-phobes out there, purrr is <em>not</em> required. If you’d like to brush up on your tidyverse skills, check out my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">Introduction to the Tidyverse</a> posts. If you’d like to learn purrr (purrr is very handy for working with tidymodels but is no longer a requirement), check out my <a href="http://www.rebeccabarter.com/blog/2019-08-19_purrr/">purrr post</a>.</p>
 <div id="what-is-tidymodels" class="section level1">
 <h1>What is tidymodels</h1>
 <p>Much like the tidyverse consists of many core packages, such as ggplot2 and dplyr, tidymodels also consists of several core packages, including</p>
@@ -39,16 +39,15 @@ description: "The tidyverse's take on machine learning is finally here. Tidymode
 <li><p><code>rsample</code>: for sample splitting (e.g. train/test or cross-validation)</p></li>
 <li><p><code>recipes</code>: for pre-processing</p></li>
 <li><p><code>parsnip</code>: for specifying the model</p></li>
-<li><p><code>tune</code>: for parameter tuning procedure</p></li>
 <li><p><code>yardstick</code>: for evaluating the model</p></li>
-<li><p><code>workflows</code>: for putting everything together</p></li>
 </ul>
 <p>Similarly to how you can load the entire tidyverse suite of packages by typing <code>library(tidyverse)</code>, you can load the entire tidymodels suite of packages by typing <code>library(tidymodels)</code>.</p>
+<p>We will also be using the <code>tune</code> package (for parameter tuning procedure) and the <code>workflows</code> package (for putting everything together) that I had thought were a part of CRAN’s tidymodels package bundle, but apparently they aren’t. These will need to be loaded separately for now.</p>
 <p>Unlike in my <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">tidyverse post</a>, I <em>won’t</em> base this post around the packages themselves, but I will mention the packages in passing.</p>
 </div>
 <div id="getting-set-up" class="section level1">
 <h1>Getting set up</h1>
-<p>First we need to load some libraries: <code>tidymodels</code> and <code>tidyverse</code>. We will also be using the <code>workflows</code> and <code>tune</code> packages that I had thought were a part of CRAN’s tidymodels package bundle, but apparently they aren’t, and so they need to be loaded separately (though I imagine that they probably will be included some day soon).</p>
+<p>First we need to load some libraries: <code>tidymodels</code> and <code>tidyverse</code>.</p>
 <pre class="r"><code># load the relevant tidymodels libraries
 library(tidymodels)
 library(tidyverse)
@@ -884,10 +883,10 @@ diabetes_recipe &lt;-
   # and some pre-processing steps
   step_normalize(all_numeric()) %&gt;%
   step_knnimpute(all_predictors())</code></pre>
-<p>Note that if you’ve ever seen formulas before (e.g. using the <code>lm()</code> function in R), you might have noticed that we could have written our formula much more efficiently using the formula short-hand where <code>.</code> represents all of the variables in the data: <code>outcome ~ .</code> will fit a model that predicts the outcome using <em>all other columns</em>.</p>
-<p>The full list of pre-processing steps available can be found <a href="https://tidymodels.github.io/recipes/articles/Custom_Steps.html">here</a>. Notice also that we used the functions <code>all_numeric()</code> and <code>all_predictors()</code> as arguments to the pre-processing steps. These are called “role selections”, and they specify that we want to apply the step to “all numeric” variables or “all predictor variables”. The list of all potential role selectors can be found by typing <code>?selections</code> into your console.</p>
+<p>If you’ve ever seen formulas before (e.g. using the <code>lm()</code> function in R), you might have noticed that we could have written our formula much more efficiently using the formula short-hand where <code>.</code> represents all of the variables in the data: <code>outcome ~ .</code> will fit a model that predicts the outcome using <em>all other columns</em>.</p>
+<p>The full list of pre-processing steps available can be found <a href="https://tidymodels.github.io/recipes/articles/Custom_Steps.html">here</a>. In the recipe steps above we used the functions <code>all_numeric()</code> and <code>all_predictors()</code> as arguments to the pre-processing steps. These are called “role selections”, and they specify that we want to apply the step to “all numeric” variables or “all predictor variables”. The list of all potential role selectors can be found by typing <code>?selections</code> into your console.</p>
 <p>Note that we used the original <code>diabetes_clean</code> data object (we set <code>recipe(..., data = diabetes_clean)</code>), rather than the <code>diabetes_train</code> object or the <code>diabetes_split</code> object. It turns out we could have used any of these. All recipes takes from the data object at this point is the <em>names and roles</em> of the outcome and predictor variables. We will apply this recipe to specific datasets later. This means that for large data sets, the head of the data could be used to pass the recipe a smaller data set to save time and memory.</p>
-<p>Indeed, if we print a summary of the <code>diabetes_recipe</code> object, it just shows us how many predictor variables we’ve specified and the steps we’ve specified (but it doesn’t actually implement them yet!). If you print out the recipe, it just tells you how many outcome and predictor variables there are and the pre-processing options you’ve specified. It hasn’t actually run these pre-processing steps on anything yet.</p>
+<p>Indeed, if we print a summary of the <code>diabetes_recipe</code> object, it just shows us how many predictor variables we’ve specified and the steps we’ve specified (but it doesn’t actually implement them yet!).</p>
 <pre class="r"><code>diabetes_recipe</code></pre>
 <pre><code>## Data Recipe
 ## 
@@ -901,7 +900,7 @@ diabetes_recipe &lt;-
 ## 
 ## Centering and scaling for all_numeric
 ## K-nearest neighbor imputation for all_predictors</code></pre>
-<p>If you want to create a pre-processed data, you can first <code>prep()</code> the recipe for a specific dataset and <code>juice()</code> the prepped recipe to extract the pre-processed data. It turns out that extracting the pre-processed data isn’t actually necessary for the pipeline (but sometimes it’s useful anyway), since this will be done under the hood when the model is fit.</p>
+<p>If you want to extract the pre-processed dataset itself, you can first <code>prep()</code> the recipe for a specific dataset and <code>juice()</code> the prepped recipe to extract the pre-processed data. It turns out that extracting the pre-processed data isn’t actually necessary for the pipeline, since this will be done under the hood when the model is fit, but sometimes it’s useful anyway.</p>
 <pre class="r"><code>diabetes_train_preprocessed &lt;- diabetes_recipe %&gt;%
   # apply the recipe to the training data
   prep(diabetes_train) %&gt;%
@@ -927,15 +926,15 @@ diabetes_train_preprocessed</code></pre>
 <div id="specify-the-model" class="section level1">
 <h1>Specify the model</h1>
 <p>So far we’ve split our data into training/testing, and we’ve specified our pre-processing steps using a recipe. The next thing we want to specify is our model (using the <code>parsnip</code> package).</p>
-<p>Parsnip offers a unified interface for the massive variety of models that exist in R. This means, you only have to learn one way of specifying a model, and then you can use this specification and have it generate a linear model, a random forest model, a support vector machine model and more with a single line of code.</p>
-<p>There are a few primary component for the model specification</p>
+<p>Parsnip offers a unified interface for the massive variety of models that exist in R. This means that you only have to learn one way of specifying a model, and you can use this specification and have it generate a linear model, a random forest model, a support vector machine model, and more with a single line of code.</p>
+<p>There are a few primary components that you need to provide for the model specification</p>
 <ol style="list-style-type: decimal">
 <li><p>The <strong>model type</strong>: what kind of model you want to fit, set using a different function depending on the model, such as <code>rand_forest()</code> for random forest, <code>logistic_reg()</code> for logistic regression, <code>svm_poly()</code> for a polynomial SVM model etc. The full list of models available via parsnip can be found <a href="https://tidymodels.github.io/parsnip/articles/articles/Models.html">here</a>.</p></li>
 <li><p>The <strong>arguments</strong>: the model parameter values (now consistently named across different models), set using <code>set_args()</code>.</p></li>
 <li><p>The <strong>engine</strong>: the underlying package the model should come from (e.g. “ranger” for the ranger implementation of Random Forest), set using <code>set_engine()</code>.</p></li>
 <li><p>The <strong>mode</strong>: the type of prediction - since several packages can do both classification (binary/categorical prediction) and regression (continuous prediction), set using <code>set_mode()</code>.</p></li>
 </ol>
-<p>For instance, if we want to fit a random forest model as implemented by the <code>ranger</code> package for the purpose of classification and we want to tune the <code>mtry</code> parameter (the number of randomly selected variables to be considered at each split in the trees), then we would built the following model specification:</p>
+<p>For instance, if we want to fit a random forest model as implemented by the <code>ranger</code> package for the purpose of classification and we want to tune the <code>mtry</code> parameter (the number of randomly selected variables to be considered at each split in the trees), then we would define the following model specification:</p>
 <pre class="r"><code>rf_model &lt;- 
   # specify that the model is a random forest
   rand_forest() %&gt;%
