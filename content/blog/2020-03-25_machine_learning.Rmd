@@ -223,10 +223,25 @@ rf_model <-
   # specify that the `mtry` parameter needs to be tuned
   set_args(mtry = tune()) %>%
   # select the engine/package that underlies the model
-  set_engine("ranger") %>%
+  set_engine("ranger", importance = "impurity") %>%
   # choose either the continuous regression or binary classification mode
-  set_mode("classification")
+  set_mode("classification") 
 ```
+
+If you want to be able to examine the variable importance of your final model later, you will need to set `importance` argument when setting the engine. For ranger, the importance options are `"impurity"` or `"permutation"`.
+
+As another example, the following code would instead specify a logistic regression model from the `glm` package.
+
+```{r}
+lr_model <- 
+  # specify that the model is a random forest
+  logistic_reg() %>%
+  # select the engine/package that underlies the model
+  set_engine("glm") %>%
+  # choose either the continuous regression or binary classification mode
+  set_mode("classification") 
+```
+
 
 Note that this code doesn't actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to `tune()` means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen). You could also just specify a particular value of the parameter if you don't want to tune it e.g. using `set_args(mtry = 4)`.
 
@@ -287,7 +302,7 @@ We can extract the best value for the accuracy metric by applying the `select_be
 
 ```{r}
 param_final <- rf_tune_results %>%
-  select_best(metric = "accuracy", maximize = TRUE)
+  select_best(metric = "accuracy")
 param_final
 ```
 
@@ -298,13 +313,13 @@ rf_workflow <- rf_workflow %>%
   finalize_workflow(param_final)
 ```
 
-# Fit the final model
+# Evaluate the model on the test set
 
 Now we've defined our recipe, our model, and tuned the model's parameters, we're ready to actually fit the final model. Since all of this information is contained within the workflow object, we will apply the `last_fit()` function to our workflow and our train/test split object. This will automatically train the model specified by the workflow using the training data, and produce evaluations based on the test set.
 
 ```{r}
 rf_fit <- rf_workflow %>%
-  # fit on entire training set and evaluate on test set
+  # fit on the training set and evaluate on test set
   last_fit(diabetes_split)
 ```
 
@@ -317,7 +332,6 @@ rf_fit
 
 This is a really nice feature of tidymodels (and is what makes it work so nicely with the tidyverse) since you can do all of your tidyverse operations to the model object. While truly taking advantage of this flexibility requires proficiency with purrr, if you don't want to deal with purrr and list-columns, there are functions that can extract the relevant information from the fit object that remove the need for purrr as we will see below.
 
-# Evaluate the model on the test set
 
 Since we supplied the train/test object when we fit the workflow, the metrics are evaluated on the *test* set. Now when we use the `collect_metrics()` function (recall we used this when tuning our parameters), it extracts the performance of the final model (since `rf_fit` now consists of a single final model) applied to the *test* set.
 
@@ -367,4 +381,53 @@ test_predictions
 ```
 
 
+# Fitting and using your final model
 
+The previous section evaluated the model trained on the training data using the testing data. But once you've determined your final model, you often want to train it on your full dataset and then use it to predict the response for *new* data.
+
+
+If you want to use your model to predict the response for new observations, you need to use the `fit()` function on your workflow and the dataset that you want to fit the final model on (e.g. the complete training + testing dataset).
+
+```{r}
+final_model <- fit(rf_workflow, diabetes_clean)
+```
+
+The `final_model` object contains a few things including the ranger object trained with the parameters established through the workflow contained in `rf_workflow` based on the data in `diabetes_clean` (the combined training and testing data).
+
+
+```{r}
+final_model
+```
+
+If we wanted to predict the diabetes status of a new woman, we could use the normal `predict()` function.
+
+For instance, below we define the data for a new woman.
+
+```{r}
+new_woman <- tribble(~pregnant, ~glucose, ~pressure, ~triceps, ~insulin, ~mass, ~pedigree, ~age,
+                     2, 95, 70, 31, 102, 28.2, 0.67, 47)
+new_woman
+```
+
+The predicted diabetes status of this new woman is "negative".
+
+```{r}
+predict(final_model, new_data = new_woman)
+```
+
+
+# Variable importance 
+
+If you want to extract the variable importance scores from your model, as far as I can tell, for now you need to extract the model object from the `fit()` object (which for us is called `final_model`). The function that extracts the model is `pull_workflow_fit()` and then you need to grab the `fit` object that the output contains.
+
+```{r}
+ranger_obj <- pull_workflow_fit(final_model)$fit
+ranger_obj
+```
+
+
+Then you can extract the variable importance from the ranger object itself (`variable.importance` is a specific object contained within ranger output - this will need to be adapted for the specific object type of other models).
+
+```{r}
+ranger_obj$variable.importance
+```

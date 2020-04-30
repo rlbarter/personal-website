@@ -54,7 +54,7 @@
 
 <meta itemprop="datePublished" content="2020-04-14T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2020-04-14T23:13:14-05:00" />
-<meta itemprop="wordCount" content="12021">
+<meta itemprop="wordCount" content="12677">
 
 
 
@@ -471,8 +471,9 @@ ga('send', 'pageview');
 <li><a href="#put-it-all-together-in-a-workflow">Put it all together in a workflow</a></li>
 <li><a href="#tune-the-parameters">Tune the parameters</a></li>
 <li><a href="#finalize-the-workflow">Finalize the workflow</a></li>
-<li><a href="#fit-the-final-model">Fit the final model</a></li>
 <li><a href="#evaluate-the-model-on-the-test-set">Evaluate the model on the test set</a></li>
+<li><a href="#fitting-and-using-your-final-model">Fitting and using your final model</a></li>
+<li><a href="#variable-importance">Variable importance</a></li>
 </ul>
 </div>
 
@@ -1304,7 +1305,8 @@ diabetes_orig &lt;- PimaIndiansDiabetes</code></pre>
 diabetes_split &lt;- initial_split(diabetes_clean, 
                                 prop = 3/4)
 diabetes_split</code></pre>
-<pre><code>## &lt;576/192/768&gt;</code></pre>
+<pre><code>## &lt;Training/Validation/Total&gt;
+## &lt;576/192/768&gt;</code></pre>
 <p>The printed output of <code>diabetes_split</code>, our split object, tells us how many observations we have in the training set, the testing set, and overall: <code>&lt;train/test/total&gt;</code>.</p>
 <p>The training and testing sets can be extracted from the “split” object using the <code>training()</code> and <code>testing()</code> functions. Although, we won’t actually use these objects in the pipeline (we will be using the <code>diabetes_split</code> object itself).</p>
 <pre class="r"><code># extract training and testing sets
@@ -1332,6 +1334,8 @@ diabetes_recipe &lt;-
   # and some pre-processing steps
   step_normalize(all_numeric()) %&gt;%
   step_knnimpute(all_predictors())</code></pre>
+<pre><code>## Warning: Using formula(x) is deprecated when x is a character vector of length &gt; 1.
+##   Consider formula(paste(x, collapse = &quot; &quot;)) instead.</code></pre>
 <p>If you’ve ever seen formulas before (e.g. using the <code>lm()</code> function in R), you might have noticed that we could have written our formula much more efficiently using the formula short-hand where <code>.</code> represents all of the variables in the data: <code>outcome ~ .</code> will fit a model that predicts the outcome using <em>all other columns</em>.</p>
 <p>The full list of pre-processing steps available can be found <a href="https://tidymodels.github.io/recipes/articles/Custom_Steps.html">here</a>. In the recipe steps above we used the functions <code>all_numeric()</code> and <code>all_predictors()</code> as arguments to the pre-processing steps. These are called “role selections”, and they specify that we want to apply the step to “all numeric” variables or “all predictor variables”. The list of all potential role selectors can be found by typing <code>?selections</code> into your console.</p>
 <p>Note that we used the original <code>diabetes_clean</code> data object (we set <code>recipe(..., data = diabetes_clean)</code>), rather than the <code>diabetes_train</code> object or the <code>diabetes_split</code> object. It turns out we could have used any of these. All recipes takes from the data object at this point is the <em>names and roles</em> of the outcome and predictor variables. We will apply this recipe to specific datasets later. This means that for large data sets, the head of the data could be used to pass the recipe a smaller data set to save time and memory.</p>
@@ -1359,16 +1363,16 @@ diabetes_train_preprocessed</code></pre>
 <pre><code>## # A tibble: 576 x 9
 ##    pregnant glucose pressure triceps insulin   mass pedigree     age diabetes
 ##       &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   
-##  1  -0.855  -1.21    -0.577   0.0118 -0.683  -0.851   -0.355 -0.214  neg     
-##  2   1.22    1.98    -0.744   0.334   1.21   -1.34     0.670 -0.130  pos     
-##  3   0.328  -0.200    0.0916 -0.250  -0.312  -0.998   -0.834 -0.298  neg     
-##  4   1.81   -0.233   -0.176   0.656   0.338   0.426   -1.05  -0.382  neg     
-##  5  -0.559   2.44    -0.243   1.62    3.06   -0.279   -0.971  1.64   pos     
-##  6   1.22    0.0934   1.93   -0.189   1.45    0.197   -0.735  1.72   pos     
-##  7   0.0323 -0.396    1.60    0.293  -0.0347  0.764   -0.866 -0.298  neg     
-##  8   1.81    1.50     0.0916  1.28    1.39    0.823    0.239  0.0384 pos     
-##  9   1.81    0.550    0.593  -0.0888  0.785  -0.778    3.13   1.97   neg     
-## 10  -0.855   2.18    -1.08   -0.592   5.49   -0.337   -0.205  2.14   pos     
+##  1   0.673   0.837   -0.0581  0.616   0.328   0.187    0.531  1.37   pos     
+##  2  -0.824  -1.21    -0.537   0.0354 -0.770  -0.831   -0.359 -0.205  neg     
+##  3   1.27    1.98    -0.697   0.229   1.33   -1.31     0.676 -0.122  pos     
+##  4  -1.12    0.478   -2.61    0.616   0.0669  1.57     5.89  -0.0396 pos     
+##  5   0.374  -0.205    0.102  -0.700  -0.404  -0.977   -0.843 -0.287  neg     
+##  6   1.87   -0.238    0.229   0.229   0.558   0.435   -1.06  -0.370  neg     
+##  7  -0.525   2.43    -0.218   1.58    3.15   -0.264   -0.982  1.61   pos     
+##  8   1.27    0.0877   1.86   -0.178   0.863   0.318   -0.743  1.70   pos     
+##  9   0.0743 -0.401    1.54    0.674   0.139   0.769   -0.875 -0.287  neg     
+## 10   1.87    0.544    0.581  -0.448   0.666  -0.758    3.16   1.94   neg     
 ## # … with 566 more rows</code></pre>
 <p>I wrote a much longer <a href="http://www.rebeccabarter.com/blog/2019-06-06_pre_processing/">post on recipes</a> if you’d like to check out more details. However, note that the preparation and bake steps described in that post are no longer necessary in the tidymodels pipeline, since they’re now implemented under the hood by the later model fitting functions in this pipeline.</p>
 </div>
@@ -1390,9 +1394,18 @@ diabetes_train_preprocessed</code></pre>
   # specify that the `mtry` parameter needs to be tuned
   set_args(mtry = tune()) %&gt;%
   # select the engine/package that underlies the model
-  set_engine(&quot;ranger&quot;) %&gt;%
+  set_engine(&quot;ranger&quot;, importance = &quot;impurity&quot;) %&gt;%
   # choose either the continuous regression or binary classification mode
-  set_mode(&quot;classification&quot;)</code></pre>
+  set_mode(&quot;classification&quot;) </code></pre>
+<p>If you want to be able to examine the variable importance of your final model later, you will need to set <code>importance</code> argument when setting the engine. For ranger, the importance options are <code>"impurity"</code> or <code>"permutation"</code>.</p>
+<p>As another example, the following code would instead specify a logistic regression model from the <code>glm</code> package.</p>
+<pre class="r"><code>lr_model &lt;- 
+  # specify that the model is a random forest
+  logistic_reg() %&gt;%
+  # select the engine/package that underlies the model
+  set_engine(&quot;glm&quot;) %&gt;%
+  # choose either the continuous regression or binary classification mode
+  set_mode(&quot;classification&quot;) </code></pre>
 <p>Note that this code doesn’t actually fit the model. Like the recipe, it just outlines a description of the model. Moreover, setting a parameter to <code>tune()</code> means that it will be tuned later in the tune stage of the pipeline (i.e. the value of the parameter that yields the best performance will be chosen). You could also just specify a particular value of the parameter if you don’t want to tune it e.g. using <code>set_args(mtry = 4)</code>.</p>
 <p>Another thing to note is that nothing about this model specification is specific to the diabetes dataset.</p>
 </div>
@@ -1428,12 +1441,12 @@ rf_tune_results %&gt;%
 <pre><code>## # A tibble: 6 x 6
 ##    mtry .metric  .estimator  mean     n std_err
 ##   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-## 1     3 accuracy binary     0.758    10  0.0142
-## 2     3 roc_auc  binary     0.831    10  0.0165
-## 3     4 accuracy binary     0.765    10  0.0146
-## 4     4 roc_auc  binary     0.832    10  0.0174
-## 5     5 accuracy binary     0.764    10  0.0151
-## 6     5 roc_auc  binary     0.827    10  0.0175</code></pre>
+## 1     3 accuracy binary     0.758    10  0.0233
+## 2     3 roc_auc  binary     0.829    10  0.0155
+## 3     4 accuracy binary     0.753    10  0.0222
+## 4     4 roc_auc  binary     0.829    10  0.0161
+## 5     5 accuracy binary     0.751    10  0.0220
+## 6     5 roc_auc  binary     0.827    10  0.0147</code></pre>
 <p>Across both accuracy and AUC, <code>mtry = 4</code> yields the best performance (<em>just</em>).</p>
 </div>
 <div id="finalize-the-workflow" class="section level1">
@@ -1441,41 +1454,38 @@ rf_tune_results %&gt;%
 <p>We want to add a layer to our workflow that corresponds to the tuned parameter, i.e. sets <code>mtry</code> to be the value that yielded the best results. If you didn’t tune any parameters, you can skip this step.</p>
 <p>We can extract the best value for the accuracy metric by applying the <code>select_best()</code> function to the tune object.</p>
 <pre class="r"><code>param_final &lt;- rf_tune_results %&gt;%
-  select_best(metric = &quot;accuracy&quot;, maximize = TRUE)
+  select_best(metric = &quot;accuracy&quot;)
 param_final</code></pre>
 <pre><code>## # A tibble: 1 x 1
 ##    mtry
 ##   &lt;dbl&gt;
-## 1     4</code></pre>
+## 1     3</code></pre>
 <p>Then we can add this parameter to the workflow using the <code>finalize_workflow()</code> function.</p>
 <pre class="r"><code>rf_workflow &lt;- rf_workflow %&gt;%
   finalize_workflow(param_final)</code></pre>
 </div>
-<div id="fit-the-final-model" class="section level1">
-<h1>Fit the final model</h1>
+<div id="evaluate-the-model-on-the-test-set" class="section level1">
+<h1>Evaluate the model on the test set</h1>
 <p>Now we’ve defined our recipe, our model, and tuned the model’s parameters, we’re ready to actually fit the final model. Since all of this information is contained within the workflow object, we will apply the <code>last_fit()</code> function to our workflow and our train/test split object. This will automatically train the model specified by the workflow using the training data, and produce evaluations based on the test set.</p>
 <pre class="r"><code>rf_fit &lt;- rf_workflow %&gt;%
-  # fit on entire training set and evaluate on test set
+  # fit on the training set and evaluate on test set
   last_fit(diabetes_split)</code></pre>
 <p>Note that the fit object that is created is a data-frame-like object; specifically, it is a tibble with list columns.</p>
 <pre class="r"><code>rf_fit</code></pre>
-<pre><code>## # # Monte Carlo cross-validation (0.75/0.25) with 1 resamples  
+<pre><code>## # Monte Carlo cross-validation (0.75/0.25) with 1 resamples  
 ## # A tibble: 1 x 6
 ##   splits        id           .metrics      .notes      .predictions    .workflow
 ##   &lt;list&gt;        &lt;chr&gt;        &lt;list&gt;        &lt;list&gt;      &lt;list&gt;          &lt;list&gt;   
 ## 1 &lt;split [576/… train/test … &lt;tibble [2 ×… &lt;tibble [0… &lt;tibble [192 ×… &lt;workflo…</code></pre>
 <p>This is a really nice feature of tidymodels (and is what makes it work so nicely with the tidyverse) since you can do all of your tidyverse operations to the model object. While truly taking advantage of this flexibility requires proficiency with purrr, if you don’t want to deal with purrr and list-columns, there are functions that can extract the relevant information from the fit object that remove the need for purrr as we will see below.</p>
-</div>
-<div id="evaluate-the-model-on-the-test-set" class="section level1">
-<h1>Evaluate the model on the test set</h1>
 <p>Since we supplied the train/test object when we fit the workflow, the metrics are evaluated on the <em>test</em> set. Now when we use the <code>collect_metrics()</code> function (recall we used this when tuning our parameters), it extracts the performance of the final model (since <code>rf_fit</code> now consists of a single final model) applied to the <em>test</em> set.</p>
 <pre class="r"><code>test_performance &lt;- rf_fit %&gt;% collect_metrics()
 test_performance</code></pre>
 <pre><code>## # A tibble: 2 x 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy binary         0.740
-## 2 roc_auc  binary         0.820</code></pre>
+## 1 accuracy binary         0.745
+## 2 roc_auc  binary         0.834</code></pre>
 <p>Overall the performance is very good, with an accuracy of 0.74 and an AUC of 0.82.</p>
 <p>You can also extract the test set predictions themselves using the <code>collect_predictions()</code> function. Note that there are 192 rows in the predictions object below which matches the number of <em>test set</em> observations (just to give you some evidence that these are based on the test set rather than the training set).</p>
 <pre class="r"><code># generate predictions from the test set
@@ -1484,16 +1494,16 @@ test_predictions</code></pre>
 <pre><code>## # A tibble: 192 x 6
 ##    id               .pred_neg .pred_pos  .row .pred_class diabetes
 ##    &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;       &lt;fct&gt;   
-##  1 train/test split    0.434    0.566       1 pos         pos     
-##  2 train/test split    0.996    0.00389     4 neg         neg     
-##  3 train/test split    0.283    0.717       5 pos         pos     
-##  4 train/test split    0.950    0.0503      7 neg         pos     
-##  5 train/test split    0.702    0.298      18 neg         pos     
-##  6 train/test split    0.580    0.420      21 neg         neg     
-##  7 train/test split    0.0333   0.967      23 pos         pos     
-##  8 train/test split    0.661    0.339      30 neg         neg     
-##  9 train/test split    0.185    0.815      32 pos         pos     
-## 10 train/test split    0.983    0.0173     34 neg         neg     
+##  1 train/test split    0.994    0.00592     4 neg         neg     
+##  2 train/test split    0.962    0.0384      7 neg         pos     
+##  3 train/test split    0.0648   0.935      12 pos         pos     
+##  4 train/test split    0.713    0.287      19 neg         neg     
+##  5 train/test split    0.596    0.404      21 neg         neg     
+##  6 train/test split    0.535    0.465      25 neg         pos     
+##  7 train/test split    0.475    0.525      27 pos         pos     
+##  8 train/test split    0.720    0.280      29 neg         neg     
+##  9 train/test split    0.939    0.0611     34 neg         neg     
+## 10 train/test split    0.373    0.627      35 pos         neg     
 ## # … with 182 more rows</code></pre>
 <p>Since this is just a normal data frame/tibble object, we can generate summaries and plots such as a confusion matrix.</p>
 <pre class="r"><code># generate a confusion matrix
@@ -1501,14 +1511,14 @@ test_predictions %&gt;%
   conf_mat(truth = diabetes, estimate = .pred_class)</code></pre>
 <pre><code>##           Truth
 ## Prediction neg pos
-##        neg 102  32
-##        pos  18  40</code></pre>
+##        neg 106  33
+##        pos  16  37</code></pre>
 <p>We could also plot distributions of the predicted probability distributions for each class.</p>
 <pre class="r"><code>test_predictions %&gt;%
   ggplot() +
   geom_density(aes(x = .pred_pos, fill = diabetes), 
                alpha = 0.5)</code></pre>
-<p><img src="/blog/2020-03-25_machine_learning_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="/blog/2020-03-25_machine_learning_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>If you’re familiar with purrr, you could use purrr functions to extract the predictions column using <code>pull()</code>. The following code does almost the same thing as <code>collect_predictions()</code>. You could similarly have done this with the <code>.metrics</code> column.</p>
 <pre class="r"><code>test_predictions &lt;- rf_fit %&gt;% pull(.predictions)
 test_predictions</code></pre>
@@ -1516,17 +1526,89 @@ test_predictions</code></pre>
 ## # A tibble: 192 x 5
 ##    .pred_neg .pred_pos  .row .pred_class diabetes
 ##        &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;       &lt;fct&gt;   
-##  1    0.434    0.566       1 pos         pos     
-##  2    0.996    0.00389     4 neg         neg     
-##  3    0.283    0.717       5 pos         pos     
-##  4    0.950    0.0503      7 neg         pos     
-##  5    0.702    0.298      18 neg         pos     
-##  6    0.580    0.420      21 neg         neg     
-##  7    0.0333   0.967      23 pos         pos     
-##  8    0.661    0.339      30 neg         neg     
-##  9    0.185    0.815      32 pos         pos     
-## 10    0.983    0.0173     34 neg         neg     
+##  1    0.994    0.00592     4 neg         neg     
+##  2    0.962    0.0384      7 neg         pos     
+##  3    0.0648   0.935      12 pos         pos     
+##  4    0.713    0.287      19 neg         neg     
+##  5    0.596    0.404      21 neg         neg     
+##  6    0.535    0.465      25 neg         pos     
+##  7    0.475    0.525      27 pos         pos     
+##  8    0.720    0.280      29 neg         neg     
+##  9    0.939    0.0611     34 neg         neg     
+## 10    0.373    0.627      35 pos         neg     
 ## # … with 182 more rows</code></pre>
+</div>
+<div id="fitting-and-using-your-final-model" class="section level1">
+<h1>Fitting and using your final model</h1>
+<p>The previous section evaluated the model trained on the training data using the testing data. But once you’ve determined your final model, you often want to train it on your full dataset and then use it to predict the response for <em>new</em> data.</p>
+<p>If you want to use your model to predict the response for new observations, you need to use the <code>fit()</code> function on your workflow and the dataset that you want to fit the final model on (e.g. the complete training + testing dataset).</p>
+<pre class="r"><code>final_model &lt;- fit(rf_workflow, diabetes_clean)</code></pre>
+<p>The <code>final_model</code> object contains a few things including the ranger object trained with the parameters established through the workflow contained in <code>rf_workflow</code> based on the data in <code>diabetes_clean</code> (the combined training and testing data).</p>
+<pre class="r"><code>final_model</code></pre>
+<pre><code>## ══ Workflow [trained] ═════════════════════════════════════════════════════════════════════
+## Preprocessor: Recipe
+## Model: rand_forest()
+## 
+## ── Preprocessor ───────────────────────────────────────────────────────────────────────────
+## 2 Recipe Steps
+## 
+## ● step_normalize()
+## ● step_knnimpute()
+## 
+## ── Model ──────────────────────────────────────────────────────────────────────────────────
+## Ranger result
+## 
+## Call:
+##  ranger::ranger(formula = formula, data = data, mtry = ~3, importance = ~&quot;impurity&quot;,      num.threads = 1, verbose = FALSE, seed = sample.int(10^5,          1), probability = TRUE) 
+## 
+## Type:                             Probability estimation 
+## Number of trees:                  500 
+## Sample size:                      768 
+## Number of independent variables:  8 
+## Mtry:                             3 
+## Target node size:                 10 
+## Variable importance mode:         impurity 
+## Splitrule:                        gini 
+## OOB prediction error (Brier s.):  0.1570876</code></pre>
+<p>If we wanted to predict the diabetes status of a new woman, we could use the normal <code>predict()</code> function.</p>
+<p>For instance, below we define the data for a new woman.</p>
+<pre class="r"><code>new_woman &lt;- tribble(~pregnant, ~glucose, ~pressure, ~triceps, ~insulin, ~mass, ~pedigree, ~age,
+                     2, 95, 70, 31, 102, 28.2, 0.67, 47)
+new_woman</code></pre>
+<pre><code>## # A tibble: 1 x 8
+##   pregnant glucose pressure triceps insulin  mass pedigree   age
+##      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1        2      95       70      31     102  28.2     0.67    47</code></pre>
+<p>The predicted diabetes status of this new woman is “negative”.</p>
+<pre class="r"><code>predict(final_model, new_data = new_woman)</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   .pred_class
+##   &lt;fct&gt;      
+## 1 neg</code></pre>
+</div>
+<div id="variable-importance" class="section level1">
+<h1>Variable importance</h1>
+<p>If you want to extract the variable importance scores from your model, as far as I can tell, for now you need to extract the model object from the <code>fit()</code> object (which for us is called <code>final_model</code>). The function that extracts the model is <code>pull_workflow_fit()</code> and then you need to grab the <code>fit</code> object that the output contains.</p>
+<pre class="r"><code>ranger_obj &lt;- pull_workflow_fit(final_model)$fit
+ranger_obj</code></pre>
+<pre><code>## Ranger result
+## 
+## Call:
+##  ranger::ranger(formula = formula, data = data, mtry = ~3, importance = ~&quot;impurity&quot;,      num.threads = 1, verbose = FALSE, seed = sample.int(10^5,          1), probability = TRUE) 
+## 
+## Type:                             Probability estimation 
+## Number of trees:                  500 
+## Sample size:                      768 
+## Number of independent variables:  8 
+## Mtry:                             3 
+## Target node size:                 10 
+## Variable importance mode:         impurity 
+## Splitrule:                        gini 
+## OOB prediction error (Brier s.):  0.1570876</code></pre>
+<p>Then you can extract the variable importance from the ranger object itself (<code>variable.importance</code> is a specific object contained within ranger output - this will need to be adapted for the specific object type of other models).</p>
+<pre class="r"><code>ranger_obj$variable.importance</code></pre>
+<pre><code>## pregnant  glucose pressure  triceps  insulin     mass pedigree      age 
+## 16.66632 75.52923 17.43526 23.08703 52.40944 41.10770 29.85125 33.08012</code></pre>
 </div>
 
     </div>
