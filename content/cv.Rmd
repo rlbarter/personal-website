@@ -46,12 +46,14 @@ Thesis title: "Network-based Biomarker Identification for Stage III Melanoma"
 
 ## Publications
 
-(In Progress) **Barter RL**, P Shankar, P Dayal, K Kumbier, H Ngyuen, B Yu (2019). Predictive Modeling of Surgical Site Infections Using Routinely Collected Electronic Health Record Data using Machine Learning
+(In Progress) **Barter RL**, P Shankar, P Dayal, K Kumbier, H Ngyuen, B Yu (2020). Predictive Modeling of Surgical Site Infections Using Routinely Collected Electronic Health Record Data using Machine Learning
 
+Altieri N, **Barter RL**, Duncan J, Dwivedi R, Kumbier K, Li X, Netzorg R, Park B, Singh C, Tan YS, Tang T, Wang Y, Yu B (2020). Curating a COVID-19 data repository and forecasting county-level death counts in the United States, *arXiV* [https://arxiv.org/abs/2005.07882](https://arxiv.org/abs/2005.07882)
+
+Yu B, **Barter RL** (2020). The Data Science Process: One Culture, *Journal of the American Statistical Association* [https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1762615](https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1762615)
 
 **Barter RL**, Yu B (2018). Superheat: Supervised heatmaps for visualizing
 complex data, *Journal Of Computational And Graphical Statistics* [www.tandfonline.com/doi/abs/10.1080/10618600.2018.1473780](https://www.tandfonline.com/doi/abs/10.1080/10618600.2018.1473780)
-
 
 **Barter RL**, Schramm SJ, Mann GJ, and Yang YH (2014). Network-based biomarkers enhance classical approaches to prognostic gene expression signatures, *BMC Systems Biology* [www.biomedcentral.com/1752-0509/8/S4/S5](http://www.biomedcentral.com/1752-0509/8/S4/S5)
 
