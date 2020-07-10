@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Across (dplyr1.0.0): applying dplyr functions across multiple columns</title>
+      <title>Across (dplyr 1.0.0): applying dplyr functions simultaneously across multiple columns</title>
       <link>/blog/2020-07-09-across/</link>
       <pubDate>Thu, 09 Jul 2020 23:13:14 -0500</pubDate>
       
