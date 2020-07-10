@@ -100,6 +100,14 @@ Tutorial)
 
 ### Workshops
 
+June 30 2020, *Blogging in R with blogdown*, **R Ladies Bucharest**
+
+- A 1 hour online seminar-workshop on blogging in R using blogdown. 
+
+- [slides](https://docs.google.com/presentation/d/1fekTJmU4afLkqUb4VMjZ3VDub2t6nC4t5yCfVw12e6o/edit?usp=sharing)
+
+- [talk](https://www.youtube.com/watch?v=f6kyYjCVAs0)
+
 March 2020, *Women's Summit*, [**Correlation One**](https://www.correlation-one.com/ds4a)
 
 - TA for the month-long Women's Summuit workshop run by Correlation One. This program pairs mentors with aspriring female data scientists, combining hands-on learning, mentorship, and professional development in a multi-day event.
@@ -200,7 +208,17 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ## Community
 
-2018 - 2019 *Judge* for the [**SciPy John Hunter Excellence in Plotting Competition**](https://scipy2018.scipy.org/ehome/299527/648119/?&speakerid=951914&language=eng&back=1)
+2020 - Present *Certified Instructor* [**Rstudio**](https://education.rstudio.com/trainers/people/barter+rebecca/)
+
+- I passed the teaching and content exams for the RStudio instructor training
+
+- For hire for teaching for all your R needs
+
+2020 *Judge* for the Correlation One Summer Datathon
+
+- Judged projects prepared by teams of students based on a problem statement (related to the economic impact of the 2016 olympics).
+
+2018 - 2020 *Judge* for the [**SciPy John Hunter Excellence in Plotting Competition**](https://scipy2018.scipy.org/ehome/299527/648119/?&speakerid=951914&language=eng&back=1)
 
 - I was one of the Judges who chose the best visualizations from among the 38 entries to the John Hunter Excellence in Plotting Competition.
 
@@ -209,7 +227,7 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 - I am certified to run and teach software carpentry training workshops.
 
 
-2017 - present *Founder and organizer*, [**Practical Statistics**](https://rlbarter.github.io/Practical-Statistics/)
+2017 - 2019 *Founder and organizer*, [**Practical Statistics**](https://rlbarter.github.io/Practical-Statistics/)
 
 - I founded and organized Practical Statistics: a group of graduate students, post-docs and research staff from the Statistics department, BIDS and D-Lab who meet to teach each other about statistical topics that are widely used in science, but rarely taught to statisticians.
 
@@ -225,7 +243,7 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ### Conference Talks
 
-January 2020, **Becomming an R blogger**, *RStudio::conf 2020*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf)]
+January 2020, **Becomming an R blogger**, *RStudio::conf 2020*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
 
 March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
 

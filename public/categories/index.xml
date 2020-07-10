@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Rebecca Barter</title>
@@ -6,31 +6,40 @@
     <description>Recent content in Categories on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Feb 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Anova</title>
-      <link>/categories/anova/</link>
-      <pubDate>Mon, 20 Feb 2017 21:13:14 -0500</pubDate>
+      <title>dplyr</title>
+      <link>/categories/dplyr/</link>
+      <pubDate>Thu, 09 Jul 2020 23:13:14 -0500</pubDate>
       
-      <guid>/categories/anova/</guid>
+      <guid>/categories/dplyr/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Blog</title>
-      <link>/categories/blog/</link>
-      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Thu, 09 Jul 2020 23:13:14 -0500</pubDate>
       
-      <guid>/categories/blog/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Caret</title>
+      <title>tidyverse</title>
+      <link>/categories/tidyverse/</link>
+      <pubDate>Thu, 09 Jul 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidyverse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>caret</title>
       <link>/categories/caret/</link>
       <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
@@ -39,38 +48,182 @@
     </item>
     
     <item>
-      <title>Causal Inference</title>
-      <link>/categories/causal-inference/</link>
-      <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
+      <title>Machine Learning</title>
+      <link>/categories/machine-learning/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
-      <guid>/categories/causal-inference/</guid>
+      <guid>/categories/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Communication</title>
-      <link>/categories/communication/</link>
-      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      <title>parsnip</title>
+      <link>/categories/parsnip/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
-      <guid>/categories/communication/</guid>
+      <guid>/categories/parsnip/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Cycling</title>
-      <link>/categories/cycling/</link>
-      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
+      <title>recipes</title>
+      <link>/categories/recipes/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
-      <guid>/categories/cycling/</guid>
+      <guid>/categories/recipes/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>D3</title>
-      <link>/categories/d3/</link>
-      <pubDate>Mon, 21 Jan 2019 23:13:14 -0500</pubDate>
+      <title>rsample</title>
+      <link>/categories/rsample/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
       
-      <guid>/categories/d3/</guid>
+      <guid>/categories/rsample/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidymodels</title>
+      <link>/categories/tidymodels/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidymodels/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tune</title>
+      <link>/categories/tune/</link>
+      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tune/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot2</title>
+      <link>/categories/ggplot2/</link>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/ggplot2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rstudioconf</title>
+      <link>/categories/rstudioconf/</link>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/rstudioconf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidyeval</title>
+      <link>/categories/tidyeval/</link>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidyeval/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Visualization</title>
+      <link>/categories/visualization/</link>
+      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blog</title>
+      <link>/categories/blog/</link>
+      <pubDate>Mon, 03 Feb 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>purrr</title>
+      <link>/categories/purrr/</link>
+      <pubDate>Mon, 19 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/purrr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>forcats</title>
+      <link>/categories/forcats/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/forcats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lubridate</title>
+      <link>/categories/lubridate/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/lubridate/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>readr</title>
+      <link>/categories/readr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/readr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>stringr</title>
+      <link>/categories/stringr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/stringr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tibbles</title>
+      <link>/categories/tibbles/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tibbles/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidyr</title>
+      <link>/categories/tidyr/</link>
+      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/tidyr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pipes</title>
+      <link>/categories/pipes/</link>
+      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
+      
+      <guid>/categories/pipes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Workflow</title>
+      <link>/categories/workflow/</link>
+      <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/workflow/</guid>
       <description></description>
     </item>
     
@@ -84,20 +237,20 @@
     </item>
     
     <item>
-      <title>Documentation</title>
-      <link>/categories/documentation/</link>
-      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      <title>Reproducibility</title>
+      <link>/categories/reproducibility/</link>
+      <pubDate>Sat, 23 Mar 2019 23:13:14 -0500</pubDate>
       
-      <guid>/categories/documentation/</guid>
+      <guid>/categories/reproducibility/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Dplyr</title>
-      <link>/categories/dplyr/</link>
-      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
+      <title>D3</title>
+      <link>/categories/d3/</link>
+      <pubDate>Mon, 21 Jan 2019 23:13:14 -0500</pubDate>
       
-      <guid>/categories/dplyr/</guid>
+      <guid>/categories/d3/</guid>
       <description></description>
     </item>
     
@@ -111,155 +264,11 @@
     </item>
     
     <item>
-      <title>Forcats</title>
-      <link>/categories/forcats/</link>
-      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/forcats/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ggplot2</title>
-      <link>/categories/ggplot2/</link>
-      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/ggplot2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Hypothesis testing</title>
       <link>/categories/hypothesis-testing/</link>
       <pubDate>Tue, 04 Dec 2018 23:13:14 -0500</pubDate>
       
       <guid>/categories/hypothesis-testing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Interactivity</title>
-      <link>/categories/interactivity/</link>
-      <pubDate>Thu, 20 Apr 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/categories/interactivity/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Lubridate</title>
-      <link>/categories/lubridate/</link>
-      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/lubridate/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>/categories/machine-learning/</link>
-      <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine learning</title>
-      <link>/categories/machine-learning/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Misc</title>
-      <link>/categories/misc/</link>
-      <pubDate>Thu, 29 Jun 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/categories/misc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Parsnip</title>
-      <link>/categories/parsnip/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/parsnip/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pipes</title>
-      <link>/categories/pipes/</link>
-      <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
-      
-      <guid>/categories/pipes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Purrr</title>
-      <link>/categories/purrr/</link>
-      <pubDate>Mon, 19 Aug 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/purrr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Readr</title>
-      <link>/categories/readr/</link>
-      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/readr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Recipes</title>
-      <link>/categories/recipes/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/recipes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Reproducibility</title>
-      <link>/categories/reproducibility/</link>
-      <pubDate>Sat, 23 Mar 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/reproducibility/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rsample</title>
-      <link>/categories/rsample/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/rsample/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rstudioconf</title>
-      <link>/categories/rstudioconf/</link>
-      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/rstudioconf/</guid>
       <description></description>
     </item>
     
@@ -273,101 +282,74 @@
     </item>
     
     <item>
-      <title>Stringr</title>
-      <link>/categories/stringr/</link>
-      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
+      <title>Cycling</title>
+      <link>/categories/cycling/</link>
+      <pubDate>Wed, 20 Jun 2018 23:13:14 -0500</pubDate>
       
-      <guid>/categories/stringr/</guid>
+      <guid>/categories/cycling/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Superheat</title>
+      <title>Causal Inference</title>
+      <link>/categories/causal-inference/</link>
+      <pubDate>Wed, 23 May 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/causal-inference/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Misc</title>
+      <link>/categories/misc/</link>
+      <pubDate>Thu, 29 Jun 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interactivity</title>
+      <link>/categories/interactivity/</link>
+      <pubDate>Thu, 20 Apr 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/interactivity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Communication</title>
+      <link>/categories/communication/</link>
+      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/communication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Documentation</title>
+      <link>/categories/documentation/</link>
+      <pubDate>Tue, 07 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/documentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Anova</title>
+      <link>/categories/anova/</link>
+      <pubDate>Mon, 20 Feb 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/categories/anova/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>superheat</title>
       <link>/categories/superheat/</link>
       <pubDate>Sun, 05 Feb 2017 09:44:30 -0800</pubDate>
       
       <guid>/categories/superheat/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tibbles</title>
-      <link>/categories/tibbles/</link>
-      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/tibbles/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidyeval</title>
-      <link>/categories/tidyeval/</link>
-      <pubDate>Thu, 06 Feb 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/tidyeval/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidymodels</title>
-      <link>/categories/tidymodels/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/tidymodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidyr</title>
-      <link>/categories/tidyr/</link>
-      <pubDate>Mon, 05 Aug 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/tidyr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidyverse</title>
-      <link>/categories/tidyverse/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/tidyverse/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tune</title>
-      <link>/categories/tune/</link>
-      <pubDate>Tue, 14 Apr 2020 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/tune/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Visualization</title>
-      <link>/categories/visualization/</link>
-      <pubDate>Mon, 21 Jan 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/visualization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Visualization</title>
-      <link>/categories/visualization/</link>
-      <pubDate>Mon, 21 Jan 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/visualization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Workflow</title>
-      <link>/categories/workflow/</link>
-      <pubDate>Thu, 06 Jun 2019 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/workflow/</guid>
       <description></description>
     </item>
     

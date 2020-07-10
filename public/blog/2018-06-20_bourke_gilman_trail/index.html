@@ -10,7 +10,7 @@
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="generator" content="Hugo 0.40.3" />
+        <meta name="generator" content="Hugo 0.72.0" />
         
 
 
@@ -30,28 +30,11 @@
 <meta property="og:description" content="I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/blog/2018-06-20_bourke_gilman_trail/" />
+<meta property="article:published_time" content="2018-06-20T23:13:14-05:00" />
+<meta property="article:modified_time" content="2018-06-20T23:13:14-05:00" />
 
-
-
-<meta property="article:published_time" content="2018-06-20T23:13:14-05:00"/>
-
-<meta property="article:modified_time" content="2018-06-20T23:13:14-05:00"/>
-
-
-
-
-
-
-
-
-
-
-
-        
-<meta itemprop="name" content="Cycling the Burke Gilman Trail in Seattle">
+        <meta itemprop="name" content="Cycling the Burke Gilman Trail in Seattle">
 <meta itemprop="description" content="I came across a dataset that records bicycle and pedestrian traffic on the Burke Gilman Trail in Seattle and decided to try out my D3 skills.">
-
-
 <meta itemprop="datePublished" content="2018-06-20T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2018-06-20T23:13:14-05:00" />
 <meta itemprop="wordCount" content="622">
@@ -59,7 +42,6 @@
 
 
 <meta itemprop="keywords" content="" />
-
         
 
         
@@ -84,14 +66,17 @@
         
         
             
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-90929425-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-90929425-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
         
@@ -310,11 +295,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2020-03-25_machine_learning/"><p>Tidymodels: tidy machine learning in R</p></a>
+                        <a href="/blog/2020-07-09-across/"><p>Across (dplyr1.0.0): applying dplyr functions across multiple columns</p></a>
                     </li>
                 
                     <li>
-                        <a href="/blog/2020-02-05_rstudio_conf/"><p>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</p></a>
+                        <a href="/blog/2020-03-25_machine_learning/"><p>Tidymodels: tidy machine learning in R</p></a>
                     </li>
                 
             </ul>
@@ -459,7 +444,10 @@ ga('send', 'pageview');
     
 
     <div id="content">
-        <p>While living in Seattle, I rode to and from Fremont every day on the Burke Gilman bike trail. Little did I know that everytime I went past NE 70th St, I (along with everyone else) was being recorded… It turns out that hourly data of traffic on the Burke Gilman trail is <a href="https://catalog.data.gov/dataset/burke-gilman-trail-north-of-ne-70th-st-bike-and-ped-counter-aa37e">publicly available online</a>. I decided to try out my D3 skills and make a cute little visualization of an average day in the life of the Burke Gilman trail.</p>
+        
+
+
+<p>While living in Seattle, I rode to and from Fremont every day on the Burke Gilman bike trail. Little did I know that everytime I went past NE 70th St, I (along with everyone else) was being recorded… It turns out that hourly data of traffic on the Burke Gilman trail is <a href="https://catalog.data.gov/dataset/burke-gilman-trail-north-of-ne-70th-st-bike-and-ped-counter-aa37e">publicly available online</a>. I decided to try out my D3 skills and make a cute little visualization of an average day in the life of the Burke Gilman trail.</p>
 <p>I took all of the data from 2017 and averaged the number of cyclists going in each direction by hour for each day of the week. I then plotted the data in a radial line plot (inspiration librally taken from <a href="https://bl.ocks.org/tlfrd/fd6991b2d1947a3cb9e0bd20053899d6">this plot of twitter stocks</a>) and added some transitions over time.</p>
 <p>The end result (after 8 hours of work) turned out pretty nice. While it’s far from perfect, I’m pretty happy with my first attempt at creating a D3 visualization! The code can be found here: <a href="https://bl.ocks.org/rlbarter/da4decacf20dda2d9274e6986f4a81a8" class="uri">https://bl.ocks.org/rlbarter/da4decacf20dda2d9274e6986f4a81a8</a></p>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -853,13 +841,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2020-03-25_machine_learning/">Tidymodels: tidy machine learning in R</a></h3>
+                                <h3><a href="/blog/2020-07-09-across/">Across (dplyr1.0.0): applying dplyr functions across multiple columns</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2020-04-14'>
-                                    April 14, 2020</time>
+                                    '2020-07-09'>
+                                    July 9, 2020</time>
                             </header>
                         </article>
                     </li>
@@ -867,13 +855,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2020-02-05_rstudio_conf/">5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</a></h3>
+                                <h3><a href="/blog/2020-03-25_machine_learning/">Tidymodels: tidy machine learning in R</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2020-02-06'>
-                                    February 6, 2020</time>
+                                    '2020-04-14'>
+                                    April 14, 2020</time>
                             </header>
                         </article>
                     </li>
@@ -911,8 +899,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/r/">R</a>
-                                <span style="float:right;">19</span>
+                                <a href="/categories/r/">r</a>
+                                <span style="float:right;">20</span>
                             </header>
                         </article>
                     </li>
@@ -920,8 +908,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/visualization/">Visualization</a>
-                                <span style="float:right;">6</span>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">8</span>
                             </header>
                         </article>
                     </li>
@@ -930,7 +918,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/tidyverse/">tidyverse</a>
-                                <span style="float:right;">6</span>
+                                <span style="float:right;">7</span>
                             </header>
                         </article>
                     </li>
@@ -938,7 +926,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/statistics/">Statistics</a>
+                                <a href="/categories/statistics/">statistics</a>
                                 <span style="float:right;">5</span>
                             </header>
                         </article>
@@ -947,62 +935,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <a href="/categories/causal-inference/">causal-inference</a>
                                 <span style="float:right;">3</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/workflow/">Workflow</a>
-                                <span style="float:right;">3</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/communication/">Communication</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/d3/">D3</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/exploration/">Exploration</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/machine-learning/">Machine Learning</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/misc/">Misc</a>
-                                <span style="float:right;">2</span>
                             </header>
                         </article>
                     </li>
@@ -1011,6 +945,51 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine-learning</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">workflow</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">d3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">exploration</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1020,6 +999,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/ggplot2/">ggplot2</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">misc</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1055,70 +1043,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/visualization/">visualization</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/anova/">Anova</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/cycling/">Cycling</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/data-science/">Data Science</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/documentation/">Documentation</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/interactivity/">Interactivity</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/reproducibility/">Reproducibility</a>
+                                <a href="/categories/anova/">anova</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1145,6 +1070,33 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
+                                <a href="/categories/cycling/">cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/data-science/">data-science</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
                                 <a href="/categories/forcats/">forcats</a>
                                 <span style="float:right;">1</span>
                             </header>
@@ -1154,7 +1106,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/lubridate/">lubridate</a>
+                                <a href="/categories/hypothesis-testing/">hypothesis-testing</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1163,7 +1115,16 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/machine-learning/">machine learning</a>
+                                <a href="/categories/interactivity/">interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/lubridate/">lubridate</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1200,6 +1161,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/recipes/">recipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/reproducibility/">reproducibility</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>

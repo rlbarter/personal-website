@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tidymodels on Rebecca Barter</title>
+    <title>tidymodels on Rebecca Barter</title>
     <link>/categories/tidymodels/</link>
-    <description>Recent content in Tidymodels on Rebecca Barter</description>
+    <description>Recent content in tidymodels on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 14 Apr 2020 23:13:14 -0500</lastBuildDate>

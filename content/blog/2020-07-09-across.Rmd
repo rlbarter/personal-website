@@ -1,0 +1,221 @@
+---
+title: "Across (dplyr 1.0.0): applying dplyr functions across multiple columns"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, tidyverse, dplyr]
+date: 2020-07-09T23:13:14-05:00
+type: "post" 
+description: "With the introduction of dplyr 1.0.0, there are a few new features: the biggest of which is across() which supersedes the scoped versions of dplyr functions." 
+---
+
+I often find that I want to use a dplyr function on multiple columns at once. For instance, perhaps I want to scale all of the numeric variables at once using a mutate function, or I want to provide the same summary for three of my variables.
+
+While it's been possible to do such tasks for a while using [scoped verbs](http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/), it's now even easier - and more consistent - using dplyr's new `across()` function.
+
+
+To demonstrate `across()`, I'm going to use Palmer's Penguin dataset, which was originally collected and made available by Dr. Kristen Gorman and the Palmer Station, Antarctica LTER, but has recently been made popular in the R community by [Allison Horst](https://twitter.com/allison_horst) as an alternative to the over-used Iris dataset.
+
+To start with, let's load the penguins dataset (via the `palmerpenguins` package) and the tidyverse package. If you're new to the tidyverse (primarily to dplyr and piping, `%>%`), I suggest taking a look at [my post on the tidyverse](http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/) before reading this post.
+
+```{r warning=FALSE, message=FALSE}
+# remotes::install_github("allisonhorst/palmerpenguins")
+library(palmerpenguins)
+library(tidyverse)
+```
+
+
+```{r}
+penguins
+```
+
+There are 344 rows in the penguins dataset, one for each penguin, and 7 columns. The first two columns, `species` and `island`, specify the species and island of the penguin, the next four specify numeric traits about the penguin, including the bill and flipper length, the bill depth and the body mass.
+
+
+The new `across()` function turns all dplyr functions into "scoped" versions of themselves, which means you can specify multiple columns that your dplyr function will apply to.
+
+Ordinarily, if we want to `summarise` a single column, such as `species`, by calculating the number of distinct entries (using `n_distinct()`) it contains, we would typically write
+
+```{r}
+penguins %>%
+  summarise(distinct_species = n_distinct(species))
+```
+
+If we wanted to calculate `n_distinct()` not only across `species`, but also across `island` and `sex`, we would need to write out the `n_distinct` function three separate times:
+
+
+```{r}
+penguins %>%
+  summarise(distinct_species = n_distinct(species),
+            distinct_island = n_distinct(island),
+            distinct_sex = n_distinct(sex))
+```
+
+Wouldn't it be nice if we could just write which columns we want to apply `n_distinct()` to, and then specify `n_distinct()` once, rather than having to apply n_distinct to each column separately? 
+
+This is where `across()` comes in. It is used *inside* your favourite dplyr function and the syntax is `across(.cols, .fnd)`, where `.cols` specifies the columns that you want the dplyr function to act on. When dplyr functions involve external functions that you're applying to columns e.g. `n_distinct()` in the example above, this external function is placed in the `.fnd` argument. For example, we would to apply `n_distinct()` to `species`, `island`, and `sex`, we would write `across(c(species, island, sex), n_distinct)` in the `summarise` parentheses.
+
+
+Note that we are specifying which variables we want to involve in the `summarise` using `c()`, as if we're listing the variable names in a vector, but because we're in dplyr-land, we don't need to put them in quotes:
+
+```{r}
+penguins %>%
+  summarise(across(c(species, island, sex), 
+                   n_distinct))
+```
+
+Something else that's really neat is that you can also use `!c()` to negate a set of variables (i.e. to apply the function to all variables *except* those that you specified in `c()`):
+
+
+```{r}
+penguins %>%
+  summarise(across(!c(species, island, sex), 
+                   n_distinct))
+```
+
+
+I want to emphasize here that the function `n_distinct()` *is an argument of `across()`*, rather than being an argument of the dplyr function (`summarise`).
+
+
+# Select helpers: selecting columns to apply the function to
+
+So far we've seen how to apply a dplyr function to a set of columns using a vector notation `c(col1, col2, col3, ...)`. However, there are many other ways to specify the columns that you want to apply the dplyr function to.
+
+
+- `everything()`: apply the function to all of the columns
+
+
+```{r}
+penguins %>%
+  summarise(across(everything(), n_distinct))
+```
+
+
+- `starts_with()`: apply the function to all columns whose name starts with a specific string
+
+
+```{r}
+penguins %>%
+  summarise(across(starts_with("bill"), n_distinct))
+```
+
+
+- `contains()`: apply the function to all columns whose name contains a specific string
+
+```{r}
+penguins %>%
+  summarise(across(contains("length"), n_distinct))
+```
+
+- `where()` apply the function to all columns that satisfy a logical condition, such as `is.numeric()`
+
+```{r}
+penguins %>%
+  summarise(across(where(is.numeric), n_distinct))
+```
+
+
+The full list of select helpers can be found [here](https://dplyr.tidyverse.org/reference/select.html).
+
+
+
+# Using in-line functions with across
+
+Let's look at an example of summarizing the columns using a custom function (rather than `n_distinct()`). I usually do this using the tilde-dot shorthand for inline functions. The notation works by replacing
+
+```{r eval = FALSE}
+function(x) {
+  x + 10
+}
+```
+
+with 
+
+```{r eval = FALSE}
+~{.x + 10}
+```
+
+`~` indicates that you have started an anonymous function, and the argument of the anonymous function can be referred to using `.x` (or simply `.`). Unlike normal function arguments that can be anything that you like, the tilde-dot function argument is always `.x`.
+
+For instance, to identify how many missing values there are in every column, we could specify the inline function `~sum(is.na(.))`, which calculates how many `NA` values are in each column (where the column is represented by `.`) and adds them up:
+
+```{r}
+penguins %>%
+  summarise(across(everything(), 
+                   ~sum(is.na(.))))
+```
+
+
+This shows that there are missing values in every column except for the first two (`species` and `island`).
+
+
+# A mutate example
+
+What if we want to replace the missing values in the numeric columns with 0 (clearly a terrible choice)? Without the `across()` function, we would apply an `if_else()` function separately to each numeric column, which will replace all `NA` values with 0 and leave all non-`NA` values as they are:
+
+```{r}
+replace0 <- function(x) {
+  if_else(condition = is.na(x), 
+          true = 0, 
+          false = as.numeric(x))
+}
+penguins %>%
+  mutate(bill_length_mm = replace0(bill_length_mm),
+         bill_depth_mm = replace0(bill_depth_mm),
+         flipper_length_mm = replace0(flipper_length_mm),
+         body_mass_g = replace0(body_mass_g))
+```
+
+
+But fortunately, we can do this a lot more efficiently with `accross()`.
+
+
+
+```{r}
+# define a function to replace NA with 0
+
+penguins %>%
+  mutate(across(where(is.numeric), replace0))
+```
+
+
+Although obviously 0 isn't a great choice, so perhaps we can replace the missing values with the mean value of the column. This time, rather than define a new function (in place of `replace0`), we'll be a bit more concise and use the tilde-dot notation to specify the function we want to apply.
+
+```{r}
+penguins %>%
+  mutate(across(where(is.numeric), ~if_else(is.na(.), mean(., na.rm = T), as.numeric(.))))
+```
+
+Or better yet, perhaps we can replace the missing values with the average value within the relevant species and island.
+
+```{r}
+penguins %>%
+  group_by(species, island) %>%
+  mutate(across(where(is.numeric), 
+                ~if_else(condition = is.na(.), 
+                         true = mean(., na.rm = T), 
+                         false = as.numeric(.)))) %>%
+  ungroup()
+```
+
+# A select example
+
+When you're using select, you don't have to include the `across()` function, because the select helpers have always worked with `select()`. This means that you can just write
+
+```{r}
+penguins %>%
+  select(where(is.numeric))
+```
+
+rather than
+
+```{r, eval = FALSE}
+penguins %>%
+  select(across(where(is.numeric)))
+```
+
+which will throw an error.
+
+
+Hoepfully `across()` will make your life easier, as it has mine!

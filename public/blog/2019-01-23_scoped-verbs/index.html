@@ -10,7 +10,7 @@
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="generator" content="Hugo 0.40.3" />
+        <meta name="generator" content="Hugo 0.72.0" />
         
 
 
@@ -30,36 +30,18 @@
 <meta property="og:description" content="What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/blog/2019-01-23_scoped-verbs/" />
+<meta property="article:published_time" content="2019-01-23T23:13:14-05:00" />
+<meta property="article:modified_time" content="2019-01-23T23:13:14-05:00" />
 
-
-
-<meta property="article:published_time" content="2019-01-23T23:13:14-05:00"/>
-
-<meta property="article:modified_time" content="2019-01-23T23:13:14-05:00"/>
-
-
-
-
-
-
-
-
-
-
-
-        
-<meta itemprop="name" content="mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!">
+        <meta itemprop="name" content="mutate_all(), select_if(), summarise_at()... what&#39;s the deal with scoped verbs?!">
 <meta itemprop="description" content="What&#39;s the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn&#39;t seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they&#39;re called &#39;scoped verbs&#39; and hopefully this post will become one of many decent explanations of how to use them!">
-
-
 <meta itemprop="datePublished" content="2019-01-23T23:13:14-05:00" />
 <meta itemprop="dateModified" content="2019-01-23T23:13:14-05:00" />
-<meta itemprop="wordCount" content="4254">
+<meta itemprop="wordCount" content="4239">
 
 
 
 <meta itemprop="keywords" content="" />
-
         
 
         
@@ -84,14 +66,17 @@
         
         
             
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-90929425-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-90929425-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
 
         
@@ -310,11 +295,11 @@ ga('send', 'pageview');
 
                 
                     <li>
-                        <a href="/blog/2020-03-25_machine_learning/"><p>Tidymodels: tidy machine learning in R</p></a>
+                        <a href="/blog/2020-07-09-across/"><p>Across (dplyr1.0.0): applying dplyr functions across multiple columns</p></a>
                     </li>
                 
                     <li>
-                        <a href="/blog/2020-02-05_rstudio_conf/"><p>5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</p></a>
+                        <a href="/blog/2020-03-25_machine_learning/"><p>Tidymodels: tidy machine learning in R</p></a>
                     </li>
                 
             </ul>
@@ -459,7 +444,8 @@ ga('send', 'pageview');
     
 
     <div id="content">
-        <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+        
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
@@ -488,7 +474,7 @@ ga('send', 'pageview');
 </ul>
 </div>
 
-<p>Note: Scoped verbs have now essentially been superseded by <code>accross()</code> (soon to be available in dplyr 1.0.0). See <a href="https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/" class="uri">https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/</a> for details.</p>
+<p>Note: Scoped verbs have now essentially been superseded by <code>accross()</code> (soon to be available in dplyr 1.0.0). See <a href="http://www.rebeccabarter.com/blog/2020-07-09_across/" class="uri">http://www.rebeccabarter.com/blog/2020-07-09_across/</a> for details.</p>
 <p>I often find myself wishing that I could apply the same <code>mutate</code> function to several columns in a data frame at once, such as convert all factors to characters, or do something to all columns that have missing values, or select all variables whose names end with <code>_important</code>. When I first googled these problems around a year ago, I started to see solutions that use weird extensions of the basic <code>mutate()</code>, <code>select()</code>, <code>rename()</code>, and <code>summarise()</code> dplyr functions that look like <code>summarise_all()</code>, <code>filter_at()</code>, <code>mutate_if()</code>, and so on. I have since learned that these functions are called <strong>“scoped verbs”</strong> (where “scoped” means that they operate only on a selection of variables).</p>
 <p>Unfortunately, despite my extensive googling, I never really found a satisfactory description of <em>how</em> to use these functions in general, I think primarily because the documentation for these functions is not particularly useful (try <code>?mutate_at()</code>).</p>
 <p>Fortunately, I recently attended a series of lightening talks hosted by the RLadies SF chapter where Sara Altman pointed us towards a <a href="https://dcl-2017-04.github.io/curriculum/manip-scoped.html">summary document</a> that Hadley Wickham wrote for the Data Science class he helped create at Stanford in 2017 (this class is now taught by Sara Altman herself).</p>
@@ -521,38 +507,38 @@ av_survey_sample &lt;- av_survey %&gt;%
   as.data.frame()
 av_survey_sample</code></pre>
 <pre><code>##           id                 start_date                   end_date
-## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+## 1  260381029  02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2  260822947  03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3  260907069  03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4  261099035  03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5  260332379  02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  260355021 02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7  260350676  02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  261092370 03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9  260332519  02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10 260351560  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST
 ##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses_of_interaction approve_av_testing_pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                            NA       Somewhat Approve
-## 5                            NA                Approve
-## 6                            NA    Somewhat Disapprove
-## 7                            NA                Neutral
-## 8                            NA                Approve
-## 9                            NA                Approve
-## 10                           NA                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                            NA                Approve
+## 4                             3       Somewhat Approve
+## 5                            NA       Somewhat Approve
+## 6                             1                Approve
+## 7                            NA                Approve
+## 8                            NA    Somewhat Disapprove
+## 9                             2                Approve
+## 10                           NA    Somewhat Disapprove</code></pre>
 <div id="a-quick-useful-aside-using-shorthand-for-functions" class="section level1">
 <h1>A quick useful aside: Using shorthand for functions</h1>
 <p>For many of the examples below, I will be using the <code>~fun(.x)</code> shorthand for writing temporary functions. If you’ve never seen this shorthand before it’s incredibly useful. As an example, here are three ways of counting the number of missing values in each column of a data frame.</p>
@@ -564,7 +550,7 @@ sapply(av_survey_sample, function(x) sum(is.na(x)))</code></pre>
 ##                         end_date interacted_with_av_as_pedestrian 
 ##                                0                                0 
 ##    interacted_with_av_as_cyclist     circumstanses_of_interaction 
-##                                0                                7 
+##                                0                                5 
 ##           approve_av_testing_pgh 
 ##                                0</code></pre>
 <p>The second still uses the temporary function syntax, but is using the <code>map_dbl()</code> function from the <code>purrr</code> package instead of the old-school <code>sapply()</code> function.</p>
@@ -575,7 +561,7 @@ av_survey_sample %&gt;% map_dbl(function(x) sum(is.na(x)))</code></pre>
 ##                         end_date interacted_with_av_as_pedestrian 
 ##                                0                                0 
 ##    interacted_with_av_as_cyclist     circumstanses_of_interaction 
-##                                0                                7 
+##                                0                                5 
 ##           approve_av_testing_pgh 
 ##                                0</code></pre>
 <p>The third uses the <code>map_dbl()</code> function with the <code>~fun(.x)</code> syntax.</p>
@@ -586,7 +572,7 @@ av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
 ##                         end_date interacted_with_av_as_pedestrian 
 ##                                0                                0 
 ##    interacted_with_av_as_cyclist     circumstanses_of_interaction 
-##                                0                                7 
+##                                0                                5 
 ##           approve_av_testing_pgh 
 ##                                0</code></pre>
 </div>
@@ -598,16 +584,16 @@ av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
 <p>For instance, we can use <code>select_if()</code> to extract the numeric columns of the tibble only.</p>
 <pre class="r"><code>av_survey_sample %&gt;% select_if(is.numeric)</code></pre>
 <pre><code>##           id circumstanses_of_interaction
-## 1  260332858                            2
-## 2  260336847                            2
-## 3  260381455                            2
-## 4  260342663                           NA
-## 5  260897634                           NA
-## 6  260334235                           NA
-## 7  260382639                           NA
-## 8  260352393                           NA
-## 9  260396004                           NA
-## 10 260343325                           NA</code></pre>
+## 1  260381029                            2
+## 2  260822947                            4
+## 3  260907069                           NA
+## 4  261099035                            3
+## 5  260332379                           NA
+## 6  260355021                            1
+## 7  260350676                           NA
+## 8  261092370                           NA
+## 9  260332519                            2
+## 10 260351560                           NA</code></pre>
 <p>We could also apply use more complex logical statements, for example by selecting columns that have at least one missing value.</p>
 <pre class="r"><code>av_survey_sample %&gt;% 
   # select columns with at least one NA
@@ -615,14 +601,14 @@ av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
   select_if(~sum(is.na(.x)) &gt; 0) </code></pre>
 <pre><code>##    circumstanses_of_interaction
 ## 1                             2
-## 2                             2
-## 3                             2
-## 4                            NA
+## 2                             4
+## 3                            NA
+## 4                             3
 ## 5                            NA
-## 6                            NA
+## 6                             1
 ## 7                            NA
 ## 8                            NA
-## 9                            NA
+## 9                             2
 ## 10                           NA</code></pre>
 </div>
 <div id="rename_if" class="section level2">
@@ -632,38 +618,38 @@ av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
   # only rename numeric columns by adding a &quot;num_&quot; prefix
   rename_if(is.numeric, ~paste0(&quot;num_&quot;, .x))</code></pre>
 <pre><code>##       num_id                 start_date                   end_date
-## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+## 1  260381029  02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2  260822947  03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3  260907069  03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4  261099035  03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5  260332379  02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  260355021 02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7  260350676  02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  261092370 03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9  260332519  02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10 260351560  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST
 ##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    num_circumstanses_of_interaction approve_av_testing_pgh
-## 1                                 2       Somewhat Approve
-## 2                                 2                Approve
-## 3                                 2             Disapprove
-## 4                                NA       Somewhat Approve
-## 5                                NA                Approve
-## 6                                NA    Somewhat Disapprove
-## 7                                NA                Neutral
-## 8                                NA                Approve
-## 9                                NA                Approve
-## 10                               NA                Approve</code></pre>
+## 1                                 2                Approve
+## 2                                 4             Disapprove
+## 3                                NA                Approve
+## 4                                 3       Somewhat Approve
+## 5                                NA       Somewhat Approve
+## 6                                 1                Approve
+## 7                                NA                Approve
+## 8                                NA    Somewhat Disapprove
+## 9                                 2                Approve
+## 10                               NA    Somewhat Disapprove</code></pre>
 </div>
 <div id="mutate_if" class="section level2">
 <h2>mutate_if()</h2>
@@ -674,38 +660,38 @@ av_survey_sample %&gt;% map_dbl(~sum(is.na(.x)))</code></pre>
   mutate_if(~sum(is.na(.x)) &gt; 0,
             ~if_else(is.na(.x), &quot;missing&quot;, as.character(.x)))</code></pre>
 <pre><code>##           id                 start_date                   end_date
-## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+## 1  260381029  02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2  260822947  03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3  260907069  03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4  261099035  03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5  260332379  02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  260355021 02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7  260350676  02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  261092370 03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9  260332519  02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10 260351560  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST
 ##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses_of_interaction approve_av_testing_pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                       missing       Somewhat Approve
-## 5                       missing                Approve
-## 6                       missing    Somewhat Disapprove
-## 7                       missing                Neutral
-## 8                       missing                Approve
-## 9                       missing                Approve
-## 10                      missing                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                       missing                Approve
+## 4                             3       Somewhat Approve
+## 5                       missing       Somewhat Approve
+## 6                             1                Approve
+## 7                       missing                Approve
+## 8                       missing    Somewhat Disapprove
+## 9                             2                Approve
+## 10                      missing    Somewhat Disapprove</code></pre>
 </div>
 <div id="summarise_if" class="section level2">
 <h2>summarise_if()</h2>
@@ -718,9 +704,9 @@ mode &lt;- function(x) {
 av_survey_sample %&gt;% 
   summarise_if(is.character, mode)</code></pre>
 <pre><code>##                   start_date                   end_date
-## 1 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
+## 1 02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
 ##   interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                         Not sure                           Yes
+## 1                         Not sure                      Not sure
 ##   approve_av_testing_pgh
 ## 1             Disapprove</code></pre>
 </div>
@@ -745,86 +731,86 @@ av_survey_sample %&gt;%
 <pre class="r"><code># selecting the date columns by providing their names
 av_survey_sample %&gt;% select(start_date, end_date)</code></pre>
 <pre><code>##                    start_date                   end_date
-## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+## 1   02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2   03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3   03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4   03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5   02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7   02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9   02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST</code></pre>
 <pre class="r"><code># selecting the columns that end with &quot;_date&quot;
 av_survey_sample %&gt;% select(ends_with(&quot;_date&quot;))</code></pre>
 <pre><code>##                    start_date                   end_date
-## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+## 1   02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2   03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3   03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4   03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5   02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7   02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9   02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST</code></pre>
 <pre class="r"><code># selecting the columns that contain &quot;date&quot;
 av_survey_sample %&gt;% select(contains(&quot;date&quot;))</code></pre>
 <pre><code>##                    start_date                   end_date
-## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+## 1   02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2   03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3   03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4   03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5   02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7   02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9   02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST</code></pre>
 <p>If you ever find yourself wanting to provide variable names as characters, the <code>matches()</code> and <code>one_of()</code> select helpers can help you do that.</p>
 <pre class="r"><code># provide matches with a single character variables
 variable &lt;- &quot;start_date&quot;
 av_survey_sample %&gt;% select(matches(variable))</code></pre>
 <pre><code>##                    start_date
-## 1   02/23/2017 9:31:44 AM PST
-## 2  02/23/2017 11:46:17 AM PST
-## 3   02/24/2017 3:43:22 AM PST
-## 4   02/23/2017 2:10:53 PM PST
-## 5  03/06/2017 11:25:59 AM PST
-## 6  02/23/2017 10:26:07 AM PST
-## 7   02/24/2017 4:54:41 AM PST
-## 8   02/23/2017 7:12:21 PM PST
-## 9   02/24/2017 1:20:53 PM PST
-## 10  02/23/2017 2:27:05 PM PST</code></pre>
+## 1   02/24/2017 3:14:19 AM PST
+## 2   03/03/2017 7:08:33 AM PST
+## 3   03/06/2017 5:57:07 PM PST
+## 4   03/08/2017 3:05:41 PM PST
+## 5   02/23/2017 9:09:11 AM PST
+## 6  02/23/2017 10:11:52 PM PST
+## 7   02/23/2017 6:10:42 PM PST
+## 8  03/08/2017 11:22:43 AM PST
+## 9   02/23/2017 9:16:14 AM PST
+## 10  02/23/2017 6:40:54 PM PST</code></pre>
 <pre class="r"><code># provide one_of with a vector of character variables
 variables &lt;- c(&quot;start_date&quot;, &quot;end_date&quot;)
 av_survey_sample %&gt;% select(one_of(variables))</code></pre>
 <pre><code>##                    start_date                   end_date
-## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+## 1   02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2   03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3   03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4   03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5   02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7   02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9   02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST</code></pre>
 <p>Note that technically there does exist a <code>select_at()</code> function that requires a <code>vars()</code> input, but I can’t really think of a good use of this function…</p>
 <pre class="r"><code># this is the same as av_survey_sample %&gt;% select(start_date, end_date)
 av_survey_sample %&gt;% 
   select_at(vars(start_date, end_date))</code></pre>
 <pre><code>##                    start_date                   end_date
-## 1   02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3   02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4   02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7   02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8   02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9   02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST</code></pre>
+## 1   02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2   03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3   03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4   03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5   02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7   02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9   02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST</code></pre>
 <p>The syntax of this <code>select_at()</code> example though can be useful for understanding how the <code>vars()</code> function can be used in the other <code>_at()</code> functions).</p>
 </div>
 <div id="rename_at" class="section level2">
@@ -837,38 +823,38 @@ av_survey_sample %&gt;%
   rename_at(vars(contains(&quot;av&quot;)), 
             ~gsub(&quot;av&quot;, &quot;AV&quot;, .x))</code></pre>
 <pre><code>##           id                 start_date                   end_date
-## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+## 1  260381029  02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2  260822947  03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3  260907069  03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4  261099035  03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5  260332379  02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  260355021 02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7  260350676  02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  261092370 03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9  260332519  02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10 260351560  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST
 ##    interacted_with_AV_as_pedestrian interacted_with_AV_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses_of_interaction approve_AV_testing_pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                            NA       Somewhat Approve
-## 5                            NA                Approve
-## 6                            NA    Somewhat Disapprove
-## 7                            NA                Neutral
-## 8                            NA                Approve
-## 9                            NA                Approve
-## 10                           NA                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                            NA                Approve
+## 4                             3       Somewhat Approve
+## 5                            NA       Somewhat Approve
+## 6                             1                Approve
+## 7                            NA                Approve
+## 8                            NA    Somewhat Disapprove
+## 9                             2                Approve
+## 10                           NA    Somewhat Disapprove</code></pre>
 </div>
 <div id="mutate_at" class="section level2">
 <h2>mutate_at()</h2>
@@ -878,112 +864,112 @@ av_survey_sample %&gt;%
   mutate(start_date = mdy_hms(start_date),
          end_date = mdy_hms(end_date))</code></pre>
 <pre><code>##           id          start_date            end_date
-## 1  260332858 2017-02-23 09:31:44 2017-02-23 09:41:07
-## 2  260336847 2017-02-23 11:46:17 2017-02-23 11:51:50
-## 3  260381455 2017-02-24 03:43:22 2017-02-24 03:47:05
-## 4  260342663 2017-02-23 14:10:53 2017-02-23 14:12:42
-## 5  260897634 2017-03-06 11:25:59 2017-03-06 11:28:04
-## 6  260334235 2017-02-23 10:26:07 2017-02-23 10:28:13
-## 7  260382639 2017-02-24 04:54:41 2017-02-24 04:57:21
-## 8  260352393 2017-02-23 19:12:21 2017-02-23 19:14:30
-## 9  260396004 2017-02-24 13:20:53 2017-02-24 13:23:58
-## 10 260343325 2017-02-23 14:27:05 2017-02-23 14:32:06
+## 1  260381029 2017-02-24 03:14:19 2017-02-24 03:18:05
+## 2  260822947 2017-03-03 07:08:33 2017-03-03 07:19:15
+## 3  260907069 2017-03-06 17:57:07 2017-03-06 17:59:08
+## 4  261099035 2017-03-08 15:05:41 2017-03-09 07:17:53
+## 5  260332379 2017-02-23 09:09:11 2017-02-23 09:11:07
+## 6  260355021 2017-02-23 22:11:52 2017-02-23 22:20:02
+## 7  260350676 2017-02-23 18:10:42 2017-02-23 18:13:59
+## 8  261092370 2017-03-08 11:22:43 2017-03-08 11:25:22
+## 9  260332519 2017-02-23 09:16:14 2017-02-23 09:21:40
+## 10 260351560 2017-02-23 18:40:54 2017-02-23 18:42:02
 ##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses_of_interaction approve_av_testing_pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                            NA       Somewhat Approve
-## 5                            NA                Approve
-## 6                            NA    Somewhat Disapprove
-## 7                            NA                Neutral
-## 8                            NA                Approve
-## 9                            NA                Approve
-## 10                           NA                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                            NA                Approve
+## 4                             3       Somewhat Approve
+## 5                            NA       Somewhat Approve
+## 6                             1                Approve
+## 7                            NA                Approve
+## 8                            NA    Somewhat Disapprove
+## 9                             2                Approve
+## 10                           NA    Somewhat Disapprove</code></pre>
 <p>However, using <code>mutate_at()</code> and supplying these column names as arguments to the <code>vars()</code> function, we could specify the function only once.</p>
 <pre class="r"><code># specifying specific variables to apply the same function to
 av_survey_sample %&gt;% 
   mutate_at(vars(start_date, end_date), mdy_hms)</code></pre>
 <pre><code>##           id          start_date            end_date
-## 1  260332858 2017-02-23 09:31:44 2017-02-23 09:41:07
-## 2  260336847 2017-02-23 11:46:17 2017-02-23 11:51:50
-## 3  260381455 2017-02-24 03:43:22 2017-02-24 03:47:05
-## 4  260342663 2017-02-23 14:10:53 2017-02-23 14:12:42
-## 5  260897634 2017-03-06 11:25:59 2017-03-06 11:28:04
-## 6  260334235 2017-02-23 10:26:07 2017-02-23 10:28:13
-## 7  260382639 2017-02-24 04:54:41 2017-02-24 04:57:21
-## 8  260352393 2017-02-23 19:12:21 2017-02-23 19:14:30
-## 9  260396004 2017-02-24 13:20:53 2017-02-24 13:23:58
-## 10 260343325 2017-02-23 14:27:05 2017-02-23 14:32:06
+## 1  260381029 2017-02-24 03:14:19 2017-02-24 03:18:05
+## 2  260822947 2017-03-03 07:08:33 2017-03-03 07:19:15
+## 3  260907069 2017-03-06 17:57:07 2017-03-06 17:59:08
+## 4  261099035 2017-03-08 15:05:41 2017-03-09 07:17:53
+## 5  260332379 2017-02-23 09:09:11 2017-02-23 09:11:07
+## 6  260355021 2017-02-23 22:11:52 2017-02-23 22:20:02
+## 7  260350676 2017-02-23 18:10:42 2017-02-23 18:13:59
+## 8  261092370 2017-03-08 11:22:43 2017-03-08 11:25:22
+## 9  260332519 2017-02-23 09:16:14 2017-02-23 09:21:40
+## 10 260351560 2017-02-23 18:40:54 2017-02-23 18:42:02
 ##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses_of_interaction approve_av_testing_pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                            NA       Somewhat Approve
-## 5                            NA                Approve
-## 6                            NA    Somewhat Disapprove
-## 7                            NA                Neutral
-## 8                            NA                Approve
-## 9                            NA                Approve
-## 10                           NA                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                            NA                Approve
+## 4                             3       Somewhat Approve
+## 5                            NA       Somewhat Approve
+## 6                             1                Approve
+## 7                            NA                Approve
+## 8                            NA    Somewhat Disapprove
+## 9                             2                Approve
+## 10                           NA    Somewhat Disapprove</code></pre>
 <p>Moreover, we can use the select helpers to specify which columns we want to mutate, without having to write out the entire column names.</p>
 <pre class="r"><code># use a &quot;select helper&quot; to specify the variables that end with &quot;_date&quot;
 av_survey_sample %&gt;% 
   mutate_at(vars(ends_with(&quot;_date&quot;)), mdy_hms)</code></pre>
 <pre><code>##           id          start_date            end_date
-## 1  260332858 2017-02-23 09:31:44 2017-02-23 09:41:07
-## 2  260336847 2017-02-23 11:46:17 2017-02-23 11:51:50
-## 3  260381455 2017-02-24 03:43:22 2017-02-24 03:47:05
-## 4  260342663 2017-02-23 14:10:53 2017-02-23 14:12:42
-## 5  260897634 2017-03-06 11:25:59 2017-03-06 11:28:04
-## 6  260334235 2017-02-23 10:26:07 2017-02-23 10:28:13
-## 7  260382639 2017-02-24 04:54:41 2017-02-24 04:57:21
-## 8  260352393 2017-02-23 19:12:21 2017-02-23 19:14:30
-## 9  260396004 2017-02-24 13:20:53 2017-02-24 13:23:58
-## 10 260343325 2017-02-23 14:27:05 2017-02-23 14:32:06
+## 1  260381029 2017-02-24 03:14:19 2017-02-24 03:18:05
+## 2  260822947 2017-03-03 07:08:33 2017-03-03 07:19:15
+## 3  260907069 2017-03-06 17:57:07 2017-03-06 17:59:08
+## 4  261099035 2017-03-08 15:05:41 2017-03-09 07:17:53
+## 5  260332379 2017-02-23 09:09:11 2017-02-23 09:11:07
+## 6  260355021 2017-02-23 22:11:52 2017-02-23 22:20:02
+## 7  260350676 2017-02-23 18:10:42 2017-02-23 18:13:59
+## 8  261092370 2017-03-08 11:22:43 2017-03-08 11:25:22
+## 9  260332519 2017-02-23 09:16:14 2017-02-23 09:21:40
+## 10 260351560 2017-02-23 18:40:54 2017-02-23 18:42:02
 ##    interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses_of_interaction approve_av_testing_pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                            NA       Somewhat Approve
-## 5                            NA                Approve
-## 6                            NA    Somewhat Disapprove
-## 7                            NA                Neutral
-## 8                            NA                Approve
-## 9                            NA                Approve
-## 10                           NA                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                            NA                Approve
+## 4                             3       Somewhat Approve
+## 5                            NA       Somewhat Approve
+## 6                             1                Approve
+## 7                            NA                Approve
+## 8                            NA    Somewhat Disapprove
+## 9                             2                Approve
+## 10                           NA    Somewhat Disapprove</code></pre>
 </div>
 <div id="summarise_at" class="section level2">
 <h2>summarise_at()</h2>
@@ -992,7 +978,7 @@ av_survey_sample %&gt;%
 <pre class="r"><code>av_survey_sample %&gt;% 
   summarise_at(vars(contains(&quot;interacted&quot;)), ~sum(.x == &quot;Yes&quot;))</code></pre>
 <pre><code>##   interacted_with_av_as_pedestrian interacted_with_av_as_cyclist
-## 1                                3                             2</code></pre>
+## 1                                4                             6</code></pre>
 </div>
 </div>
 <div id="the-_all-scoped-variant-perform-an-operation-on-all-variables-at-once" class="section level1">
@@ -1005,38 +991,38 @@ av_survey_sample %&gt;%
 <pre class="r"><code>av_survey_sample %&gt;% 
   rename_all(~gsub(&quot;_&quot;, &quot;.&quot;, .x))</code></pre>
 <pre><code>##           id                 start.date                   end.date
-## 1  260332858  02/23/2017 9:31:44 AM PST  02/23/2017 9:41:07 AM PST
-## 2  260336847 02/23/2017 11:46:17 AM PST 02/23/2017 11:51:50 AM PST
-## 3  260381455  02/24/2017 3:43:22 AM PST  02/24/2017 3:47:05 AM PST
-## 4  260342663  02/23/2017 2:10:53 PM PST  02/23/2017 2:12:42 PM PST
-## 5  260897634 03/06/2017 11:25:59 AM PST 03/06/2017 11:28:04 AM PST
-## 6  260334235 02/23/2017 10:26:07 AM PST 02/23/2017 10:28:13 AM PST
-## 7  260382639  02/24/2017 4:54:41 AM PST  02/24/2017 4:57:21 AM PST
-## 8  260352393  02/23/2017 7:12:21 PM PST  02/23/2017 7:14:30 PM PST
-## 9  260396004  02/24/2017 1:20:53 PM PST  02/24/2017 1:23:58 PM PST
-## 10 260343325  02/23/2017 2:27:05 PM PST  02/23/2017 2:32:06 PM PST
+## 1  260381029  02/24/2017 3:14:19 AM PST  02/24/2017 3:18:05 AM PST
+## 2  260822947  03/03/2017 7:08:33 AM PST  03/03/2017 7:19:15 AM PST
+## 3  260907069  03/06/2017 5:57:07 PM PST  03/06/2017 5:59:08 PM PST
+## 4  261099035  03/08/2017 3:05:41 PM PST  03/09/2017 7:17:53 AM PST
+## 5  260332379  02/23/2017 9:09:11 AM PST  02/23/2017 9:11:07 AM PST
+## 6  260355021 02/23/2017 10:11:52 PM PST 02/23/2017 10:20:02 PM PST
+## 7  260350676  02/23/2017 6:10:42 PM PST  02/23/2017 6:13:59 PM PST
+## 8  261092370 03/08/2017 11:22:43 AM PST 03/08/2017 11:25:22 AM PST
+## 9  260332519  02/23/2017 9:16:14 AM PST  02/23/2017 9:21:40 AM PST
+## 10 260351560  02/23/2017 6:40:54 PM PST  02/23/2017 6:42:02 PM PST
 ##    interacted.with.av.as.pedestrian interacted.with.av.as.cyclist
-## 1                               Yes                      Not sure
-## 2                               Yes                           Yes
+## 1                               Yes                           Yes
+## 2                                No                           Yes
 ## 3                               Yes                           Yes
-## 4                                No                            No
-## 5                                No                            No
-## 6                                No                            No
+## 4                                No                           Yes
+## 5                                No                           Yes
+## 6                               Yes                           Yes
 ## 7                                No                            No
 ## 8                          Not sure                      Not sure
-## 9                          Not sure                      Not sure
+## 9                               Yes                            No
 ## 10                               No                            No
 ##    circumstanses.of.interaction approve.av.testing.pgh
-## 1                             2       Somewhat Approve
-## 2                             2                Approve
-## 3                             2             Disapprove
-## 4                            NA       Somewhat Approve
-## 5                            NA                Approve
-## 6                            NA    Somewhat Disapprove
-## 7                            NA                Neutral
-## 8                            NA                Approve
-## 9                            NA                Approve
-## 10                           NA                Approve</code></pre>
+## 1                             2                Approve
+## 2                             4             Disapprove
+## 3                            NA                Approve
+## 4                             3       Somewhat Approve
+## 5                            NA       Somewhat Approve
+## 6                             1                Approve
+## 7                            NA                Approve
+## 8                            NA    Somewhat Disapprove
+## 9                             2                Approve
+## 10                           NA    Somewhat Disapprove</code></pre>
 </div>
 <div id="mutate_all" class="section level2">
 <h2>mutate_all()</h2>
@@ -1044,26 +1030,26 @@ av_survey_sample %&gt;%
 <pre class="r"><code>av_survey_sample %&gt;%
   mutate_all(as.numeric)</code></pre>
 <pre><code>##           id start_date end_date interacted_with_av_as_pedestrian
-## 1  260332858         NA       NA                               NA
-## 2  260336847         NA       NA                               NA
-## 3  260381455         NA       NA                               NA
-## 4  260342663         NA       NA                               NA
-## 5  260897634         NA       NA                               NA
-## 6  260334235         NA       NA                               NA
-## 7  260382639         NA       NA                               NA
-## 8  260352393         NA       NA                               NA
-## 9  260396004         NA       NA                               NA
-## 10 260343325         NA       NA                               NA
+## 1  260381029         NA       NA                               NA
+## 2  260822947         NA       NA                               NA
+## 3  260907069         NA       NA                               NA
+## 4  261099035         NA       NA                               NA
+## 5  260332379         NA       NA                               NA
+## 6  260355021         NA       NA                               NA
+## 7  260350676         NA       NA                               NA
+## 8  261092370         NA       NA                               NA
+## 9  260332519         NA       NA                               NA
+## 10 260351560         NA       NA                               NA
 ##    interacted_with_av_as_cyclist circumstanses_of_interaction
 ## 1                             NA                            2
-## 2                             NA                            2
-## 3                             NA                            2
-## 4                             NA                           NA
+## 2                             NA                            4
+## 3                             NA                           NA
+## 4                             NA                            3
 ## 5                             NA                           NA
-## 6                             NA                           NA
+## 6                             NA                            1
 ## 7                             NA                           NA
 ## 8                             NA                           NA
-## 9                             NA                           NA
+## 9                             NA                            2
 ## 10                            NA                           NA
 ##    approve_av_testing_pgh
 ## 1                      NA
@@ -1085,9 +1071,9 @@ av_survey_sample %&gt;%
 <pre><code>##   id start_date end_date interacted_with_av_as_pedestrian
 ## 1 10         10       10                                3
 ##   interacted_with_av_as_cyclist circumstanses_of_interaction
-## 1                             3                            2
+## 1                             3                            5
 ##   approve_av_testing_pgh
-## 1                      5</code></pre>
+## 1                      4</code></pre>
 </div>
 </div>
 <div id="conclusion" class="section level1">
@@ -1262,13 +1248,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2020-03-25_machine_learning/">Tidymodels: tidy machine learning in R</a></h3>
+                                <h3><a href="/blog/2020-07-09-across/">Across (dplyr1.0.0): applying dplyr functions across multiple columns</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2020-04-14'>
-                                    April 14, 2020</time>
+                                    '2020-07-09'>
+                                    July 9, 2020</time>
                             </header>
                         </article>
                     </li>
@@ -1276,13 +1262,13 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <h3><a href="/blog/2020-02-05_rstudio_conf/">5 useful R tips from rstudio::conf(2020) - tidy eval, piping, conflicts, bar charts and colors</a></h3>
+                                <h3><a href="/blog/2020-03-25_machine_learning/">Tidymodels: tidy machine learning in R</a></h3>
                                 
                                     
                                 
                                 <time class="published" datetime=
-                                    '2020-02-06'>
-                                    February 6, 2020</time>
+                                    '2020-04-14'>
+                                    April 14, 2020</time>
                             </header>
                         </article>
                     </li>
@@ -1320,8 +1306,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/r/">R</a>
-                                <span style="float:right;">19</span>
+                                <a href="/categories/r/">r</a>
+                                <span style="float:right;">20</span>
                             </header>
                         </article>
                     </li>
@@ -1329,8 +1315,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/visualization/">Visualization</a>
-                                <span style="float:right;">6</span>
+                                <a href="/categories/visualization/">visualization</a>
+                                <span style="float:right;">8</span>
                             </header>
                         </article>
                     </li>
@@ -1339,7 +1325,7 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/tidyverse/">tidyverse</a>
-                                <span style="float:right;">6</span>
+                                <span style="float:right;">7</span>
                             </header>
                         </article>
                     </li>
@@ -1347,7 +1333,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/statistics/">Statistics</a>
+                                <a href="/categories/statistics/">statistics</a>
                                 <span style="float:right;">5</span>
                             </header>
                         </article>
@@ -1356,62 +1342,8 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/causal-inference/">Causal Inference</a>
+                                <a href="/categories/causal-inference/">causal-inference</a>
                                 <span style="float:right;">3</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/workflow/">Workflow</a>
-                                <span style="float:right;">3</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/communication/">Communication</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/d3/">D3</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/exploration/">Exploration</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/machine-learning/">Machine Learning</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/misc/">Misc</a>
-                                <span style="float:right;">2</span>
                             </header>
                         </article>
                     </li>
@@ -1420,6 +1352,51 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/dplyr/">dplyr</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/machine-learning/">machine-learning</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/workflow/">workflow</a>
+                                <span style="float:right;">3</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/communication/">communication</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/d3/">d3</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/exploration/">exploration</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1429,6 +1406,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/ggplot2/">ggplot2</a>
+                                <span style="float:right;">2</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/misc/">misc</a>
                                 <span style="float:right;">2</span>
                             </header>
                         </article>
@@ -1464,70 +1450,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/visualization/">visualization</a>
-                                <span style="float:right;">2</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/anova/">Anova</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/cycling/">Cycling</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/data-science/">Data Science</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/documentation/">Documentation</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/hypothesis-testing/">Hypothesis testing</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/interactivity/">Interactivity</a>
-                                <span style="float:right;">1</span>
-                            </header>
-                        </article>
-                    </li>
-                
-                    <li>
-                        <article>
-                            <header>
-                                <a href="/categories/reproducibility/">Reproducibility</a>
+                                <a href="/categories/anova/">anova</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1554,6 +1477,33 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
+                                <a href="/categories/cycling/">cycling</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/data-science/">data-science</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/documentation/">documentation</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
                                 <a href="/categories/forcats/">forcats</a>
                                 <span style="float:right;">1</span>
                             </header>
@@ -1563,7 +1513,7 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/lubridate/">lubridate</a>
+                                <a href="/categories/hypothesis-testing/">hypothesis-testing</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1572,7 +1522,16 @@ s.setAttribute('data-timestamp', +new Date());
                     <li>
                         <article>
                             <header>
-                                <a href="/categories/machine-learning/">machine learning</a>
+                                <a href="/categories/interactivity/">interactivity</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/lubridate/">lubridate</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>
@@ -1609,6 +1568,15 @@ s.setAttribute('data-timestamp', +new Date());
                         <article>
                             <header>
                                 <a href="/categories/recipes/">recipes</a>
+                                <span style="float:right;">1</span>
+                            </header>
+                        </article>
+                    </li>
+                
+                    <li>
+                        <article>
+                            <header>
+                                <a href="/categories/reproducibility/">reproducibility</a>
                                 <span style="float:right;">1</span>
                             </header>
                         </article>

@@ -1,0 +1,253 @@
+---
+title: "Across (dplyr1.0.0): applying dplyr functions across multiple columns"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [R, tidyverse, dplyr]
+date: 2020-07-09T23:13:14-05:00
+type: "post" 
+description: "With the introduction of dplyr 1.0.0, there are a few new features: the biggest of which is across() which supersedes the scoped versions of dplyr functions." 
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#select-helpers-selecting-columns-to-apply-the-function-to">Select helpers: selecting columns to apply the function to</a></li>
+<li><a href="#using-in-line-functions-with-across">Using in-line functions with across</a></li>
+<li><a href="#a-mutate-example">A mutate example</a></li>
+<li><a href="#a-select-example">A select example</a></li>
+</ul>
+</div>
+
+<p>I often find that I want to use a dplyr function on multiple columns at once. For instance, perhaps I want to scale all of the numeric variables at once using a mutate function, or I want to provide the same summary for three of my variables.</p>
+<p>While it’s been possible to do such tasks for a while using <a href="http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/">scoped verbs</a>, it’s now even easier - and more consistent - using dplyr’s new <code>across()</code> function.</p>
+<p>To demonstrate <code>across()</code>, I’m going to use Palmer’s Penguin dataset, which was originally collected and made available by Dr. Kristen Gorman and the Palmer Station, Antarctica LTER, but has recently been made popular in the R community by <a href="https://twitter.com/allison_horst">Allison Horst</a> as an alternative to the over-used Iris dataset.</p>
+<p>To start with, let’s load the penguins dataset (via the <code>palmerpenguins</code> package) and the tidyverse package. If you’re new to the tidyverse (primarily to dplyr and piping, <code>%&gt;%</code>), I suggest taking a look at <a href="http://www.rebeccabarter.com/blog/2019-08-05_base_r_to_tidyverse/">my post on the tidyverse</a> before reading this post.</p>
+<pre class="r"><code># remotes::install_github(&quot;allisonhorst/palmerpenguins&quot;)
+library(palmerpenguins)
+library(tidyverse)</code></pre>
+<pre class="r"><code>penguins</code></pre>
+<pre><code>## # A tibble: 344 x 7
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+##  1 Adelie  Torge…           39.1          18.7              181        3750
+##  2 Adelie  Torge…           39.5          17.4              186        3800
+##  3 Adelie  Torge…           40.3          18                195        3250
+##  4 Adelie  Torge…           NA            NA                 NA          NA
+##  5 Adelie  Torge…           36.7          19.3              193        3450
+##  6 Adelie  Torge…           39.3          20.6              190        3650
+##  7 Adelie  Torge…           38.9          17.8              181        3625
+##  8 Adelie  Torge…           39.2          19.6              195        4675
+##  9 Adelie  Torge…           34.1          18.1              193        3475
+## 10 Adelie  Torge…           42            20.2              190        4250
+## # … with 334 more rows, and 1 more variable: sex &lt;fct&gt;</code></pre>
+<p>There are 344 rows in the penguins dataset, one for each penguin, and 7 columns. The first two columns, <code>species</code> and <code>island</code>, specify the species and island of the penguin, the next four specify numeric traits about the penguin, including the bill and flipper length, the bill depth and the body mass.</p>
+<p>The new <code>across()</code> function turns all dplyr functions into “scoped” versions of themselves, which means you can specify multiple columns that your dplyr function will apply to.</p>
+<p>Ordinarily, if we want to <code>summarise</code> a single column, such as <code>species</code>, by calculating the number of distinct entries (using <code>n_distinct()</code>) it contains, we would typically write</p>
+<pre class="r"><code>penguins %&gt;%
+  summarise(distinct_species = n_distinct(species))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   distinct_species
+##              &lt;int&gt;
+## 1                3</code></pre>
+<p>If we wanted to calculate <code>n_distinct()</code> not only across <code>species</code>, but also across <code>island</code> and <code>sex</code>, we would need to write out the <code>n_distinct</code> function three separate times:</p>
+<pre class="r"><code>penguins %&gt;%
+  summarise(distinct_species = n_distinct(species),
+            distinct_island = n_distinct(island),
+            distinct_sex = n_distinct(sex))</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   distinct_species distinct_island distinct_sex
+##              &lt;int&gt;           &lt;int&gt;        &lt;int&gt;
+## 1                3               3            3</code></pre>
+<p>Wouldn’t it be nice if we could just write which columns we want to apply <code>n_distinct()</code> to, and then specify <code>n_distinct()</code> once, rather than having to apply n_distinct to each column separately?</p>
+<p>This is where <code>across()</code> comes in. It is used <em>inside</em> your favourite dplyr function and the syntax is <code>across(.cols, .fnd)</code>, where <code>.cols</code> specifies the columns that you want the dplyr function to act on. When dplyr functions involve external functions that you’re applying to columns e.g. <code>n_distinct()</code> in the example above, this external function is placed in the <code>.fnd</code> argument. For example, we would to apply <code>n_distinct()</code> to <code>species</code>, <code>island</code>, and <code>sex</code>, we would write <code>across(c(species, island, sex), n_distinct)</code> in the <code>summarise</code> parentheses.</p>
+<p>Note that we are specifying which variables we want to involve in the <code>summarise</code> using <code>c()</code>, as if we’re listing the variable names in a vector, but because we’re in dplyr-land, we don’t need to put them in quotes:</p>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(c(species, island, sex), 
+                   n_distinct))</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   species island   sex
+##     &lt;int&gt;  &lt;int&gt; &lt;int&gt;
+## 1       3      3     3</code></pre>
+<p>Something else that’s really neat is that you can also use <code>!c()</code> to negate a set of variables (i.e. to apply the function to all variables <em>except</em> those that you specified in <code>c()</code>):</p>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(!c(species, island, sex), 
+                   n_distinct))</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##            &lt;int&gt;         &lt;int&gt;             &lt;int&gt;       &lt;int&gt;
+## 1            165            81                56          95</code></pre>
+<p>I want to emphasize here that the function <code>n_distinct()</code> <em>is an argument of <code>across()</code></em>, rather than being an argument of the dplyr function (<code>summarise</code>).</p>
+<div id="select-helpers-selecting-columns-to-apply-the-function-to" class="section level1">
+<h1>Select helpers: selecting columns to apply the function to</h1>
+<p>So far we’ve seen how to apply a dplyr function to a set of columns using a vector notation <code>c(col1, col2, col3, ...)</code>. However, there are many other ways to specify the columns that you want to apply the dplyr function to.</p>
+<ul>
+<li><code>everything()</code>: apply the function to all of the columns</li>
+</ul>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(everything(), n_distinct))</code></pre>
+<pre><code>## # A tibble: 1 x 7
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g   sex
+##     &lt;int&gt;  &lt;int&gt;          &lt;int&gt;         &lt;int&gt;            &lt;int&gt;       &lt;int&gt; &lt;int&gt;
+## 1       3      3            165            81               56          95     3</code></pre>
+<ul>
+<li><code>starts_with()</code>: apply the function to all columns whose name starts with a specific string</li>
+</ul>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(starts_with(&quot;bill&quot;), n_distinct))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   bill_length_mm bill_depth_mm
+##            &lt;int&gt;         &lt;int&gt;
+## 1            165            81</code></pre>
+<ul>
+<li><code>contains()</code>: apply the function to all columns whose name contains a specific string</li>
+</ul>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(contains(&quot;length&quot;), n_distinct))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   bill_length_mm flipper_length_mm
+##            &lt;int&gt;             &lt;int&gt;
+## 1            165                56</code></pre>
+<ul>
+<li><code>where()</code> apply the function to all columns that satisfy a logical condition, such as <code>is.numeric()</code></li>
+</ul>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(where(is.numeric), n_distinct))</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##            &lt;int&gt;         &lt;int&gt;             &lt;int&gt;       &lt;int&gt;
+## 1            165            81                56          95</code></pre>
+<p>The full list of select helpers can be found <a href="https://dplyr.tidyverse.org/reference/select.html">here</a>.</p>
+</div>
+<div id="using-in-line-functions-with-across" class="section level1">
+<h1>Using in-line functions with across</h1>
+<p>Let’s look at an example of summarizing the columns using a custom function (rather than <code>n_distinct()</code>). I usually do this using the tilde-dot shorthand for inline functions. The notation works by replacing</p>
+<pre class="r"><code>function(x) {
+  x + 10
+}</code></pre>
+<p>with</p>
+<pre class="r"><code>~{.x + 10}</code></pre>
+<p><code>~</code> indicates that you have started an anonymous function, and the argument of the anonymous function can be referred to using <code>.x</code> (or simply <code>.</code>). Unlike normal function arguments that can be anything that you like, the tilde-dot function argument is always <code>.x</code>.</p>
+<p>For instance, to identify how many missing values there are in every column, we could specify the inline function <code>~sum(is.na(.))</code>, which calculates how many <code>NA</code> values are in each column (where the column is represented by <code>.</code>) and adds them up:</p>
+<pre class="r"><code>penguins %&gt;%
+  summarise(across(everything(), 
+                   ~sum(is.na(.))))</code></pre>
+<pre><code>## # A tibble: 1 x 7
+##   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g   sex
+##     &lt;int&gt;  &lt;int&gt;          &lt;int&gt;         &lt;int&gt;            &lt;int&gt;       &lt;int&gt; &lt;int&gt;
+## 1       0      0              2             2                2           2    11</code></pre>
+<p>This shows that there are missing values in every column except for the first two (<code>species</code> and <code>island</code>).</p>
+</div>
+<div id="a-mutate-example" class="section level1">
+<h1>A mutate example</h1>
+<p>What if we want to replace the missing values in the numeric columns with 0 (clearly a terrible choice)? Without the <code>across()</code> function, we would apply an <code>if_else()</code> function separately to each numeric column, which will replace all <code>NA</code> values with 0 and leave all non-<code>NA</code> values as they are:</p>
+<pre class="r"><code>replace0 &lt;- function(x) {
+  if_else(condition = is.na(x), 
+          true = 0, 
+          false = as.numeric(x))
+}
+penguins %&gt;%
+  mutate(bill_length_mm = replace0(bill_length_mm),
+         bill_depth_mm = replace0(bill_depth_mm),
+         flipper_length_mm = replace0(flipper_length_mm),
+         body_mass_g = replace0(body_mass_g))</code></pre>
+<pre><code>## # A tibble: 344 x 7
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torge…           39.1          18.7              181        3750
+##  2 Adelie  Torge…           39.5          17.4              186        3800
+##  3 Adelie  Torge…           40.3          18                195        3250
+##  4 Adelie  Torge…            0             0                  0           0
+##  5 Adelie  Torge…           36.7          19.3              193        3450
+##  6 Adelie  Torge…           39.3          20.6              190        3650
+##  7 Adelie  Torge…           38.9          17.8              181        3625
+##  8 Adelie  Torge…           39.2          19.6              195        4675
+##  9 Adelie  Torge…           34.1          18.1              193        3475
+## 10 Adelie  Torge…           42            20.2              190        4250
+## # … with 334 more rows, and 1 more variable: sex &lt;fct&gt;</code></pre>
+<p>But fortunately, we can do this a lot more efficiently with <code>accross()</code>.</p>
+<pre class="r"><code># define a function to replace NA with 0
+
+penguins %&gt;%
+  mutate(across(where(is.numeric), replace0))</code></pre>
+<pre><code>## # A tibble: 344 x 7
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torge…           39.1          18.7              181        3750
+##  2 Adelie  Torge…           39.5          17.4              186        3800
+##  3 Adelie  Torge…           40.3          18                195        3250
+##  4 Adelie  Torge…            0             0                  0           0
+##  5 Adelie  Torge…           36.7          19.3              193        3450
+##  6 Adelie  Torge…           39.3          20.6              190        3650
+##  7 Adelie  Torge…           38.9          17.8              181        3625
+##  8 Adelie  Torge…           39.2          19.6              195        4675
+##  9 Adelie  Torge…           34.1          18.1              193        3475
+## 10 Adelie  Torge…           42            20.2              190        4250
+## # … with 334 more rows, and 1 more variable: sex &lt;fct&gt;</code></pre>
+<p>Although obviously 0 isn’t a great choice, so perhaps we can replace the missing values with the mean value of the column. This time, rather than define a new function (in place of <code>replace0</code>), we’ll be a bit more concise and use the tilde-dot notation to specify the function we want to apply.</p>
+<pre class="r"><code>penguins %&gt;%
+  mutate(across(where(is.numeric), ~if_else(is.na(.), mean(., na.rm = T), as.numeric(.))))</code></pre>
+<pre><code>## # A tibble: 344 x 7
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torge…           39.1          18.7             181        3750 
+##  2 Adelie  Torge…           39.5          17.4             186        3800 
+##  3 Adelie  Torge…           40.3          18               195        3250 
+##  4 Adelie  Torge…           43.9          17.2             201.       4202.
+##  5 Adelie  Torge…           36.7          19.3             193        3450 
+##  6 Adelie  Torge…           39.3          20.6             190        3650 
+##  7 Adelie  Torge…           38.9          17.8             181        3625 
+##  8 Adelie  Torge…           39.2          19.6             195        4675 
+##  9 Adelie  Torge…           34.1          18.1             193        3475 
+## 10 Adelie  Torge…           42            20.2             190        4250 
+## # … with 334 more rows, and 1 more variable: sex &lt;fct&gt;</code></pre>
+<p>Or better yet, perhaps we can replace the missing values with the average value within the relevant species and island.</p>
+<pre class="r"><code>penguins %&gt;%
+  group_by(species, island) %&gt;%
+  mutate(across(where(is.numeric), 
+                ~if_else(condition = is.na(.), 
+                         true = mean(., na.rm = T), 
+                         false = as.numeric(.)))) %&gt;%
+  ungroup()</code></pre>
+<pre><code>## # A tibble: 344 x 7
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torge…           39.1          18.7             181        3750 
+##  2 Adelie  Torge…           39.5          17.4             186        3800 
+##  3 Adelie  Torge…           40.3          18               195        3250 
+##  4 Adelie  Torge…           39.0          18.4             191.       3706.
+##  5 Adelie  Torge…           36.7          19.3             193        3450 
+##  6 Adelie  Torge…           39.3          20.6             190        3650 
+##  7 Adelie  Torge…           38.9          17.8             181        3625 
+##  8 Adelie  Torge…           39.2          19.6             195        4675 
+##  9 Adelie  Torge…           34.1          18.1             193        3475 
+## 10 Adelie  Torge…           42            20.2             190        4250 
+## # … with 334 more rows, and 1 more variable: sex &lt;fct&gt;</code></pre>
+</div>
+<div id="a-select-example" class="section level1">
+<h1>A select example</h1>
+<p>When you’re using select, you don’t have to include the <code>across()</code> function, because the select helpers have always worked with <code>select()</code>. This means that you can just write</p>
+<pre class="r"><code>penguins %&gt;%
+  select(where(is.numeric))</code></pre>
+<pre><code>## # A tibble: 344 x 4
+##    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##             &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+##  1           39.1          18.7               181        3750
+##  2           39.5          17.4               186        3800
+##  3           40.3          18                 195        3250
+##  4           NA            NA                  NA          NA
+##  5           36.7          19.3               193        3450
+##  6           39.3          20.6               190        3650
+##  7           38.9          17.8               181        3625
+##  8           39.2          19.6               195        4675
+##  9           34.1          18.1               193        3475
+## 10           42            20.2               190        4250
+## # … with 334 more rows</code></pre>
+<p>rather than</p>
+<pre class="r"><code>penguins %&gt;%
+  select(across(where(is.numeric)))</code></pre>
+<p>which will throw an error.</p>
+<p>Hoepfully <code>across()</code> will make your life easier, as it has mine!</p>
+</div>

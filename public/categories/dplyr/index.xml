@@ -1,15 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dplyr on Rebecca Barter</title>
+    <title>dplyr on Rebecca Barter</title>
     <link>/categories/dplyr/</link>
-    <description>Recent content in Dplyr on Rebecca Barter</description>
+    <description>Recent content in dplyr on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Aug 2019 22:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/dplyr/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Across (dplyr1.0.0): applying dplyr functions across multiple columns</title>
+      <link>/blog/2020-07-09-across/</link>
+      <pubDate>Thu, 09 Jul 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-07-09-across/</guid>
+      <description>Select helpers: selecting columns to apply the function to Using in-line functions with across A mutate example A select example   I often find that I want to use a dplyr function on multiple columns at once. For instance, perhaps I want to scale all of the numeric variables at once using a mutate function, or I want to provide the same summary for three of my variables.</description>
+    </item>
     
     <item>
       <title>Transitioning into the tidyverse (part 1)</title>

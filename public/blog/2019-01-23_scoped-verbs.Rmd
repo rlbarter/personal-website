@@ -10,7 +10,7 @@ type: "post"
 description: "What's the deal with these mutate_all(), select_if(), summarise_at(), functions? They seem so useful, but there doesn't seem to be a decent explanation of how to use them anywhere on the internet. Turns out, they're called 'scoped verbs' and hopefully this post will become one of many decent explanations of how to use them!" 
 ---
 
-Note: Scoped verbs have now essentially been superseded by `accross()` (soon to be available in dplyr 1.0.0). See https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/ for details.
+Note: Scoped verbs have now essentially been superseded by `accross()` (soon to be available in dplyr 1.0.0). See http://www.rebeccabarter.com/blog/2020-07-09_across/ for details. 
 
 
 I often find myself wishing that I could apply the same `mutate` function to several columns in a data frame at once, such as convert all factors to characters, or do something to all columns that have missing values, or select all variables whose names end with `_important`. When I first googled these problems around a year ago, I started to see solutions that use weird extensions of the basic `mutate()`, `select()`, `rename()`, and `summarise()` dplyr functions that look like `summarise_all()`, `filter_at()`, `mutate_if()`, and so on. I have since learned that these functions are called **"scoped verbs"** (where "scoped" means that they operate only on a selection of variables).

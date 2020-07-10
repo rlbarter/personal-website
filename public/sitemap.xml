@@ -1,9 +1,79 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/2020-07-09-across/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/dplyr/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tidyverse/</loc>
+    <lastmod>2020-07-09T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/caret/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/machine-learning/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/parsnip/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/recipes/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/rsample/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tidymodels/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2020-03-25_machine_learning/</loc>
+    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tune/</loc>
     <lastmod>2020-04-14T23:13:14-05:00</lastmod>
   </url>
   
@@ -13,7 +83,32 @@
   </url>
   
   <url>
+    <loc>/categories/ggplot2/</loc>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/rstudioconf/</loc>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tidyeval/</loc>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/visualization/</loc>
+    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2020-02-03_blogger/</loc>
+    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/blog/</loc>
     <lastmod>2020-02-03T23:13:14-05:00</lastmod>
   </url>
   
@@ -23,8 +118,48 @@
   </url>
   
   <url>
+    <loc>/categories/purrr/</loc>
+    <lastmod>2019-08-19T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/forcats/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/lubridate/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/readr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/stringr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tibbles/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tidyr/</loc>
+    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2019-08-05_base_r_to_tidyverse_pt2/</loc>
     <lastmod>2019-08-05T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/pipes/</loc>
+    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
   </url>
   
   <url>
@@ -38,7 +173,22 @@
   </url>
   
   <url>
+    <loc>/categories/workflow/</loc>
+    <lastmod>2019-06-06T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2019-03-07_reproducible_pipeline/</loc>
+    <lastmod>2019-03-23T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/data-science/</loc>
+    <lastmod>2019-03-23T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/reproducibility/</loc>
     <lastmod>2019-03-23T23:13:14-05:00</lastmod>
   </url>
   
@@ -48,8 +198,28 @@
   </url>
   
   <url>
+    <loc>/categories/d3/</loc>
+    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/exploration/</loc>
+    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2019-01-21_world_happiness/</loc>
     <lastmod>2019-01-21T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/hypothesis-testing/</loc>
+    <lastmod>2018-12-04T23:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/statistics/</loc>
+    <lastmod>2018-12-04T23:13:14-05:00</lastmod>
   </url>
   
   <url>
@@ -60,6 +230,11 @@
   <url>
     <loc>/useful_resources/</loc>
     <lastmod>2018-08-30T21:48:51-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/cycling/</loc>
+    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
   </url>
   
   <url>
@@ -75,6 +250,11 @@
   <url>
     <loc>/blog/2018-05-29_alternatives_dodged_bars/</loc>
     <lastmod>2018-05-29T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/causal-inference/</loc>
+    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
@@ -113,6 +293,11 @@
   </url>
   
   <url>
+    <loc>/categories/misc/</loc>
+    <lastmod>2017-06-29T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2017-06-27-colors/</loc>
     <lastmod>2017-06-27T21:13:14-05:00</lastmod>
   </url>
@@ -123,13 +308,38 @@
   </url>
   
   <url>
+    <loc>/categories/interactivity/</loc>
+    <lastmod>2017-04-20T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/communication/</loc>
+    <lastmod>2017-03-07T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2017-03-7-docathon/</loc>
+    <lastmod>2017-03-07T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/documentation/</loc>
     <lastmod>2017-03-07T21:13:14-05:00</lastmod>
   </url>
   
   <url>
     <loc>/blog/2017-02-17-anova/</loc>
     <lastmod>2017-02-20T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/anova/</loc>
+    <lastmod>2017-02-20T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/superheat/</loc>
+    <lastmod>2017-02-05T09:44:30-08:00</lastmod>
   </url>
   
   <url>
@@ -153,8 +363,33 @@
   </url>
   
   <url>
+    <loc>/tags/discussion/</loc>
+    <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/gender-bias/</loc>
+    <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/2016-12-15-gender-bias/</loc>
     <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2016-12-15T21:49:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/pie-charts/</loc>
+    <lastmod>2016-12-10T21:49:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r-markdown/</loc>
+    <lastmod>2016-12-10T21:49:57-07:00</lastmod>
   </url>
   
   <url>
@@ -180,298 +415,6 @@
   <url>
     <loc>/teaching/</loc>
     <lastmod>2016-05-05T21:48:51-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/projects/</loc>
-  </url>
-  
-  <url>
-    <loc>/categories/anova/</loc>
-    <lastmod>2017-02-20T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/blog/</loc>
-    <lastmod>2020-02-03T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/blog/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/caret/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2017-02-20T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/causal-inference/</loc>
-    <lastmod>2018-05-23T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/communication/</loc>
-    <lastmod>2017-03-07T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/cycling/</loc>
-    <lastmod>2018-06-20T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/d3/</loc>
-    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/data-science/</loc>
-    <lastmod>2019-03-23T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/discussion/</loc>
-    <lastmod>2016-12-15T21:49:57-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/documentation/</loc>
-    <lastmod>2017-03-07T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/dplyr/</loc>
-    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/exploration/</loc>
-    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/forcats/</loc>
-    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/gender-bias/</loc>
-    <lastmod>2016-12-15T21:49:57-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/ggplot2/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/hypothesis-testing/</loc>
-    <lastmod>2018-12-04T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/interactivity/</loc>
-    <lastmod>2017-04-20T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/lubridate/</loc>
-    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/machine-learning/</loc>
-    <lastmod>2019-06-06T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/machine-learning/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/misc/</loc>
-    <lastmod>2017-06-29T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/parsnip/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/pie-charts/</loc>
-    <lastmod>2016-12-10T21:49:57-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/pipes/</loc>
-    <lastmod>2019-08-05T22:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/purrr/</loc>
-    <lastmod>2019-08-19T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/r-markdown/</loc>
-    <lastmod>2016-12-10T21:49:57-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/readr/</loc>
-    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/recipes/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/reproducibility/</loc>
-    <lastmod>2019-03-23T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/rsample/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/rstudioconf/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/statistics/</loc>
-    <lastmod>2018-12-04T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/stringr/</loc>
-    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/superheat/</loc>
-    <lastmod>2017-02-05T09:44:30-08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2016-12-15T21:49:57-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/tibbles/</loc>
-    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/tidyeval/</loc>
-    <lastmod>2020-02-06T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/tidymodels/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/tidyr/</loc>
-    <lastmod>2019-08-05T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/tidyverse/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/tune/</loc>
-    <lastmod>2020-04-14T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/visualization/</loc>
-    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/visualization/</loc>
-    <lastmod>2019-01-21T23:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/workflow/</loc>
-    <lastmod>2019-06-06T23:13:14-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

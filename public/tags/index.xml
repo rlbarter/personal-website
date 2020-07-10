@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Rebecca Barter</title>
@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Discussion</title>
+      <title>discussion</title>
       <link>/tags/discussion/</link>
       <pubDate>Thu, 15 Dec 2016 21:49:57 -0700</pubDate>
       
@@ -21,7 +21,7 @@
     </item>
     
     <item>
-      <title>Gender bias</title>
+      <title>gender bias</title>
       <link>/tags/gender-bias/</link>
       <pubDate>Thu, 15 Dec 2016 21:49:57 -0700</pubDate>
       
@@ -30,7 +30,7 @@
     </item>
     
     <item>
-      <title>Pie charts</title>
+      <title>pie charts</title>
       <link>/tags/pie-charts/</link>
       <pubDate>Sat, 10 Dec 2016 21:49:57 -0700</pubDate>
       

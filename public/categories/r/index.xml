@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Rebecca Barter</title>
@@ -6,10 +6,19 @@
     <description>Recent content in R on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Apr 2020 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Across (dplyr1.0.0): applying dplyr functions across multiple columns</title>
+      <link>/blog/2020-07-09-across/</link>
+      <pubDate>Thu, 09 Jul 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-07-09-across/</guid>
+      <description>Select helpers: selecting columns to apply the function to Using in-line functions with across A mutate example A select example   I often find that I want to use a dplyr function on multiple columns at once. For instance, perhaps I want to scale all of the numeric variables at once using a mutate function, or I want to provide the same summary for three of my variables.</description>
+    </item>
     
     <item>
       <title>Tidymodels: tidy machine learning in R</title>
@@ -99,8 +108,7 @@ The key to creating unique and creative visualizations using libraries such as g
       <pubDate>Tue, 29 May 2018 21:13:14 -0500</pubDate>
       
       <guid>/blog/2018-05-29_alternatives_dodged_bars/</guid>
-      <description>At some point in your life you have probably found yourself standing face-to-face with a beast known as a grouped bar chart. Perhaps it was in a research paper where the authors were trying to compare the results of several models across different datasets, or it was in a talk given by a colleague who was trying to compare the popularity of different products among distinct groups of consumers.
-The first time you encountered a grouped bar chart you might have thought “what a neat way to put so much information in a single plot!</description>
+      <description>At some point in your life you have probably found yourself standing face-to-face with a beast known as a grouped bar chart. Perhaps it was in a research paper where the authors were trying to compare the results of several models across different datasets, or it was in a talk given by a colleague who was trying to compare the popularity of different products among distinct groups of consumers.</description>
     </item>
     
     <item>
@@ -110,7 +118,7 @@ The first time you encountered a grouped bar chart you might have thought “wha
       
       <guid>/blog/2017-11-17-ggplot2_tutorial/</guid>
       <description>An interactive Jupyter Notebook version of this tutorial can be found at https://github.com/rlbarter/ggplot2-thw. Feel free to download it and use for your own learning or teaching adventures!
-Useful resources for learning ggplot2  ggplot2 book (https://www.amazon.com/dp/0387981403/ref=cm_sw_su_dp?tag=ggplot2-20) by Hadley Wickham The layered grammar of graphics (http://vita.had.co.nz/papers/layered-grammar.pdf) by Hadley Wickham   Materials outline I will begin by providing an overview of the layered grammar of graphics upon which ggplot2 is built. I will then teach ggplot2 by layering examples on top of one another.</description>
+Useful resources for learning ggplot2  ggplot2 book (https://www.amazon.com/dp/0387981403/ref=cm_sw_su_dp?tag=ggplot2-20) by Hadley Wickham The layered grammar of graphics (http://vita.had.co.nz/papers/layered-grammar.pdf) by Hadley Wickham   Materials outline I will begin by providing an overview of the layered grammar of graphics upon which ggplot2 is built.</description>
     </item>
     
     <item>
