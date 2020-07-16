@@ -3,6 +3,12 @@ title: "Teaching Materials"
 date: "2016-05-05T21:48:51-07:00"
 ---
 
+
+If you want to work with me, or learn R or statistics from me, I'm available for private coaching and consulting! Email me at rebeccabarter@berkeley.edu to inquire.
+
+I'm not currently teaching at Berkeley, but the courses I've TA'd for are listed below.
+
+
 ## Fall 2017: STAT 215A Statistical Models, Theory and Applications
 
 A graudate course in applied statistics taught by Bin Yu. The course covers a wide range of topics that focus on critical thinking for using statistics in the wild. I taught a section each week where I either re-inforced content the students were learning in class, or ran tutorials in a variety of topics in R.
