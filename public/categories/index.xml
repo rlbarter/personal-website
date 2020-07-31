@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jul 2020 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 30 Jul 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Statistics</title>
+      <link>/categories/statistics/</link>
+      <pubDate>Thu, 30 Jul 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/categories/statistics/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>dplyr</title>
@@ -269,15 +278,6 @@
       <pubDate>Tue, 04 Dec 2018 23:13:14 -0500</pubDate>
       
       <guid>/categories/hypothesis-testing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Statistics</title>
-      <link>/categories/statistics/</link>
-      <pubDate>Tue, 04 Dec 2018 23:13:14 -0500</pubDate>
-      
-      <guid>/categories/statistics/</guid>
       <description></description>
     </item>
     

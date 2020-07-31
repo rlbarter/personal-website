@@ -1,0 +1,41 @@
+---
+title: "It's time for statistics departments to start supporting their applied students"
+author: "Rebecca Barter"
+output:
+  blogdown::html_page:
+    toc: true
+categories: [statistics]
+date: 2020-07-30T23:13:14-05:00
+type: "post" 
+description: "Statistics departments are failing their applied students. In this post, I have a lot of opinions and give two pieces of advice: statistics departments need to start supporting their applied students, and they need to hire applied faculty. " 
+---
+
+
+I graduated with a PhD from UC Berkeley's statistics department in December. My PhD dissertation consisted of three 100% applied projects (one of which was a piece of open-source software). This is, unfortunately, incredibly rare.
+
+Over the past few years, I've had a number of current and prospective statistics PhD students both at Berkeley and outside Berkeley get in touch with me to ask me how I made my way through a statistics PhD by working only on applied projects. My answer is always as follows: *I got lucky*. I ended up with an incredibly supportive advisor, Bin Yu, who went out of her way to find applied projects for me, and was comfortable letting me spend time doing non-conventional things (like learn D3.js, work on my blog, and write a book on data science for which she is the co-author). I got a lot out of my PhD, and I'm incredibly grateful to Bin for her support. 
+
+Unfortunately, my experience is definitely not the norm, even in my own department. I've had so many upsetting conversations with fellow applied stats grad students about how they feel lost and unsupported, about how they're struggling to find applied projects to work on, and when they do finally find a project, they end up having to fight to justify that their project is "statistical enough" to count towards their dissertation. I've had these conversations with students from a wide range of statistics departments, not just my own. I actually think that the Berkeley statistics department is a little better than a many other statistics departments on this front - at least at Berkeley it's *possible* to graduate with purely applied projects, even if it's not easy. 
+
+While pretty much every statistics department is starting to realize that they need to embrace "Data Science" in order to remain up-to-date and relevant, they are often doing so in a way that is more performative than practical. They're starting data science master's programs, but these programs are often just theoretical statistics programs with a "data science" label slapped on it. They're also trying to recruit more applied students, but they aren't giving them any of the support they need to be successful. How can you expect your applied students to succeed if you don't have any truly applied faculty to guide them? And when you do have applied faculty, you don't give them tenure (because apparently they're not "furthering the field of statistics")? Who are these students going to work with? Who is going to show them that it's possible to succeed as an applied statistician in a statistics department? Unfortunately, the vast majority of statistics departments are sending a strong message that there is no such thing as success in academia for truly applied statisticians. The end result is that applied students are being brought into statistics departments, chewed up a little, and then spat out, often with a fair amount of imposter syndrome, anxiety and depression, and sadly, often without their PhDs.
+
+Maybe at this point you're getting aggravated and saying: "but most statistics departments *do* have applied statisticians on their faculty!". Well, yes, technically that's true, if your definition of "applied statistics" involves *developing a method* (or even developing the underlying theory for a method) and then applying it to a nice, clean dataset to show that the method works. What about answering scientific questions and actually solving real-world problems? What about working with real, messy data? What about communication, exploration, and visualization? Are none of these things statistics? 
+
+In my view, this failure to embrace truly applied projects as applied statistics is the whole reason Data Science exists. Data Science is what "Applied Statistics" is supposed to be. Didn't statistics come about in the first place because governments started collecting and analyzing *real data* to understand their citizens? Sure, they developed methods, but these methods were developed specifically because they were *needed* to solve *real* problems! Why is it that today, when grad students want to solve real problems, they're told that they aren't doing statistics?
+
+I'm not saying that theory and methods aren't an important part of statistics, or that having a theoretical background doesn't help if you want to be an accomplished data scientist. What I'm saying is that theory shouldn't always be the *focus*. If you want to support your applied statistics students (or data science students), then you need to have a track in your program that teaches students how to use real world (and messy!) data to ask scientific questions, and communicate about data and the subsequent scientific findings (I could do a whole post on how most statisticians can't communicate, but I'll leave that for another day). For that to happen, you need to hire *truly* applied faculty, who are working on real world problems with real, messy data.
+
+Unfortunately, it's a bit of a Catch-22. How can you hire more applied faculty if by the time us applied students get out of your programs, we're so fed up with feeling like the under-class in statistics departments that we have no desire to go down the academic route whatsoever? Statistics, I'll leave you with two pieces of advice:
+
+1. Support your applied students. Let them do applied work, and help them find projects in collaboration with faculty in other departments. Let them graduate, and don't make them fight for it. Give them a positive grad school experience, rather than leave them with nightmares.
+
+1. Seek out applied faculty candidates. And when you hire them, actually **give them f\*\*king tenure**. 
+
+
+
+
+
+
+
+
+

@@ -6,10 +6,20 @@
     <description>Recent content in Blogs on Rebecca Barter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jul 2020 23:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 30 Jul 2020 23:13:14 -0500</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>It&#39;s time for statistics departments to start supporting their applied students</title>
+      <link>/blog/2020-07-30-applied-statistics-universities/</link>
+      <pubDate>Thu, 30 Jul 2020 23:13:14 -0500</pubDate>
+      
+      <guid>/blog/2020-07-30-applied-statistics-universities/</guid>
+      <description>I graduated with a PhD from UC Berkeley’s statistics department in December. My PhD dissertation consisted of three 100% applied projects (one of which was a piece of open-source software). This is, unfortunately, incredibly rare.
+Over the past few years, I’ve had a number of current and prospective statistics PhD students both at Berkeley and outside Berkeley get in touch with me to ask me how I made my way through a statistics PhD by working only on applied projects.</description>
+    </item>
     
     <item>
       <title>Across (dplyr 1.0.0): applying dplyr functions simultaneously across multiple columns</title>
