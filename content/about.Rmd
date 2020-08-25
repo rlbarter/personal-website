@@ -6,6 +6,9 @@ date: "2016-05-05T21:48:51-07:00"
 
 Hi there! I'm Rebecca Barter. I'm so glad you've made it to my page.
 
+I'm currently causally searching for a Data Science job (primarily focusing on the nonprofit, education, and healthcare sectors). I'm interested in remote positions, or positions across the West Coast (USA/Canada) or in Australia. Please get in touch with me if you have an opening at your organization and think I might be a good fit! You can find my [CV here](http://www.rebeccabarter.com/cv/).
+
+
 Originally from Australia, I moved to California in 2014 and graduated from my PhD in Statistics at UC Berkeley in December 2019, during which time I was advised primarily by Prof Bin Yu. During much of my PhD I was a Data Science Fellow at the [Berkeley Institute for Data Science (BIDS)](https://bids.berkeley.edu). My PhD research focused on data science in healthcare (such as predicting surgical site infections using electronic health records). 
 
 I'm currently a postdoc with Bin Yu, where she and I are writing a book aimed at teaching data science intuition and common sense technical skills using real, messy data. Our communication style is based on plain English and visual explanations, rather than math and code. I'm also a certified Software Carpentry and RStudio Instructor (you can hire me to teach you things!).
@@ -16,9 +19,8 @@ I have dabbled in writing software as the author of the [superheat](https://gith
 
 Looking for useful data science resources? Check out my [useful resources](http://www.rebeccabarter.com/useful_resources/) page!
 
-When I'm not doing R or stats stuff, I'm usually found climbing rocks somewhere, taking photos of beautiful places (check out my [instagram](https://www.instagram.com/rlbarter/)), or throwing wonky mugs and bowls at the pottery studio!
+When I'm not doing R or stats stuff, I'm usually found hiking, climbing rocks somewhere, taking photos of beautiful places, painting, or throwing mugs and bowls at the pottery studio!
 
 If you've found my blogs helpful and want to buy me a coffee or tea, feel free to contribute over at https://ko-fi.com/rlbarter. 
 
 If you want to work with me, or learn R or statistics directly from me, I'm available for private coaching and consulting! Email me at rebeccabarter@berkeley.edu to inquire.
-

@@ -110,7 +110,7 @@ June 30 2020, *Blogging in R with blogdown*, **R Ladies Bucharest**
 
 March 2020, *Women's Summit*, [**Correlation One**](https://www.correlation-one.com/ds4a)
 
-- TA for the month-long Women's Summuit workshop run by Correlation One. This program pairs mentors with aspriring female data scientists, combining hands-on learning, mentorship, and professional development in a multi-day event.
+- TA for the month-long Women's Summit workshop run by Correlation One. This program pairs mentors with aspiring female data scientists, combining hands-on learning, mentorship, and professional development in a multi-day event.
 
 Feb 11 2020, *Interactivity and Shiny*, [**Environment and Society: Data Science for the 21st Century**](http://ds421.berkeley.edu/), UC Berkeley
 
@@ -119,7 +119,7 @@ Feb 11 2020, *Interactivity and Shiny*, [**Environment and Society: Data Science
 - [slides](http://slides.com/rebeccabarter/shiny/fullscreen)
 
 
-October 16 2019, *Transitioning into the tidyverse*, **R Ladies San Francsico**
+October 16 2019, *Transitioning into the tidyverse*, **R Ladies San Francisco**
 
 - A 1.5 hour seminar-workshop on transitioning into the tidyverse. Aimed at people familiar with base R who want to familiarize themselves with the tidyverse, as well as those who have a little experience with the tidyverse and want a big picture of how it all fits together.
 
@@ -164,7 +164,7 @@ March 7 2018, *ggplot2 workshop*, [**Joint Genome Institute**](https://jgi.doe.g
 
 - [Github repo](https://github.com/rlbarter/ggplot-jgi).
 
-Novmber 1 2017, *ggplot2 workshop*, [**The Hacker Within**](http://www.thehackerwithin.org/berkeley/), Berkeley Institute of Data Science
+November 1 2017, *ggplot2 workshop*, [**The Hacker Within**](http://www.thehackerwithin.org/berkeley/), Berkeley Institute of Data Science
 
 - A 1 hour workshop on ggplot2 for The Hacker Within series which is a weekly peer learning group for sharing skills and best practices for scientific computation and data science (approx 20 attendees).
 
@@ -216,7 +216,7 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 2020 *Judge* for the Correlation One Summer Datathon
 
-- Judged projects prepared by teams of students based on a problem statement (related to the economic impact of the 2016 olympics).
+- Judged projects prepared by teams of students based on a problem statement (related to the economic impact of the 2016 Olympics).
 
 2018 - 2020 *Judge* for the [**SciPy John Hunter Excellence in Plotting Competition**](https://scipy2018.scipy.org/ehome/299527/648119/?&speakerid=951914&language=eng&back=1)
 
@@ -243,7 +243,9 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ### Conference Talks
 
-January 2020, **Becomming an R blogger**, *RStudio::conf 2020*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
+August 2020, **Veridical Data Science: The Practice of Responsible Data Analysis and Decision Making**, *KDD 2020*. 
+
+January 2020, **Becoming an R blogger**, *RStudio::conf 2020*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
 
 March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
 
