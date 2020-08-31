@@ -3,10 +3,15 @@ title: "About Rebecca"
 type: "about"
 date: "2016-05-05T21:48:51-07:00"
 ---
+---
+title: "About Rebecca"
+type: "about"
+date: "2016-05-05T21:48:51-07:00"
+---
 
 Hi there! I'm Rebecca Barter. I'm so glad you've made it to my page.
 
-I'm currently searching for a Data Science job (primarily focusing on the nonprofit, education, and healthcare sectors). I'm interested in remote positions, or positions across the West Coast (USA/Canada) or in Australia. Please get in touch with me if you have an opening at your organization and think I might be a good fit! You can find my [CV here](http://www.rebeccabarter.com/cv/).
+I'm currently causally searching for a Data Science job (primarily focusing on the nonprofit, education, and healthcare sectors). I'm interested in remote positions, or positions across the West Coast (USA/Canada) or in Australia. Please get in touch with me if you have an opening at your organization and think I might be a good fit! You can find my [CV here](http://www.rebeccabarter.com/cv/).
 
 
 Originally from Australia, I moved to California in 2014 and graduated from my PhD in Statistics at UC Berkeley in December 2019, during which time I was advised primarily by Prof Bin Yu. During much of my PhD I was a Data Science Fellow at the [Berkeley Institute for Data Science (BIDS)](https://bids.berkeley.edu). My PhD research focused on data science in healthcare (such as predicting surgical site infections using electronic health records). 
@@ -24,3 +29,53 @@ When I'm not doing R or stats stuff, I'm usually found hiking, climbing rocks so
 If you've found my blogs helpful and want to buy me a coffee or tea, feel free to contribute over at https://ko-fi.com/rlbarter. 
 
 If you want to work with me, or learn R or statistics directly from me, I'm available for private coaching and consulting! Email me at rebeccabarter@berkeley.edu to inquire.
+
+<!--chapter:end:about.Rmd-->
+
+---
+title: "Contact Me"
+date: "2016-05-05T21:48:51-07:00"
+---
+
+If you'd like to get in touch to say hi, or enquire about private coaching or consulting, feel free to email me at rebeccabarter@berkeley.edu.
+
+<!--chapter:end:contact.Rmd-->
+
+
+
+## Experience
+## Education
+## Publications
+### On the web
+## Software
+## Teaching Experience
+### Semester-long classes
+### Workshops
+## Community
+## Talks
+### Conference Talks
+### Other Talks
+
+<!--chapter:end:cv.Rmd-->
+
+
+
+## Fall 2017: STAT 215A Statistical Models, Theory and Applications
+## Spring 2015: STAT 135 Concepts in Statistics {#stat135}
+
+<!--chapter:end:teaching.Rmd-->
+
+
+
+## R packages
+## Statistics
+## Causal Inference
+## Data Science
+
+<!--chapter:end:tutorials.Rmd-->
+
+
+
+
+<!--chapter:end:useful_resources.Rmd-->
+
