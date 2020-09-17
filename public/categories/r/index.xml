@@ -71,7 +71,7 @@
       <pubDate>Mon, 05 Aug 2019 22:13:14 -0500</pubDate>
       
       <guid>/blog/2019-08-05_base_r_to_tidyverse/</guid>
-      <description>Entering the tidyverse Piping: %&amp;gt;% Data manipulation: dplyr select: select columns filter: filter to rows that satisfy certain conditions mutate: add a new variable arrange: arrange the rows of the data frame in order a variable group_by: apply other dplyr functions separately within within a group defined by one or more variables summarise/summarize: define a variable that is a summary of other variables More dplyr functions  Visualization: ggplot2 Adding geom layers More aesthetic mappings based on variables Other types of layers Histograms Boxplots Faceting  Customizing ggplot2    Most people who learned R before the tidyverse have likely started to feel a nibble of pressure to get aboard the tidyverse train.</description>
+      <description>Entering the tidyverse Piping: %&amp;gt;% Data manipulation: dplyr  select: select columns filter: filter to rows that satisfy certain conditions mutate: add a new variable arrange: arrange the rows of the data frame in order a variable group_by: apply other dplyr functions separately within within a group defined by one or more variables summarise/summarize: define a variable that is a summary of other variables More dplyr functions  Visualization: ggplot2  Adding geom layers More aesthetic mappings based on variables Other types of layers  Histograms Boxplots Faceting  Customizing ggplot2    Most people who learned R before the tidyverse have likely started to feel a nibble of pressure to get aboard the tidyverse train.</description>
     </item>
     
     <item>

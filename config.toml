@@ -82,7 +82,7 @@ googleAnalytics = "UA-90929425-1"
 
 [[menu.main]]
     name = "Categories"
-    url = "/categories"
+    url = "/categories/"
     weight = 2
 
 [[menu.main]]

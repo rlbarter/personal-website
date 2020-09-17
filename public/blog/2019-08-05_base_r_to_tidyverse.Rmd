@@ -10,9 +10,13 @@ type: "post"
 description: "."
 ---
 
-```{r echo = FALSE, fig.align = "center"}
-knitr::include_graphics("/img/tidyverse/tidyverse_all.png")
-```
+
+<p align="center">
+<img src="/img/tidyverse/tidyverse_all.png" alt="Tidyverse all" width="300" height="300">
+</p>
+
+
+
 
 Most people who learned R before the tidyverse have likely started to feel a nibble of pressure to get aboard the tidyverse train. Sadly a fact of human nature is that once you're comfortable doing something a certain way, it's hard to find the motivation to learn a different way of doing something that you already know how to do. As someone first learnt R 10 years ago (long before the tidyverse) I've been there. Five years ago, I was pushed to stick my little toe into the shallow-end of the tidyverse pool by learning ggplot2, and I never went back. 
 
@@ -35,9 +39,13 @@ It is important to remember that the tidyverse is constantly evolving. The best 
 
 # Entering the tidyverse
 
-```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
-knitr::include_graphics("/img/tidyverse/tidyverse.png")
-```
+
+
+<p align="center">
+<img src="/img/tidyverse/tidyverse.png" alt="Tidyverse" width="180" height="200">
+</p>
+
+
 
 The fundamental object type of the tidyverse is the data frame (which, once you get a little deeper into the tidyverse ecosystem, becomes a "tibble" - more on that later in part 2). Thus the starting point for getting comfortable with the tidyverse is to *always store your data as a **data frame*** (rather than as a matrix or as vectors) with informative string-based column names where words are preferably separated by underscores (rather than periods).
 
@@ -108,9 +116,12 @@ Now that you've loaded the tidyverse and the gapminder data, you're are ready to
 
 # Piping: %>%
 
-```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
-knitr::include_graphics("/img/tidyverse/pipe.png")
-```
+
+
+
+<p align="center">
+<img src="/img/tidyverse/pipe.png" alt="Pipe" width="180" height="200">
+</p>
 
 Pipes are the workhorse of tidy analyses. Piping allows you to chain together many functions, eliminating the need to define multiple intermediate objects to use as the input to subsequent functions. In my eyes, pipes are also the primary reason that tidyverse code is fundamentally easier to read than base R code.
 
@@ -164,9 +175,11 @@ To me, the piped version is infinitely more clear, and simultaneously got rid of
 
 # Data manipulation: dplyr
 
-```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
-knitr::include_graphics("/img/tidyverse/dplyr.png")
-```
+
+<p align="center">
+<img src="/img/tidyverse/dplyr.png" alt="dplyr" width="180" height="200">
+</p>
+
 
 The `filter()` and `select()` functions that I just introduced are examples of data manipulation functions from the dplyr package. 
 
@@ -420,9 +433,11 @@ Advanced dplyr practitioners will eventually want to learn about [*scoped verbs*
 
 # Visualization: ggplot2
 
-```{r echo = FALSE, fig.align = "center", out.height="200px", out.width="180px"}
-knitr::include_graphics("/img/tidyverse/ggplot2.png")
-```
+
+<p align="center">
+<img src="/img/tidyverse/ggplot2.png" alt="ggplot" width="180" height="200">
+</p>
+
 
 The first tidyverse package I ever learnt was ggplot2 (the more popular older sibling of the non-existent ggplot1). Ggplot2 is the data visualization package made by Hadley Wickham, and it is based a set of principles called the *layered grammar of graphics*. The basic idea is that a ggplot graphic layers geometric objects (circles, lines, etc), themes, and scales ontop of data. The form of the geometric object is defined by a `geom_xxx()` function and the properties (position, size, colour) of the geometric objects that based on the data variables are specified by the aesthetic (`aes()`) function (within the `geom_xxx()` function).
 
@@ -716,7 +731,6 @@ gapminder_life_exp_diff <- gapminder %>%
   # redefine the country varaible so that it does not have the additional 
   # country levels corresponding to countries that were removed in the previous
   # step
-  mutate(country = droplevels(country)) %>%
   select(country, year, continent, lifeExp, lifeExp_diff)
 gapminder_life_exp_diff %>%
   mutate(country = fct_inorder(country)) %>%
