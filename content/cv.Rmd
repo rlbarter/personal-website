@@ -46,7 +46,7 @@ Thesis title: "Network-based Biomarker Identification for Stage III Melanoma"
 
 ## Publications
 
-(In Progress) **Barter RL**, P Shankar, P Dayal, K Kumbier, H Ngyuen, B Yu (2020). Predictive Modeling of Surgical Site Infections Using Routinely Collected Electronic Health Record Data using Machine Learning
+<!-- (In Progress) **Barter RL**, P Shankar, P Dayal, K Kumbier, H Ngyuen, B Yu (2020). Predictive Modeling of Surgical Site Infections Using Routinely Collected Electronic Health Record Data using Machine Learning -->
 
 Altieri N, **Barter RL**, Duncan J, Dwivedi R, Kumbier K, Li X, Netzorg R, Park B, Singh C, Tan YS, Tang T, Wang Y, Yu B (2020). Curating a COVID-19 data repository and forecasting county-level death counts in the United States, *arXiV* [https://arxiv.org/abs/2005.07882](https://arxiv.org/abs/2005.07882)
 
@@ -99,6 +99,14 @@ Tutorial)
 - MATH 1005 Statistics
 
 ### Workshops
+
+March 8 2021, *An introduction to Tidymodels*, **R Ladies Baltimore**
+
+- A 1 hour online seminar-workshop on using the tidymodels framework. 
+
+- [content](https://github.com/rlbarter/tidymodels_talk)
+
+- [talk](https://youtu.be/ONt7hcQzte0)
 
 June 30 2020, *Blogging in R with blogdown*, **R Ladies Bucharest**
 
@@ -241,28 +249,28 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 ## Talks
 
-### Conference Talks
+
+March 2021, **Teaching Data Science in the Real World**, Canadian Statistical Sciences Institute (CANSSI) Ontario.
+
 
 August 2020, **Veridical Data Science: The Practice of Responsible Data Analysis and Decision Making**, *KDD 2020*. 
 
-January 2020, **Becoming an R blogger**, *RStudio::conf 2020*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
+January 2020, **Becoming an R blogger**, *RStudio::conf(2020)*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
+
+May 2017 - **Superheat: An R Package for Generating Beautiful, Extendable, Customizable Heatmaps**, Berkeley Institute for Data Science (BIDS) Faire 2017. [[video](https://youtu.be/iZqqe-R5c0I), <a href="talks/BIDS_Faire_Superheat.pdf" title="BIDS Faire slides">slides</a>]
+
 
 March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
 
 June 2016 - **Superheat: An R package for visualizing complex data**, UseR! 2016.
 
-March 2016 - **Superheat: An R package for complex data visualization**, Berkeley Statistics Annual Research Symposium (BSTARS 2016).
-
-July 2014 - **Network-based biomarkers enhance classical approaches to prognostic gene expression signatures**, InCoB2014 (International Conference on Bioinformatics 2014).
-
-
-
-### Other Talks
-
-May 2017 - **Superheat: An R Package for Generating Beautiful, Extendable, Customizable Heatmaps**, Berkeley Institute for Data Science (BIDS) Faire 2017. [[video](https://youtu.be/iZqqe-R5c0I), <a href="talks/BIDS_Faire_Superheat.pdf" title="BIDS Faire slides">slides</a>]
 
 April 2016 - **Correlation vs Causation: Why the Media Gets it Wrong!**, UC Berkeley Cal Day 2016. [<a href="talks/Cal_Day_Presentation.pdf" title="Cal Day">slides</a>]
 
+March 2016 - **Superheat: An R package for complex data visualization**, Berkeley Statistics Annual Research Symposium (BSTARS 2016).
+
 October 2015 - **Supervised heatmaps: An R tool for complex data visualization**, Center for the Science of Information (CSoI) Virtual Brown Bag Seminar.
+
+July 2014 - **Network-based biomarkers enhance classical approaches to prognostic gene expression signatures**, InCoB2014 (International Conference on Bioinformatics 2014).
 
 March 2013 - **Estimation in ACD and log-ACD models**, Big Day In, AMSI (Australian Mathematical Sciences Institute).

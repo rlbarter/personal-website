@@ -168,7 +168,7 @@ penguins %>%
 ```
 
 
-But fortunately, we can do this a lot more efficiently with `accross()`.
+But fortunately, we can do this a lot more efficiently with `across()`.
 
 
 
