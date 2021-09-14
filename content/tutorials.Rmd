@@ -3,10 +3,12 @@ title: "Tutorials"
 date: "2017-01-15T21:49:57-07:00"
 ---
 
-I  have made a number of tutorials on a variety of R- and statistics-related topics. The list below shows descriptions of and links to these tutorials. Keep an eye on this page -- I'm always adding more!
+I have made a number of tutorials on a variety of R- and statistics-related topics. The list below shows descriptions of and links to these tutorials. Keep an eye on this page -- I'm always adding more!
 
 
 ## R packages
+
+- [across](https://www.rebeccabarter.com/blog/2020-07-09-across/): a summary of the `across()` function which replaces the select helper functions such as `select_if()` and `mutate_at()` in dplyr 1.0.0
 
 - [tidymodels](http://www.rebeccabarter.com/blog/2020-03-25_machine_learning/): an introduction to the tidymodels package for conducting Machine Learning in a tidy way
 
