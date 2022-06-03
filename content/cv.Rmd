@@ -8,6 +8,9 @@ date: "2016-05-05T21:48:51-07:00"
 January 2020 - Present **Postdoctoral Scholar**, 
 *Department of Statistics, University of California, Berkeley*
 
+January 2022 - May 2022 **Lecturer**, 
+*Department of Statistics, University of California, Berkeley* 
+
 August 2014 - December 2019 **Graduate Student Researcher (GSR)**,
 *Department of Statistics, University of California, Berkeley*
 
@@ -77,6 +80,12 @@ complex data, *Journal Of Computational And Graphical Statistics* [www.tandfonli
 
 ### Semester-long classes
 
+Spring 2022 **Lecturer**, 
+*Department of Statistics, University of
+California, Berkeley*
+
+- [STAT135](/teaching#stat135-2022) Concepts in Statistics
+
 Fall 2017 **Graduate Student Instructor (GSI)**,
 *Department of Statistics, University of
 California, Berkeley*
@@ -99,6 +108,22 @@ Tutorial)
 - MATH 1005 Statistics
 
 ### Workshops
+
+
+July 25 2022, *From RMarkdown to Quarto*, **RStudio::conf(2022)**
+
+- I will be a the TA for the RStudio day-long workshop. The workshop was prepared and taught by Andrew Bray.
+
+- [more info coming soon!]
+
+
+June 10 2022, *Veridical Data Science*, **Western North American Region of The International Biometric Society (WNAR) 2022**
+
+- A half-day workshop on the Veridical data science framework.
+
+- 20 attendees 
+
+- [content coming soon!]
 
 March 8 2021, *An introduction to Tidymodels*, **R Ladies Baltimore**
 
@@ -212,6 +237,39 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 
 
 
+
+------
+
+## Talks
+
+
+August 2022, **Veridical data science: highlighting the role of judgment calls in data science practice and training**, JSM 2022
+
+March 2021, **Teaching Data Science in the Real World**, Canadian Statistical Sciences Institute (CANSSI) Ontario.
+
+August 2020, **Veridical Data Science: The Practice of Responsible Data Analysis and Decision Making**, *KDD 2020*. 
+
+January 2020, **Becoming an R blogger**, *RStudio::conf(2020)*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
+
+May 2017 - **Superheat: An R Package for Generating Beautiful, Extendable, Customizable Heatmaps**, Berkeley Institute for Data Science (BIDS) Faire 2017. [[video](https://youtu.be/iZqqe-R5c0I), <a href="talks/BIDS_Faire_Superheat.pdf" title="BIDS Faire slides">slides</a>]
+
+
+March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
+
+June 2016 - **Superheat: An R package for visualizing complex data**, UseR! 2016.
+
+
+April 2016 - **Correlation vs Causation: Why the Media Gets it Wrong!**, UC Berkeley Cal Day 2016. [<a href="talks/Cal_Day_Presentation.pdf" title="Cal Day">slides</a>]
+
+March 2016 - **Superheat: An R package for complex data visualization**, Berkeley Statistics Annual Research Symposium (BSTARS 2016).
+
+October 2015 - **Supervised heatmaps: An R tool for complex data visualization**, Center for the Science of Information (CSoI) Virtual Brown Bag Seminar.
+
+July 2014 - **Network-based biomarkers enhance classical approaches to prognostic gene expression signatures**, InCoB2014 (International Conference on Bioinformatics 2014).
+
+March 2013 - **Estimation in ACD and log-ACD models**, Big Day In, AMSI (Australian Mathematical Sciences Institute).
+
+
 ------
 
 ## Community
@@ -243,34 +301,3 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 2016/17 *Co-president*, [**Statistics Graduate Student Association (SGSA)**](http://sgsa.berkeley.edu/)
 
 - Together with Kellie Ottoboni, I acted as the head of the graduate student body for the statistics department. 
-
-
-------
-
-## Talks
-
-
-March 2021, **Teaching Data Science in the Real World**, Canadian Statistical Sciences Institute (CANSSI) Ontario.
-
-
-August 2020, **Veridical Data Science: The Practice of Responsible Data Analysis and Decision Making**, *KDD 2020*. 
-
-January 2020, **Becoming an R blogger**, *RStudio::conf(2020)*. [[slides](https://github.com/rlbarter/rstudio-conf-2020-blogger-slides/blob/master/Becoming%20an%20R%20blogger.pdf), [video](https://rstudio.com/resources/rstudioconf-2020/becoming-an-r-blogger/)]
-
-May 2017 - **Superheat: An R Package for Generating Beautiful, Extendable, Customizable Heatmaps**, Berkeley Institute for Data Science (BIDS) Faire 2017. [[video](https://youtu.be/iZqqe-R5c0I), <a href="talks/BIDS_Faire_Superheat.pdf" title="BIDS Faire slides">slides</a>]
-
-
-March 2017 - **Organ transplantation in the presence of HIV**, Berkeley Statistics Annual Research Symposium (BSTARS 2017). [<a href="talks/BSTARS_Transplantation.pdf" title="BSTARS">slides</a>]
-
-June 2016 - **Superheat: An R package for visualizing complex data**, UseR! 2016.
-
-
-April 2016 - **Correlation vs Causation: Why the Media Gets it Wrong!**, UC Berkeley Cal Day 2016. [<a href="talks/Cal_Day_Presentation.pdf" title="Cal Day">slides</a>]
-
-March 2016 - **Superheat: An R package for complex data visualization**, Berkeley Statistics Annual Research Symposium (BSTARS 2016).
-
-October 2015 - **Supervised heatmaps: An R tool for complex data visualization**, Center for the Science of Information (CSoI) Virtual Brown Bag Seminar.
-
-July 2014 - **Network-based biomarkers enhance classical approaches to prognostic gene expression signatures**, InCoB2014 (International Conference on Bioinformatics 2014).
-
-March 2013 - **Estimation in ACD and log-ACD models**, Big Day In, AMSI (Australian Mathematical Sciences Institute).
