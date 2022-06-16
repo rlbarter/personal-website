@@ -121,9 +121,7 @@ June 10 2022, *Veridical Data Science*, **Western North American Region of The I
 
 - A half-day workshop on the Veridical data science framework.
 
-- 20 attendees 
-
-- [content coming soon!]
+- [slides](https://docs.google.com/presentation/d/19aW2Rb-RwMqenn13AIirtSp1amNd5VzBfblqI52xnmA/edit?usp=sharing)
 
 March 8 2021, *An introduction to Tidymodels*, **R Ladies Baltimore**
 
@@ -243,7 +241,9 @@ March 6 2017, *Documentation for R packages workshop*, [**Docathon 2017**](https
 ## Talks
 
 
-August 2022, **Veridical data science: highlighting the role of judgment calls in data science practice and training**, JSM 2022
+August 2022, **Veridical Data Science: highlighting the role of judgment calls in data science practice and training**, JSM 2022
+
+June 2022, **Veridical Data Science in Healthcare**, Seminar for the Department of Population Health Sciences and Study Design and Biostatistics Center, University of Utah. [[slides](https://docs.google.com/presentation/d/1T45YZp1menQ2N9xBORPnspjV6y11unuTeFIdaYGm01c/edit?usp=sharing)]
 
 March 2021, **Teaching Data Science in the Real World**, Canadian Statistical Sciences Institute (CANSSI) Ontario.
 
