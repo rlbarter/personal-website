@@ -4,9 +4,10 @@ date: "2016-05-05T21:48:51-07:00"
 ---
 
 
-If you want to work with me, or learn R or statistics from me, I'm available for private coaching and consulting! Email me at rebeccabarter@berkeley.edu to inquire.
+<!-- If you want to work with me, or learn R or statistics from me, I'm available for private coaching and consulting! Email me at rebeccabarter@berkeley.edu to inquire. -->
 
-I'm not currently teaching at Berkeley, but the courses I've TA'd for are listed below.
+I'm not currently teaching at Berkeley, but the courses I've taught are listed below.
+
 
 ## [Lecturer] Spring 2022: STAT 135 Concepts in Statistics
 
